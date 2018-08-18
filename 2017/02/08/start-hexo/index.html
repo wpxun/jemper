@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo 实践 - 在路上的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Hexo 是一个很不错的静态博客管理工具的，快速发布，Markdown 支持，插件支持。官网现在列出了100来个主题都很好看，第一篇文章就来写 Hexo 的部署工作吧。我个人比较喜欢用 Centos，所以我是基于 Centos7 环境来写 Hexo 博客的，Win10 用户可以用 Linux 子系统来部署，这样可以在 Linux 上部署，在 Win10 上写文章；网上也有很多类似的文章，我自己喜欢">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 实践">
+<meta property="og:url" content="http://blog.jemper.cn/2017/02/08/start-hexo/index.html">
+<meta property="og:site_name" content="在路上的博客">
+<meta property="og:description" content="Hexo 是一个很不错的静态博客管理工具的，快速发布，Markdown 支持，插件支持。官网现在列出了100来个主题都很好看，第一篇文章就来写 Hexo 的部署工作吧。我个人比较喜欢用 Centos，所以我是基于 Centos7 环境来写 Hexo 博客的，Win10 用户可以用 Linux 子系统来部署，这样可以在 Linux 上部署，在 Win10 上写文章；网上也有很多类似的文章，我自己喜欢">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-18T17:05:02.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo 实践">
+<meta name="twitter:description" content="Hexo 是一个很不错的静态博客管理工具的，快速发布，Markdown 支持，插件支持。官网现在列出了100来个主题都很好看，第一篇文章就来写 Hexo 的部署工作吧。我个人比较喜欢用 Centos，所以我是基于 Centos7 环境来写 Hexo 博客的，Win10 用户可以用 Linux 子系统来部署，这样可以在 Linux 上部署，在 Win10 上写文章；网上也有很多类似的文章，我自己喜欢">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <!-- blair add baidu tongji start... @2017.10.03 -->
+<!-- blair add baidu tongji end ! @2017.10.03 -->
+
+<header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <br>
+    <section id="main" class="outer"><article id="post-start-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hexo 实践
+      <small class=article-detail-date-index>&nbsp; 2017-02-08</small>
+    </h1>
+  
+
+
+        <div class=page-title></div>
+        <br>
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2017/02/08/start-hexo/" class="article-date">
+  <time datetime="2017-02-08T07:56:13.000Z" itemprop="datePublished">2017-02-08</time>
+</a>-->
+      <!-- 
+--><!-- by blair 160724 -->
+      <!-- by blair
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2017/02/08/start-hexo/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 是一个很不错的静态博客管理工具的，快速发布，Markdown 支持，插件支持。官网现在列出了100来个主题都很好看，第一篇文章就来写 Hexo 的部署工作吧。<br>我个人比较喜欢用 Centos，所以我是基于 Centos7 环境来写 Hexo 博客的，Win10 用户可以用 Linux 子系统来部署，这样可以在 Linux 上部署，在 Win10 上写文章；网上也有很多类似的文章，我自己喜欢折腾，大家没事可以粗略看一看。<br><a id="more"></a></p>
+<h3 id="Hexo-环境"><a href="#Hexo-环境" class="headerlink" title="Hexo 环境"></a>Hexo 环境</h3><ol>
+<li>git 和 ssh</li>
+<li>nodejs</li>
+</ol>
+<p><strong>1</strong>、Centos7 下 yum 安装的 git 都是1.8^，如果想安装 2.11^ 得用源码安装，可以在这里看关于<a href="http://jemper.cn/2017/02/10/git-source/" target="_blank" rel="noopener">Git源码安装</a>的文章。ssh避免了每次输入密码，如果是只有一个ssh密钥，也就没有必要用ssh-agent管理工具了，直接放在 ~/.ssh/ 下，使用ssh时默认就会去查找 ~/.ssh/id_rsa（可以先用ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>测试一下连接）。</p>
+<p><strong>2</strong>、node.js 在 Hexo 文档中有介绍，但是我试了安装不了，还是直接到 <a href="https://github.com/creationix/nvm#install-script" target="_blank" rel="noopener">nvm源</a> 里查看安装方法吧。</p>
+<h3 id="Hexo-使用"><a href="#Hexo-使用" class="headerlink" title="Hexo 使用"></a>Hexo 使用</h3><p>这部分主要参考<a href="https://hexo.io/docs/commands.html" target="_blank" rel="noopener">官方文档</a>。注意命令可以缩写，比如hexo cl、hexo d，和ip address 缩写成ip a或者ip add一样的道理。<br>文档中命令的参数并没有完全写出来，比如hexo server 还有其它的参数，hexo server -i 192.168.2.15 中的参数 -i 可加 ip 地址，用hexo help server 查看完整的命令参数。</p>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><ul>
+<li>hexo init 当前文件夹列出的hexo所有命令跟是否已经在该文件夹init有关系，这点做得挺好的  </li>
+<li>hexo new 新建文件，会去scaffolds复制模板，如果使用 hexo new drafts “article title”，就需要用 hexo publish drafts “article title” 发布</li>
+<li>hexo generate 生成静态网站</li>
+<li>hexo deploy 根据_config.yml文件的deplay type类型部署静态网站文件到服务器</li>
+<li>hexo clean 清除public</li>
+</ul>
+<h3 id="GitHub-Pages"><a href="#GitHub-Pages" class="headerlink" title="GitHub Pages"></a>GitHub Pages</h3><p>Hexo 和 GitHub 是代码和代码库的关系，Hexo 和 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> 是代码和服务器的关系。<br>GitHub 创建一个库，名字一样要是{yourname}.github.io,这样才能正常用{yourname}.github.io域名访问。<br>在代码库里设置 setting 里的 Options/GitHub Pages 栏配置域名和分支，我这里是用master分支。如果有配置域名，相当于分支下 Create a CNAME file，为了不影响每次 deploy 后被 CNAME 文件删除，安装插件<code>npm install --save hexo-generator-cname3</code>。域名做 cname 记录到{yourname}.github.io。<br>然后配置 Hexo 根目录下的 _config.yml 的 deploy 属性，type 如果是用 git，相应的就需要安装<code>npm install hexo-deployer-git --save</code>；branch 和 setting 的 master 分支保持一致，有域名的话要加上一行 cname: [YOUR.DOMAIN]。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:wpxun/wpxun.github.io.git</span><br><span class="line">  branch: master</span><br><span class="line">  message: &apos;站点更新:&#123;&#123;now(&quot;YYYY-MM-DD HH/mm/ss&quot;)&#125;&#125;&apos;</span><br><span class="line"></span><br><span class="line">cname: jemper.cn</span><br></pre></td></tr></table></figure></p>
+<h3 id="引入-Disqus-评论模块"><a href="#引入-Disqus-评论模块" class="headerlink" title="引入 Disqus 评论模块"></a>引入 Disqus 评论模块</h3><p>到 <a href="https://disqus.com/" target="_blank" rel="noopener">Disqus</a> 网站注册并添加站点，获得 disqus_shortname，在根目录 /_config.yml 中添加行<code>disqus_shortname: yourDisqusShortname</code>，至于怎么在 Disqus 新建站点，网上教程好多。</p>
+<h3 id="随处写文章解决方案"><a href="#随处写文章解决方案" class="headerlink" title="随处写文章解决方案"></a>随处写文章解决方案</h3><p>上面已经有一个 master 主分支，用来放博客静态文件；还需要一个 source 分支，用来放博客的源文件。原理是先拉代码下来，创建空的 source 分支，把博客源文件放进入提交到 source 分支，推到 Github。需要注意的一点是主题不要用<code>git clone https://github.com/ahonn/hexo-theme-even themes/even</code>，而是在其它地方git拉取，再复制到theme目录下，git嵌套不了。操作如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> hexo</span><br><span class="line">$ hexo clean &amp;&amp; hexo deploy //这是单纯的hexo，deploy到github的wpxun.github.io分支了</span><br><span class="line">$ <span class="built_in">cd</span> ..</span><br><span class="line">$ git <span class="built_in">clone</span> git@github.com:wpxun/wpxun.github.io.git //在新的目录下拉取下来，之后就在这个分支书写了，上面的 hexo 目录就可以删除了</span><br><span class="line">$ <span class="built_in">cd</span> wpxun.github.io</span><br><span class="line">$ git co --orphan <span class="built_in">source</span> //创建新分支</span><br><span class="line">$ git rm -rf .</span><br><span class="line">$ cp -r ../hexo wpxun.github.io</span><br><span class="line">$ hexo clean</span><br><span class="line">$ touch .gitignore //里面写上[.deploy_git、public、db.json]这三行</span><br><span class="line">$ git add .</span><br><span class="line">$ git ci -am<span class="string">"add source branch"</span> &amp;&amp; git push -u origin <span class="built_in">source</span></span><br></pre></td></tr></table></figure>
+<p>至此，以后在新的机器上写文章的操作如下：</p>
+<ol>
+<li><p>拉取代码切换到 source 分支下；</p>
+</li>
+<li><p>因为 node_modules 跟 node 版本或者操作系统版本有关（这也是.gitignore要排除掉它的原因），所以不同操作系统或不同版本的 node，node_modules 文件夹并不能共用。所以需要在该系统中其它文件夹 hexo init，并安装相应的依赖（<code>npm install --save hexo-generator-cname3</code>，<code>npm install hexo-deployer-git --save</code>）再把 node_modules 文件夹再复制过来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> git@github.com:wpxun/wpxun.github.io.git</span><br><span class="line">$ <span class="built_in">cd</span> wpxun.github.io</span><br><span class="line">$ git co <span class="built_in">source</span> //这步操作后需要进行第2点的复制文件操作，否则hexo不能正常执行，相关操作以上已经说明，就不赘述了</span><br><span class="line">$ hexo new <span class="string">"add-post"</span></span><br><span class="line">$ hexo cl &amp;&amp; hexo d</span><br><span class="line">$ hexo cl</span><br><span class="line">$ git add .</span><br><span class="line">$ git ci -am<span class="string">"add post"</span> &amp;&amp; git push</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+     <!-- by blair add this if sentence at 20160725 -->
+      <br>
+      
+<div id="bottom-donation-section">
+</div>
+<div class="well">
+  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
+  <a href="http://blog.jemper.cn">wpxun</a> <br>
+  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
+</div>
+
+ <!-- by blair add 160724-->
+    
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hexo-环境"><span class="toc-number">1.</span> <span class="toc-text">Hexo 环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hexo-使用"><span class="toc-number">2.</span> <span class="toc-text">Hexo 使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#常用命令"><span class="toc-number">2.1.</span> <span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GitHub-Pages"><span class="toc-number">3.</span> <span class="toc-text">GitHub Pages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引入-Disqus-评论模块"><span class="toc-number">4.</span> <span class="toc-text">引入 Disqus 评论模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随处写文章解决方案"><span class="toc-number">5.</span> <span class="toc-text">随处写文章解决方案</span></a></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+        
+ <!-- by blair add 160724-->
+        <!--
+        <div style="width:100px; height:30px;"></div> by blair add 160724
+        -->
+        
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/08/docker-and-dockerfile/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          docker 入门与 docker-compose 编配工具
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Sven&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
+    </div>
+  </div>
+</footer>
+
+    
+<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
+  var disqus_shortname = 'wpxun';
+  
+  var disqus_url = 'http://blog.jemper.cn/2017/02/08/start-hexo/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>git 源码安装 - 在路上的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="用习惯了windows下高版本2.11.0的git，再到centos7自带的1.8.5版本觉得操作还是不方便，所以今天就把它升级到最新版。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git 源码安装">
+<meta property="og:url" content="http://blog.jemper.cn/2017/02/10/git-source/index.html">
+<meta property="og:site_name" content="在路上的博客">
+<meta property="og:description" content="用习惯了windows下高版本2.11.0的git，再到centos7自带的1.8.5版本觉得操作还是不方便，所以今天就把它升级到最新版。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-18T17:05:02.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git 源码安装">
+<meta name="twitter:description" content="用习惯了windows下高版本2.11.0的git，再到centos7自带的1.8.5版本觉得操作还是不方便，所以今天就把它升级到最新版。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <!-- blair add baidu tongji start... @2017.10.03 -->
+<!-- blair add baidu tongji end ! @2017.10.03 -->
+
+<header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <br>
+    <section id="main" class="outer"><article id="post-git-source" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      git 源码安装
+      <small class=article-detail-date-index>&nbsp; 2017-02-10</small>
+    </h1>
+  
+
+
+        <div class=page-title></div>
+        <br>
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2017/02/10/git-source/" class="article-date">
+  <time datetime="2017-02-10T08:06:14.000Z" itemprop="datePublished">2017-02-10</time>
+</a>-->
+      <!-- 
+--><!-- by blair 160724 -->
+      <!-- by blair
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2017/02/10/git-source/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用习惯了windows下高版本2.11.0的git，再到centos7自带的1.8.5版本觉得操作还是不方便，所以今天就把它升级到最新版。<br><a id="more"></a></p>
+<p>必须安装的dependencies<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install gcc perl openssl-devel libcurl-devel expat-devel perl-ExtUtils-MakeMaker</span></span><br></pre></td></tr></table></figure></p>
+<p>这里不同环境具体也是不同的，缺什么就安装什么。上面只是我在阿里云服务器上安装时缺少的工具和头文件。<br>可选安装的dependencies，安装文档套件时所需要的，安装说明文档有写到：</p>
+<blockquote>
+<p>$ make prefix=/usr all doc info ;# as yourself<br># make prefix=/usr install install-doc install-html install-info ;# as root  </p>
+<p>  …  </p>
+<p>To build and install documentation suite, you need to have<br>the asciidoc/xmlto toolchain.  Because not many people are<br>inclined to install the tools, the default build target<br>(“make all”) does <em>not</em> build them.</p>
+<p>“make doc” builds documentation in man and html formats; there are<br>also “make man”, “make html” and “make info”. Note that “make html”<br>requires asciidoc, but not xmlto. “make man” (and thus make doc)<br>requires both.</p>
+<p>“make install-doc” installs documentation in man format only; there<br>are also “make install-man”, “make install-html” and “make<br>install-info”.</p>
+</blockquote>
+<p>即安装 man 手册，需要 asciidoc 和 xmlto，用以下命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install asciidoc.noarch xmlto</span></span><br></pre></td></tr></table></figure></p>
+<p>接下来就是安装了，我一般都是查网络文档，所以没有安装任何man、info、html文档，下面是安装man文档的命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># make prefix=/usr install install-doc</span></span><br></pre></td></tr></table></figure></p>
+<p>如果不需要man，就不用安装 asciidoc.noarch、xmlto 了。  </p>
+<p>官方的git <a href="https://github.com/git/git/blob/master/INSTALL" target="_blank" rel="noopener">安装说明</a><br>另外，可参考另一篇写得更详细的文章<a href="http://www.cnblogs.com/grimm/p/5368777.html" target="_blank" rel="noopener">Git服务器安装详解及安装遇到问题解决方案</a></p>
+
+      
+     <!-- by blair add this if sentence at 20160725 -->
+      <br>
+      
+<div id="bottom-donation-section">
+</div>
+<div class="well">
+  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
+  <a href="http://blog.jemper.cn">wpxun</a> <br>
+  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
+</div>
+
+ <!-- by blair add 160724-->
+    
+    </div>
+    
+    
+      <footer class="article-footer">
+        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+        
+ <!-- by blair add 160724-->
+        <!--
+        <div style="width:100px; height:30px;"></div> by blair add 160724
+        -->
+        
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/20/joomla-magento/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          Joomla + Magento 官网加商城
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/08/docker-and-dockerfile/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">docker 入门与 docker-compose 编配工具&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Sven&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
+    </div>
+  </div>
+</footer>
+
+    
+<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
+  var disqus_shortname = 'wpxun';
+  
+  var disqus_url = 'http://blog.jemper.cn/2017/02/10/git-source/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

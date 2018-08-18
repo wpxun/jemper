@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Joomla + Magento 官网加商城 - 在路上的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：docker 入门与 docker-compose 编配工具。说点题外话，如果现在还有小公司在开发什么商城或者官网类型的应用，赶紧放弃，投入到 Joomla 和 Magento 的怀抱吧。这两个已经很成熟，也是开源的，要开发也可以参考这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Joomla + Magento 官网加商城">
+<meta property="og:url" content="http://blog.jemper.cn/2017/03/20/joomla-magento/index.html">
+<meta property="og:site_name" content="在路上的博客">
+<meta property="og:description" content="今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：docker 入门与 docker-compose 编配工具。说点题外话，如果现在还有小公司在开发什么商城或者官网类型的应用，赶紧放弃，投入到 Joomla 和 Magento 的怀抱吧。这两个已经很成熟，也是开源的，要开发也可以参考这">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-18T17:05:02.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Joomla + Magento 官网加商城">
+<meta name="twitter:description" content="今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：docker 入门与 docker-compose 编配工具。说点题外话，如果现在还有小公司在开发什么商城或者官网类型的应用，赶紧放弃，投入到 Joomla 和 Magento 的怀抱吧。这两个已经很成熟，也是开源的，要开发也可以参考这">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <!-- blair add baidu tongji start... @2017.10.03 -->
+<!-- blair add baidu tongji end ! @2017.10.03 -->
+
+<header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <br>
+    <section id="main" class="outer"><article id="post-joomla-magento" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Joomla + Magento 官网加商城
+      <small class=article-detail-date-index>&nbsp; 2017-03-20</small>
+    </h1>
+  
+
+
+        <div class=page-title></div>
+        <br>
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2017/03/20/joomla-magento/" class="article-date">
+  <time datetime="2017-03-20T06:06:52.000Z" itemprop="datePublished">2017-03-20</time>
+</a>-->
+      <!-- 
+--><!-- by blair 160724 -->
+      <!-- by blair
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2017/03/20/joomla-magento/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：<a href="http://blog.jemper.cn/2017/02/08/docker-and-dockerfile/">docker 入门与 docker-compose 编配工具</a>。<br>说点题外话，如果现在还有小公司在开发什么商城或者官网类型的应用，赶紧放弃，投入到 Joomla 和 Magento 的怀抱吧。这两个已经很成熟，也是开源的，要开发也可以参考这两者或者基于它们去开发，省时省力，也利于成功。<br><a id="more"></a></p>
+<h3 id="Joomla"><a href="#Joomla" class="headerlink" title="Joomla"></a>Joomla</h3><p>先来看看 Joomla!3x (Joomla! versions 3.5 and later) 推荐的硬件要求：</p>
+<ul>
+<li>PHP (Magic Quotes GPC off)  5.6 + or 7 +</li>
+<li>MySQL (InnoDB support required) 5.5.3 +</li>
+<li>Nginx 1.8 +</li>
+</ul>
+<p>解压 Joomla 压缩包到 /var/www/joomla，配置目录权限；创建 joomla 数据库。<br>nginx 配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name kl.jemper.cn;</span><br><span class="line">        server_name_in_redirect off;</span><br><span class="line"></span><br><span class="line">        access_log /var/log/nginx/joomla.access_log;</span><br><span class="line">        error_log /var/log/nginx/joomla.error_log info;</span><br><span class="line"></span><br><span class="line">        root /var/www/joomla;</span><br><span class="line">        index index.php index.html index.htm default.html default.htm;</span><br><span class="line">        # Support Clean (aka Search Engine Friendly) URLs</span><br><span class="line">        location / &#123;</span><br><span class="line">                try_files $uri $uri/ /index.php?$args;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # deny running scripts inside writable directories</span><br><span class="line">        location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|jsp|asp|sh|cgi)$ &#123;</span><br><span class="line">                return 403;</span><br><span class="line">                error_page 403 /403_error.html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ \.php$ &#123;</span><br><span class="line">            fastcgi_pass  alpine;</span><br><span class="line">            fastcgi_index index.php;</span><br><span class="line">            include fastcgi_params;</span><br><span class="line">            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # caching of files</span><br><span class="line">        location ~* \.(ico|pdf|flv)$ &#123;</span><br><span class="line">                expires 1y;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~* \.(js|css|png|jpg|jpeg|gif|swf|xml|txt)$ &#123;</span><br><span class="line">                expires 14d;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其安装很简单，直接打开域名就可以了，点击下一步就基本可以安装成功。</p>
+<h4 id="Joomla-的思想"><a href="#Joomla-的思想" class="headerlink" title="Joomla 的思想"></a>Joomla 的思想</h4><h5 id="网站结构："><a href="#网站结构：" class="headerlink" title="网站结构："></a>网站结构：</h5><ul>
+<li>一个网站由各个菜单组成，一个菜单即是一个页面，比如首页页面，业务页面，集团页面，集团下的子页面等等；</li>
+<li>一个菜单由各个模块组成，一个模块即是一块内容，比如首页从上到下由“苦干实干提质量 建设一流能源公司”、四栏信息栏、轮播图、码头|供油船|储油库、头版文章列表、产品与服务和辐射区域等模块组成；</li>
+<li>一个模块由各种图片，文章，文字组成，比如轮播图由多张图片组成，头版文章列表由文章组成；<br><strong>所以，管理菜单即是管理网站结构。</strong>后台导航处有菜单下拉列表，分为菜单（这里的菜单即是菜单的分类）和各菜单分类下包含的菜单项。</li>
+</ul>
+<h5 id="网站内容："><a href="#网站内容：" class="headerlink" title="网站内容："></a>网站内容：</h5><ul>
+<li>有了网站结构，相当于建好了一座楼的框架，接下来就是填充内容，内容分为两种：文章和图片。</li>
+<li><strong>所以，管理内容即是管理网站显示的信息。</strong>后台导航处有内容下拉列表，分为分类管理（即文章的分类）、各文章分类下包含的文章（即文章管理）和媒体管理（即是图片管理），其中各篇文章可以标星，就变成了头版文章。</li>
+</ul>
+<h5 id="相关的认识"><a href="#相关的认识" class="headerlink" title="相关的认识"></a>相关的认识</h5><ul>
+<li>存在一个菜单其菜单项类型是文章列表相关的排版，则该文章分类下的所以有文章都会在该菜单页面中打开。</li>
+<li>一套模板，选择某一 layout 或所有，每个 layout 有固定好的 position。</li>
+</ul>
+<h3 id="Magento"><a href="#Magento" class="headerlink" title="Magento"></a>Magento</h3><p>先来看看 Magento 推荐的硬件要求：<br>Magento 需要一些额外的扩展，在安装的时候进行检测，可以根据提示安装扩展。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/www/magento/*</span><br><span class="line">tar -xzf Magento-CE-2.1.5_sample_data-2017-02-20-05-42-11.tar.gz -C /var/www/magento/</span><br><span class="line">cp source_zh_CN.csv /var/www/magento/</span><br><span class="line">chmod -R 777 /var/www/magento</span><br></pre></td></tr></table></figure>
+<p><a href="http://107.170.242.99/download.php" target="_blank" rel="noopener">语言文件下载</a><br>执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/magento i18n:pack -m replace -d source_zh_CN.csv  zh_Hans_CN</span><br></pre></td></tr></table></figure></p>
+<p>然后更新缓存却可，要注意区别 zh_Hans_CN、zh_Hant_HK、zh_Hant_TW</p>
+<h3 id="相关连接"><a href="#相关连接" class="headerlink" title="相关连接"></a>相关连接</h3><p><a href="http://docs.magento.com/m2/ce/user_guide/getting-started.html" target="_blank" rel="noopener">官方文档</a><br><a href="http://devdocs.magento.com/guides/v2.0/install-gde/trouble/php/tshoot_70pct.html" target="_blank" rel="noopener">Installation stops at about 70%</a></p>
+
+      
+     <!-- by blair add this if sentence at 20160725 -->
+      <br>
+      
+<div id="bottom-donation-section">
+</div>
+<div class="well">
+  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
+  <a href="http://blog.jemper.cn">wpxun</a> <br>
+  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
+</div>
+
+ <!-- by blair add 160724-->
+    
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Joomla"><span class="toc-number">1.</span> <span class="toc-text">Joomla</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Joomla-的思想"><span class="toc-number">1.1.</span> <span class="toc-text">Joomla 的思想</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#网站结构："><span class="toc-number">1.1.1.</span> <span class="toc-text">网站结构：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#网站内容："><span class="toc-number">1.1.2.</span> <span class="toc-text">网站内容：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#相关的认识"><span class="toc-number">1.1.3.</span> <span class="toc-text">相关的认识</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Magento"><span class="toc-number">2.</span> <span class="toc-text">Magento</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关连接"><span class="toc-number">3.</span> <span class="toc-text">相关连接</span></a></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+        
+ <!-- by blair add 160724-->
+        <!--
+        <div style="width:100px; height:30px;"></div> by blair add 160724
+        -->
+        
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/02/10/git-source/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">git 源码安装&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Sven&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
+    </div>
+  </div>
+</footer>
+
+    
+<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
+  var disqus_shortname = 'wpxun';
+  
+  var disqus_url = 'http://blog.jemper.cn/2017/03/20/joomla-magento/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
