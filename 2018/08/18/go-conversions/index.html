@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="Go Conversions 和 类型断言是两种类型转换方式。 错误相关的概念编译错误：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈溢出等等。是大意疏忽。运行错误：run的时候才报错，由于程序设计思路的错误导致程序异常或难以得到预期的效果。它是不可预期的，对于可预期的不要用panic，panic异常机制是意料之外。error错误">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-23T16:33:34.251Z">
+<meta property="og:updated_time" content="2018-08-23T16:38:37.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go 类型转换">
 <meta name="twitter:description" content="Go Conversions 和 类型断言是两种类型转换方式。 错误相关的概念编译错误：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈溢出等等。是大意疏忽。运行错误：run的时候才报错，由于程序设计思路的错误导致程序异常或难以得到预期的效果。它是不可预期的，对于可预期的不要用panic，panic异常机制是意料之外。error错误">
@@ -91,7 +91,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Go Conversions 和 类型断言是两种类型转换方式。</p>
-<h3 id="错误相关的概念"><a href="#错误相关的概念" class="headerlink" title="错误相关的概念"></a>错误相关的概念</h3><p><strong>编译错误</strong>：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈溢出等等。是大意疏忽。<br><strong>运行错误</strong>：run的时候才报错，由于程序设计思路的错误导致程序异常或难以得到预期的效果。它是不可预期的，对于可预期的不要用panic，panic异常机制是意料之外。<br><strong>error错误</strong>：错误是业务过程的一部分，而异常不是。错误是可预期的结果，error错误机制是意料之中。</p>
+<h3 id="错误相关的概念"><a href="#错误相关的概念" class="headerlink" title="错误相关的概念"></a>错误相关的概念</h3><p><strong>编译错误</strong>：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈溢出等等。是大意疏忽。<br><strong>运行错误</strong>：run的时候才报错，由于程序设计思路的错误导致程序异常或难以得到预期的效果。它是不可预期的，对于可预期的不要用panic，panic异常机制是意料之外。<br><strong>error错误</strong>：错误是业务过程的一部分，而异常不是。错误是可预期的结果，error错误机制是意料之中。<br><a id="more"></a></p>
 <ol>
 <li>错误转异常，比如程序逻辑上尝试请求某个URL，最多尝试三次，尝试三次的过程中请求失败是错误，尝试完第三次还不成功的话，失败就被提升为异常了。</li>
 <li>异常转错误，比如panic触发的异常被recover恢复后，将返回值中error类型的变量进行赋值，以便上层函数继续走错误处理流程。</li>
