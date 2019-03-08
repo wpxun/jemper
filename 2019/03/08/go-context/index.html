@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>go context包 - 在路上的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// **取消树和过期时间的实现**	Deadline() (deadline time.Time, ok bool) // **过期时间点**	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // **过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go context包">
+<meta property="og:url" content="http://blog.jemper.cn/2019/03/08/go-context/index.html">
+<meta property="og:site_name" content="在路上的博客">
+<meta property="og:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// **取消树和过期时间的实现**	Deadline() (deadline time.Time, ok bool) // **过期时间点**	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // **过">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-08T07:37:54.148Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="go context包">
+<meta name="twitter:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// **取消树和过期时间的实现**	Deadline() (deadline time.Time, ok bool) // **过期时间点**	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // **过">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <!-- blair add baidu tongji start... @2017.10.03 -->
+<!-- blair add baidu tongji end ! @2017.10.03 -->
+
+<header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <br>
+    <section id="main" class="outer"><article id="post-go-context" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      go context包
+      <small class=article-detail-date-index>&nbsp; 2019-03-08</small>
+    </h1>
+  
+
+
+        <div class=page-title></div>
+        <br>
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/08/go-context/" class="article-date">
+  <time datetime="2019-03-08T07:03:00.000Z" itemprop="datePublished">2019-03-08</time>
+</a>-->
+      <!-- 
+--><!-- by blair 160724 -->
+      <!-- by blair
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/08/go-context/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>整个 context 包原码就有一个文件即 context.go</p>
+<ol>
+<li><strong>Context 接口</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// **取消树和过期时间的实现**</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // **过期时间点**</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // **过期或者手动取消时关闭通道**</span><br><span class="line">	Err() error // **可以判断是过期还是手动取消**</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// **键值对的实现，valueCtx类型真正实现**</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>从这点可以看出，Context 库设计的目的：<br>(1)退出通知机制<br>(2)传递数据</p>
+<ol start="2">
+<li><strong>四个重要的类型</strong></li>
+</ol>
+<ul>
+<li>emptyCtx 类型：无实际作用的 int 型，这是最原始的 Context 接口实现</li>
+<li>cancelCtx 类型：Context + 取消树（这里的“取消树”是一个完整的名词）</li>
+<li>timerCtx 类型：cancelCtx + 过期时间</li>
+<li>valueCtx 类型：Context + 键值对</li>
+</ul>
+<p>实例化上述四个类型的API函数：</p>
+<ul>
+<li>Background()、TODO()：构造 emptyCtx</li>
+<li>WithCancel()：构造 cancelCtx</li>
+<li>WithDeadline()、WithTimeout()：一个是时间点，一个是时间段，时间段会转化为时间点；构造timerCtx</li>
+<li>WithValue()：构造valueCtx</li>
+</ul>
+<ol start="3">
+<li><strong>重要的隐藏函数</strong><br>cancel()：<br>propagateCancel()：<br>removeChild()：</li>
+</ol>
+
+      
+     <!-- by blair add this if sentence at 20160725 -->
+      <br>
+      
+<div id="bottom-donation-section">
+</div>
+<div class="well">
+  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
+  <a href="http://blog.jemper.cn">wpxun</a> <br>
+  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
+</div>
+
+ <!-- by blair add 160724-->
+    
+    </div>
+    
+    
+      <footer class="article-footer">
+        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+        
+ <!-- by blair add 160724-->
+        <!--
+        <div style="width:100px; height:30px;"></div> by blair add 160724
+        -->
+        
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/08/go-concurrency-difficult/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">并发的复杂性&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Sven&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
+    </div>
+  </div>
+</footer>
+
+    
+<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
+  var disqus_shortname = 'wpxun';
+  
+  var disqus_url = 'http://blog.jemper.cn/2019/03/08/go-context/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
