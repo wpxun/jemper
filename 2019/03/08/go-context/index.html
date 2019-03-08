@@ -6,13 +6,14 @@
   <title>go context包 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
+<meta name="keywords" content="go context">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go context包">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/08/go-context/index.html">
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-08T07:44:26.191Z">
+<meta property="og:updated_time" content="2019-03-08T10:08:40.617Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go context包">
 <meta name="twitter:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
@@ -102,8 +103,8 @@
 </ol>
 <ul>
 <li>emptyCtx 类型：无实际作用的 int 型，这是最原始的 Context 接口实现；</li>
-<li>cancelCtx 类型：Context + 取消树（这里的“取消树”是一个完整的名词）；</li>
-<li>timerCtx 类型：cancelCtx + 过期时间；</li>
+<li>cancelCtx 类型：Context + 取消树（这里的“取消树”是一个完整的名词，“取消树”上的键是canceler类型，说明它可能是cancelCtx，也可能是timerCtx）；</li>
+<li>timerCtx 类型：cancelCtx + 过期时间；在上下级的超时时间中，下级超时时间一定比上级先，否则即使用WithDeadline()创造出来的也是 cancelCtx，这还是很容易理解的；</li>
 <li>valueCtx 类型：Context + 键值对。</li>
 </ul>
 <p>实例化上述四个类型的API函数：</p>
@@ -114,8 +115,13 @@
 <li>WithValue()：构造valueCtx。</li>
 </ul>
 <ol start="3">
-<li><strong>重要的隐藏函数</strong><br>cancel()：<br>propagateCancel()：<br>removeChild()：</li>
+<li><strong>重要的隐藏函数</strong></li>
 </ol>
+<ul>
+<li>cancel()：无论是超时还是手动取消都会调用，DeadlineExceeded<br>(1) cancelCtx 的 cancel()：关闭done，cancel “取消树”上的节点（也就是取消所有子节点），判断要不要从父节点上移除；<br>(2) timerCtx 的 cancel()：会先调用 cancelCtx 的 cancel(false, err)，判断要不要从父节点上移除，最后c.timer.Stop()，这也是养成cancel的调用习惯的优点，否则c.timer一直占用计时器资源。</li>
+<li>propagateCancel()：“取消树”的繁衍，或者是“构造”也可以，</li>
+<li>removeChild()：从父节点上移除；cancel是自上而下的，当前的节点 cancel 了，那么其所有子节点也要 cancel，但父节点按原先的逻辑走；先从父节点上移除，等父节点 cancel 的时候就不用再去 cancel 那个已经 cancel 掉的子节点了。</li>
+</ul>
 
       
      <!-- by blair add this if sentence at 20160725 -->
@@ -142,6 +148,10 @@
         <div style="width:100px; height:30px;"></div> by blair add 160724
         -->
         
+  <div class="article-tag">
+    <a class="article-tag-link" href="/tags/go-context/">go context</a>
+  </div>
+
 
       </footer>
     
