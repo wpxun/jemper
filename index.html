@@ -97,27 +97,11 @@
 <li><strong>Context 接口</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// 取消树和过期时间的实现</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // 过期时间点</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // 过期或者手动取消时关闭通道</span><br><span class="line">	Err() error // 可以判断是过期还是手动取消</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// 键值对的实现，valueCtx类型真正实现</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>从这点可以看出，Context 库设计的目的：<br>(1) 退出通知机制<br>(2) 传递数据</p>
-<ol start="2">
-<li><strong>四个重要的类型</strong></li>
-</ol>
-<ul>
-<li>emptyCtx 类型：无实际作用的 int 型，这是最原始的 Context 接口实现；</li>
-<li>cancelCtx 类型：Context + 取消树（这里的“取消树”是一个完整的名词）；</li>
-<li>timerCtx 类型：cancelCtx + 过期时间；</li>
-<li>valueCtx 类型：Context + 键值对。</li>
-</ul>
-<p>实例化上述四个类型的API函数：</p>
-<ul>
-<li>Background()、TODO()：构造 emptyCtx；</li>
-<li>WithCancel()：构造 cancelCtx；</li>
-<li>WithDeadline()、WithTimeout()：一个是时间点，一个是时间段，时间段会转化为时间点；构造timerCtx；</li>
-<li>WithValue()：构造valueCtx。</li>
-</ul>
-<ol start="3">
-<li><strong>重要的隐藏函数</strong><br>cancel()：<br>propagateCancel()：<br>removeChild()：</li>
-</ol>
-
+        
+          <p class="article-more-link">
+            <a href="/2019/03/08/go-context/">Read More</a>
+          </p>
+        
       
     </div>
 	
@@ -170,15 +154,12 @@
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li>原子性<br>如果某个东西是原子的，隐含的意思就是它在并发环境中是安全的。<br>谈论原子性必然要谈“上下文（context）”这个词，上下文的概念很多，有函数层级的上下文（函数栈），有程序界限的上下文（php和redis），有用户程序和系统程序或CPU的上下文（程序的运算和内核的运算），原子性可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。在考虑原子性时，经常第一件需要做的事就是定义上下文或范围然后再考虑这操作是否是原子性的。一切都应该遵循这个原则。<br>比如 go 中 i++ 是由三步组成的，是不可分割的，但是可中断的。</li>
-</ol>
-<ul>
-<li>检索 i 的值</li>
-<li>增加 i 的值</li>
-<li>存储 i 的值<br>在非并发程序中，或者并发程序中但没有把 i 暴露给其它 goroutine，那么它是原子性的。<br>redis的原子性是指位于redis服务器上下文中的原子性。当然多个原子性一起并不会产生更大的原子性。以前写php程序，对redis某个值加1，用incr操作是原子性的，用检索、增加、存储三部走对单个php-fpm也是原子性的，但对多个php-fpm就不是原子性的。<br>要实现并发安全，必须是变量在所有上下文中都是原子性的。</li>
-</ul>
-
+        <p>为什么并发很难？<br>
+        
+          <p class="article-more-link">
+            <a href="/2019/03/08/go-concurrency-difficult/">Read More</a>
+          </p>
+        
       
     </div>
 	

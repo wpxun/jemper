@@ -5,17 +5,17 @@
   
   <title>并发的复杂性 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="原子性如果某个东西是原子的，隐含的意思就是它在并发环境中是安全的。谈论原子性必然要谈“上下文（context）”这个词，上下文的概念很多，有函数层级的上下文（函数栈），有程序界限的上下文（php和redis），有用户程序和系统程序或CPU的上下文（程序的运算和内核的运算），原子性可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。在考虑原子性时，经常第一件需要做的事就是定义上下文或范">
+  <meta name="description" content="为什么并发很难？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发的复杂性">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/08/go-concurrency-difficult/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="原子性如果某个东西是原子的，隐含的意思就是它在并发环境中是安全的。谈论原子性必然要谈“上下文（context）”这个词，上下文的概念很多，有函数层级的上下文（函数栈），有程序界限的上下文（php和redis），有用户程序和系统程序或CPU的上下文（程序的运算和内核的运算），原子性可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。在考虑原子性时，经常第一件需要做的事就是定义上下文或范">
+<meta property="og:description" content="为什么并发很难？">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-08T07:37:04.811Z">
+<meta property="og:updated_time" content="2019-03-08T07:44:31.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发的复杂性">
-<meta name="twitter:description" content="原子性如果某个东西是原子的，隐含的意思就是它在并发环境中是安全的。谈论原子性必然要谈“上下文（context）”这个词，上下文的概念很多，有函数层级的上下文（函数栈），有程序界限的上下文（php和redis），有用户程序和系统程序或CPU的上下文（程序的运算和内核的运算），原子性可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。在考虑原子性时，经常第一件需要做的事就是定义上下文或范">
+<meta name="twitter:description" content="为什么并发很难？">
   
   
     <link rel="icon" href="/favicon.png">
@@ -90,7 +90,8 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
+        <p>为什么并发很难？<br><a id="more"></a></p>
+<ol>
 <li>原子性<br>如果某个东西是原子的，隐含的意思就是它在并发环境中是安全的。<br>谈论原子性必然要谈“上下文（context）”这个词，上下文的概念很多，有函数层级的上下文（函数栈），有程序界限的上下文（php和redis），有用户程序和系统程序或CPU的上下文（程序的运算和内核的运算），原子性可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。在考虑原子性时，经常第一件需要做的事就是定义上下文或范围然后再考虑这操作是否是原子性的。一切都应该遵循这个原则。<br>比如 go 中 i++ 是由三步组成的，是不可分割的，但是可中断的。</li>
 </ol>
 <ul>
