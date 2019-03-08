@@ -14,7 +14,7 @@
 <meta property="og:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g0vucq0zt0j30nk0pudjo.jpg">
-<meta property="og:updated_time" content="2019-03-08T17:24:10.675Z">
+<meta property="og:updated_time" content="2019-03-08T17:25:43.362Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go context包">
 <meta name="twitter:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
@@ -117,7 +117,7 @@
 <li>WithValue()：构造valueCtx。</li>
 </ul>
 <p>在实例化中，有两条主线：<br>(1) 第一条线是context，上面四个类型是一个衔接一下，父接口在子节点下面。</p>
-<p><div style="width: 80%; margin: auto"><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g0vucq0zt0j30nk0pudjo.jpg" alt="context链"><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。</div></p>
+<p><div style="width: 200px; margin: auto"><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g0vucq0zt0j30nk0pudjo.jpg" alt="context链"><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。</div></p>
 <ol start="3">
 <li><strong>重要的内部函数</strong></li>
 </ol>
