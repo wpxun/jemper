@@ -94,25 +94,25 @@
       
         <p>整个 context 包原码就有一个文件即 context.go</p>
 <ol>
-<li><strong>Context 接口</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// **取消树和过期时间的实现**</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // **过期时间点**</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // **过期或者手动取消时关闭通道**</span><br><span class="line">	Err() error // **可以判断是过期还是手动取消**</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// **键值对的实现，valueCtx类型真正实现**</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><strong>Context 接口</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// 取消树和过期时间的实现</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // 过期时间点</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // 过期或者手动取消时关闭通道</span><br><span class="line">	Err() error // 可以判断是过期还是手动取消</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// 键值对的实现，valueCtx类型真正实现</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>从这点可以看出，Context 库设计的目的：<br>(1)退出通知机制<br>(2)传递数据</p>
+<p>从这点可以看出，Context 库设计的目的：<br>(1) 退出通知机制<br>(2) 传递数据</p>
 <ol start="2">
 <li><strong>四个重要的类型</strong></li>
 </ol>
 <ul>
-<li>emptyCtx 类型：无实际作用的 int 型，这是最原始的 Context 接口实现</li>
-<li>cancelCtx 类型：Context + 取消树（这里的“取消树”是一个完整的名词）</li>
-<li>timerCtx 类型：cancelCtx + 过期时间</li>
-<li>valueCtx 类型：Context + 键值对</li>
+<li>emptyCtx 类型：无实际作用的 int 型，这是最原始的 Context 接口实现；</li>
+<li>cancelCtx 类型：Context + 取消树（这里的“取消树”是一个完整的名词）；</li>
+<li>timerCtx 类型：cancelCtx + 过期时间；</li>
+<li>valueCtx 类型：Context + 键值对。</li>
 </ul>
 <p>实例化上述四个类型的API函数：</p>
 <ul>
-<li>Background()、TODO()：构造 emptyCtx</li>
-<li>WithCancel()：构造 cancelCtx</li>
-<li>WithDeadline()、WithTimeout()：一个是时间点，一个是时间段，时间段会转化为时间点；构造timerCtx</li>
-<li>WithValue()：构造valueCtx</li>
+<li>Background()、TODO()：构造 emptyCtx；</li>
+<li>WithCancel()：构造 cancelCtx；</li>
+<li>WithDeadline()、WithTimeout()：一个是时间点，一个是时间段，时间段会转化为时间点；构造timerCtx；</li>
+<li>WithValue()：构造valueCtx。</li>
 </ul>
 <ol start="3">
 <li><strong>重要的隐藏函数</strong><br>cancel()：<br>propagateCancel()：<br>removeChild()：</li>
