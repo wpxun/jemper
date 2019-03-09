@@ -13,12 +13,12 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g0vucq0zt0j30nk0pudjo.jpg">
-<meta property="og:updated_time" content="2019-03-08T17:28:29.379Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg">
+<meta property="og:updated_time" content="2019-03-09T08:39:52.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go context包">
 <meta name="twitter:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
-<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g0vucq0zt0j30nk0pudjo.jpg">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -116,8 +116,8 @@
 <li>WithDeadline()、WithTimeout()：构造 timerCtx；一个是时间点，一个是时间段，时间段会转化为时间点；定时用了 time.AfterFunc 函数，返回值存储在 timer 属性；</li>
 <li>WithValue()：构造valueCtx。</li>
 </ul>
-<p>在实例化中，有两条主线：<br>(1) 第一条线是context，上面四个类型是一个衔接一下，父接口在子节点下面。</p>
-<p><div style="width: 300px;"><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g0vucq0zt0j30nk0pudjo.jpg" alt="context链"></div><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。</p>
+<p>在实例化中，有两条主线：<br>(1) 第一条线是context，上面四个类型是一个衔接一个。后期由 removeChild() 负责从父节点移除该节点。<br>Background(a框) &gt; WithCancel(b框) &gt; WithTimeout(c框，超时3秒) &gt; WithTimeout(d框，超时6秒) &gt; WithValue(e框)；需要注意一点的是 d 框不是 timerCtx，因为其超时比父晚，所以会直接生成 cancelCtx。</p>
+<p><div style="width: 300px;"><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg" alt="context 链"></div><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。由 propagateCancel() 和 parentCancelCtx() 这两个函数负责该逻辑。</p>
 <ol start="3">
 <li><strong>重要的内部函数</strong></li>
 </ol>
