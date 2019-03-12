@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="本篇主要内容是 Go HTTP 原理和 RPC 相关知识。在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的网络编程知识，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-12T06:35:12.389Z">
+<meta property="og:updated_time" content="2019-03-12T06:46:45.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 网络编程">
 <meta name="twitter:description" content="本篇主要内容是 Go HTTP 原理和 RPC 相关知识。在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的网络编程知识，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。">
@@ -95,7 +95,7 @@
 <h3 id="2-udp"><a href="#2-udp" class="headerlink" title="2. udp"></a>2. udp</h3><h2 id="二、Go-HTTP-原理。"><a href="#二、Go-HTTP-原理。" class="headerlink" title="二、Go HTTP 原理。"></a>二、Go HTTP 原理。</h2><h3 id="1-三层逻辑"><a href="#1-三层逻辑" class="headerlink" title="1. 三层逻辑"></a>1. 三层逻辑</h3><p>先说明一下，这种分类仁者见仁，智者见智，能说清楚脉络就是好方法。</p>
 <ul>
 <li><strong>ServeMux</strong> 类型：有两大类方法：<br>(1) HandleFunc()、Handle() 创建其属性，m: map[string]muxEntry 路由和函数执行体；<br>(2) ServeHTTP()、Handler()、handler() 接收到请求后对 m 的路由查找，找到函数执行体；</li>
-<li><strong>Server</strong> 类型：包含了 ServeMux 这个 Handler 接口类型，ListenAndServe() 和 Serve() 主要负责监听和接口请求，并 goroutine 调用下面 conn 类型的 serve()；</li>
+<li><strong>Server</strong> 类型：包含了 ServeMux 这个 Handler 接口类型，ListenAndServe() 和 Serve() 主要负责监听和接口请求，并启用 goroutine 调用下面 conn 类型的 serve()；</li>
 <li><strong>conn</strong> 类型：包含了 Server 类型，serve()方法，先通过 serverHandler 类型的 ServeHTTP()方法 查找到ServeMux，调用 ServeMux 的（2）相关方法找到函数执行体（也是一个 ServeHTTP() 方法）并执行。<br>这一下就提到 三个 ServeHTTP() 方法，功能都是不一样的，第一个是用于查找 ServeMux，第二个是用于查找函数执行体，第三个是要执行的函数执行体，注意不要混淆了。</li>
 </ul>
 <p>一言以蔽之，先保存路由和函数执行体映射（ServeMux 准备阶段）；开启监听和等待连接，接受连接请求并新开一个 goroutine（Server 等待连接阻塞，承上启下）；通过查找映射找到函数执行体（conn 执行阶段）。<br>其中的监听、等待连接、接受连接是 Go 语言的实现，底层调用了 C 的接口。</p>
