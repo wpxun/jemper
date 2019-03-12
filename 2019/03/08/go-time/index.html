@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="时间概念时间对所有程序语言来说原理都是一样的：时间点、时间段、时区和显示格式。  时间点：时间点没有时区差异，也就是说全世界无论哪个时区都是同一个时间点，时间戳就是时间点的表达方式，所以时间戳没有时区差异。 时间段：时间段其实就是一个整数型，从小到大依次是皮秒（ps）、纳秒（ns）、微秒（μs）、毫秒（ms）、秒（s），在 go 程序中 1s == 1e9。 时区：时间点有时区差异，同一个时间戳在">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-08T07:37:33.348Z">
+<meta property="og:updated_time" content="2019-03-09T09:55:47.245Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go time包">
 <meta name="twitter:description" content="时间概念时间对所有程序语言来说原理都是一样的：时间点、时间段、时区和显示格式。  时间点：时间点没有时区差异，也就是说全世界无论哪个时区都是同一个时间点，时间戳就是时间点的表达方式，所以时间戳没有时区差异。 时间段：时间段其实就是一个整数型，从小到大依次是皮秒（ps）、纳秒（ns）、微秒（μs）、毫秒（ms）、秒（s），在 go 程序中 1s == 1e9。 时区：时间点有时区差异，同一个时间戳在">
@@ -106,8 +106,8 @@
 <ul>
 <li>取得时间点，Now()返回Time，其实它是有时区的、Unix()返回整数型，没有时区概念；</li>
 <li>加减时间段 Add(时间段)，可以使用正负；</li>
-<li>减时间点算时间差 Sub(时间点)、After(时间点)、Before(时间点)、Equal(时间点)，注意没有加时间点的函数；另外还提供了Since(时间点)、Until(时间点)等函数对时间点参数和当前时间点进行比较；</li>
-<li>设置时区，默认是loc，UTC()和In()等都是设置时区的。</li>
+<li>减时间点算时间差 Sub(时间点)、After(时间点)、Before(时间点)、Equal(时间点)，注意没有加时间点的方法；另外还提供了Since(时间点)、Until(时间点)等函数对时间点参数和当前时间点进行比较；</li>
+<li>设置时区，默认是local，UTC()和In()等都是设置时区的。</li>
 </ul>
 <ol start="2">
 <li><strong>定时相关的接口和函数</strong></li>

@@ -5,19 +5,19 @@
   
   <title>go context包 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
+  <meta name="description" content="整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool)">
 <meta name="keywords" content="go context">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go context包">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/08/go-context/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
+<meta property="og:description" content="整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool)">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg">
-<meta property="og:updated_time" content="2019-03-09T08:39:52.732Z">
+<meta property="og:updated_time" content="2019-03-11T10:34:38.796Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go context包">
-<meta name="twitter:description" content="整个 context 包原码就有一个文件即 context.go  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool) // 过期时间点	Done() &amp;lt;-chan struct&amp;#123;&amp;#125; // 过期或者手动取消时关闭">
+<meta name="twitter:description" content="整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。  Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.Time, ok bool)">
 <meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg">
   
   
@@ -93,7 +93,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>整个 context 包原码就有一个文件即 context.go</p>
+        <p>整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。</p>
 <ol>
 <li><strong>Context 接口</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// 取消树和过期时间的实现</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // 过期时间点</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // 过期或者手动取消时关闭通道</span><br><span class="line">	Err() error // 可以判断是过期还是手动取消</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// 键值对的实现，valueCtx类型真正实现</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
@@ -116,8 +116,8 @@
 <li>WithDeadline()、WithTimeout()：构造 timerCtx；一个是时间点，一个是时间段，时间段会转化为时间点；定时用了 time.AfterFunc 函数，返回值存储在 timer 属性；</li>
 <li>WithValue()：构造valueCtx。</li>
 </ul>
-<p>在实例化中，有两条主线：<br>(1) 第一条线是context，上面四个类型是一个衔接一个。后期由 removeChild() 负责从父节点移除该节点。<br>Background(a框) &gt; WithCancel(b框) &gt; WithTimeout(c框，超时3秒) &gt; WithTimeout(d框，超时6秒) &gt; WithValue(e框)；需要注意一点的是 d 框不是 timerCtx，因为其超时比父晚，所以会直接生成 cancelCtx。</p>
-<p><div style="width: 300px;"><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg" alt="context 链"></div><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。由 propagateCancel() 和 parentCancelCtx() 这两个函数负责该逻辑。</p>
+<p>在实例化中，有两条主线：<br>(1) 第一条线是context，上面四个类型是一个衔接一个。后期由 removeChild() 负责找到父节点并从其 children 移除该节点。所以其特点就是向上追溯父节点。<br>Background(a框) &gt; WithCancel(b框) &gt; WithTimeout(c框，超时3秒) &gt; WithTimeout(d框，超时6秒) &gt; WithValue(e框)；需要注意一点的是 d 框不是 timerCtx，因为其超时比父晚，所以会直接生成 cancelCtx。</p>
+<p><div style="width: 300px;"><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg" alt="context 链"></div><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。由 propagateCancel() 和 parentCancelCtx() 这两个函数负责该逻辑。所以其特点是就向下一级一级取消子节点。</p>
 <ol start="3">
 <li><strong>重要的内部函数</strong></li>
 </ol>
@@ -164,6 +164,14 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/03/12/go-network/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          go 网络编程
+        
+      </div>
+    </a>
   
   
     <a href="/2019/03/08/go-concurrency-difficult/" id="article-nav-older" class="article-nav-link-wrap">
