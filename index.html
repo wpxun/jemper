@@ -56,6 +56,68 @@
 
     <br>
     <section id="main" class="outer">
+      <article id="post-go-io" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <myh11 itemprop="name">
+      <a class="article-title-index" href="/2019/03/12/go-io/"><strong>Go I/O 操作</strong></a>
+      <small class=article-date-index>&nbsp; 2019-03-12</small>
+      <!--<a>
+      <div = post.date  </div>
+      </a>-->
+    </myh11>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/12/go-io/" class="article-date">
+  <time datetime="2019-03-12T06:55:00.000Z" itemprop="datePublished">2019-03-12</time>
+</a>-->
+      <!--
+-->
+      <!--
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/12/go-io/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型），代表函数是 open、read 和 write 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流结构体（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs、fgets 和 fprintf等；不过 C 标准已经不再支持无缓冲操作。<br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作，</p>
+<p>本文主要介绍 C 语言的 Socket I/O 操作和 Go 的文件操作。<br>
+        
+          <p class="article-more-link">
+            <a href="/2019/03/12/go-io/">Read More</a>
+          </p>
+        
+      
+    </div>
+	
+    <!--
+	
+    -->
+    <!--
+    
+      <footer class="article-footer">
+      </footer>
+    
+    -->
+  </div>
+  
+</article>
+
+
+
+    
       <article id="post-go-network" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -106,6 +168,9 @@
     -->
     <!--
     
+      <footer class="article-footer">
+      </footer>
+    
     -->
   </div>
   
@@ -122,7 +187,7 @@
         
   
     <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/08/go-context/"><strong>go context包</strong></a>
+      <a class="article-title-index" href="/2019/03/08/go-context/"><strong>go context 包</strong></a>
       <small class=article-date-index>&nbsp; 2019-03-08</small>
       <!--<a>
       <div = post.date  </div>
@@ -248,7 +313,7 @@
         
   
     <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/08/go-time/"><strong>go time包</strong></a>
+      <a class="article-title-index" href="/2019/03/08/go-time/"><strong>go time 包</strong></a>
       <small class=article-date-index>&nbsp; 2019-03-08</small>
       <!--<a>
       <div = post.date  </div>
@@ -283,7 +348,7 @@
 <li>时区：时间点有时区差异，同一个时间戳在不同时区具有时差区别。</li>
 <li>显示格式：这部分没有逻辑问题，纯粹是视图显示。</li>
 </ul>
-<h3 id="time包使用"><a href="#time包使用" class="headerlink" title="time包使用"></a>time包使用</h3>
+<h3 id="time-包使用"><a href="#time-包使用" class="headerlink" title="time 包使用"></a>time 包使用</h3>
         
           <p class="article-more-link">
             <a href="/2019/03/08/go-time/">Read More</a>
