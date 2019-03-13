@@ -5,18 +5,18 @@
   
   <title>并发的复杂性 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1 &amp;nbsp;&amp;nbsp;何为并发并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。 当然我们一般说的并发和并行是单个程序，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因">
+  <meta name="description" content="在讲解并发的复杂性前，我们先介绍并发的一些概念。">
 <meta name="keywords" content="go concurrency">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发的复杂性">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/13/go-concurrency-difficult/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="1 &amp;nbsp;&amp;nbsp;何为并发并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。 当然我们一般说的并发和并行是单个程序，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因">
+<meta property="og:description" content="在讲解并发的复杂性前，我们先介绍并发的一些概念。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-13T07:39:22.568Z">
+<meta property="og:updated_time" content="2019-03-13T07:48:11.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发的复杂性">
-<meta name="twitter:description" content="1 &amp;nbsp;&amp;nbsp;何为并发并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。 当然我们一般说的并发和并行是单个程序，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因">
+<meta name="twitter:description" content="在讲解并发的复杂性前，我们先介绍并发的一些概念。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -91,13 +91,13 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-nbsp-nbsp-何为并发"><a href="#1-nbsp-nbsp-何为并发" class="headerlink" title="1 &nbsp;&nbsp;何为并发"></a>1 &nbsp;&nbsp;何为并发</h2><p>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。</p>
+        <p>在讲解并发的复杂性前，我们先介绍并发的一些概念。<br><a id="more"></a></p>
+<h2 id="1-nbsp-nbsp-何为并发"><a href="#1-nbsp-nbsp-何为并发" class="headerlink" title="1 &nbsp;&nbsp;何为并发"></a>1 &nbsp;&nbsp;何为并发</h2><p>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。</p>
 <p>当然我们一般说的并发和并行是单个程序，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。</p>
 <p>集群是指同一个程序单元用负载的方式提供服务，微服务则是不同的程序单元，微服务化更多是指业务框架的拆分，其次才是部署方式；也就是拆分成程序单元协作完成完整的功能，然后考虑是单机部署还是分布式部署。当然一般是采用分布式部署。运行一个庞大的分布式系统引发了两个有趣的问题：运行成本和延迟。如果我们将单个节点的性能提高 30%，或者甚至超过 100%，那么我们可以节省多少台机器呢？当一个来自 Web 的查询触发了几十个跨越了很多不同机器的内部远程过程调用时（HTTP 或 RPC），我们如何能达到最低的延迟呢？</p>
-<p>本文讲并发程序，正是将单个节点的性能提高，性能提高了，但是却带来了编程的复杂性。不同程序单元之间的远程过程调用可能参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。</p>
+<p>本文讲并发程序，正是将单个节点的性能提高，性能提高了，但是却带来了编程的复杂性。不同程序单元之间的远程过程调用可以参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。</p>
 <p>我认为一些文字概念不需要太计较，知道是那么回事就可以了。</p>
-<h2 id="2-nbsp-nbsp-为什么并发很难？"><a href="#2-nbsp-nbsp-为什么并发很难？" class="headerlink" title="2 &nbsp;&nbsp;为什么并发很难？"></a>2 &nbsp;&nbsp;为什么并发很难？</h2><a id="more"></a>
-<h3 id="2-1-原子性"><a href="#2-1-原子性" class="headerlink" title="2.1 原子性"></a>2.1 原子性</h3><p>如果某个东西是原子的，隐含的意思就是它在并发环境中是安全的。<br>谈论原子性必然要谈“上下文（context）”这个词，上下文的概念很多，有函数层级的上下文（函数栈），有程序界限的上下文（php和redis），有用户程序和系统程序或CPU的上下文（程序的运算和内核的运算），原子性可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。在考虑原子性时，经常第一件需要做的事就是定义上下文或范围然后再考虑这操作是否是原子性的。一切都应该遵循这个原则。<br>比如 go 中 i++ 是由三步组成的，是不可分割的，但是可中断的。</p>
+<h2 id="2-nbsp-nbsp-为什么并发很难？"><a href="#2-nbsp-nbsp-为什么并发很难？" class="headerlink" title="2 &nbsp;&nbsp;为什么并发很难？"></a>2 &nbsp;&nbsp;为什么并发很难？</h2><h3 id="2-1-原子性"><a href="#2-1-原子性" class="headerlink" title="2.1 原子性"></a>2.1 原子性</h3><p>如果某个东西是原子的，隐含的意思就是它在并发环境中是安全的。<br>谈论原子性必然要谈“上下文（context）”这个词，上下文的概念很多，有函数层级的上下文（函数栈），有程序界限的上下文（php和redis），有用户程序和系统程序或CPU的上下文（程序的运算和内核的运算），原子性可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。在考虑原子性时，经常第一件需要做的事就是定义上下文或范围然后再考虑这操作是否是原子性的。一切都应该遵循这个原则。<br>比如 go 中 i++ 是由三步组成的，是不可分割的，但是可中断的。</p>
 <ul>
 <li>检索 i 的值</li>
 <li>增加 i 的值</li>

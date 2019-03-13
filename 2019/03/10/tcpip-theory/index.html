@@ -5,19 +5,19 @@
   
   <title>TCP/IP 原理 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。 1 状态转换1.1 三次握手 1.2 四次分手">
+  <meta name="description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP&#x2F;IP 原理">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/10/tcpip-theory/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。 1 状态转换1.1 三次握手 1.2 四次分手">
+<meta property="og:description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g111c921qjj30v80jk769.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg">
-<meta property="og:updated_time" content="2019-03-13T06:54:57.395Z">
+<meta property="og:updated_time" content="2019-03-13T07:48:54.473Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP&#x2F;IP 原理">
-<meta name="twitter:description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。 1 状态转换1.1 三次握手 1.2 四次分手">
+<meta name="twitter:description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
 <meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g111c921qjj30v80jk769.jpg">
   
   
@@ -93,10 +93,10 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。<br>学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。</p>
-<h2 id="1-状态转换"><a href="#1-状态转换" class="headerlink" title="1 状态转换"></a>1 状态转换</h2><h3 id="1-1-三次握手"><a href="#1-1-三次握手" class="headerlink" title="1.1 三次握手"></a>1.1 三次握手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g111c921qjj30v80jk769.jpg" alt="TCP 三次握手"></p>
-<h3 id="1-2-四次分手"><a href="#1-2-四次分手" class="headerlink" title="1.2 四次分手"></a>1.2 四次分手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg" alt="TCP 四次分手"></p>
-
+        <p>TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。<br>学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。<br><a id="more"></a></p>
+<h2 id="1-nbsp-nbsp-状态转换"><a href="#1-nbsp-nbsp-状态转换" class="headerlink" title="1 &nbsp;&nbsp;状态转换"></a>1 &nbsp;&nbsp;状态转换</h2><h3 id="1-1-nbsp-nbsp-三次握手"><a href="#1-1-nbsp-nbsp-三次握手" class="headerlink" title="1.1 &nbsp;&nbsp;三次握手"></a>1.1 &nbsp;&nbsp;三次握手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g111c921qjj30v80jk769.jpg" alt="TCP 三次握手"></p>
+<h3 id="1-2-nbsp-nbsp-四次分手"><a href="#1-2-nbsp-nbsp-四次分手" class="headerlink" title="1.2 &nbsp;&nbsp;四次分手"></a>1.2 &nbsp;&nbsp;四次分手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg" alt="TCP 四次分手"></p>
+<h2 id="2-nbsp-nbsp-性能优化"><a href="#2-nbsp-nbsp-性能优化" class="headerlink" title="2 &nbsp;&nbsp;性能优化"></a>2 &nbsp;&nbsp;性能优化</h2><h3 id="2-1-nbsp-nbsp-滑动窗口"><a href="#2-1-nbsp-nbsp-滑动窗口" class="headerlink" title="2.1 &nbsp;&nbsp;滑动窗口"></a>2.1 &nbsp;&nbsp;滑动窗口</h3><h3 id="2-2-nbsp-nbsp-reset"><a href="#2-2-nbsp-nbsp-reset" class="headerlink" title="2.2 &nbsp;&nbsp;reset"></a>2.2 &nbsp;&nbsp;reset</h3><h3 id="2-3-nbsp-nbsp-超时与重传"><a href="#2-3-nbsp-nbsp-超时与重传" class="headerlink" title="2.3 &nbsp;&nbsp;超时与重传"></a>2.3 &nbsp;&nbsp;超时与重传</h3>
       
      <!-- by blair add this if sentence at 20160725 -->
       <br>
@@ -115,7 +115,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-状态转换"><span class="toc-number">1.</span> <span class="toc-text">1 状态转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-三次握手"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 三次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-四次分手"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 四次分手</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-状态转换"><span class="toc-number">1.</span> <span class="toc-text">1   状态转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-三次握手"><span class="toc-number">1.1.</span> <span class="toc-text">1.1   三次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-四次分手"><span class="toc-number">1.2.</span> <span class="toc-text">1.2   四次分手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-性能优化"><span class="toc-number">2.</span> <span class="toc-text">2   性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-滑动窗口"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-reset"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   reset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-超时与重传"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   超时与重传</span></a></li></ol></li></ol>
       </div>
     
     
