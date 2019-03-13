@@ -216,7 +216,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>TCP 的内容较多，其实我并不能全部说清楚，我只是将我学过的知识进行汇总。</p>
-<h2 id="1-状态"><a href="#1-状态" class="headerlink" title="1 状态"></a>1 状态</h2><h3 id="1-1-三次握手"><a href="#1-1-三次握手" class="headerlink" title="1.1 三次握手"></a>1.1 三次握手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g110ir6zqcj30vm0kun0h.jpg" alt="TCP 三次握手"></p>
+<h2 id="1-状态"><a href="#1-状态" class="headerlink" title="1 状态"></a>1 状态</h2><h3 id="1-1-三次握手"><a href="#1-1-三次握手" class="headerlink" title="1.1 三次握手"></a>1.1 三次握手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g111c921qjj30v80jk769.jpg" alt="TCP 三次握手"></p>
 <h3 id="1-2-四次分手"><a href="#1-2-四次分手" class="headerlink" title="1.2 四次分手"></a>1.2 四次分手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg" alt="TCP 四次分手"></p>
 
       
@@ -272,10 +272,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。</p>
-<ol>
-<li><strong>Context 接口</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// 取消树和过期时间的实现</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // 过期时间点</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // 过期或者手动取消时关闭通道</span><br><span class="line">	Err() error // 可以判断是过期还是手动取消</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// 键值对的实现，valueCtx类型真正实现</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<h4 id="1-1-nbsp-nbsp-Context-接口"><a href="#1-1-nbsp-nbsp-Context-接口" class="headerlink" title="1.1 &nbsp;&nbsp;Context 接口"></a>1.1 &nbsp;&nbsp;Context 接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// 取消树和过期时间的实现</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // 过期时间点</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // 过期或者手动取消时关闭通道</span><br><span class="line">	Err() error // 可以判断是过期还是手动取消</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// 键值对的实现，valueCtx类型真正实现</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
             <a href="/2019/03/08/go-context/">Read More</a>
