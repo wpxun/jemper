@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Go 网络编程 - 在路上的博客</title>
+  <title>go 网络编程 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本篇主要内容是 Go HTTP 原理和 RPC 相关知识。在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的网络编程知识，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。">
+  <meta name="description" content="本篇主要内容是 Go HTTP 原理和 RPC 相关知识。在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的 Socket 编程(见我另一篇文章)，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。">
 <meta name="keywords" content="go network socket rpc http">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go 网络编程">
+<meta property="og:title" content="go 网络编程">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/12/go-network/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="本篇主要内容是 Go HTTP 原理和 RPC 相关知识。在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的网络编程知识，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。">
+<meta property="og:description" content="本篇主要内容是 Go HTTP 原理和 RPC 相关知识。在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的 Socket 编程(见我另一篇文章)，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-12T07:26:50.500Z">
+<meta property="og:updated_time" content="2019-03-12T10:01:06.638Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Go 网络编程">
-<meta name="twitter:description" content="本篇主要内容是 Go HTTP 原理和 RPC 相关知识。在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的网络编程知识，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。">
+<meta name="twitter:title" content="go 网络编程">
+<meta name="twitter:description" content="本篇主要内容是 Go HTTP 原理和 RPC 相关知识。在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的 Socket 编程(见我另一篇文章)，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -65,7 +65,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Go 网络编程
+      go 网络编程
       <small class=article-detail-date-index>&nbsp; 2019-03-12</small>
     </h1>
   
@@ -91,9 +91,8 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本篇主要内容是 Go HTTP 原理和 RPC 相关知识。<br>在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的网络编程知识，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。<br><a id="more"></a></p>
-<h2 id="一、C-Socket-编程"><a href="#一、C-Socket-编程" class="headerlink" title="一、C Socket 编程"></a>一、C Socket 编程</h2><h3 id="1-tcp"><a href="#1-tcp" class="headerlink" title="1. tcp"></a>1. tcp</h3><p>创建 Socket</p>
-<h3 id="2-udp"><a href="#2-udp" class="headerlink" title="2. udp"></a>2. udp</h3><h2 id="二、Go-HTTP-原理。"><a href="#二、Go-HTTP-原理。" class="headerlink" title="二、Go HTTP 原理。"></a>二、Go HTTP 原理。</h2><h3 id="1-三层逻辑"><a href="#1-三层逻辑" class="headerlink" title="1. 三层逻辑"></a>1. 三层逻辑</h3><p>先说明一下，这种分类仁者见仁，智者见智，能说清楚脉络就是好方法。</p>
+        <p>本篇主要内容是 Go HTTP 原理和 RPC 相关知识。<br>在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的 Socket 编程(见我另一篇文章)，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。<br><a id="more"></a></p>
+<h2 id="一、Go-HTTP-原理。"><a href="#一、Go-HTTP-原理。" class="headerlink" title="一、Go HTTP 原理。"></a>一、Go HTTP 原理。</h2><h3 id="1-三层逻辑"><a href="#1-三层逻辑" class="headerlink" title="1. 三层逻辑"></a>1. 三层逻辑</h3><p>先说明一下，这种分类仁者见仁，智者见智，能说清楚脉络就是好方法。</p>
 <ul>
 <li><strong>ServeMux</strong> 类型：有两大类方法：<br>(1) HandleFunc()、Handle() 创建其属性，m: map[string]muxEntry 路由和函数执行体；<br>(2) ServeHTTP()、Handler()、handler() 接收到请求后对 m 的路由查找，找到函数执行体；</li>
 <li><strong>Server</strong> 类型：包含了 ServeMux 这个 Handler 接口类型，ListenAndServe() 和 Serve() 主要负责监听和接口请求，并启用 goroutine 调用下面 conn 类型的 serve()；</li>
@@ -101,7 +100,7 @@
 </ul>
 <p>一言以蔽之，先保存路由和函数执行体映射（ServeMux 准备阶段）；开启监听和等待连接，接受连接请求并新开一个 goroutine（Server 等待连接阻塞，承上启下）；通过查找映射找到函数执行体（conn 执行阶段）。<br>其中的监听、等待连接、接受连接是 Go 语言的实现，底层调用了 C 的接口。</p>
 <h3 id="2-细节剖析"><a href="#2-细节剖析" class="headerlink" title="2. 细节剖析"></a>2. 细节剖析</h3><p>上面的三个类型中其实就是一层一层包含，里面通过一些重点内核函数（如监听连接等）或者辅助函数（如 serverHandler 等）实现该层的功能或逻辑。</p>
-<h2 id="三、RPC"><a href="#三、RPC" class="headerlink" title="三、RPC"></a>三、RPC</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h3><p>RPC 是远程过程调用，或者说是远程方法调用、远程函数调用，多了一个“远程”，区别于同一程序的方法或者函数调用，表明不是同一个程序。<br>TCP/IP 和 HTTP 我把他们定位为实现数据传输，是协议设计。<br>RPC 和 Restful 我把他们定位为在数据传输基础上提供服务，是框架设计。<br>Restful 是基于 HTTP 的，但 RPC 可以基于 HTTP，也可以基于 TCP/IP。换句话说，HTTP 是面向“事先没有沟通”的普通用户，Restful 一般是面向“事先有简单沟通”的程序员（有后端的，但更多是前端），相对来说还是存在通用性设计；而 RPC 是面向“事先有良好沟通”的程序员（后端），所以可以去掉一些通用设计而采用精准功能设计，从而提高效率。<br>打个比喻，Restful 或者 HTTP 犹如有界面操作系统，事先用户简单学习甚至完全不需要学习其使用方式，用户自己摸索就能使用它；RPC 犹如命令操作系统，直接提供命令给你操作，前提是你得来学习命令或者函数操作方式，去掉“中间商赚差价”，所以效率提高了。</p>
+<h2 id="二、RPC"><a href="#二、RPC" class="headerlink" title="二、RPC"></a>二、RPC</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h3><p>RPC 是远程过程调用，或者说是远程方法调用、远程函数调用，多了一个“远程”，区别于同一程序的方法或者函数调用，表明不是同一个程序。<br>TCP/IP 和 HTTP 我把他们定位为实现数据传输，是协议设计。<br>RPC 和 Restful 我把他们定位为在数据传输基础上提供服务，是框架设计。<br>Restful 是基于 HTTP 的，但 RPC 可以基于 HTTP，也可以基于 TCP/IP。换句话说，HTTP 是面向“事先没有沟通”的普通用户，Restful 一般是面向“事先有简单沟通”的程序员（有后端的，但更多是前端），相对来说还是存在通用性设计；而 RPC 是面向“事先有良好沟通”的程序员（后端），所以可以去掉一些通用设计而采用精准功能设计，从而提高效率。<br>打个比喻，Restful 或者 HTTP 犹如有界面操作系统，事先用户简单学习甚至完全不需要学习其使用方式，用户自己摸索就能使用它；RPC 犹如命令操作系统，直接提供命令给你操作，前提是你得来学习命令或者函数操作方式，去掉“中间商赚差价”，所以效率提高了。</p>
 <p>Go 语言标准包中已经提供了对 RPC 的支持，而且支持三个级别的 RPC：TCP(使用的标准包 net/rpc)、HTTP(使用的标准包 net/http、net/rpc)、JSONRPC(使用的标准包 net/rpc、net/rpc/jsonrpc)。但 Go 语言的 RPC 包是独一无二的 RPC，只支持 <strong>Go 语言开发的服务器与客户端之间的交互</strong>，因为在内部，它们采用了 Gob 来编码。所以如果是跨语言的，可以采用开源的 RPC，比如 gRPC，基于 HTTP，它采用 protocol 编码，支持很多语言，如 Java、Go、C++ 和 PHP 等。<br>下面我只讲解实现基于 TCP 的 Go 标准包 RPC，服务端和客户端都使用标准包 net/rpc。</p>
 <h3 id="2-基于-TCP-的标准包-RPC"><a href="#2-基于-TCP-的标准包-RPC" class="headerlink" title="2. 基于 TCP 的标准包 RPC"></a>2. 基于 TCP 的标准包 RPC</h3>
       
@@ -122,7 +121,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、C-Socket-编程"><span class="toc-number">1.</span> <span class="toc-text">一、C Socket 编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-tcp"><span class="toc-number">1.1.</span> <span class="toc-text">1. tcp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-udp"><span class="toc-number">1.2.</span> <span class="toc-text">2. udp</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Go-HTTP-原理。"><span class="toc-number">2.</span> <span class="toc-text">二、Go HTTP 原理。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-三层逻辑"><span class="toc-number">2.1.</span> <span class="toc-text">1. 三层逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-细节剖析"><span class="toc-number">2.2.</span> <span class="toc-text">2. 细节剖析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、RPC"><span class="toc-number">3.</span> <span class="toc-text">三、RPC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概述"><span class="toc-number">3.1.</span> <span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-基于-TCP-的标准包-RPC"><span class="toc-number">3.2.</span> <span class="toc-text">2. 基于 TCP 的标准包 RPC</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Go-HTTP-原理。"><span class="toc-number">1.</span> <span class="toc-text">一、Go HTTP 原理。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-三层逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">1. 三层逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-细节剖析"><span class="toc-number">1.2.</span> <span class="toc-text">2. 细节剖析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、RPC"><span class="toc-number">2.</span> <span class="toc-text">二、RPC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概述"><span class="toc-number">2.1.</span> <span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-基于-TCP-的标准包-RPC"><span class="toc-number">2.2.</span> <span class="toc-text">2. 基于 TCP 的标准包 RPC</span></a></li></ol></li></ol>
       </div>
     
     
@@ -146,17 +145,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/03/12/go-io/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-title"><span>&lt;</span>&nbsp;
-        
-          Go I/O 操作
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/03/08/go-context/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">go context 包&nbsp;<span>&gt;</span></div>
+    <a href="/2019/03/11/go-io/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">go I/O 操作&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>

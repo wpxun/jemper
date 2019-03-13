@@ -56,68 +56,6 @@
 
     <br>
     <section id="main" class="outer">
-      <article id="post-go-io" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/12/go-io/"><strong>Go I/O 操作</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-12</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/12/go-io/" class="article-date">
-  <time datetime="2019-03-12T06:55:00.000Z" itemprop="datePublished">2019-03-12</time>
-</a>-->
-      <!--
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/12/go-io/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型），代表函数是 open、read 和 write 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流结构体（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs、fgets 和 fprintf等；不过 C 标准已经不再支持无缓冲操作。<br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作，</p>
-<p>本文主要介绍 C 语言的 Socket I/O 操作和 Go 的文件操作。<br>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/12/go-io/">Read More</a>
-          </p>
-        
-      
-    </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
-  </div>
-  
-</article>
-
-
-
-    
       <article id="post-go-network" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -126,7 +64,7 @@
         
   
     <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/12/go-network/"><strong>Go 网络编程</strong></a>
+      <a class="article-title-index" href="/2019/03/12/go-network/"><strong>go 网络编程</strong></a>
       <small class=article-date-index>&nbsp; 2019-03-12</small>
       <!--<a>
       <div = post.date  </div>
@@ -154,7 +92,7 @@
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本篇主要内容是 Go HTTP 原理和 RPC 相关知识。<br>在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的网络编程知识，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。<br>
+        <p>本篇主要内容是 Go HTTP 原理和 RPC 相关知识。<br>在进行原理讲解之前我觉得有必要熟悉一下 TCP/IP 原理（见我另一篇文章）和 C 语言的 Socket 编程(见我另一篇文章)，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。<br>
         
           <p class="article-more-link">
             <a href="/2019/03/12/go-network/">Read More</a>
@@ -170,6 +108,123 @@
     
       <footer class="article-footer">
       </footer>
+    
+    -->
+  </div>
+  
+</article>
+
+
+
+    
+      <article id="post-go-io" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <myh11 itemprop="name">
+      <a class="article-title-index" href="/2019/03/11/go-io/"><strong>go I/O 操作</strong></a>
+      <small class=article-date-index>&nbsp; 2019-03-11</small>
+      <!--<a>
+      <div = post.date  </div>
+      </a>-->
+    </myh11>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/11/go-io/" class="article-date">
+  <time datetime="2019-03-11T06:55:00.000Z" itemprop="datePublished">2019-03-11</time>
+</a>-->
+      <!--
+-->
+      <!--
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/11/go-io/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，错误输出），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs、fgets 和 fprintf等；不过 C 标准已经不再支持对文件（这里没有包括 socket）的无缓冲操作。<br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作，</p>
+<p>本文主要介绍 C 语言的 Socket I/O 操作和 Go 的文件操作。<br>
+        
+          <p class="article-more-link">
+            <a href="/2019/03/11/go-io/">Read More</a>
+          </p>
+        
+      
+    </div>
+	
+    <!--
+	
+    -->
+    <!--
+    
+      <footer class="article-footer">
+      </footer>
+    
+    -->
+  </div>
+  
+</article>
+
+
+
+    
+      <article id="post-tcpip-theory" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <myh11 itemprop="name">
+      <a class="article-title-index" href="/2019/03/10/tcpip-theory/"><strong>TCP/IP 原理</strong></a>
+      <small class=article-date-index>&nbsp; 2019-03-10</small>
+      <!--<a>
+      <div = post.date  </div>
+      </a>-->
+    </myh11>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/10/tcpip-theory/" class="article-date">
+  <time datetime="2019-03-10T10:00:59.000Z" itemprop="datePublished">2019-03-10</time>
+</a>-->
+      <!--
+-->
+      <!--
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/10/tcpip-theory/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TCP 的内容较多，其实我并不能全部说清楚，我只是将我学过的知识进行汇总。</p>
+<h2 id="三次握手，四次分手"><a href="#三次握手，四次分手" class="headerlink" title="三次握手，四次分手"></a>三次握手，四次分手</h2><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg" alt="TCP 四次分手"></p>
+
+      
+    </div>
+	
+    <!--
+	
+    -->
+    <!--
     
     -->
   </div>
@@ -609,63 +664,9 @@
 
 
     
-      <article id="post-start-hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2017/02/08/start-hexo/"><strong>Hexo 实践</strong></a>
-      <small class=article-date-index>&nbsp; 2017-02-08</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2017/02/08/start-hexo/" class="article-date">
-  <time datetime="2017-02-08T07:56:13.000Z" itemprop="datePublished">2017-02-08</time>
-</a>-->
-      <!--
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2017/02/08/start-hexo/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 是一个很不错的静态博客管理工具的，快速发布，Markdown 支持，插件支持。官网现在列出了100来个主题都很好看，第一篇文章就来写 Hexo 的部署工作吧。<br>我个人比较喜欢用 Centos，所以我是基于 Centos7 环境来写 Hexo 博客的，Win10 用户可以用 Linux 子系统来部署，这样可以在 Linux 上部署，在 Win10 上写文章；网上也有很多类似的文章，我自己喜欢折腾，大家没事可以粗略看一看。<br>
-        
-          <p class="article-more-link">
-            <a href="/2017/02/08/start-hexo/">Read More</a>
-          </p>
-        
-      
-    </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-    -->
-  </div>
-  
-</article>
-
-
-
+      <nav id="page-nav">
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+      </nav>
     
 
 </section>

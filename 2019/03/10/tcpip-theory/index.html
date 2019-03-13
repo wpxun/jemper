@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Go I/O 操作 - 在路上的博客</title>
+  <title>TCP/IP 原理 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型），代表函数是 open、read 和 write 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流结构体（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs">
-<meta name="keywords" content="go io c socket read write">
+  <meta name="description" content="TCP 的内容较多，其实我并不能全部说清楚，我只是将我学过的知识进行汇总。 三次握手，四次分手">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go I&#x2F;O 操作">
-<meta property="og:url" content="http://blog.jemper.cn/2019/03/12/go-io/index.html">
+<meta property="og:title" content="TCP&#x2F;IP 原理">
+<meta property="og:url" content="http://blog.jemper.cn/2019/03/10/tcpip-theory/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型），代表函数是 open、read 和 write 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流结构体（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs">
+<meta property="og:description" content="TCP 的内容较多，其实我并不能全部说清楚，我只是将我学过的知识进行汇总。 三次握手，四次分手">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-12T07:38:15.859Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg">
+<meta property="og:updated_time" content="2019-03-13T03:07:21.022Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Go I&#x2F;O 操作">
-<meta name="twitter:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型），代表函数是 open、read 和 write 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流结构体（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs">
+<meta name="twitter:title" content="TCP&#x2F;IP 原理">
+<meta name="twitter:description" content="TCP 的内容较多，其实我并不能全部说清楚，我只是将我学过的知识进行汇总。 三次握手，四次分手">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg">
   
   
     <link rel="icon" href="/favicon.png">
@@ -57,7 +58,7 @@
 </header>
 
     <br>
-    <section id="main" class="outer"><article id="post-go-io" class="article article-type-post" itemscope itemprop="blogPost">
+    <section id="main" class="outer"><article id="post-tcpip-theory" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -65,8 +66,8 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Go I/O 操作
-      <small class=article-detail-date-index>&nbsp; 2019-03-12</small>
+      TCP/IP 原理
+      <small class=article-detail-date-index>&nbsp; 2019-03-10</small>
     </h1>
   
 
@@ -76,24 +77,24 @@
       </header>
     
     <div class="article-meta">
-      <!--<a href="/2019/03/12/go-io/" class="article-date">
-  <time datetime="2019-03-12T06:55:00.000Z" itemprop="datePublished">2019-03-12</time>
+      <!--<a href="/2019/03/10/tcpip-theory/" class="article-date">
+  <time datetime="2019-03-10T10:00:59.000Z" itemprop="datePublished">2019-03-10</time>
 </a>-->
       <!-- 
 --><!-- by blair 160724 -->
       <!-- by blair
       
         <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/12/go-io/#disqus_thread" class="article-comment-link">评论</a>
+          <a href="http://blog.jemper.cn/2019/03/10/tcpip-theory/#disqus_thread" class="article-comment-link">评论</a>
         </div>
       
       -->
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型），代表函数是 open、read 和 write 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流结构体（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs、fgets 和 fprintf等；不过 C 标准已经不再支持无缓冲操作。<br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作，</p>
-<p>本文主要介绍 C 语言的 Socket I/O 操作和 Go 的文件操作。<br><a id="more"></a></p>
-<h2 id="C-语言的-Socket-I-O"><a href="#C-语言的-Socket-I-O" class="headerlink" title="C 语言的 Socket I/O"></a>C 语言的 Socket I/O</h2><h2 id="Go-语言的-I-O-操作"><a href="#Go-语言的-I-O-操作" class="headerlink" title="Go 语言的 I/O 操作"></a>Go 语言的 I/O 操作</h2>
+        <p>TCP 的内容较多，其实我并不能全部说清楚，我只是将我学过的知识进行汇总。</p>
+<h2 id="三次握手，四次分手"><a href="#三次握手，四次分手" class="headerlink" title="三次握手，四次分手"></a>三次握手，四次分手</h2><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg" alt="TCP 四次分手"></p>
+
       
      <!-- by blair add this if sentence at 20160725 -->
       <br>
@@ -112,7 +113,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-语言的-Socket-I-O"><span class="toc-number">1.</span> <span class="toc-text">C 语言的 Socket I/O</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Go-语言的-I-O-操作"><span class="toc-number">2.</span> <span class="toc-text">Go 语言的 I/O 操作</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#三次握手，四次分手"><span class="toc-number">1.</span> <span class="toc-text">三次握手，四次分手</span></a></li></ol>
       </div>
     
     
@@ -124,10 +125,6 @@
         <div style="width:100px; height:30px;"></div> by blair add 160724
         -->
         
-  <div class="article-tag">
-    <a class="article-tag-link" href="/tags/go-io-c-socket-read-write/">go io c socket read write</a>
-  </div>
-
 
       </footer>
     
@@ -136,9 +133,17 @@
     
 <nav id="article-nav">
   
+    <a href="/2019/03/11/go-io/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          go I/O 操作
+        
+      </div>
+    </a>
   
-    <a href="/2019/03/12/go-network/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Go 网络编程&nbsp;<span>&gt;</span></div>
+  
+    <a href="/2019/03/08/go-context/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">go context 包&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>
@@ -167,7 +172,7 @@
 <script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
   var disqus_shortname = 'wpxun';
   
-  var disqus_url = 'http://blog.jemper.cn/2019/03/12/go-io/';
+  var disqus_url = 'http://blog.jemper.cn/2019/03/10/tcpip-theory/';
   
   (function(){
     var dsq = document.createElement('script');

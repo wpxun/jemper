@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>go I/O 操作 - 在路上的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，错误输出），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体">
+<meta name="keywords" content="go io c socket read write">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go I&#x2F;O 操作">
+<meta property="og:url" content="http://blog.jemper.cn/2019/03/11/go-io/index.html">
+<meta property="og:site_name" content="在路上的博客">
+<meta property="og:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，错误输出），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg">
+<meta property="og:updated_time" content="2019-03-13T02:23:43.081Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="go I&#x2F;O 操作">
+<meta name="twitter:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，错误输出），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <!-- blair add baidu tongji start... @2017.10.03 -->
+<!-- blair add baidu tongji end ! @2017.10.03 -->
+
+<header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <br>
+    <section id="main" class="outer"><article id="post-go-io" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      go I/O 操作
+      <small class=article-detail-date-index>&nbsp; 2019-03-11</small>
+    </h1>
+  
+
+
+        <div class=page-title></div>
+        <br>
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/11/go-io/" class="article-date">
+  <time datetime="2019-03-11T06:55:00.000Z" itemprop="datePublished">2019-03-11</time>
+</a>-->
+      <!-- 
+--><!-- by blair 160724 -->
+      <!-- by blair
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/11/go-io/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，错误输出），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs、fgets 和 fprintf等；不过 C 标准已经不再支持对文件（这里没有包括 socket）的无缓冲操作。<br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作，</p>
+<p>本文主要介绍 C 语言的 Socket I/O 操作和 Go 的文件操作。<br><a id="more"></a></p>
+<h2 id="C-语言的-Socket-I-O"><a href="#C-语言的-Socket-I-O" class="headerlink" title="C 语言的 Socket I/O"></a>C 语言的 Socket I/O</h2><p>服务端和客户端都需要通过 socket() 函数建立套接字，了解套接字的结构可以通过下面的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adadeMacBook-Pro:lib ada$ netstat -an | grep tcp4</span><br><span class="line">Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)</span><br><span class="line">tcp4  628000      0  127.0.0.1.8090         127.0.0.1.54044        ESTABLISHED</span><br><span class="line">tcp4       0  10000  127.0.0.1.54044        127.0.0.1.8090         ESTABLISHED</span><br><span class="line">tcp4       0      0  *.8090                 *.*                    LISTEN</span><br></pre></td></tr></table></figure></p>
+<p>上面三行内容，LISTEN 是服务器监听句柄，第一个 ESTABLISHED 是服务器连接的句柄，第二是 ESTABLISHED 是客户端连接的句柄。根据上面列的信息，其实就可以知道套接字结构：<br><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg" alt="套接字结构"><br>接收（Recv-Q）和发送（Send-Q）的缓存区大小是由系统决定的，数据流虽然是数据报形式发送，到存放到缓存区中是没有数据报概念的，因此只能读取到没有数据为止。Local Address 和 Foreign Address 也没什么虽然特别说的。state 这个却需要深入理解，这部分可以参考《TCP/IP 原理》一文。</p>
+<h2 id="Go-语言的-I-O-操作"><a href="#Go-语言的-I-O-操作" class="headerlink" title="Go 语言的 I/O 操作"></a>Go 语言的 I/O 操作</h2>
+      
+     <!-- by blair add this if sentence at 20160725 -->
+      <br>
+      
+<div id="bottom-donation-section">
+</div>
+<div class="well">
+  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
+  <a href="http://blog.jemper.cn">wpxun</a> <br>
+  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
+</div>
+
+ <!-- by blair add 160724-->
+    
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-语言的-Socket-I-O"><span class="toc-number">1.</span> <span class="toc-text">C 语言的 Socket I/O</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Go-语言的-I-O-操作"><span class="toc-number">2.</span> <span class="toc-text">Go 语言的 I/O 操作</span></a></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+        
+ <!-- by blair add 160724-->
+        <!--
+        <div style="width:100px; height:30px;"></div> by blair add 160724
+        -->
+        
+  <div class="article-tag">
+    <a class="article-tag-link" href="/tags/go-io-c-socket-read-write/">go io c socket read write</a>
+  </div>
+
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/12/go-network/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          go 网络编程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/10/tcpip-theory/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TCP/IP 原理&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Sven&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
+    </div>
+  </div>
+</footer>
+
+    
+<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
+  var disqus_shortname = 'wpxun';
+  
+  var disqus_url = 'http://blog.jemper.cn/2019/03/11/go-io/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
