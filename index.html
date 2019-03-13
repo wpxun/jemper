@@ -56,6 +56,72 @@
 
     <br>
     <section id="main" class="outer">
+      <article id="post-go-concurrency-difficult" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <myh11 itemprop="name">
+      <a class="article-title-index" href="/2019/03/13/go-concurrency-difficult/"><strong>并发的复杂性</strong></a>
+      <small class=article-date-index>&nbsp; 2019-03-13</small>
+      <!--<a>
+      <div = post.date  </div>
+      </a>-->
+    </myh11>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/13/go-concurrency-difficult/" class="article-date">
+  <time datetime="2019-03-13T03:10:00.000Z" itemprop="datePublished">2019-03-13</time>
+</a>-->
+      <!--
+-->
+      <!--
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/13/go-concurrency-difficult/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-nbsp-nbsp-何为并发"><a href="#1-nbsp-nbsp-何为并发" class="headerlink" title="1 &nbsp;&nbsp;何为并发"></a>1 &nbsp;&nbsp;何为并发</h2><p>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。</p>
+<p>当然我们一般说的并发和并行是单个程序，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。</p>
+<p>集群是指同一个程序单元用负载的方式提供服务，微服务则是不同的程序单元，微服务化更多是指业务框架的拆分，其次才是部署方式；也就是拆分成程序单元协作完成完整的功能，然后考虑是单机部署还是分布式部署。当然一般是采用分布式部署。运行一个庞大的分布式系统引发了两个有趣的问题：运行成本和延迟。如果我们将单个节点的性能提高 30%，或者甚至超过 100%，那么我们可以节省多少台机器呢？当一个来自 Web 的查询触发了几十个跨越了很多不同机器的内部远程过程调用时（HTTP 或 RPC），我们如何能达到最低的延迟呢？</p>
+<p>本文讲并发程序，正是将单个节点的性能提高，性能提高了，但是却带来了编程的复杂性。不同程序单元之间的远程过程调用可能参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。</p>
+<p>我认为一些文字概念不需要太计较，知道是那么回事就可以了。</p>
+<h2 id="2-nbsp-nbsp-为什么并发很难？"><a href="#2-nbsp-nbsp-为什么并发很难？" class="headerlink" title="2 &nbsp;&nbsp;为什么并发很难？"></a>2 &nbsp;&nbsp;为什么并发很难？</h2>
+        
+          <p class="article-more-link">
+            <a href="/2019/03/13/go-concurrency-difficult/">Read More</a>
+          </p>
+        
+      
+    </div>
+	
+    <!--
+	
+    -->
+    <!--
+    
+      <footer class="article-footer">
+      </footer>
+    
+    -->
+  </div>
+  
+</article>
+
+
+
+    
       <article id="post-go-network" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -215,8 +281,8 @@
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <p>TCP 的内容较多，其实我并不能全部说清楚，我只是将我学过的知识进行汇总。</p>
-<h2 id="1-状态"><a href="#1-状态" class="headerlink" title="1 状态"></a>1 状态</h2><h3 id="1-1-三次握手"><a href="#1-1-三次握手" class="headerlink" title="1.1 三次握手"></a>1.1 三次握手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g111c921qjj30v80jk769.jpg" alt="TCP 三次握手"></p>
+        <p>TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。<br>学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。</p>
+<h2 id="1-状态转换"><a href="#1-状态转换" class="headerlink" title="1 状态转换"></a>1 状态转换</h2><h3 id="1-1-三次握手"><a href="#1-1-三次握手" class="headerlink" title="1.1 三次握手"></a>1.1 三次握手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g111c921qjj30v80jk769.jpg" alt="TCP 三次握手"></p>
 <h3 id="1-2-四次分手"><a href="#1-2-四次分手" class="headerlink" title="1.2 四次分手"></a>1.2 四次分手</h3><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g10znqch3kj30wi0kwju9.jpg" alt="TCP 四次分手"></p>
 
       
@@ -276,67 +342,6 @@
         
           <p class="article-more-link">
             <a href="/2019/03/08/go-context/">Read More</a>
-          </p>
-        
-      
-    </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
-  </div>
-  
-</article>
-
-
-
-    
-      <article id="post-go-concurrency-difficult" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/08/go-concurrency-difficult/"><strong>并发的复杂性</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-08</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/08/go-concurrency-difficult/" class="article-date">
-  <time datetime="2019-03-08T03:10:00.000Z" itemprop="datePublished">2019-03-08</time>
-</a>-->
-      <!--
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/08/go-concurrency-difficult/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为什么并发很难？<br>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/08/go-concurrency-difficult/">Read More</a>
           </p>
         
       
