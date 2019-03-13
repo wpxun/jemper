@@ -14,7 +14,7 @@
 <meta property="og:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，标准错误），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg">
-<meta property="og:updated_time" content="2019-03-13T10:28:54.430Z">
+<meta property="og:updated_time" content="2019-03-13T10:33:57.804Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go I&#x2F;O 操作">
 <meta name="twitter:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，标准错误），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构">
@@ -104,7 +104,7 @@
 <li>电话机：int socket(int domain, int type, int protocal); 成功时返回文件描述符（文件句柄），失败时返回 -1。从参数上看，就可以知道，domain 是选择网络层协议（IPv4、IPv6 等），type 和 protocol 是选择传输层协议（TCP、UDP 等），所以就知道 TCP/IP 这两个是整个网络协议集合里面最重要的，选择了这两个，其它的协议也就随之确定了，比如选择了 TCP 就会有窗口协议等。</li>
 <li>分配自己的电话号码：int bind(int sockfd, struct sockaddr *myaddr, socklen_t addrlen); 成功时返回 0，失败时返回 -1。主要是设置端口。</li>
 <li>等待别人来电：int listen(int sockfd, int backlog); 成功时返回 0，失败时返回 -1。backlog 指定监听套接字的完成连接队列（完成 3 次握手，但未被应用程序的 accept 接受）的最大长度。<ul>
-<li>未完成连接队列：未完成 3 次握手，如果完成连接队列已满，将忽略客户机新发来的 SYN，而不发 RST，原因有两个（1）如果接受到 RST，客户机是 backlog 阻塞，还是对方程序挂了；（2）完成队列满的情况是暂的。</li>
+<li>未完成连接队列：未完成 3 次握手，如果完成连接队列已满，将忽略客户机新发来的 SYN，而不发 RST，原因有两个：（1）如果接受到 RST，客户机不知道服务机是 backlog 阻塞，还是程序没运行；（2）完成队列满的情况是暂的。</li>
 <li>完成连接队列：完成 3 次握手</li>
 </ul>
 </li>
