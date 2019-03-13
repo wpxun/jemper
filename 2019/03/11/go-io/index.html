@@ -14,7 +14,7 @@
 <meta property="og:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，错误输出），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg">
-<meta property="og:updated_time" content="2019-03-13T04:31:51.045Z">
+<meta property="og:updated_time" content="2019-03-13T04:38:09.608Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go I&#x2F;O 操作">
 <meta name="twitter:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件句柄（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，错误输出），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体">
@@ -97,7 +97,7 @@
 <p>本文主要介绍 C 语言的 Socket I/O 操作和 Go 的文件操作。<br><a id="more"></a></p>
 <h2 id="1-nbsp-nbsp-C-语言的-Socket-I-O"><a href="#1-nbsp-nbsp-C-语言的-Socket-I-O" class="headerlink" title="1 &nbsp;&nbsp;C 语言的 Socket I/O"></a>1 &nbsp;&nbsp;C 语言的 Socket I/O</h2><p>服务端和客户端都需要通过 socket() 函数建立套接字，了解套接字的结构可以通过下面的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adadeMacBook-Pro:lib ada$ netstat -an | grep tcp4</span><br><span class="line">Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)</span><br><span class="line">tcp4  628000      0  127.0.0.1.8090         127.0.0.1.54044        ESTABLISHED</span><br><span class="line">tcp4       0  10000  127.0.0.1.54044        127.0.0.1.8090         ESTABLISHED</span><br><span class="line">tcp4       0      0  *.8090                 *.*                    LISTEN</span><br></pre></td></tr></table></figure></p>
 <p>上面三行内容，LISTEN 是服务器监听句柄，第一个 ESTABLISHED 是服务器连接的句柄，第二是 ESTABLISHED 是客户端连接的句柄。根据上面列的信息，其实就可以知道套接字结构：</p>
-<p><div style="width: 100px;"><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg" alt="套接字结构"></div><br>接收（Recv-Q）和发送（Send-Q）的缓存区大小是由系统决定的，数据流虽然是数据报形式发送，到存放到缓存区中是没有数据报概念的，因此只能读取到没有数据为止。Local Address 和 Foreign Address 也没什么虽然特别说的。state 这个却需要深入理解，这部分可以参考<a href="/2019/03/10/tcpip-theory/">《TCP/IP 原理》</a>一文。</p>
+<p><div style="width: 300px; margin:auto;"><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg" alt="套接字结构"></div><br>接收（Recv-Q）和发送（Send-Q）的缓存区大小是由系统决定的，数据流虽然是数据报形式发送，到存放到缓存区中是没有数据报概念的，因此只能读取到没有数据为止。Local Address 和 Foreign Address 也没什么虽然特别说的。state 这个却需要深入理解，这部分可以参考<a href="/2019/03/10/tcpip-theory/">《TCP/IP 原理》</a>一文。</p>
 <h2 id="2-nbsp-nbsp-Go-语言的-I-O-操作"><a href="#2-nbsp-nbsp-Go-语言的-I-O-操作" class="headerlink" title="2 &nbsp;&nbsp;Go 语言的 I/O 操作"></a>2 &nbsp;&nbsp;Go 语言的 I/O 操作</h2>
       
      <!-- by blair add this if sentence at 20160725 -->
