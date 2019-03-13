@@ -14,7 +14,9 @@
 <meta property="og:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，标准错误），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg">
-<meta property="og:updated_time" content="2019-03-13T10:35:53.113Z">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcgy1g11df2erx4j30is0mk760.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g11df20vwqj30gs0dsjs5.jpg">
+<meta property="og:updated_time" content="2019-03-13T11:05:30.988Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go I&#x2F;O 操作">
 <meta name="twitter:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型，其中0、1、2就是我们熟悉的标准输入，标准输出，标准错误），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构">
@@ -98,24 +100,13 @@
 <p>本文主要介绍 C 语言的 Socket I/O 操作和 Go 的文件操作。<br><a id="more"></a></p>
 <h2 id="1-nbsp-nbsp-C-语言的-Socket-I-O"><a href="#1-nbsp-nbsp-C-语言的-Socket-I-O" class="headerlink" title="1 &nbsp;&nbsp;C 语言的 Socket I/O"></a>1 &nbsp;&nbsp;C 语言的 Socket I/O</h2><p>服务端和客户端都需要通过 socket() 函数建立套接字，了解套接字的结构可以通过下面的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adadeMacBook-Pro:lib ada$ netstat -an | grep tcp4</span><br><span class="line">Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)</span><br><span class="line">tcp4  628000      0  127.0.0.1.8090         127.0.0.1.54044        ESTABLISHED</span><br><span class="line">tcp4       0  10000  127.0.0.1.54044        127.0.0.1.8090         ESTABLISHED</span><br><span class="line">tcp4       0      0  *.8090                 *.*                    LISTEN</span><br></pre></td></tr></table></figure></p>
 <p>上面三行内容，LISTEN 是服务器监听 socket，第一个 ESTABLISHED 是服务器连接的 socket，第二是 ESTABLISHED 是客户端连接的 socket。根据上面列的信息，其实就可以知道套接字结构：</p>
-<p><div style="width: 300px; margin:auto;"><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg" alt="套接字结构"></div><br>接收（Recv-Q）和发送（Send-Q）的缓存区大小是由系统决定的，数据流虽然是数据报形式发送，到存放到缓存区后就没有数据报概念了，因此只能读取到没有数据为止，而 UDP 每个数据报都是独立的。Local Address 和 Foreign Address 也没什么虽然特别说的。state 这个却需要深入理解，这部分可以参考<a href="/2019/03/10/tcpip-theory/">《TCP/IP 原理》</a>一文。</p>
-<h3 id="1-1-nbsp-nbsp-TCP"><a href="#1-1-nbsp-nbsp-TCP" class="headerlink" title="1.1 &nbsp;&nbsp;TCP"></a>1.1 &nbsp;&nbsp;TCP</h3><h3 id="1-1-1-nbsp-nbsp-服务端"><a href="#1-1-1-nbsp-nbsp-服务端" class="headerlink" title="1.1.1 &nbsp;&nbsp;服务端"></a>1.1.1 &nbsp;&nbsp;服务端</h3><p>接下来我们来看几个核心的函数，我以打电话来勾勒其轮廓。</p>
-<ul>
-<li>电话机：int socket(int domain, int type, int protocal); 成功时返回文件描述符，失败时返回 -1。从参数上看，就可以知道，domain 是选择网络层协议（IPv4、IPv6 等），type 和 protocol 是选择传输层协议（TCP、UDP 等），所以就知道 TCP/IP 这两个是整个网络协议集合里面最重要的，选择了这两个，其它的协议也就随之确定了，比如选择了 TCP 就会有窗口协议等。</li>
-<li>分配自己的电话号码：int bind(int sockfd, struct sockaddr *myaddr, socklen_t addrlen); 成功时返回 0，失败时返回 -1。主要是设置端口。</li>
-<li>等待别人来电：int listen(int sockfd, int backlog); 成功时返回 0，失败时返回 -1。backlog 指定监听套接字的完成连接队列（完成 3 次握手，但未被应用程序的 accept 接受）的最大长度。<ul>
-<li>未完成连接队列：未完成 3 次握手，如果完成连接队列已满，将忽略客户机新发来的 SYN，而不发 RST，原因有两个：（1）如果接受到 RST，客户机不知道服务机是 backlog 阻塞，还是程序没运行；（2）完成队列满的情况是暂的。</li>
-<li>完成连接队列：完成 3 次握手</li>
-</ul>
-</li>
-<li>别人打来电话，接听：int accept(int sockfd, struct sockaddr <em>addr, socklen_t </em>addrlen); 成功时返回文件描述符，失败时返回 -1。这一步生成了新的 socket，这个新的 socket 状态马上变成 ESTABLISHED，而参数里的 sockfd 还是原来的 socket，继续保持监听。正如此，</li>
-</ul>
-<h3 id="1-1-2-nbsp-nbsp-客户端"><a href="#1-1-2-nbsp-nbsp-客户端" class="headerlink" title="1.1.2 &nbsp;&nbsp;客户端"></a>1.1.2 &nbsp;&nbsp;客户端</h3><p>还是以打电话来比喻。</p>
-<ul>
-<li>电话机：int socket(int domain, int type, int protocal); 这个和上面没任何区别。</li>
-<li>打电话：int connect(int sockfd, struct sockaddr *serv_addr, socklen_t addrlen); 成功是返回 0，失败时返回 -1。客户端不用设置自己的密码。</li>
-</ul>
-<h3 id="1-2-nbsp-nbsp-UDP"><a href="#1-2-nbsp-nbsp-UDP" class="headerlink" title="1.2 &nbsp;&nbsp;UDP"></a>1.2 &nbsp;&nbsp;UDP</h3><h2 id="2-nbsp-nbsp-Go-语言的-I-O-操作"><a href="#2-nbsp-nbsp-Go-语言的-I-O-操作" class="headerlink" title="2 &nbsp;&nbsp;Go 语言的 I/O 操作"></a>2 &nbsp;&nbsp;Go 语言的 I/O 操作</h2>
+<div style="width: 300px; margin:auto;"><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g10xvs0rguj30he0gm0ts.jpg" alt="套接字结构"></div><br>接收（Recv-Q）和发送（Send-Q）的缓存区大小是由系统决定的，数据流虽然是数据报形式发送，到存放到缓存区后就没有数据报概念了，因此只能读取到没有数据为止，而 UDP 每个数据报都是独立的。Local Address 和 Foreign Address 也没什么虽然特别说的。state 这个却需要深入理解，这部分可以参考<a href="/2019/03/10/tcpip-theory/">《TCP/IP 原理》</a>一文。<br><br>### 1.1 &nbsp;&nbsp;TCP<br>### 1.1.1 &nbsp;&nbsp;服务端<br>接下来我们来看几个核心的函数，我以打电话来勾勒其轮廓。<br>- 电话机：int socket(int domain, int type, int protocal); 成功时返回文件描述符，失败时返回 -1。从参数上看，就可以知道，domain 是选择网络层协议（IPv4、IPv6 等），type 和 protocol 是选择传输层协议（TCP、UDP 等），所以就知道 TCP/IP 这两个是整个网络协议集合里面最重要的，选择了这两个，其它的协议也就随之确定了，比如选择了 TCP 就会有窗口协议等。<br>- 分配自己的电话号码：int bind(int sockfd, struct sockaddr <em>myaddr, socklen_t addrlen); 成功时返回 0，失败时返回 -1。主要是设置端口。<br>- 等待别人来电：int listen(int sockfd, int backlog); 成功时返回 0，失败时返回 -1。backlog 指定监听套接字的完成连接队列（完成 3 次握手，但未被应用程序的 accept 接受）的最大长度。<br>    - 未完成连接队列：未完成 3 次握手，如果完成连接队列已满，将忽略客户机新发来的 SYN，而不发 RST，原因有两个：（1）如果接受到 RST，客户机不知道服务机是 backlog 阻塞，还是程序没运行；（2）完成队列满的情况是暂的。<br>    - 完成连接队列：完成 3 次握手<br>- 别人打来电话，接听：int accept(int sockfd, struct sockaddr </em>addr, socklen_t <em>addrlen); 成功时返回文件描述符，失败时返回 -1。这一步生成了新的 socket，这个新的 socket 状态马上变成 ESTABLISHED，而参数里的 sockfd 还是原来的 socket，继续保持监听。<br><br>### 1.1.2 &nbsp;&nbsp;客户端<br>还是以打电话来比喻。<br>- 电话机：int socket(int domain, int type, int protocal); 这个和上面没任何区别。<br>- 打电话：int connect(int sockfd, struct sockaddr </em>serv_addr, socklen_t addrlen); 成功是返回 0，失败时返回 -1。客户端不用设置自己的密码。<br><br><div style="width: 300px; margin:auto;"><img src="https://ws4.sinaimg.cn/large/006tKfTcgy1g11df2erx4j30is0mk760.jpg" alt="TCP 套接字的工作流程"></div>
+
+<h3 id="1-2-nbsp-nbsp-UDP"><a href="#1-2-nbsp-nbsp-UDP" class="headerlink" title="1.2 &nbsp;&nbsp;UDP"></a>1.2 &nbsp;&nbsp;UDP</h3><div style="width: 300px; margin:auto;"><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g11df20vwqj30gs0dsjs5.jpg" alt="UDP 套接字的工作流程"></div>
+
+
+
+<h2 id="2-nbsp-nbsp-Go-语言的-I-O-操作"><a href="#2-nbsp-nbsp-Go-语言的-I-O-操作" class="headerlink" title="2 &nbsp;&nbsp;Go 语言的 I/O 操作"></a>2 &nbsp;&nbsp;Go 语言的 I/O 操作</h2>
       
      <!-- by blair add this if sentence at 20160725 -->
       <br>
@@ -134,7 +125,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-C-语言的-Socket-I-O"><span class="toc-number">1.</span> <span class="toc-text">1   C 语言的 Socket I/O</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-TCP"><span class="toc-number">1.1.</span> <span class="toc-text">1.1   TCP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-1-nbsp-nbsp-服务端"><span class="toc-number">1.2.</span> <span class="toc-text">1.1.1   服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-2-nbsp-nbsp-客户端"><span class="toc-number">1.3.</span> <span class="toc-text">1.1.2   客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-UDP"><span class="toc-number">1.4.</span> <span class="toc-text">1.2   UDP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-Go-语言的-I-O-操作"><span class="toc-number">2.</span> <span class="toc-text">2   Go 语言的 I/O 操作</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-C-语言的-Socket-I-O"><span class="toc-number">1.</span> <span class="toc-text">1   C 语言的 Socket I/O</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-UDP"><span class="toc-number">1.1.</span> <span class="toc-text">1.2   UDP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-Go-语言的-I-O-操作"><span class="toc-number">2.</span> <span class="toc-text">2   Go 语言的 I/O 操作</span></a></li></ol>
       </div>
     
     
