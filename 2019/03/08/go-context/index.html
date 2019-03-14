@@ -14,7 +14,7 @@
 <meta property="og:description" content="整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。 1.1 &amp;nbsp;&amp;nbsp;Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg">
-<meta property="og:updated_time" content="2019-03-13T04:28:09.166Z">
+<meta property="og:updated_time" content="2019-03-14T01:51:48.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go context 包">
 <meta name="twitter:description" content="整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。 1.1 &amp;nbsp;&amp;nbsp;Context 接口12345678910type Context interface &amp;#123;	// 取消树和过期时间的实现	Deadline() (deadline time.">
@@ -110,8 +110,7 @@
 <li>WithDeadline()、WithTimeout()：构造 timerCtx；一个是时间点，一个是时间段，时间段会转化为时间点；定时用了 time.AfterFunc 函数，返回值存储在 timer 属性；</li>
 <li>WithValue()：构造valueCtx。</li>
 </ul>
-<p>在实例化中，有两条主线：<br>(1) 第一条线是context，上面四个类型是一个衔接一个。后期由 removeChild() 负责找到父节点并从其 children 移除该节点。所以其特点就是向上追溯父节点。<br>Background(a框) &gt; WithCancel(b框) &gt; WithTimeout(c框，超时3秒) &gt; WithTimeout(d框，超时6秒) &gt; WithValue(e框)；需要注意一点的是 d 框不是 timerCtx，因为其超时比父晚，所以会直接生成 cancelCtx。</p>
-<p><div style="width: 300px;"><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg" alt="context 链"></div><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。由 propagateCancel() 和 parentCancelCtx() 这两个函数负责该逻辑。所以其特点是就向下一级一级取消子节点。</p>
+<p>在实例化中，有两条主线：<br>(1) 第一条线是context，上面四个类型是一个衔接一个。后期由 removeChild() 负责找到父节点并从其 children 移除该节点。所以其特点就是向上追溯父节点。<br>Background(a框) &gt; WithCancel(b框) &gt; WithTimeout(c框，超时3秒) &gt; WithTimeout(d框，超时6秒) &gt; WithValue(e框)；需要注意一点的是 d 框不是 timerCtx，因为其超时比父晚，所以会直接生成 cancelCtx。<br><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1g0wmo86nxcj30og0psdjx.jpg" alt="context 链"><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。由 propagateCancel() 和 parentCancelCtx() 这两个函数负责该逻辑。所以其特点是就向下一级一级取消子节点。</p>
 <h4 id="1-3-nbsp-nbsp-重要的内部函数"><a href="#1-3-nbsp-nbsp-重要的内部函数" class="headerlink" title="1.3 &nbsp;&nbsp;重要的内部函数"></a>1.3 &nbsp;&nbsp;重要的内部函数</h4><ul>
 <li>cancel()：无论是超时还是手动取消都会调用，DeadlineExceeded 和 Canceled 分别是超时取消和动手取消；<br>(1) cancelCtx 的 cancel()：关闭 done 通道，cancel “取消树”上的节点（也就是取消所有子节点），判断要不要从父节点上移除；<br>(2) timerCtx 的 cancel()：会先调用 cancelCtx 的 cancel(false, err)，判断要不要从父节点上移除，最后 c.timer.Stop()，这也是建议无论是否设置超时都习惯性调用 defer cancel()，否则 c.timer 计时器到时之前不会被回收。</li>
 <li>propagateCancel()：“取消树”的繁衍，或者是“构造”也可以；</li>
