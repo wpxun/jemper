@@ -5,18 +5,18 @@
   
   <title>go I/O 操作 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="理解 I/O 的一些概念问题可以先看另一篇文章《c socket 编程》Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。">
+  <meta name="description" content="理解 I/O 的一些概念问题可以先看另一篇文章《C Socket 编程》Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。">
 <meta name="keywords" content="go io c socket read write">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go I&#x2F;O 操作">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/13/go-io/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="理解 I/O 的一些概念问题可以先看另一篇文章《c socket 编程》Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。">
+<meta property="og:description" content="理解 I/O 的一些概念问题可以先看另一篇文章《C Socket 编程》Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-14T08:35:01.008Z">
+<meta property="og:updated_time" content="2019-03-14T08:47:12.181Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go I&#x2F;O 操作">
-<meta name="twitter:description" content="理解 I/O 的一些概念问题可以先看另一篇文章《c socket 编程》Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。">
+<meta name="twitter:description" content="理解 I/O 的一些概念问题可以先看另一篇文章《C Socket 编程》Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -91,7 +91,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>理解 I/O 的一些概念问题可以先看另一篇文章<a href="/2019/03/11/c-socket/">《c socket 编程》</a><br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。<br><a id="more"></a></p>
+        <p>理解 I/O 的一些概念问题可以先看另一篇文章<a href="/2019/03/11/c-socket/">《C Socket 编程》</a><br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。<br><a id="more"></a></p>
 <h2 id="1-nbsp-nbsp-Go-语言的-I-O-操作"><a href="#1-nbsp-nbsp-Go-语言的-I-O-操作" class="headerlink" title="1 &nbsp;&nbsp;Go 语言的 I/O 操作"></a>1 &nbsp;&nbsp;Go 语言的 I/O 操作</h2>
       
      <!-- by blair add this if sentence at 20160725 -->
