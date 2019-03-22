@@ -5,19 +5,19 @@
   
   <title>TCP/IP 原理 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
+  <meta name="description" content="TCP 体系非常庞大，我对其理解只是冰山一角，此文只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP&#x2F;IP 原理">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/10/tcpip-theory/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
+<meta property="og:description" content="TCP 体系非常庞大，我对其理解只是冰山一角，此文只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B.png">
-<meta property="og:updated_time" content="2019-03-15T07:43:10.305Z">
+<meta property="og:updated_time" content="2019-03-22T03:17:25.508Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP&#x2F;IP 原理">
-<meta name="twitter:description" content="TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
+<meta name="twitter:description" content="TCP 体系非常庞大，我对其理解只是冰山一角，此文只是将我学过的知识进行汇总。学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。">
 <meta name="twitter:image" content="http://img.jemper.cn/2019/03/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png">
   
   
@@ -93,14 +93,23 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>TCP 的内容较多，我并不能全部说清楚，我只是将我学过的知识进行汇总。<br>学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。<br><a id="more"></a></p>
+        <p>TCP 体系非常庞大，我对其理解只是冰山一角，此文只是将我学过的知识进行汇总。<br>学习的时候可以自己写服务端和客户端进行，抓包工具可以用 wireshark+npcap。<br><a id="more"></a></p>
 <h2 id="1-nbsp-nbsp-状态转换"><a href="#1-nbsp-nbsp-状态转换" class="headerlink" title="1 &nbsp;&nbsp;状态转换"></a>1 &nbsp;&nbsp;状态转换</h2><h3 id="1-1-nbsp-nbsp-三次握手"><a href="#1-1-nbsp-nbsp-三次握手" class="headerlink" title="1.1 &nbsp;&nbsp;三次握手"></a>1.1 &nbsp;&nbsp;三次握手</h3><p><img src="http://img.jemper.cn/2019/03/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP 三次握手"></p>
 <h3 id="1-2-nbsp-nbsp-四次分手"><a href="#1-2-nbsp-nbsp-四次分手" class="headerlink" title="1.2 &nbsp;&nbsp;四次分手"></a>1.2 &nbsp;&nbsp;四次分手</h3><p><img src="http://img.jemper.cn/2019/03/%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B.png" alt="TCP 四次分手"><br>为什么上图中的A在TIME-WAIT状态必须等待2MSL时间呢？本质原因是 TCP 需要兼顾对服务端和客户端开启和结束地处理，换句话说就是不能只顾一方关闭而不管另一方是否关闭。<br>第一，为了保证A发送的最后一个ACK报文能够到达B。这个ACK报文段有可能丢失，因而使处在LAST-ACK状态的B收不到对已发送的FIN+ACK报文段的确认。B会超时重传这个FIN+ACK报文段，而A就能在2MSL时间内收到这个重传的FIN+ACK报文段。如果A在TIME-WAIT状态不等待一段时间，而是在发送完ACK报文段后就立即释放连接，就无法收到B重传的FIN+ACK报文段，因而也不会再发送一次确认报文段。这样，B就无法按照正常的步骤进入CLOSED状态。<br>第二，A在发送完ACK报文段后，再经过2MSL时间，就可以使本连接持续的时间所产生的所有报文段都从网络中消失。这样就可以使下一个新的连接中不会出现这种旧的连接请求的报文段。</p>
-<h2 id="2-nbsp-nbsp-性能优化"><a href="#2-nbsp-nbsp-性能优化" class="headerlink" title="2 &nbsp;&nbsp;性能优化"></a>2 &nbsp;&nbsp;性能优化</h2><p>与 UDP 不同，TCP已经解决了分组丢失和重新排序的问题。套接字中的储存区和 seq 就可以解决该问题。</p>
-<h3 id="2-1-nbsp-nbsp-滑动窗口"><a href="#2-1-nbsp-nbsp-滑动窗口" class="headerlink" title="2.1 &nbsp;&nbsp;滑动窗口"></a>2.1 &nbsp;&nbsp;滑动窗口</h3><p>滑动窗口是为解决服务端和客户端两边应用程序接收的速率不同导致带宽浪费的问题；我们知道，数据流进缓冲区，等待应用程序读取；对接收方，每次向发送发送 ACK 应答的时候就会告诉发送方当前己方的缓存剩余大小，如果发多了自己也接受不了；对发送方，如果接收方的窗口为 0 就只能等待，等待期间会不同发小的数据报看对方是否窗口 &gt; 0，以便继续发送数据。</p>
-<h3 id="2-2-nbsp-nbsp-reset"><a href="#2-2-nbsp-nbsp-reset" class="headerlink" title="2.2 &nbsp;&nbsp;reset"></a>2.2 &nbsp;&nbsp;reset</h3><p>当TCP连接中途突然断掉，使用RST标志位指出连接被异常中止或拒绝连接请求，但是有一点例外，即客户机向服务机发送SYN时，因为服务机倾听套接字backlog已完成连接队列已满时，不会发送RST，有两个原因：<br>（1） 完成队列满的情况是暂时的，客户机应当继续发送几次SYN数据段；<br>（2） 即使发送了客户机也不知道具体是什么原因，只能认为服务机出异常而停止握手；</p>
+<h2 id="2-nbsp-nbsp-系统参数"><a href="#2-nbsp-nbsp-系统参数" class="headerlink" title="2 &nbsp;&nbsp;系统参数"></a>2 &nbsp;&nbsp;系统参数</h2><p>linux 和 unix 系统都是使用 sysctl -A 进行查看，有关 tcp 的配置可以使用命令 <code>sysctl -A | grep net.inet.tcp</code> 查看，以下例举一些常用的参数，后台的值是 macOS 系统的默认值。</p>
+<ul>
+<li><code>net.inet.tcp.msl</code>: 15000；此时 2msl = 30 秒。</li>
+<li><code>net.inet.tcp.keepidle</code>: 7200000；</li>
+<li><code>net.inet.tcp.keepintvl</code>: 75000；</li>
+<li><code>net.inet.tcp.keepinit</code>: 75000；</li>
+<li><code>net.inet.tcp.keepcnt</code>: 8；</li>
+<li><code>net.inet.tcp.always_keepalive</code>: 0；</li>
+</ul>
+<h2 id="3-nbsp-nbsp-性能优化"><a href="#3-nbsp-nbsp-性能优化" class="headerlink" title="3 &nbsp;&nbsp;性能优化"></a>3 &nbsp;&nbsp;性能优化</h2><p>与 UDP 不同，TCP已经解决了分组丢失和重新排序的问题。套接字中的储存区和 seq 就可以解决该问题。</p>
+<h3 id="3-1-nbsp-nbsp-滑动窗口"><a href="#3-1-nbsp-nbsp-滑动窗口" class="headerlink" title="3.1 &nbsp;&nbsp;滑动窗口"></a>3.1 &nbsp;&nbsp;滑动窗口</h3><p>滑动窗口是为解决服务端和客户端两边应用程序接收的速率不同导致带宽浪费的问题；我们知道，数据流进缓冲区，等待应用程序读取；对接收方，每次向发送发送 ACK 应答的时候就会告诉发送方当前己方的缓存剩余大小，如果发多了自己也接受不了；对发送方，如果接收方的窗口为 0 就只能等待，等待期间会不同发小的数据报看对方是否窗口 &gt; 0，以便继续发送数据。</p>
+<h3 id="3-2-nbsp-nbsp-reset"><a href="#3-2-nbsp-nbsp-reset" class="headerlink" title="3.2 &nbsp;&nbsp;reset"></a>3.2 &nbsp;&nbsp;reset</h3><p>当TCP连接中途突然断掉，使用RST标志位指出连接被异常中止或拒绝连接请求，但是有一点例外，即客户机向服务机发送SYN时，因为服务机倾听套接字backlog已完成连接队列已满时，不会发送RST，有两个原因：<br>（1） 完成队列满的情况是暂时的，客户机应当继续发送几次SYN数据段；<br>（2） 即使发送了客户机也不知道具体是什么原因，只能认为服务机出异常而停止握手；</p>
 <p>以下情况会发送RST：<br>（1） 客户端尝试与服务器未对外提供服务的端口建立TCP连接，服务器将会直接向客户端发送reset报文；<br>（2） 客户端和服务器的某一方在交互的过程中发生异常（如程序崩溃等），该方系统将向对端发送TCP reset报文，告之对方释放相关的TCP连接；<br>（3） 接收端收到TCP报文，但是发现该TCP的报文，并不在其已建立的TCP连接列表内，则其直接向对端发送reset报文；<br>（4） 在交互的双方中的某一方长期未收到来自对方的确认报文，则其在超出一定的重传次数或时间后，会主动向对端发送reset报文释放该TCP连接；<br>（5） 有些应用开发者在设计应用系统时，会利用reset报文快速释放已经完成数据交互的TCP连接，以提高业务交互的效率。</p>
-<h3 id="2-3-nbsp-nbsp-超时与重传"><a href="#2-3-nbsp-nbsp-超时与重传" class="headerlink" title="2.3 &nbsp;&nbsp;超时与重传"></a>2.3 &nbsp;&nbsp;超时与重传</h3>
+<h3 id="3-3-nbsp-nbsp-超时与重传"><a href="#3-3-nbsp-nbsp-超时与重传" class="headerlink" title="3.3 &nbsp;&nbsp;超时与重传"></a>3.3 &nbsp;&nbsp;超时与重传</h3>
       
      <!-- by blair add this if sentence at 20160725 -->
       <br>
@@ -119,7 +128,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-状态转换"><span class="toc-number">1.</span> <span class="toc-text">1   状态转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-三次握手"><span class="toc-number">1.1.</span> <span class="toc-text">1.1   三次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-四次分手"><span class="toc-number">1.2.</span> <span class="toc-text">1.2   四次分手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-性能优化"><span class="toc-number">2.</span> <span class="toc-text">2   性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-滑动窗口"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-reset"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   reset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-超时与重传"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   超时与重传</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-状态转换"><span class="toc-number">1.</span> <span class="toc-text">1   状态转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-三次握手"><span class="toc-number">1.1.</span> <span class="toc-text">1.1   三次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-四次分手"><span class="toc-number">1.2.</span> <span class="toc-text">1.2   四次分手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-系统参数"><span class="toc-number">2.</span> <span class="toc-text">2   系统参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-性能优化"><span class="toc-number">3.</span> <span class="toc-text">3   性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-滑动窗口"><span class="toc-number">3.1.</span> <span class="toc-text">3.1   滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-reset"><span class="toc-number">3.2.</span> <span class="toc-text">3.2   reset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-nbsp-nbsp-超时与重传"><span class="toc-number">3.3.</span> <span class="toc-text">3.3   超时与重传</span></a></li></ol></li></ol>
       </div>
     
     
