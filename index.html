@@ -56,6 +56,87 @@
 
     <br>
     <section id="main" class="outer">
+      <article id="post-http" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <myh11 itemprop="name">
+      <a class="article-title-index" href="/2019/03/22/http/"><strong>HTTP 笔记</strong></a>
+      <small class=article-date-index>&nbsp; 2019-03-22</small>
+      <!--<a>
+      <div = post.date  </div>
+      </a>-->
+    </myh11>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/22/http/" class="article-date">
+  <time datetime="2019-03-22T09:29:00.000Z" itemprop="datePublished">2019-03-22</time>
+</a>-->
+      <!--
+-->
+      <!--
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/22/http/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+<h2 id="1-nbsp-nbsp-HTTP-发展史"><a href="#1-nbsp-nbsp-HTTP-发展史" class="headerlink" title="1 &nbsp;&nbsp;HTTP 发展史"></a>1 &nbsp;&nbsp;HTTP 发展史</h2><ul>
+<li>http 0.9:1995</li>
+<li>http 1.0:1996</li>
+<li>http 1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</li>
+<li>http 2:2015 发布</li>
+</ul>
+<h2 id="2-nbsp-nbsp-HTTP-1"><a href="#2-nbsp-nbsp-HTTP-1" class="headerlink" title="2 &nbsp;&nbsp;HTTP/1"></a>2 &nbsp;&nbsp;HTTP/1</h2><p>需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。</p>
+<h2 id="3-nbsp-nbsp-HTTP-2"><a href="#3-nbsp-nbsp-HTTP-2" class="headerlink" title="3 &nbsp;&nbsp;HTTP/2"></a>3 &nbsp;&nbsp;HTTP/2</h2><p>需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。</p>
+<h2 id="4-nbsp-nbsp-SSL"><a href="#4-nbsp-nbsp-SSL" class="headerlink" title="4 &nbsp;&nbsp;SSL"></a>4 &nbsp;&nbsp;SSL</h2><p>同 TCP 一样，SSL 的知识体系也是非常的庞大，我也只是简单认识了 SSL，写此文是我的一种学习方式，下面将从一点重点脉络进行梳理。<br>SSL 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
+<h3 id="4-1-nbsp-nbsp-证书"><a href="#4-1-nbsp-nbsp-证书" class="headerlink" title="4.1 &nbsp;&nbsp;证书"></a>4.1 &nbsp;&nbsp;证书</h3><h4 id="4-1-1-nbsp-nbsp-自签名证书"><a href="#4-1-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.1.1 &nbsp;&nbsp;自签名证书"></a>4.1.1 &nbsp;&nbsp;自签名证书</h4><p>需要使用 openssl 工具，不过基本上 openssl 已经被大部分系统替换成 LibreSSL 了，不过命令依然还是使用 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
+<p>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
+<h4 id="4-1-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-1-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.1.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.1.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。<br>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
+<ul>
+<li>certonly 是插件；</li>
+<li>-d 支持的域名，*.xxx.com 是通配符证书，但不支持 xxx.com，所以后面还得再配置一个 xxx.com，多个 -d 参数需要配置多条 TXT 记录，注意 TXT 可以对同一主机配置多条值，等证书都生成了才可以删除 TXT 配置；</li>
+<li>–preferred-challenges dns-01 域名的认证方式，这里的 dns-01 表示用设置域名 TXT 的方式来验证，也只有 dns-01 才支持通配符证书；</li>
+<li>acme 版本，只有 v02 才支持 通配符证书；</li>
+</ul>
+<p>需要注意的可能要创建一些文件夹，这部分在运行时会提示的，不用特别记。<br>–logs-dir    /var/log/letsencrypt<br>–config-dir  /etc/letsencrypt<br>–work-dir    /var/lib/letsencrypt</p>
+<p>sudo mkdir -p /usr/local/sbin<br>sudo chown -R $(whoami) /usr/local/sbin</p>
+<p>域名 TXT 是否配置成功可以用 dig 进行验证：<br>dig  -t txt _acme-challenge.xxx.com，验证 txt 是否配置好。</p>
+<p>运行成功之后就提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/fullchain.pem</span><br><span class="line">Your key file has been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/privkey.pem</span><br><span class="line">Your cert will expire on 2019-06-19. To obtain a new or tweaked</span><br><span class="line">version of this certificate in the future, simply run certbot</span><br><span class="line">again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">&quot;certbot renew&quot;</span><br></pre></td></tr></table></figure></p>
+<p> 另外需要注意，如果服务器有修改证书，必须 reload nginx 才会重新加载密钥等。</p>
+<h3 id="4-2-nbsp-nbsp-SSL-握手"><a href="#4-2-nbsp-nbsp-SSL-握手" class="headerlink" title="4.2 &nbsp;&nbsp;SSL 握手"></a>4.2 &nbsp;&nbsp;SSL 握手</h3><p> 这里的握手和 TCP 的握手是不冲突的，因为他们属于不同的层，无论是 HTTP 还是 SSL，最终都通过 TCP 传输数据。</p>
+
+      
+    </div>
+	
+    <!--
+	
+    -->
+    <!--
+    
+      <footer class="article-footer">
+      </footer>
+    
+    -->
+  </div>
+  
+</article>
+
+
+
+    
       <article id="post-go-concurrency-difficult" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -92,7 +173,7 @@
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在讲解并发的复杂性前，我们先介绍并发的一些概念。<br>
+        <p>本文谈到的并发是指单程序、单节点并发，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。<br>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。<br>在功能开发中，非并发程序往往未能充分利用服务器的性能，为用户提供服务基本都是排队处理。而并发程序有时可以代替集群，其性能提高对整个系统是至关重要的作用。<br>
         
           <p class="article-more-link">
             <a href="/2019/03/14/go-concurrency-difficult/">Read More</a>
@@ -584,64 +665,6 @@
         
           <p class="article-more-link">
             <a href="/2017/03/20/joomla-magento/">Read More</a>
-          </p>
-        
-      
-    </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-    -->
-  </div>
-  
-</article>
-
-
-
-    
-      <article id="post-git-source" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2017/02/10/git-source/"><strong>git 源码安装</strong></a>
-      <small class=article-date-index>&nbsp; 2017-02-10</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2017/02/10/git-source/" class="article-date">
-  <time datetime="2017-02-10T08:06:14.000Z" itemprop="datePublished">2017-02-10</time>
-</a>-->
-      <!--
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2017/02/10/git-source/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>用习惯了windows下高版本2.11.0的git，再到centos7自带的1.8.5版本觉得操作还是不方便，所以今天就把它升级到最新版。<br>
-        
-          <p class="article-more-link">
-            <a href="/2017/02/10/git-source/">Read More</a>
           </p>
         
       
