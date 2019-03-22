@@ -183,6 +183,67 @@
 
 
     
+      <article id="post-microservice-architecture-difficult" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <myh11 itemprop="name">
+      <a class="article-title-index" href="/2019/03/17/microservice-architecture-difficult/"><strong>分布式系统的复杂性</strong></a>
+      <small class=article-date-index>&nbsp; 2019-03-17</small>
+      <!--<a>
+      <div = post.date  </div>
+      </a>-->
+    </myh11>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/17/microservice-architecture-difficult/" class="article-date">
+  <time datetime="2019-03-17T07:55:00.000Z" itemprop="datePublished">2019-03-17</time>
+</a>-->
+      <!--
+-->
+      <!--
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/17/microservice-architecture-difficult/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>单进程空间的并发复杂性可以看我上一篇文章<a href="/2019/03/14/go-concurrency-difficult/">《并发的复杂性》</a>。<br>分布式系统可以理解为并发系统，不同服务器进程空间的并行系统，包括集群和服务化（日常表述中粒度，业务垂直化 &gt; 服务化 &gt; 微服务）等，企业采用服务化架构（SOA）就意味会过渡到分布式系统，目前最流行的服务化概念就是微服务，所以本文将着重讲微服务化中出现的问题和一些解决方案。</p>
+        
+          <p class="article-more-link">
+            <a href="/2019/03/17/microservice-architecture-difficult/">Read More</a>
+          </p>
+        
+      
+    </div>
+	
+    <!--
+	
+    -->
+    <!--
+    
+      <footer class="article-footer">
+      </footer>
+    
+    -->
+  </div>
+  
+</article>
+
+
+
+    
       <article id="post-go-concurrency-difficult" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -219,7 +280,7 @@
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文谈到的并发是指单程序、单节点并发，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。<br>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。<br>在功能开发中，非并发程序往往未能充分利用服务器的性能，为用户提供服务基本都是排队处理。而并发程序有时可以代替集群，其性能提高对整个系统是至关重要的作用。当然，单个节点的性能提高，却带来了编程的复杂性。不同程序单元之间的远程过程调用可以参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。<br>
+        <p>本文谈到的并发是指单程序、单节点并发，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。分布式系统可以看我另一篇文章<a href="/2019/03/17/microservice-architecture-difficult/">《分布式系统的复杂性》</a>。<br>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。<br>在功能开发中，非并发程序往往未能充分利用服务器的性能，为用户提供服务基本都是排队处理。而并发程序有时可以代替集群，其性能提高对整个系统是至关重要的作用。当然，单个节点的性能提高，却带来了编程的复杂性。不同程序单元之间的远程过程调用可以参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。<br>
         
           <p class="article-more-link">
             <a href="/2019/03/14/go-concurrency-difficult/">Read More</a>
@@ -594,65 +655,6 @@
         
           <p class="article-more-link">
             <a href="/2019/03/08/go-time/">Read More</a>
-          </p>
-        
-      
-    </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-    -->
-  </div>
-  
-</article>
-
-
-
-    
-      <article id="post-go-conversions" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2018/08/18/go-conversions/"><strong>go 类型转换</strong></a>
-      <small class=article-date-index>&nbsp; 2018-08-18</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
-  
-
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2018/08/18/go-conversions/" class="article-date">
-  <time datetime="2018-08-18T09:46:00.000Z" itemprop="datePublished">2018-08-18</time>
-</a>-->
-      <!--
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2018/08/18/go-conversions/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Go Conversions 和 类型断言是两种类型转换方式。</p>
-<h3 id="错误相关的概念"><a href="#错误相关的概念" class="headerlink" title="错误相关的概念"></a>错误相关的概念</h3><p><strong>编译错误</strong>：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈溢出等等。是大意疏忽。<br><strong>运行错误</strong>：run的时候才报错，由于程序设计思路的错误导致程序异常或难以得到预期的效果。它是不可预期的，对于可预期的不要用panic，panic异常机制是意料之外。<br><strong>error错误</strong>：错误是业务过程的一部分，而异常不是。错误是可预期的结果，error错误机制是意料之中。<br>
-        
-          <p class="article-more-link">
-            <a href="/2018/08/18/go-conversions/">Read More</a>
           </p>
         
       

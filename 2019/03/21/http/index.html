@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 发展史 http 0.9:1995 http 1.0:1996 http 1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机（4）中间发展了 SPDY、RPC 等协议来解决性能问题 http 2:2015 发布">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-22T04:14:53.090Z">
+<meta property="og:updated_time" content="2019-03-22T06:19:58.847Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP 笔记">
 <meta name="twitter:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 发展史 http 0.9:1995 http 1.0:1996 http 1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机（4）中间发展了 SPDY、RPC 等协议来解决性能问题 http 2:2015 发布">
@@ -100,10 +100,18 @@
 <a id="more"></a>
 <h2 id="2-nbsp-nbsp-HTTP-1"><a href="#2-nbsp-nbsp-HTTP-1" class="headerlink" title="2 &nbsp;&nbsp;HTTP/1"></a>2 &nbsp;&nbsp;HTTP/1</h2><p>需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。</p>
 <h2 id="3-nbsp-nbsp-HTTP-2"><a href="#3-nbsp-nbsp-HTTP-2" class="headerlink" title="3 &nbsp;&nbsp;HTTP/2"></a>3 &nbsp;&nbsp;HTTP/2</h2><p>需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。</p>
-<h2 id="4-nbsp-nbsp-SSL"><a href="#4-nbsp-nbsp-SSL" class="headerlink" title="4 &nbsp;&nbsp;SSL"></a>4 &nbsp;&nbsp;SSL</h2><p>同 TCP 一样，SSL 的知识体系也是非常的庞大，我也只是简单认识了 SSL，写此文是我的一种学习方式，下面将从一点重点脉络进行梳理。<br>SSL 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
-<h3 id="4-1-nbsp-nbsp-证书"><a href="#4-1-nbsp-nbsp-证书" class="headerlink" title="4.1 &nbsp;&nbsp;证书"></a>4.1 &nbsp;&nbsp;证书</h3><h4 id="4-1-1-nbsp-nbsp-自签名证书"><a href="#4-1-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.1.1 &nbsp;&nbsp;自签名证书"></a>4.1.1 &nbsp;&nbsp;自签名证书</h4><p>需要使用 openssl 工具，不过基本上 openssl 已经被大部分系统替换成 LibreSSL 了，不过命令依然还是使用 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-nbsp-nbsp-SSL"><a href="#4-nbsp-nbsp-SSL" class="headerlink" title="4 &nbsp;&nbsp;SSL"></a>4 &nbsp;&nbsp;SSL</h2><p>同 TCP 一样，SSL 的知识体系也是非常的庞大，我也只是简单认识了 SSL，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。<br>SSL 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
+<h3 id="4-1-nbsp-nbsp-加密和数字签名"><a href="#4-1-nbsp-nbsp-加密和数字签名" class="headerlink" title="4.1 &nbsp;&nbsp;加密和数字签名"></a>4.1 &nbsp;&nbsp;加密和数字签名</h3><p>加密分对称加密和非对称加密，共同点是算法是公开的。对称加密中密钥只能由双方保管，非对称加密的私钥由谁生成就由谁保管；对服务器来说，私钥是服务器生成的，由服务器藏着，公钥给用户；对 github.com 来说，私钥由用户生成的，由用户藏着，公钥上传 github.com 配置中。<br>算法不公开只能基于内部可以协商开发的系统，目前来看内部系统用对称加密完全足够了，HTTPS 也是先用证书分发公钥，由公钥分发私钥，由私钥发送数据。</p>
+<h3 id="4-2-nbsp-nbsp-数字签名"><a href="#4-2-nbsp-nbsp-数字签名" class="headerlink" title="4.2 &nbsp;&nbsp;数字签名"></a>4.2 &nbsp;&nbsp;数字签名</h3><p><strong>数字签名还可以防止数据被篡改的问题</strong>，数字签名其实就是通过 hash 算法把数据收编到一个固定大小的字符串，数据会有碰撞，但弱到可以忽略。<br>对某个网站的证书来说里面有三个数据：</p>
+<ol>
+<li>网站的公钥</li>
+<li>证书的一些数据</li>
+<li>数字签名<br>其中 3 数字签名就是对 1 和 2 数据的数字签名。</li>
+</ol>
+<h3 id="4-2-nbsp-nbsp-证书"><a href="#4-2-nbsp-nbsp-证书" class="headerlink" title="4.2 &nbsp;&nbsp;证书"></a>4.2 &nbsp;&nbsp;证书</h3><p><strong>证书是为了解决公钥分发的问题</strong>。分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
+<h4 id="4-2-1-nbsp-nbsp-自签名证书"><a href="#4-2-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.2.1 &nbsp;&nbsp;自签名证书"></a>4.2.1 &nbsp;&nbsp;自签名证书</h4><p>需要使用 openssl 工具，不过基本上 openssl 已经被大部分系统替换成 LibreSSL 了，不过命令依然还是使用 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
 <p>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
-<h4 id="4-1-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-1-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.1.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.1.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。<br>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
+<h4 id="4-2-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-2-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.2.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.2.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。<br>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
 <ul>
 <li>certonly 是插件；</li>
 <li>-d 支持的域名，*.xxx.com 是通配符证书，但不支持 xxx.com，所以后面还得再配置一个 xxx.com，多个 -d 参数需要配置多条 TXT 记录，注意 TXT 可以对同一主机配置多条值，等证书都生成了才可以删除 TXT 配置；</li>
@@ -115,7 +123,7 @@
 <p>域名 TXT 是否配置成功可以用 dig 进行验证：<br>dig  -t txt _acme-challenge.xxx.com，验证 txt 是否配置好。</p>
 <p>运行成功之后就提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/fullchain.pem</span><br><span class="line">Your key file has been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/privkey.pem</span><br><span class="line">Your cert will expire on 2019-06-19. To obtain a new or tweaked</span><br><span class="line">version of this certificate in the future, simply run certbot</span><br><span class="line">again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">&quot;certbot renew&quot;</span><br></pre></td></tr></table></figure></p>
 <p> 另外需要注意，如果服务器有修改证书，必须 reload nginx 才会重新加载密钥等。</p>
-<h3 id="4-2-nbsp-nbsp-SSL-握手"><a href="#4-2-nbsp-nbsp-SSL-握手" class="headerlink" title="4.2 &nbsp;&nbsp;SSL 握手"></a>4.2 &nbsp;&nbsp;SSL 握手</h3><p> 这里的握手和 TCP 的握手是不冲突的，因为他们属于不同的层，无论是 HTTP 还是 SSL，最终都通过 TCP 传输数据。</p>
+<h3 id="4-3-nbsp-nbsp-SSL-握手"><a href="#4-3-nbsp-nbsp-SSL-握手" class="headerlink" title="4.3 &nbsp;&nbsp;SSL 握手"></a>4.3 &nbsp;&nbsp;SSL 握手</h3><p> 这里的握手和 TCP 的握手是不冲突的，因为他们属于不同的层，无论是 HTTP 还是 SSL，最终都通过 TCP 传输数据。</p>
 
       
      <!-- by blair add this if sentence at 20160725 -->
@@ -135,7 +143,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-发展史"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 发展史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-HTTP-1"><span class="toc-number">2.</span> <span class="toc-text">2   HTTP/1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-HTTP-2"><span class="toc-number">3.</span> <span class="toc-text">3   HTTP/2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-SSL"><span class="toc-number">4.</span> <span class="toc-text">4   SSL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-nbsp-nbsp-证书"><span class="toc-number">4.1.</span> <span class="toc-text">4.1   证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-nbsp-nbsp-自签名证书"><span class="toc-number">4.1.1.</span> <span class="toc-text">4.1.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">4.1.2.</span> <span class="toc-text">4.1.2   Let’s Encrypt 证书</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-SSL-握手"><span class="toc-number">4.2.</span> <span class="toc-text">4.2   SSL 握手</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-发展史"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 发展史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-HTTP-1"><span class="toc-number">2.</span> <span class="toc-text">2   HTTP/1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-HTTP-2"><span class="toc-number">3.</span> <span class="toc-text">3   HTTP/2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-SSL"><span class="toc-number">4.</span> <span class="toc-text">4   SSL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-nbsp-nbsp-加密和数字签名"><span class="toc-number">4.1.</span> <span class="toc-text">4.1   加密和数字签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-数字签名"><span class="toc-number">4.2.</span> <span class="toc-text">4.2   数字签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-证书"><span class="toc-number">4.3.</span> <span class="toc-text">4.2   证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-nbsp-nbsp-自签名证书"><span class="toc-number">4.3.1.</span> <span class="toc-text">4.2.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">4.3.2.</span> <span class="toc-text">4.2.2   Let’s Encrypt 证书</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-nbsp-nbsp-SSL-握手"><span class="toc-number">4.4.</span> <span class="toc-text">4.3   SSL 握手</span></a></li></ol></li></ol>
       </div>
     
     
@@ -168,8 +176,8 @@
     </a>
   
   
-    <a href="/2019/03/14/go-concurrency-difficult/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">并发的复杂性&nbsp;<span>&gt;</span></div>
+    <a href="/2019/03/17/microservice-architecture-difficult/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">分布式系统的复杂性&nbsp;<span>&gt;</span></div>
     </a>
   
 </nav>
