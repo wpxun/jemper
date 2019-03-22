@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DevOps 软件架构师行动指南 - 在路上的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。">
+<meta name="keywords" content="devops software architect perspective">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DevOps 软件架构师行动指南">
+<meta property="og:url" content="http://blog.jemper.cn/2019/03/24/devops-software-architect/index.html">
+<meta property="og:site_name" content="在路上的博客">
+<meta property="og:description" content="DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-22T04:37:35.978Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DevOps 软件架构师行动指南">
+<meta name="twitter:description" content="DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <!-- blair add baidu tongji start... @2017.10.03 -->
+<!-- blair add baidu tongji end ! @2017.10.03 -->
+
+<header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <br>
+    <section id="main" class="outer"><article id="post-devops-software-architect" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DevOps 软件架构师行动指南
+      <small class=article-detail-date-index>&nbsp; 2019-03-24</small>
+    </h1>
+  
+
+
+        <div class=page-title></div>
+        <br>
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/24/devops-software-architect/" class="article-date">
+  <time datetime="2019-03-24T08:03:00.000Z" itemprop="datePublished">2019-03-24</time>
+</a>-->
+      <!-- 
+--><!-- by blair 160724 -->
+      <!-- by blair
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/24/devops-software-architect/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。</p>
+<a id="more"></a>
+<p>分布式系统，包括集群和服务化（按粒度拆分，业务垂直化 &gt; 服务化 &gt; 微服务），企业采用服务化架构（SOA）就会过渡到分布式系统。</p>
+<ul>
+<li>集群是指同一个程序单元用负载的方式将多台独立的服务器通过网络连接组合成一个有效的整体对外提供服务</li>
+<li>微服务化是不同的程序单元（子系统）互相协作形成完整的大系统对外服务，微服务化更多是指业务框架的拆分，意义在于解耦，而非指部署方式（虽然不同子系统一般是采用分布式部署）。微服务本质上等同于服务化，只是强调了服务化拆分的粒度或程度——“微”，比如大型电商网站都会拆分出首页、用户、搜索、广告、购物、订单、商品、收益结算、日志埋点等子系统。</li>
+</ul>
+<p>运行一个庞大的分布式系统引发了两个有趣的问题：运行成本和延迟。如果我们将单个节点的性能提高 30%，或者甚至超过 100%，那么我们可以节省多少台机器呢？当一个来自 Web 的查询触发了几十个跨越了很多不同机器的内部远程过程调用时（HTTP 或 RPC），我们如何能达到最低的延迟呢？</p>
+<p>我认为一些名称只是抽象的概念，不需要太较真，知道是那么回事就可以了。</p>
+
+      
+     <!-- by blair add this if sentence at 20160725 -->
+      <br>
+      
+<div id="bottom-donation-section">
+</div>
+<div class="well">
+  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
+  <a href="http://blog.jemper.cn">wpxun</a> <br>
+  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
+</div>
+
+ <!-- by blair add 160724-->
+    
+    </div>
+    
+    
+      <footer class="article-footer">
+        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+        
+ <!-- by blair add 160724-->
+        <!--
+        <div style="width:100px; height:30px;"></div> by blair add 160724
+        -->
+        
+  <div class="article-tag">
+    <a class="article-tag-link" href="/tags/devops-software-architect-perspective/">devops software architect perspective</a>
+  </div>
+
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/21/http/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP 笔记&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Sven&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
+    </div>
+  </div>
+</footer>
+
+    
+<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
+  var disqus_shortname = 'wpxun';
+  
+  var disqus_url = 'http://blog.jemper.cn/2019/03/24/devops-software-architect/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
