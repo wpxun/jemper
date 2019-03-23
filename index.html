@@ -153,11 +153,11 @@
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-nbsp-nbsp-HTTP-发展史"><a href="#1-nbsp-nbsp-HTTP-发展史" class="headerlink" title="1 &nbsp;&nbsp;HTTP 发展史"></a>1 &nbsp;&nbsp;HTTP 发展史</h2><ul>
-<li>http 0.9:1995</li>
-<li>http 1.0:1996</li>
-<li>http 1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</li>
-<li>http 2:2015 发布</li>
+        <h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><ul>
+<li><p>http/1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
+</li>
+<li><p>http/2:2015 发布</p>
+</li>
 </ul>
         
           <p class="article-more-link">
