@@ -5,18 +5,20 @@
   
   <title>HTTP 笔记 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概 http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内">
+  <meta name="description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
 <meta name="keywords" content="http tcp ip">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP 笔记">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/21/http/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概 http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内">
+<meta property="og:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-23T19:26:01.944Z">
+<meta property="og:image" content="http://blog.jemper.cn/2019/03/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6.png">
+<meta property="og:updated_time" content="2019-03-24T15:55:23.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP 笔记">
-<meta name="twitter:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概 http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内">
+<meta name="twitter:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
+<meta name="twitter:image" content="http://blog.jemper.cn/2019/03/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -91,14 +93,16 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><ul>
+        <h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><hr>
+<ul>
 <li><p>http/1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
 </li>
 <li><p>http/2:2015 发布</p>
 </li>
 </ul>
 <a id="more"></a>
-<h2 id="2-nbsp-nbsp-密码学"><a href="#2-nbsp-nbsp-密码学" class="headerlink" title="2 &nbsp;&nbsp;密码学"></a>2 &nbsp;&nbsp;密码学</h2><p>学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH 的密码原理等。密码学四个目标：</p>
+<h2 id="2-nbsp-nbsp-密码学"><a href="#2-nbsp-nbsp-密码学" class="headerlink" title="2 &nbsp;&nbsp;密码学"></a>2 &nbsp;&nbsp;密码学</h2><hr>
+<p>学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH 的密码原理等。密码学四个目标：</p>
 <ol>
 <li>机密性（隐私性）：对称加密算法和非对称加密算法都能够保证机密性，另外机密性并不能保证完整性；</li>
 <li>完整性：数据完整且不能被篡改；消息验证码算法（MAC）保证完整性，MAC 值 = mac(消息，密钥)；另外完整性并不一定需要机密性，要看数据敏感度；</li>
@@ -116,15 +120,16 @@
 <li>因为网络传输信息不安全，所以分发”对话密钥”只能由非对称加密来完成</li>
 <li>非对称加密的私钥由谁生成就由谁保管；对服务器来说，私钥是服务器生成的，由服务器保密，公钥给用户；对 github.com 来说，私钥由用户生成的，由用户保密，公钥上传配置到 github.com。</li>
 </ul>
-<h3 id="2-3-nbsp-nbsp-正当性算法"><a href="#2-3-nbsp-nbsp-正当性算法" class="headerlink" title="2.3 &nbsp;&nbsp;正当性算法"></a>2.3 &nbsp;&nbsp;正当性算法</h3><p>通过加密方式实现密码学的“完整性”、“身份验证”和“不可抵赖性”这三个目标，暂称为“正当性”。<br>以下两种方式的共同点是把消息先进行 Hash 运算，也就是使用 Hash 算法作为加密基元。</p>
-<h4 id="2-3-1-nbsp-nbsp-消息验证码-MAC"><a href="#2-3-1-nbsp-nbsp-消息验证码-MAC" class="headerlink" title="2.3.1 &nbsp;&nbsp;消息验证码(MAC)"></a>2.3.1 &nbsp;&nbsp;消息验证码(MAC)</h4><p>HTTP 应用最多的 MAC 算法是 HMAC 算法，比如 HMAC-SHA256。<br>步骤如下：<br>（1）把消息先进行 Hash 运算，也就是使用 Hash 算法得到消息的摘要值；<br>（2）双方都有密钥，通过这个密钥对消息摘要值进行 MAC 运算，得到“MAC 值”；</p>
+<h3 id="2-3-nbsp-nbsp-正当性算法"><a href="#2-3-nbsp-nbsp-正当性算法" class="headerlink" title="2.3 &nbsp;&nbsp;正当性算法"></a>2.3 &nbsp;&nbsp;正当性算法</h3><p>通过加密方式实现密码学的“完整性”、“身份验证”和“不可抵赖性”这三个目标，暂称为“正当性”。<br>以下两种方式的共同点是把消息先进行 Hash 运算，也就是使用 Hash 算法作为加密基元。不同的是消息验证</p>
+<h4 id="2-3-1-nbsp-nbsp-消息验证码-MAC"><a href="#2-3-1-nbsp-nbsp-消息验证码-MAC" class="headerlink" title="2.3.1 &nbsp;&nbsp;消息验证码(MAC)"></a>2.3.1 &nbsp;&nbsp;消息验证码(MAC)</h4><p>HTTP 应用最多的 MAC 算法是 HMAC 算法，比如 HMAC-SHA256。MAC 不能进行身份验证，原因就在于消息发送方和接收方拥有同样的密钥，所以双方都可以抵赖。<br>步骤如下：<br>（1）把消息先进行 Hash 运算，也就是使用 Hash 算法得到消息的摘要值；<br>（2）双方都有密钥，通过这个密钥对消息摘要值进行 MAC 运算，得到“MAC 值”；</p>
 <h4 id="2-3-2-nbsp-nbsp-数字签名"><a href="#2-3-2-nbsp-nbsp-数字签名" class="headerlink" title="2.3.2 &nbsp;&nbsp;数字签名"></a>2.3.2 &nbsp;&nbsp;数字签名</h4><ul>
 <li>防篡改：数据不会被修改，“MAC”算法也有这个特点；</li>
-<li>防抵赖：消息签署者不能抵赖。MAC 因为用了双方共同拥有的密钥所以没有这个特点，而数字签名用私钥所以能防抵赖；</li>
-<li>防伪造：发送的消息不能够伪造，MAC 算法也有这个特点；<br>步骤如下：<br>（1）把消息先进行 Hash 运算，也就是使用 Hash 算法得到消息的摘要值；<br>（2）采用 RSA 方式，通过私钥对消息摘要值进行“签名”运算，得到“签名值”；</li>
+<li>防抵赖：消息签署者不能抵赖。MAC 因为用了双方共同拥有的密钥所以没有这个特点，而数字签名双方拥有不同的密钥（公钥和私钥）所以能防抵赖；</li>
+<li>防伪造：发送的消息不能够伪造，MAC 算法也有这个特点；<br>步骤如下：<br>（1）把消息先进行 Hash 运算，也就是使用 Hash 算法得到消息的摘要值；<br>（2）采用 RSA 方式，通过私钥对消息摘要值进行“签名”运算，得到“签名值”；<br><img src="/2019/03/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6.png" alt="数字证书"></li>
 </ul>
 <h3 id="2-4-nbsp-nbsp-OpenSSL-库或命令工具"><a href="#2-4-nbsp-nbsp-OpenSSL-库或命令工具" class="headerlink" title="2.4 &nbsp;&nbsp;OpenSSL 库或命令工具"></a>2.4 &nbsp;&nbsp;OpenSSL 库或命令工具</h3><p>程序开发，证书生成都需要使用实现了各种密码学算法的 openssl 库或命令工具，目前 openssl 已经被大部分系统替换成 LibreSSL（PHP 大部分内置的密码学函数也是基于底层的 LibreSSL 库），只是工具名还是习惯地称 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
-<h2 id="3-nbsp-nbsp-TLS-SSL"><a href="#3-nbsp-nbsp-TLS-SSL" class="headerlink" title="3 &nbsp;&nbsp;TLS/SSL"></a>3 &nbsp;&nbsp;TLS/SSL</h2><p>网络通信存在三个风险：</p>
+<h2 id="3-nbsp-nbsp-TLS-SSL"><a href="#3-nbsp-nbsp-TLS-SSL" class="headerlink" title="3 &nbsp;&nbsp;TLS/SSL"></a>3 &nbsp;&nbsp;TLS/SSL</h2><hr>
+<p>网络通信存在三个风险：</p>
 <ol>
 <li>窃听风险（eavesdropping）：机密性，需要机密性，用公钥分发”对话密钥”，并使用它对称加密数据；</li>
 <li>篡改风险（tampering）：完整性，对数据的篡改，数字签名，需要权威的 CA 机构证明；</li>
@@ -136,7 +141,8 @@
 <li>双方协商生成”对话密钥”，客户端用公钥加密后分发服务器</li>
 <li>双方采用”对话密钥”进行加密通信。</li>
 </ul>
-<h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><h3 id="4-2-nbsp-nbsp-证书-PKI-技术"><a href="#4-2-nbsp-nbsp-证书-PKI-技术" class="headerlink" title="4.2 &nbsp;&nbsp;证书 PKI 技术"></a>4.2 &nbsp;&nbsp;证书 PKI 技术</h3><p><strong>证书是为了解决公钥分发的问题</strong>。它不是 TLS/SSL 的一部分，分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
+<h2 id="4-nbsp-nbsp-HTTPS"><a href="#4-nbsp-nbsp-HTTPS" class="headerlink" title="4 &nbsp;&nbsp;HTTPS"></a>4 &nbsp;&nbsp;HTTPS</h2><h2 id="5-nbsp-nbsp-数字证书"><a href="#5-nbsp-nbsp-数字证书" class="headerlink" title="5 &nbsp;&nbsp;数字证书"></a>5 &nbsp;&nbsp;数字证书</h2><hr>
+<h3 id="4-2-nbsp-nbsp-证书-PKI-技术"><a href="#4-2-nbsp-nbsp-证书-PKI-技术" class="headerlink" title="4.2 &nbsp;&nbsp;证书 PKI 技术"></a>4.2 &nbsp;&nbsp;证书 PKI 技术</h3><p><strong>证书是为了解决公钥分发的问题</strong>。它不是 TLS/SSL 的一部分，分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
 <h4 id="4-2-1-nbsp-nbsp-自签名证书"><a href="#4-2-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.2.1 &nbsp;&nbsp;自签名证书"></a>4.2.1 &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
 <h4 id="4-2-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-2-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.2.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.2.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。<br>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
 <ul>
@@ -150,7 +156,7 @@
 <p>域名 TXT 是否配置成功可以用 dig 进行验证：<br>dig  -t txt _acme-challenge.xxx.com，验证 txt 是否配置好。</p>
 <p>运行成功之后就提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/fullchain.pem</span><br><span class="line">Your key file has been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/privkey.pem</span><br><span class="line">Your cert will expire on 2019-06-19. To obtain a new or tweaked</span><br><span class="line">version of this certificate in the future, simply run certbot</span><br><span class="line">again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">&quot;certbot renew&quot;</span><br></pre></td></tr></table></figure></p>
 <p> 另外需要注意，如果服务器有修改证书，必须 reload nginx 才会重新加载密钥等。</p>
-<h2 id="5-nbsp-nbsp-HTTPS"><a href="#5-nbsp-nbsp-HTTPS" class="headerlink" title="5 &nbsp;&nbsp;HTTPS"></a>5 &nbsp;&nbsp;HTTPS</h2><p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a> 阮一峰 2016年8月19日</p>
+<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a> 阮一峰 2016年8月19日</p>
 
       
      <!-- by blair add this if sentence at 20160725 -->
@@ -170,7 +176,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-密码学"><span class="toc-number">2.</span> <span class="toc-text">2   密码学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-基础算法"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-nbsp-nbsp-随机数生成器算法"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1   随机数生成器算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-nbsp-nbsp-Hash-算法"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2   Hash 算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-加密算法"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-nbsp-nbsp-对称加密"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1   对称加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-nbsp-nbsp-非对称加密"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2   非对称加密</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-正当性算法"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   正当性算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-nbsp-nbsp-消息验证码-MAC"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1   消息验证码(MAC)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-nbsp-nbsp-数字签名"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2   数字签名</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-nbsp-nbsp-OpenSSL-库或命令工具"><span class="toc-number">2.4.</span> <span class="toc-text">2.4   OpenSSL 库或命令工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-TLS-SSL"><span class="toc-number">3.</span> <span class="toc-text">3   TLS/SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-数字证书"><span class="toc-number">4.</span> <span class="toc-text">4   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-证书-PKI-技术"><span class="toc-number">4.1.</span> <span class="toc-text">4.2   证书 PKI 技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-nbsp-nbsp-自签名证书"><span class="toc-number">4.1.1.</span> <span class="toc-text">4.2.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">4.1.2.</span> <span class="toc-text">4.2.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-HTTPS"><span class="toc-number">5.</span> <span class="toc-text">5   HTTPS</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-密码学"><span class="toc-number">2.</span> <span class="toc-text">2   密码学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-基础算法"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-nbsp-nbsp-随机数生成器算法"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1   随机数生成器算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-nbsp-nbsp-Hash-算法"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2   Hash 算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-加密算法"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-nbsp-nbsp-对称加密"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1   对称加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-nbsp-nbsp-非对称加密"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2   非对称加密</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-正当性算法"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   正当性算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-nbsp-nbsp-消息验证码-MAC"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1   消息验证码(MAC)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-nbsp-nbsp-数字签名"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2   数字签名</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-nbsp-nbsp-OpenSSL-库或命令工具"><span class="toc-number">2.4.</span> <span class="toc-text">2.4   OpenSSL 库或命令工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-TLS-SSL"><span class="toc-number">3.</span> <span class="toc-text">3   TLS/SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-HTTPS"><span class="toc-number">4.</span> <span class="toc-text">4   HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-数字证书"><span class="toc-number">5.</span> <span class="toc-text">5   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-证书-PKI-技术"><span class="toc-number">5.1.</span> <span class="toc-text">4.2   证书 PKI 技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-nbsp-nbsp-自签名证书"><span class="toc-number">5.1.1.</span> <span class="toc-text">4.2.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">5.1.2.</span> <span class="toc-text">4.2.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li></ol>
       </div>
     
     
