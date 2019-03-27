@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-27T10:10:02.278Z">
+<meta property="og:updated_time" content="2019-03-27T10:14:13.198Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS">
 <meta name="twitter:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
@@ -113,7 +113,48 @@
 <li>双方采用”对话密钥”进行加密通信。</li>
 </ul>
 <h2 id="3-nbsp-nbsp-HTTPS"><a href="#3-nbsp-nbsp-HTTPS" class="headerlink" title="3 &nbsp;&nbsp;HTTPS"></a>3 &nbsp;&nbsp;HTTPS</h2><hr>
-<h2 id="4-nbsp-nbsp-测试"><a href="#4-nbsp-nbsp-测试" class="headerlink" title="4 &nbsp;&nbsp;测试"></a>4 &nbsp;&nbsp;测试</h2><hr>
+<h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><hr>
+<p><strong>证书是为了解决公钥分发的问题，换句话说就是认证服务器公钥</strong>。需要注意的是它并非 TLS/SSL 的一部分，分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
+<h4 id="4-1-nbsp-nbsp-自签名证书"><a href="#4-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.1. &nbsp;&nbsp;自签名证书"></a>4.1. &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
+<h4 id="4-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。</p>
+<p>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
+<ul>
+<li>certonly 是插件；</li>
+<li>-d 支持的域名，*.xxx.com 是通配符证书，但不支持 xxx.com，所以后面还得再配置一个 xxx.com，多个 -d 参数需要配置多条 TXT 记录，注意 TXT 可以对同一主机配置多条值，等证书都生成了才可以删除 TXT 配置；</li>
+<li>–preferred-challenges dns-01 域名的认证方式，这里的 dns-01 表示用设置域名 TXT 的方式来验证，也只有 dns-01 才支持通配符证书；</li>
+<li>acme 版本，只有 v02 才支持 通配符证书；</li>
+</ul>
+<p>需要注意的可能要创建一些文件夹，如没权限时会提示手动创建，不用特别记。<br>–logs-dir    /var/log/letsencrypt<br>–config-dir  /etc/letsencrypt<br>–work-dir    /var/lib/letsencrypt<br>sudo mkdir -p /usr/local/sbin<br>sudo chown -R $(whoami) /usr/local/sbin</p>
+<p>域名 TXT 是否配置成功可以用 dig 进行验证：<br>dig  -t txt _acme-challenge.xxx.com，验证 txt 是否配置好。</p>
+<p>运行成功之后会有提示，最后一句表示<strong>更新证书</strong>的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/fullchain.pem</span><br><span class="line">Your key file has been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/privkey.pem</span><br><span class="line">Your cert will expire on 2019-06-19. To obtain a new or tweaked</span><br><span class="line">version of this certificate in the future, simply run certbot</span><br><span class="line">again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">&quot;certbot renew&quot;</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cert.pem</td>
+<td>服务端证书</td>
+</tr>
+<tr>
+<td>chain.pem</td>
+<td>浏览器需要的所有证书但不包括服务端证书，比如根证书和中间证书</td>
+</tr>
+<tr>
+<td>fullchain.pem</td>
+<td>包括了cert.pem和chain.pem的内容</td>
+</tr>
+<tr>
+<td>privkey.pem</td>
+<td>证书的私钥</td>
+</tr>
+</tbody>
+</table>
+<p>代理配置一般情况下 fullchain.pem 和 privkey.pem 就够用了，另外需要注意，如果服务器有修改证书，必须 reload nginx 才会重新加载密钥等。</p>
+<h2 id="5-nbsp-nbsp-测试"><a href="#5-nbsp-nbsp-测试" class="headerlink" title="5 &nbsp;&nbsp;测试"></a>5 &nbsp;&nbsp;测试</h2><hr>
 <ol>
 <li>服务端：nghttpd -v -d /usr/local/www 443 /Users/ada/.ssh/localhost/wpxkey.pem /Users/ada/.ssh/localhost/cert.pem</li>
 <li>抓包工具：wireshark + npcap，过滤 ip.addr = <a href="http://www.xxx.cn" target="_blank" rel="noopener">www.xxx.cn</a> &amp;&amp; (ssl || tcp)</li>
@@ -148,7 +189,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-TLS-SSL"><span class="toc-number">2.</span> <span class="toc-text">2   TLS/SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-HTTPS"><span class="toc-number">3.</span> <span class="toc-text">3   HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-测试"><span class="toc-number">4.</span> <span class="toc-text">4   测试</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-TLS-SSL"><span class="toc-number">2.</span> <span class="toc-text">2   TLS/SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-HTTPS"><span class="toc-number">3.</span> <span class="toc-text">3   HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-数字证书"><span class="toc-number">4.</span> <span class="toc-text">4   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-nbsp-nbsp-自签名证书"><span class="toc-number">4.0.1.</span> <span class="toc-text">4.1.   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">4.0.2.</span> <span class="toc-text">4.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-测试"><span class="toc-number">5.</span> <span class="toc-text">5   测试</span></a></li></ol>
       </div>
     
     

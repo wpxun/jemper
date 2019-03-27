@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-27T10:10:03.828Z">
+<meta property="og:updated_time" content="2019-03-27T10:14:22.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="密码学知识">
 <meta name="twitter:description" content="近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。">
@@ -90,7 +90,8 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。<br><a id="more"></a><br>密码学四个目标：</p>
+        <p>近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。<br><a id="more"></a></p>
+<p>密码学四个目标：</p>
 <ol>
 <li>机密性（隐私性）：对称加密算法和非对称加密算法都能够保证机密性，另外机密性并不能保证完整性；</li>
 <li>完整性：数据完整且不能被篡改；消息验证码算法（MAC）保证完整性，MAC 值 = mac(消息，密钥)；另外完整性并不一定需要机密性，要看数据敏感度；</li>
@@ -174,47 +175,6 @@
 <h3 id="3-3-nbsp-nbsp-密钥协商算法"><a href="#3-3-nbsp-nbsp-密钥协商算法" class="headerlink" title="3.3 &nbsp;&nbsp;密钥协商算法"></a>3.3 &nbsp;&nbsp;密钥协商算法</h3><p>密钥的存储和传输分为静态密钥和动态密钥，在 SSL 中需要实现动态密钥，也叫会话密钥，该密钥存储在进程中，一旦客户端和服务端的连接关闭，该密钥就会消失，服务器的公钥和私钥正是用于密钥协商过程中，只需要用到一次，后面的对话都不再会用到私钥了。</p>
 <h2 id="4-nbsp-nbsp-OpenSSL-库或命令工具"><a href="#4-nbsp-nbsp-OpenSSL-库或命令工具" class="headerlink" title="4 &nbsp;&nbsp;OpenSSL 库或命令工具"></a>4 &nbsp;&nbsp;OpenSSL 库或命令工具</h2><hr>
 <p>程序开发，证书生成都需要使用实现了各种密码学算法的 openssl 库或命令工具，目前 openssl 已经被大部分系统替换成 LibreSSL（PHP 大部分内置的密码学函数也是基于底层的 LibreSSL 库），只是工具名还是习惯地称 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
-<h2 id="5-nbsp-nbsp-数字证书"><a href="#5-nbsp-nbsp-数字证书" class="headerlink" title="5 &nbsp;&nbsp;数字证书"></a>5 &nbsp;&nbsp;数字证书</h2><hr>
-<p><strong>证书是为了解决公钥分发的问题，换句话说就是认证服务器公钥</strong>。需要注意的是它并非 TLS/SSL 的一部分，分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
-<h4 id="5-1-nbsp-nbsp-自签名证书"><a href="#5-1-nbsp-nbsp-自签名证书" class="headerlink" title="5.1. &nbsp;&nbsp;自签名证书"></a>5.1. &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
-<h4 id="5-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#5-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="5.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>5.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。</p>
-<p>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
-<ul>
-<li>certonly 是插件；</li>
-<li>-d 支持的域名，*.xxx.com 是通配符证书，但不支持 xxx.com，所以后面还得再配置一个 xxx.com，多个 -d 参数需要配置多条 TXT 记录，注意 TXT 可以对同一主机配置多条值，等证书都生成了才可以删除 TXT 配置；</li>
-<li>–preferred-challenges dns-01 域名的认证方式，这里的 dns-01 表示用设置域名 TXT 的方式来验证，也只有 dns-01 才支持通配符证书；</li>
-<li>acme 版本，只有 v02 才支持 通配符证书；</li>
-</ul>
-<p>需要注意的可能要创建一些文件夹，如没权限时会提示手动创建，不用特别记。<br>–logs-dir    /var/log/letsencrypt<br>–config-dir  /etc/letsencrypt<br>–work-dir    /var/lib/letsencrypt<br>sudo mkdir -p /usr/local/sbin<br>sudo chown -R $(whoami) /usr/local/sbin</p>
-<p>域名 TXT 是否配置成功可以用 dig 进行验证：<br>dig  -t txt _acme-challenge.xxx.com，验证 txt 是否配置好。</p>
-<p>运行成功之后会有提示，最后一句表示<strong>更新证书</strong>的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/fullchain.pem</span><br><span class="line">Your key file has been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/privkey.pem</span><br><span class="line">Your cert will expire on 2019-06-19. To obtain a new or tweaked</span><br><span class="line">version of this certificate in the future, simply run certbot</span><br><span class="line">again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">&quot;certbot renew&quot;</span><br></pre></td></tr></table></figure></p>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>cert.pem</td>
-<td>服务端证书</td>
-</tr>
-<tr>
-<td>chain.pem</td>
-<td>浏览器需要的所有证书但不包括服务端证书，比如根证书和中间证书</td>
-</tr>
-<tr>
-<td>fullchain.pem</td>
-<td>包括了cert.pem和chain.pem的内容</td>
-</tr>
-<tr>
-<td>privkey.pem</td>
-<td>证书的私钥</td>
-</tr>
-</tbody>
-</table>
-<p>代理配置一般情况下 fullchain.pem 和 privkey.pem 就够用了，另外需要注意，如果服务器有修改证书，必须 reload nginx 才会重新加载密钥等。</p>
 <p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] <a href="https://blog.csdn.net/mrpre/article/details/78025940" target="_blank" rel="noopener">https://blog.csdn.net/mrpre/article/details/78025940</a> Mrpre 版次：2017年09月19日</p>
 
       
@@ -235,7 +195,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-基础算法"><span class="toc-number">1.</span> <span class="toc-text">1   基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-随机数生成器算法"><span class="toc-number">1.1.</span> <span class="toc-text">1.1   随机数生成器算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-Hash-算法"><span class="toc-number">1.2.</span> <span class="toc-text">1.2   Hash 算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-简单加密算法"><span class="toc-number">2.</span> <span class="toc-text">2   简单加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-对称加密"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   对称加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-非对称加密"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   非对称加密</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-组合加密算法"><span class="toc-number">3.</span> <span class="toc-text">3   组合加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-消息验证码-Mac"><span class="toc-number">3.1.</span> <span class="toc-text">3.1   消息验证码(Mac)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-数字签名"><span class="toc-number">3.2.</span> <span class="toc-text">3.2   数字签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-nbsp-nbsp-密钥协商算法"><span class="toc-number">3.3.</span> <span class="toc-text">3.3   密钥协商算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-OpenSSL-库或命令工具"><span class="toc-number">4.</span> <span class="toc-text">4   OpenSSL 库或命令工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-数字证书"><span class="toc-number">5.</span> <span class="toc-text">5   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-nbsp-nbsp-自签名证书"><span class="toc-number">5.0.1.</span> <span class="toc-text">5.1.   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">5.0.2.</span> <span class="toc-text">5.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-基础算法"><span class="toc-number">1.</span> <span class="toc-text">1   基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-随机数生成器算法"><span class="toc-number">1.1.</span> <span class="toc-text">1.1   随机数生成器算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-Hash-算法"><span class="toc-number">1.2.</span> <span class="toc-text">1.2   Hash 算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-简单加密算法"><span class="toc-number">2.</span> <span class="toc-text">2   简单加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-对称加密"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   对称加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-非对称加密"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   非对称加密</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-组合加密算法"><span class="toc-number">3.</span> <span class="toc-text">3   组合加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-消息验证码-Mac"><span class="toc-number">3.1.</span> <span class="toc-text">3.1   消息验证码(Mac)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-数字签名"><span class="toc-number">3.2.</span> <span class="toc-text">3.2   数字签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-nbsp-nbsp-密钥协商算法"><span class="toc-number">3.3.</span> <span class="toc-text">3.3   密钥协商算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-OpenSSL-库或命令工具"><span class="toc-number">4.</span> <span class="toc-text">4   OpenSSL 库或命令工具</span></a></li></ol>
       </div>
     
     
