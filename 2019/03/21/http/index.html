@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-27T03:34:39.006Z">
+<meta property="og:updated_time" content="2019-03-27T08:15:03.850Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS 笔记">
 <meta name="twitter:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
@@ -105,14 +105,74 @@
 <li>机密性（隐私性）：对称加密算法和非对称加密算法都能够保证机密性，另外机密性并不能保证完整性；</li>
 <li>完整性：数据完整且不能被篡改；消息验证码算法（MAC）保证完整性，MAC 值 = mac(消息，密钥)；另外完整性并不一定需要机密性，要看数据敏感度；</li>
 <li>身份验证：数字签名，也就是用私钥加密数据（一般是加密比较短的 hash 消息摘要）；</li>
-<li>不可抵赖性：也是由数字签名实现；<br>以下将分三部分简单归纳：基础算法、简单加密算法和组合加密算法。</li>
+<li>不可抵赖性：也是由数字签名实现；</li>
 </ol>
-<h3 id="2-1-nbsp-nbsp-基础算法"><a href="#2-1-nbsp-nbsp-基础算法" class="headerlink" title="2.1 &nbsp;&nbsp;基础算法"></a>2.1 &nbsp;&nbsp;基础算法</h3><p>随机数生成器和 Hash 算法都是密码学中的基础算法，很多其它的密码学算法选择这两个算法作为加密基元。</p>
-<h4 id="2-1-1-nbsp-nbsp-随机数生成器算法"><a href="#2-1-1-nbsp-nbsp-随机数生成器算法" class="headerlink" title="2.1.1 &nbsp;&nbsp;随机数生成器算法"></a>2.1.1 &nbsp;&nbsp;随机数生成器算法</h4><h4 id="2-1-2-nbsp-nbsp-Hash-算法"><a href="#2-1-2-nbsp-nbsp-Hash-算法" class="headerlink" title="2.1.2 &nbsp;&nbsp;Hash 算法"></a>2.1.2 &nbsp;&nbsp;Hash 算法</h4><p>因为 Hash 是单向的，所以就不归纳为加密算法了。一般使用 Hash 的原因是可以对比较短的 Hash 进行运算后再对 Hash 值进行加解密操作和核验，提高运算速度。<br>hash 算法，有 MD5（128，） 算法 和 SHA 族类，SHA 族类有 SHA-1（160）、SHA-2（SHA-256、SHA-512、SHA-224、SHA-384）、SHA-3（SHA3-256、SHA3-512、SHA3-224、SHA3-384） 三类算法（数字二进制数，除以4为16进制数），基于碰撞考虑建议用 SHA-2 类。</p>
-<h3 id="2-2-nbsp-nbsp-简单加密算法"><a href="#2-2-nbsp-nbsp-简单加密算法" class="headerlink" title="2.2 &nbsp;&nbsp;简单加密算法"></a>2.2 &nbsp;&nbsp;简单加密算法</h3><h4 id="2-2-1-nbsp-nbsp-对称加密"><a href="#2-2-1-nbsp-nbsp-对称加密" class="headerlink" title="2.2.1 &nbsp;&nbsp;对称加密"></a>2.2.1 &nbsp;&nbsp;对称加密</h4><p>在日常开发中是最常用的保证数据机密性的方式；在 HTTP 中因为非对称加密计算量大，所以频繁数据传输采用了”对话密钥”进行对称加密。对称加密中密钥由双方保管。</p>
-<h4 id="2-2-2-nbsp-nbsp-非对称加密"><a href="#2-2-2-nbsp-nbsp-非对称加密" class="headerlink" title="2.2.2 &nbsp;&nbsp;非对称加密"></a>2.2.2 &nbsp;&nbsp;非对称加密</h4><p>因为计算量大，日常开发不会用来保证数据机密性，而是基于网络传输信息不安全事实，采用非对称加密进行身份认证。非对称加密的私钥由谁生成就由谁保管；对服务器来说，私钥是服务器生成的，由服务器保密，公钥给用户；对 github.com 来说，私钥由用户生成的，由用户保密，公钥上传配置到 github.com。</p>
-<h3 id="2-3-nbsp-nbsp-组合加密算法"><a href="#2-3-nbsp-nbsp-组合加密算法" class="headerlink" title="2.3 &nbsp;&nbsp;组合加密算法"></a>2.3 &nbsp;&nbsp;组合加密算法</h3><p>组合基础算法和简单加密算法实现密码学的“机密性”、“完整性”、“身份验证”和“不可抵赖性”中的多个或者全部的算法；比如消息验证码需要组合 Hash 算法和对称加、TLS 协议握手需要协商出密码套件。<br>密码套件形如 Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256，ECDHE 是会话密钥协商算法，RSA 是身份验证，AES_128_GCM 是会话密钥加密算法，SHA256 是 HMAC 算法。</p>
-<h4 id="2-3-1-nbsp-nbsp-消息验证码-MAC"><a href="#2-3-1-nbsp-nbsp-消息验证码-MAC" class="headerlink" title="2.3.1 &nbsp;&nbsp;消息验证码(MAC)"></a>2.3.1 &nbsp;&nbsp;消息验证码(MAC)</h4><p>消息验证码适用于不需要对数据进行加密，只需要保证数据完整性的情形。HTTP 应用最多的 MAC 算法是 HMAC 算法，比如 HMAC-SHA256。MAC 不能进行身份验证，原因就在于消息发送方和接收方拥有同样的密钥，所以双方都可以抵赖。<br>这类算法的变通很多，常见的步骤如下：<br>（1）把消息先进行 Hash 运算，也就是使用 Hash 算法得到消息的摘要值；<br>（2）双方都有相同的密钥，通过这个密钥对消息摘要值进行 MAC 运算，得到“MAC 值”；把消息和“MAC 值”传给对方；<br>（3）接收方用相同的密钥对“MAC 值”进行解密得到消息摘要，对消息进行 Hash 运算得到消息摘要；<br>（4）比较消息摘要；</p>
+<p>以下将分三部分简单归纳：基础算法、简单加密算法和组合加密算法。</p>
+<h3 id="2-1-nbsp-nbsp-基础算法"><a href="#2-1-nbsp-nbsp-基础算法" class="headerlink" title="2.1 &nbsp;&nbsp;基础算法"></a>2.1 &nbsp;&nbsp;基础算法</h3><p>随机数生成器和密码学 Hash 算法都是密码学中的基础算法，很多其它的密码学算法选择这两个算法作为加密基元。</p>
+<h4 id="2-1-1-nbsp-nbsp-随机数生成器算法"><a href="#2-1-1-nbsp-nbsp-随机数生成器算法" class="headerlink" title="2.1.1 &nbsp;&nbsp;随机数生成器算法"></a>2.1.1 &nbsp;&nbsp;随机数生成器算法</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>生成类型</th>
+<th>特性</th>
+<th>内部状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>真正的随机数生成器</td>
+<td>硬件生成</td>
+<td>效率高、随机性、不可预测性、不可重现性</td>
+<td>需要从物理设备获取熵，动态时间、变化温度、声音变化、鼠标位置等</td>
+</tr>
+<tr>
+<td>伪随机数生成器</td>
+<td>软件生成</td>
+<td>效率高、随机性</td>
+<td>种子（seed）</td>
+</tr>
+<tr>
+<td>密码学伪随机数生成器</td>
+<td>软件生成</td>
+<td>效率高、随机性、不可预测性</td>
+<td>用于密码学，是真正随机数生成器的一种</td>
+</tr>
+</tbody>
+</table>
+<p>随机数生成器内部会维护一个状态，如果每次熵和种子是一样的，生成的随机数也是相同的，所以熵和种子对于随机数生成器非常重要。</p>
+<p>密码学应用中很多场景会涉及随机数，不同的用途有不同的称呼，常见如下表：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>密钥</td>
+<td>对称加密算法、公开密钥算法、Mac算法，密钥本质上是一个随机数</td>
+</tr>
+<tr>
+<td>初始化向量（IV）</td>
+<td>块密码算法中很多迭代模式会使用IV</td>
+</tr>
+<tr>
+<td>nonce</td>
+<td>块密码算法中的CTR模式、AEAD加密模式也会用到nonce</td>
+</tr>
+<tr>
+<td>salt</td>
+<td>基于口令的加密算法会用到，通过salt生成一个密钥</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-1-2-nbsp-nbsp-Hash-算法"><a href="#2-1-2-nbsp-nbsp-Hash-算法" class="headerlink" title="2.1.2 &nbsp;&nbsp;Hash 算法"></a>2.1.2 &nbsp;&nbsp;Hash 算法</h4><p>是一种从任意文件中创造小的数字「指纹」的方法，因为 Hash 是单向性的，所以就不归纳为加密算法了。基于 Hash 算法产生的其它密码学算法有很多：Mac 消息验证码、伪随机数生成器、数字签名、块密码加密算法等。需要注意的是密码学 Hash 算法和普通 Hash 算法不是同一个概念，普通 Hash 算法实现的 Hash 表与检验和（checksum）不能用于密码学。<br>密码学 Hash 算法，有 MD5（128） 算法 和 SHA 族类，SHA 族类有 SHA-1（160）、SHA-2（SHA-256、SHA-512、SHA-224、SHA-384）、SHA-3（SHA3-256、SHA3-512、SHA3-224、SHA3-384） 三类算法（数字二进制数，除以4为16进制数），基于碰撞考虑建议用 SHA-2 类。</p>
+<p>Hash 算法一般还用于文件比较和密码口令，密码口令为了防止攻击者对常用密码字典破解；推荐使用 密码衍生算法（KDF），利用盐值（随机数）增大密钥的搜索空间，简单的理解就是通过某些值可以生成任意长度的一个（多个）密钥，常见的有 PBKDF2、bcrypt、scrypt等。</p>
+<h3 id="2-2-nbsp-nbsp-简单加密算法"><a href="#2-2-nbsp-nbsp-简单加密算法" class="headerlink" title="2.2 &nbsp;&nbsp;简单加密算法"></a>2.2 &nbsp;&nbsp;简单加密算法</h3><h4 id="2-2-1-nbsp-nbsp-对称加密"><a href="#2-2-1-nbsp-nbsp-对称加密" class="headerlink" title="2.2.1 &nbsp;&nbsp;对称加密"></a>2.2.1 &nbsp;&nbsp;对称加密</h4><p>在日常开发中是最常用的保证数据机密性的方式；在 HTTP 中因为非对称加密计算量大，所以频繁数据传输采用了”对话密钥”进行对称加密。对称加密中密钥由双方保管。<br>对称加密算法有很多，如一次性密码本（XOR运算）、流密码算法（RC4_128）、块密码算法（AES_256_CBC、3DES_EDE_CBC）</p>
+<h4 id="2-2-2-nbsp-nbsp-非对称加密"><a href="#2-2-2-nbsp-nbsp-非对称加密" class="headerlink" title="2.2.2 &nbsp;&nbsp;非对称加密"></a>2.2.2 &nbsp;&nbsp;非对称加密</h4><p>因为计算量大，日常开发不会用来保证数据机密性，而是基于网络传输信息不安全事实，采用非对称加密进行身份认证。非对称加密的私钥由谁生成就由谁保管；对服务器来说，私钥是服务器生成的，由服务器保密，公钥给用户；对 github.com 来说，私钥由用户生成的，由用户保密，公钥上传配置到 github.com。<br>RSA 原理 n = p*q, 其中p、q是大质数, φ(n) = (p-1)(q-1); 公钥 e、n: 1 &lt; e &lt; f(n), e 和 f(n) 互质; 私钥 d、n: e*d mod f(n) = 1.<br>签名：m^e mod n = c（密文）<br>解密：c^d mod n = m（明文）<br>安全性：传播 n、e、c; 要解密需要 n、d、c, 由 e 要推导出d, 必须先由n推导到p、q, 大因数分解很难.</p>
+<h3 id="2-3-nbsp-nbsp-组合加密算法"><a href="#2-3-nbsp-nbsp-组合加密算法" class="headerlink" title="2.3 &nbsp;&nbsp;组合加密算法"></a>2.3 &nbsp;&nbsp;组合加密算法</h3><p>组合基础算法和简单加密算法实现密码学的“机密性”、“完整性”、“身份验证”和“不可抵赖性”中的多个或者全部的算法；比如消息验证码需要组合 Hash 算法和对称加、TLS 协议握手需要协商出密码套件。<br>根据rfc 5246，密码套件形如 Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256，由三部分组成：Key Exchange(ECDHE_RSA)、Cipher(AES_128_GCM) 和 Mac(SHA256)</p>
+<h4 id="2-3-1-nbsp-nbsp-消息验证码-Mac"><a href="#2-3-1-nbsp-nbsp-消息验证码-Mac" class="headerlink" title="2.3.1 &nbsp;&nbsp;消息验证码(Mac)"></a>2.3.1 &nbsp;&nbsp;消息验证码(Mac)</h4><p>消息验证码适用于不需要对数据进行加密，只需要保证数据完整性的情形。HTTP 应用最多的 Mac 算法是 HMAC 算法（基于 Hash 算法实现的Mac 算法），比如 HMAC-SHA256。Mac 不能进行身份验证，原因就在于消息发送方和接收方拥有同样的密钥，所以双方都可以抵赖。<br>这类算法的变通很多，常见的步骤如下：<br>（1）把消息先进行 Hash 运算，也就是使用 Hash 算法得到消息的摘要值；<br>（2）双方都有相同的密钥，通过这个密钥对消息摘要值进行 MAC 运算，得到“MAC 值”；把消息和“MAC 值”传给对方；<br>（3）接收方用相同的密钥对“MAC 值”进行解密得到消息摘要，对消息进行 Hash 运算得到消息摘要；<br>（4）比较消息摘要；</p>
 <h4 id="2-3-2-nbsp-nbsp-数字签名"><a href="#2-3-2-nbsp-nbsp-数字签名" class="headerlink" title="2.3.2 &nbsp;&nbsp;数字签名"></a>2.3.2 &nbsp;&nbsp;数字签名</h4><p>数字签名是为了解决服务器身份认证问题，服务器实体并不能自己证明自己，所以需要通过 CA 机构来进行认证，对服务端来说 CA 机构的私钥用来给服务器颁发证书，对客户端来说浏览器集成了 CA 机构的公钥可以验证服务器证书。<strong>理解数字签名就要理解一次对话中需要两对非对称加密：CA 机构的公钥私钥和服务器的公钥私钥。</strong></p>
 <ul>
 <li>防篡改：数据不会被修改，“MAC”算法也有这个特点；</li>
@@ -211,7 +271,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-密码学"><span class="toc-number">2.</span> <span class="toc-text">2   密码学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-基础算法"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-nbsp-nbsp-随机数生成器算法"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1   随机数生成器算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-nbsp-nbsp-Hash-算法"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2   Hash 算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-简单加密算法"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   简单加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-nbsp-nbsp-对称加密"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1   对称加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-nbsp-nbsp-非对称加密"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2   非对称加密</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-组合加密算法"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   组合加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-nbsp-nbsp-消息验证码-MAC"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1   消息验证码(MAC)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-nbsp-nbsp-数字签名"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2   数字签名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-nbsp-nbsp-密钥协商算法"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3   密钥协商算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-nbsp-nbsp-OpenSSL-库或命令工具"><span class="toc-number">2.4.</span> <span class="toc-text">2.4   OpenSSL 库或命令工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-TLS-SSL"><span class="toc-number">3.</span> <span class="toc-text">3   TLS/SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-数字证书"><span class="toc-number">4.</span> <span class="toc-text">4   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-证书-PKI-技术"><span class="toc-number">4.1.</span> <span class="toc-text">4.2   证书 PKI 技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-nbsp-nbsp-自签名证书"><span class="toc-number">4.1.1.</span> <span class="toc-text">4.2.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">4.1.2.</span> <span class="toc-text">4.2.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-HTTPS"><span class="toc-number">5.</span> <span class="toc-text">5   HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-nbsp-nbsp-测试"><span class="toc-number">6.</span> <span class="toc-text">6   测试</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-密码学"><span class="toc-number">2.</span> <span class="toc-text">2   密码学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-基础算法"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   基础算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-nbsp-nbsp-随机数生成器算法"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1   随机数生成器算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-nbsp-nbsp-Hash-算法"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2   Hash 算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-简单加密算法"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   简单加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-nbsp-nbsp-对称加密"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1   对称加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-nbsp-nbsp-非对称加密"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2   非对称加密</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-组合加密算法"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   组合加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-nbsp-nbsp-消息验证码-Mac"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1   消息验证码(Mac)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-nbsp-nbsp-数字签名"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2   数字签名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-nbsp-nbsp-密钥协商算法"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3   密钥协商算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-nbsp-nbsp-OpenSSL-库或命令工具"><span class="toc-number">2.4.</span> <span class="toc-text">2.4   OpenSSL 库或命令工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-TLS-SSL"><span class="toc-number">3.</span> <span class="toc-text">3   TLS/SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-数字证书"><span class="toc-number">4.</span> <span class="toc-text">4   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-证书-PKI-技术"><span class="toc-number">4.1.</span> <span class="toc-text">4.2   证书 PKI 技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-nbsp-nbsp-自签名证书"><span class="toc-number">4.1.1.</span> <span class="toc-text">4.2.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">4.1.2.</span> <span class="toc-text">4.2.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-HTTPS"><span class="toc-number">5.</span> <span class="toc-text">5   HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-nbsp-nbsp-测试"><span class="toc-number">6.</span> <span class="toc-text">6   测试</span></a></li></ol>
       </div>
     
     
