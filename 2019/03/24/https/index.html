@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTTPS - 在路上的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
+<meta name="keywords" content="http tcp ip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTPS">
+<meta property="og:url" content="http://blog.jemper.cn/2019/03/24/https/index.html">
+<meta property="og:site_name" content="在路上的博客">
+<meta property="og:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-27T10:10:02.278Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTPS">
+<meta name="twitter:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <!-- blair add baidu tongji start... @2017.10.03 -->
+<!-- blair add baidu tongji end ! @2017.10.03 -->
+
+<header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <br>
+    <section id="main" class="outer"><article id="post-https" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTPS
+      <small class=article-detail-date-index>&nbsp; 2019-03-24</small>
+    </h1>
+  
+
+
+        <div class=page-title></div>
+        <br>
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/03/24/https/" class="article-date">
+  <time datetime="2019-03-24T09:55:00.000Z" itemprop="datePublished">2019-03-24</time>
+</a>-->
+      <!-- 
+--><!-- by blair 160724 -->
+      <!-- by blair
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/03/24/https/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><hr>
+<ul>
+<li><p>http/1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
+</li>
+<li><p>http/2:2015 发布</p>
+<a id="more"></a>
+</li>
+</ul>
+<h2 id="2-nbsp-nbsp-TLS-SSL"><a href="#2-nbsp-nbsp-TLS-SSL" class="headerlink" title="2 &nbsp;&nbsp;TLS/SSL"></a>2 &nbsp;&nbsp;TLS/SSL</h2><hr>
+<p>网络通信存在三个风险：</p>
+<ol>
+<li>窃听风险（eavesdropping）：机密性，需要机密性，用公钥分发”对话密钥”，并使用它对称加密数据；</li>
+<li>篡改风险（tampering）：完整性，对数据的篡改，数字签名，需要权威的 CA 机构证明；</li>
+<li>冒充风险（pretending）：身份验证，对公钥的冒充，数字签名，需要权威的 CA 机构证明；</li>
+</ol>
+<p>同 TCP 一样，SSL 的知识体系也是非常的庞大，我也只是简单认识了 SSL，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。<br>SSL 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。SSL/TLS协议的基本过程如下：</p>
+<ul>
+<li>服务器先用证书分发公钥给客户端</li>
+<li>双方协商生成”对话密钥”，客户端用公钥加密后分发服务器</li>
+<li>双方采用”对话密钥”进行加密通信。</li>
+</ul>
+<h2 id="3-nbsp-nbsp-HTTPS"><a href="#3-nbsp-nbsp-HTTPS" class="headerlink" title="3 &nbsp;&nbsp;HTTPS"></a>3 &nbsp;&nbsp;HTTPS</h2><hr>
+<h2 id="4-nbsp-nbsp-测试"><a href="#4-nbsp-nbsp-测试" class="headerlink" title="4 &nbsp;&nbsp;测试"></a>4 &nbsp;&nbsp;测试</h2><hr>
+<ol>
+<li>服务端：nghttpd -v -d /usr/local/www 443 /Users/ada/.ssh/localhost/wpxkey.pem /Users/ada/.ssh/localhost/cert.pem</li>
+<li>抓包工具：wireshark + npcap，过滤 ip.addr = <a href="http://www.xxx.cn" target="_blank" rel="noopener">www.xxx.cn</a> &amp;&amp; (ssl || tcp)</li>
+<li>客户端：cURL命令，curl -w “@curl.txt” -so /dev/null <a href="https://www.xxx.cn" target="_blank" rel="noopener">https://www.xxx.cn</a><br>常用参数：<br>-w tells cURL to use our format file, 可以是文本 <code>-w &quot;TCP handshake: %{time_connect}, SSL handshake: %{time_appconnect}\n&quot;</code>，也可以是文件 <code>-w &quot;@curl.txt&quot;</code>。<br>-o redirects the out of the request to /dev/null<br>-s tells cURL not to show a progress meter，即不显示进度<br>-k, –insecure turn off curl’s verification of the certificate<br>-H, –header Pass custom header，可设置多次<br>-d, –data HTTP POST data<br>打印时间信息（单位秒）：</li>
+</ol>
+<ul>
+<li>time_namelookup:  DNS解析时间,从请求开始到DNS解析完毕所用时间</li>
+<li>time_connect:  连接时间,从请求开始到建立TCP连接完成所用时间,包括前边DNS解析时间，如果需要单纯的得到连接时间，用这个time_connect时间减去前边time_namelookup时间</li>
+<li>time_appconnect:  从请求开始到连接建立完成时间，到SSL/SSH等建立连接时间。</li>
+<li>time_pretransfer:  从请求开始到准备传输的时间。</li>
+<li>time_redirect:  重定向时间</li>
+<li>time_starttransfer:  从请求开始到 Web 服务器返回数据的第一个字节所用的时间</li>
+<li>time_total:  总时间，按秒计</li>
+</ul>
+<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a> 阮一峰 2016年8月19日</p>
+
+      
+     <!-- by blair add this if sentence at 20160725 -->
+      <br>
+      
+<div id="bottom-donation-section">
+</div>
+<div class="well">
+  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
+  <a href="http://blog.jemper.cn">wpxun</a> <br>
+  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
+</div>
+
+ <!-- by blair add 160724-->
+    
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-TLS-SSL"><span class="toc-number">2.</span> <span class="toc-text">2   TLS/SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-HTTPS"><span class="toc-number">3.</span> <span class="toc-text">3   HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-测试"><span class="toc-number">4.</span> <span class="toc-text">4   测试</span></a></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+        
+ <!-- by blair add 160724-->
+        <!--
+        <div style="width:100px; height:30px;"></div> by blair add 160724
+        -->
+        
+  <div class="article-tag">
+    <a class="article-tag-link" href="/tags/http-tcp-ip/">http tcp ip</a>
+  </div>
+
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/27/devops-software-architect/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          DevOps 软件架构师行动指南
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/21/cryptology/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">密码学知识&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Sven&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
+    </div>
+  </div>
+</footer>
+
+    
+<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
+  var disqus_shortname = 'wpxun';
+  
+  var disqus_url = 'http://blog.jemper.cn/2019/03/24/https/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
