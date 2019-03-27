@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-27T08:15:03.850Z">
+<meta property="og:updated_time" content="2019-03-27T08:21:29.146Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS 笔记">
 <meta name="twitter:description" content="1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期">
@@ -109,64 +109,9 @@
 </ol>
 <p>以下将分三部分简单归纳：基础算法、简单加密算法和组合加密算法。</p>
 <h3 id="2-1-nbsp-nbsp-基础算法"><a href="#2-1-nbsp-nbsp-基础算法" class="headerlink" title="2.1 &nbsp;&nbsp;基础算法"></a>2.1 &nbsp;&nbsp;基础算法</h3><p>随机数生成器和密码学 Hash 算法都是密码学中的基础算法，很多其它的密码学算法选择这两个算法作为加密基元。</p>
-<h4 id="2-1-1-nbsp-nbsp-随机数生成器算法"><a href="#2-1-1-nbsp-nbsp-随机数生成器算法" class="headerlink" title="2.1.1 &nbsp;&nbsp;随机数生成器算法"></a>2.1.1 &nbsp;&nbsp;随机数生成器算法</h4><table>
-<thead>
-<tr>
-<th>名称</th>
-<th>生成类型</th>
-<th>特性</th>
-<th>内部状态</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>真正的随机数生成器</td>
-<td>硬件生成</td>
-<td>效率高、随机性、不可预测性、不可重现性</td>
-<td>需要从物理设备获取熵，动态时间、变化温度、声音变化、鼠标位置等</td>
-</tr>
-<tr>
-<td>伪随机数生成器</td>
-<td>软件生成</td>
-<td>效率高、随机性</td>
-<td>种子（seed）</td>
-</tr>
-<tr>
-<td>密码学伪随机数生成器</td>
-<td>软件生成</td>
-<td>效率高、随机性、不可预测性</td>
-<td>用于密码学，是真正随机数生成器的一种</td>
-</tr>
-</tbody>
-</table>
-<p>随机数生成器内部会维护一个状态，如果每次熵和种子是一样的，生成的随机数也是相同的，所以熵和种子对于随机数生成器非常重要。</p>
-<p>密码学应用中很多场景会涉及随机数，不同的用途有不同的称呼，常见如下表：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>密钥</td>
-<td>对称加密算法、公开密钥算法、Mac算法，密钥本质上是一个随机数</td>
-</tr>
-<tr>
-<td>初始化向量（IV）</td>
-<td>块密码算法中很多迭代模式会使用IV</td>
-</tr>
-<tr>
-<td>nonce</td>
-<td>块密码算法中的CTR模式、AEAD加密模式也会用到nonce</td>
-</tr>
-<tr>
-<td>salt</td>
-<td>基于口令的加密算法会用到，通过salt生成一个密钥</td>
-</tr>
-</tbody>
-</table>
+<h4 id="2-1-1-nbsp-nbsp-随机数生成器算法"><a href="#2-1-1-nbsp-nbsp-随机数生成器算法" class="headerlink" title="2.1.1 &nbsp;&nbsp;随机数生成器算法"></a>2.1.1 &nbsp;&nbsp;随机数生成器算法</h4><p>名称|生成类型|特性|内部状态<br>|—|—|—|—|<br>真正的随机数生成器|硬件生成|效率高、随机性、不可预测性、不可重现性|从物理设备获取熵，时间、温度、声音等<br>伪随机数生成器|软件生成|效率高、随机性|种子（seed）<br>密码学伪随机数生成器|软件生成|效率高、随机性、不可预测性|用于密码学，是真正随机数生成器的一种</p>
+<p>随机数生成器内部会维护一个状态，如果每次熵和种子是一样的，生成的随机数也是相同的，所以熵和种子对于随机数生成器非常重要。<br>密码学应用中很多场景会涉及随机数，不同的用途有不同的称呼，常见如下表：</p>
+<p>名称|说明<br>|—|—|<br>|密钥|对称加密算法、公开密钥算法、Mac算法，密钥本质上是一个随机数<br>|初始化向量（IV）|块密码算法中很多迭代模式会使用IV|<br>|nonce|块密码算法中的CTR模式、AEAD加密模式也会用到nonce|<br>salt|基于口令的加密算法会用到，通过salt生成一个密钥</p>
 <h4 id="2-1-2-nbsp-nbsp-Hash-算法"><a href="#2-1-2-nbsp-nbsp-Hash-算法" class="headerlink" title="2.1.2 &nbsp;&nbsp;Hash 算法"></a>2.1.2 &nbsp;&nbsp;Hash 算法</h4><p>是一种从任意文件中创造小的数字「指纹」的方法，因为 Hash 是单向性的，所以就不归纳为加密算法了。基于 Hash 算法产生的其它密码学算法有很多：Mac 消息验证码、伪随机数生成器、数字签名、块密码加密算法等。需要注意的是密码学 Hash 算法和普通 Hash 算法不是同一个概念，普通 Hash 算法实现的 Hash 表与检验和（checksum）不能用于密码学。<br>密码学 Hash 算法，有 MD5（128） 算法 和 SHA 族类，SHA 族类有 SHA-1（160）、SHA-2（SHA-256、SHA-512、SHA-224、SHA-384）、SHA-3（SHA3-256、SHA3-512、SHA3-224、SHA3-384） 三类算法（数字二进制数，除以4为16进制数），基于碰撞考虑建议用 SHA-2 类。</p>
 <p>Hash 算法一般还用于文件比较和密码口令，密码口令为了防止攻击者对常用密码字典破解；推荐使用 密码衍生算法（KDF），利用盐值（随机数）增大密钥的搜索空间，简单的理解就是通过某些值可以生成任意长度的一个（多个）密钥，常见的有 PBKDF2、bcrypt、scrypt等。</p>
 <h3 id="2-2-nbsp-nbsp-简单加密算法"><a href="#2-2-nbsp-nbsp-简单加密算法" class="headerlink" title="2.2 &nbsp;&nbsp;简单加密算法"></a>2.2 &nbsp;&nbsp;简单加密算法</h3><h4 id="2-2-1-nbsp-nbsp-对称加密"><a href="#2-2-1-nbsp-nbsp-对称加密" class="headerlink" title="2.2.1 &nbsp;&nbsp;对称加密"></a>2.2.1 &nbsp;&nbsp;对称加密</h4><p>在日常开发中是最常用的保证数据机密性的方式；在 HTTP 中因为非对称加密计算量大，所以频繁数据传输采用了”对话密钥”进行对称加密。对称加密中密钥由双方保管。<br>对称加密算法有很多，如一次性密码本（XOR运算）、流密码算法（RC4_128）、块密码算法（AES_256_CBC、3DES_EDE_CBC）</p>
@@ -211,6 +156,7 @@
 <table>
 <thead>
 <tr>
+<th></th>
 <th>文件名</th>
 <th>内容</th>
 </tr>
