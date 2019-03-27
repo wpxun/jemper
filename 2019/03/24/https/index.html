@@ -14,8 +14,8 @@
 <meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png">
-<meta property="og:image" content="http://img.jemper.cn/2019/03/HTTPS.png">
-<meta property="og:updated_time" content="2019-03-27T17:08:14.906Z">
+<meta property="og:image" content="http://img.jemper.cn/2019/03/https.png">
+<meta property="og:updated_time" content="2019-03-27T17:24:17.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS">
 <meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持">
@@ -117,7 +117,7 @@
 <p>同 TCP 一样，SSL 的知识体系也是非常的庞大，我也只是简单认识了 SSL，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。<br>SSL 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
 <p><img src="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png" alt="TLS/SSL格式协议"><br>HandshakeType(十六进制)<br>hello_request(0x00), client_hello(0x01), server_hello(0x02),certificate(0x0b), server_key_exchange (0x0c),certificate_request(0x0d), server_hello_done(0x0e),certificate_verify(0x0f), client_key_exchange(0x10),finished(0x14), encrypted_handshake_message(0x23), (255)</p>
 <h2 id="3-nbsp-nbsp-HTTPS"><a href="#3-nbsp-nbsp-HTTPS" class="headerlink" title="3 &nbsp;&nbsp;HTTPS"></a>3 &nbsp;&nbsp;HTTPS</h2><hr>
-<p><img src="http://img.jemper.cn/2019/03/HTTPS.png" alt="HTTPS"></p>
+<p>HTTPS 握手阶段到加密阶段整体流程图：<br><img src="http://img.jemper.cn/2019/03/https.png" alt="HTTPS"></p>
 <h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><hr>
 <p><strong>证书是为了解决公钥分发的问题，换句话说就是认证服务器公钥</strong>。需要注意的是它并非 TLS/SSL 的一部分，分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
 <h4 id="4-1-nbsp-nbsp-自签名证书"><a href="#4-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.1. &nbsp;&nbsp;自签名证书"></a>4.1. &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
