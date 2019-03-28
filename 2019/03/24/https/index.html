@@ -5,20 +5,20 @@
   
   <title>HTTPS - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持">
+  <meta name="description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》">
 <meta name="keywords" content="http tcp ip">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTPS">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/24/https/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持">
+<meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/https.png">
-<meta property="og:updated_time" content="2019-03-27T17:24:17.034Z">
+<meta property="og:updated_time" content="2019-03-28T09:10:58.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS">
-<meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  1 &amp;nbsp;&amp;nbsp;HTTP 简概  http/1.1:1999发布（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）（2）支持">
+<meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》">
 <meta name="twitter:image" content="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png">
   
   
@@ -99,12 +99,12 @@
 <li>基础部分：TCP/IP、HTTP；可以参阅<a href="/2019/03/10/tcpip-theory/">《TCP/IP 原理》</a></li>
 <li>安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅<a href="/2019/03/21/cryptology/">《密码学》</a></li>
 </ol>
+<a id="more"></a>
 <h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><hr>
 <ul>
 <li><p>http/1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
 </li>
 <li><p>http/2:2015 发布</p>
-<a id="more"></a>
 </li>
 </ul>
 <h2 id="2-nbsp-nbsp-TLS-SSL"><a href="#2-nbsp-nbsp-TLS-SSL" class="headerlink" title="2 &nbsp;&nbsp;TLS/SSL"></a>2 &nbsp;&nbsp;TLS/SSL</h2><hr>
@@ -115,11 +115,17 @@
 <li>冒充风险（pretending）：身份验证，对公钥的冒充，数字签名，需要权威的 CA 机构证明；</li>
 </ol>
 <p>同 TCP 一样，SSL 的知识体系也是非常的庞大，我也只是简单认识了 SSL，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。<br>SSL 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
-<p><img src="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png" alt="TLS/SSL格式协议"><br>HandshakeType(十六进制)<br>hello_request(0x00), client_hello(0x01), server_hello(0x02),certificate(0x0b), server_key_exchange (0x0c),certificate_request(0x0d), server_hello_done(0x0e),certificate_verify(0x0f), client_key_exchange(0x10),finished(0x14), encrypted_handshake_message(0x23), (255)</p>
-<h2 id="3-nbsp-nbsp-HTTPS"><a href="#3-nbsp-nbsp-HTTPS" class="headerlink" title="3 &nbsp;&nbsp;HTTPS"></a>3 &nbsp;&nbsp;HTTPS</h2><hr>
+<p><img src="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png" alt="TLS/SSL格式协议"><br>子消息类型 HandshakeType(十六进制) 有以下这些：<br>hello_request(0x00), client_hello(0x01), server_hello(0x02),certificate(0x0b), server_key_exchange (0x0c),certificate_request(0x0d), server_hello_done(0x0e),certificate_verify(0x0f), client_key_exchange(0x10),finished(0x14), encrypted_handshake_message(0x23), (0xff)</p>
+<p>密码套件是 TLS/SSL 的核心，可以说只有充分理解密码套件才能真正理解 TLS/SSL 协议。以 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256(IANA 表示法，编号为 0xC0,0x2F，OpenSSL 表示为 ECDHE_RSA_AES128_GCM_SHA256) 密钥套件为例，密码套件中会涉及三个算法：身份验证算法、密钥协商算法、加密算法，身份验证算法和密钥协商算法可以是同一个算法。</p>
+<ol>
+<li>使用 ECDHE_RSA 进行身份验证和密钥协商，协商出会话密钥；在密码套件中，身份验证和密码协商是一起理解的（也包含了证书的信息），他们可以是同一个算法。<br>RSA 表示证书包含 RSA 公钥，ECDHE 和 ECHD 密码套件差不多，但是不包含匿名的密码套件；</li>
+<li>使用 AES_128_GCM 加密算法和会话密钥进行会话加密，使用 SHA256 摘要算法；</li>
+</ol>
+<p>下面重点理解 TLS 记录层协议和握手协议：</p>
+<h4 id="2-1-nbsp-nbsp-TLS-记录层协议"><a href="#2-1-nbsp-nbsp-TLS-记录层协议" class="headerlink" title="2.1 &nbsp;&nbsp;TLS 记录层协议"></a>2.1 &nbsp;&nbsp;TLS 记录层协议</h4><h4 id="2-2-nbsp-nbsp-TLS-握手协议"><a href="#2-2-nbsp-nbsp-TLS-握手协议" class="headerlink" title="2.2 &nbsp;&nbsp;TLS 握手协议"></a>2.2 &nbsp;&nbsp;TLS 握手协议</h4><h2 id="3-nbsp-nbsp-HTTPS"><a href="#3-nbsp-nbsp-HTTPS" class="headerlink" title="3 &nbsp;&nbsp;HTTPS"></a>3 &nbsp;&nbsp;HTTPS</h2><hr>
 <p>HTTPS 握手阶段到加密阶段整体流程图：<br><img src="http://img.jemper.cn/2019/03/https.png" alt="HTTPS"></p>
 <h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><hr>
-<p><strong>证书是为了解决公钥分发的问题，换句话说就是认证服务器公钥</strong>。需要注意的是它并非 TLS/SSL 的一部分，分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
+<p><strong>服务器发送证书有两个目标：一个是身份验证，另一个是证书中包含服务器的公钥</strong>。需要注意的是它并非 TLS/SSL 的一部分，另外数字证书是数字签名的应用例子，数字签名可以回看《密码学》。<br>数字证书生成方式分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
 <h4 id="4-1-nbsp-nbsp-自签名证书"><a href="#4-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.1. &nbsp;&nbsp;自签名证书"></a>4.1. &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
 <h4 id="4-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。</p>
 <p>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
@@ -150,7 +156,7 @@
 </tr>
 <tr>
 <td>fullchain.pem</td>
-<td>包括了cert.pem和chain.pem的内容</td>
+<td>包括了cert.pem和chain.pem的内容，服务端证书是第一张证书，接下来是中间证书</td>
 </tr>
 <tr>
 <td>privkey.pem</td>
@@ -194,7 +200,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-TLS-SSL"><span class="toc-number">2.</span> <span class="toc-text">2   TLS/SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-HTTPS"><span class="toc-number">3.</span> <span class="toc-text">3   HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-数字证书"><span class="toc-number">4.</span> <span class="toc-text">4   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-nbsp-nbsp-自签名证书"><span class="toc-number">4.0.1.</span> <span class="toc-text">4.1.   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">4.0.2.</span> <span class="toc-text">4.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-测试"><span class="toc-number">5.</span> <span class="toc-text">5   测试</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-TLS-SSL"><span class="toc-number">2.</span> <span class="toc-text">2   TLS/SSL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-nbsp-nbsp-TLS-记录层协议"><span class="toc-number">2.0.1.</span> <span class="toc-text">2.1   TLS 记录层协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-nbsp-nbsp-TLS-握手协议"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.2   TLS 握手协议</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-HTTPS"><span class="toc-number">3.</span> <span class="toc-text">3   HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-数字证书"><span class="toc-number">4.</span> <span class="toc-text">4   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-nbsp-nbsp-自签名证书"><span class="toc-number">4.0.1.</span> <span class="toc-text">4.1.   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">4.0.2.</span> <span class="toc-text">4.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-测试"><span class="toc-number">5.</span> <span class="toc-text">5   测试</span></a></li></ol>
       </div>
     
     
