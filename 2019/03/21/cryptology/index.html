@@ -13,7 +13,8 @@
 <meta property="og:description" content="近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/AD_Encryption.png">
-<meta property="og:updated_time" content="2019-03-28T13:49:42.476Z">
+<meta property="og:image" content="http://img.jemper.cn/2019/03/https.png">
+<meta property="og:updated_time" content="2019-03-28T14:44:02.579Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="密码学">
 <meta name="twitter:description" content="近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。">
@@ -213,7 +214,7 @@
 <h2 id="2-nbsp-nbsp-简单加密算法"><a href="#2-nbsp-nbsp-简单加密算法" class="headerlink" title="2 &nbsp;&nbsp;简单加密算法"></a>2 &nbsp;&nbsp;简单加密算法</h2><hr>
 <h3 id="2-1-nbsp-nbsp-对称加密"><a href="#2-1-nbsp-nbsp-对称加密" class="headerlink" title="2.1 &nbsp;&nbsp;对称加密"></a>2.1 &nbsp;&nbsp;对称加密</h3><p>在日常开发中是最常用的保证数据机密性的方式；在 HTTP 中因为非对称加密计算量大，所以频繁数据传输采用了”对话密钥”进行对称加密。对称加密中密钥由双方保管。<br>对称加密算法有很多，如一次性密码本（XOR运算）、流密码算法（RC4_128、CHACHA20（谷歌提出的AEAD））、块密码算法（AES_256_CBC、3DES_EDE_CBC、AESGCM（目前主流的AEAD）），AEAD加密模式由于同时完成了机密性和完整性保护，在安全性上更有保障，服务器应该优先支持相关的密码套件，其次才是 AES-CBC 加密模式。</p>
 <h3 id="2-2-nbsp-nbsp-非对称加密"><a href="#2-2-nbsp-nbsp-非对称加密" class="headerlink" title="2.2 &nbsp;&nbsp;非对称加密"></a>2.2 &nbsp;&nbsp;非对称加密</h3><p>也叫公开密钥算法，因为计算量大，日常开发不会用来保证数据机密性，而是基于网络传输信息不安全事实，采用非对称加密进行身份认证。非对称加密的私钥由谁生成就由谁保管；对服务器来说，私钥是服务器生成的，由服务器保密，公钥给用户；对 github.com 来说，私钥由用户生成的，由用户保密，公钥上传配置到 github.com。</p>
-<p>公开密钥算法最重要和最广泛使用的算法就是 RSA 算法，它是 Ron Rivest、Adi Shamir、Leonard Adleman 三人创建的。 RSA 算法是一个多用途的算法，可以进行加密解密、密钥协商、数字签名；基础原理都是一样的：公钥加密私钥解密，私钥加密公钥解密。</p>
+<p>公开密钥算法最重要和最广泛使用的算法就是 RSA 算法，它是 Ron Rivest、Adi Shamir、Leonard Adleman 三人创建的。 <strong>RSA 算法是一个多用途的算法，可以进行加密解密、密钥协商、数字签名；</strong>基础原理都是一样的：公钥加密私钥解密，私钥加密公钥解密。</p>
 <ul>
 <li>加密解密：双向加密，如果不考虑性能，双方可以用各自的密钥对实现双向加密。</li>
 <li>密钥协商：单向加密，即公钥加密密钥发给对方，对方用私钥解密得到密钥，实现对称加密。</li>
@@ -243,19 +244,20 @@
 <li>防伪造：发送的消息不能够伪造，MAC 算法也有这个特点；</li>
 </ul>
 <p>目前使用较多的数字签名有 RSA、DSA、ECDSA 等。数字签名算法建议对消息摘要值进行签名，因为摘要值的长度是固定的，运算的时候速度会比较快。</p>
-<p><strong>数据证书</strong>就是数字签名的实际应用例子，是为了解决服务器身份认证问题，服务器实体并不能自己证明自己，所以需要通过 CA 机构来进行认证，对服务端来说 CA 机构的私钥用来给服务器颁发证书，对客户端来说浏览器集成了 CA 机构的公钥可以验证服务器证书。<strong>理解数字签名就要理解一次对话中需要两对非对称加密：CA 机构的公钥私钥和服务器的公钥私钥。</strong></p>
+<p><strong>数据证书</strong>就是数字签名的实际应用例子，是为了解决服务器身份认证问题，服务器实体并不能自己证明自己，所以需要通过 CA 机构来进行认证，对服务端来说 CA 机构的私钥用来给服务器颁发证书，对客户端来说浏览器集成了 CA 机构的公钥可以验证服务器证书。<strong>理解数字签名就要理解一次对话中需要两对非对称加密：CA 机构的公钥私钥和服务器的公钥私钥。</strong><br><img src="http://img.jemper.cn/2019/03/https.png" alt="HTTPS"></p>
 <h3 id="3-4-nbsp-nbsp-密钥协商算法（Key-Exchange）"><a href="#3-4-nbsp-nbsp-密钥协商算法（Key-Exchange）" class="headerlink" title="3.4 &nbsp;&nbsp;密钥协商算法（Key Exchange）"></a>3.4 &nbsp;&nbsp;密钥协商算法（Key Exchange）</h3><p>这个算法只是实现密钥的一种。<br>密钥的存储和传输分为静态密钥和动态密钥，在网络通信应用中，密钥的管理和分配是个难题，尤其是生成一个动态密钥更难，而密钥协商算法就可以解决密钥分配、存储和传输等问题。动态密钥存储在进程中，一旦客户端和服务端的连接关闭就会消失。服务器的公钥和私钥正是用于密钥协商过程中，只需要用到一次，后面的对话都不再会用到私钥了。</p>
 <h4 id="3-4-1-nbsp-nbsp-RSA-密钥协商算法"><a href="#3-4-1-nbsp-nbsp-RSA-密钥协商算法" class="headerlink" title="3.4.1 &nbsp;&nbsp;RSA 密钥协商算法"></a>3.4.1 &nbsp;&nbsp;RSA 密钥协商算法</h4><p>客户端生成一个随机值，也就是会话密钥，并用 RSA 密钥的公钥进行加密并发给服务端，服务端用私钥解密得到会话密钥，到此双方完成连接，采用对称加密算法和会话密钥加密解密数据。<br>不足之处：<br>（1）获取会话密钥过程其实并不能称为协商，完全是由客户端决定的，只能称为密钥传输。攻击者不会云破解 RSA 加密算法的私钥，直接暴力破解会话密钥就能反解出明文。<br>（2）不能提供前向安全性。即长期使用的主密钥泄漏会导致过去的会话密钥泄漏。</p>
-<h4 id="3-4-2-nbsp-nbsp-DH-密钥协商算法"><a href="#3-4-2-nbsp-nbsp-DH-密钥协商算法" class="headerlink" title="3.4.2 &nbsp;&nbsp;DH 密钥协商算法"></a>3.4.2 &nbsp;&nbsp;DH 密钥协商算法</h4><p>DH（Diffie-Hellman）算法在进行密钥协商的时候，通信双方的任何一方无法独自计算出一个会话密钥，通信双方各自保留一部分关键信息。<br>在使用 DH 算法之前，先要生成一些公共参数，这个参数是公开的，一般由服务端生成，然后发给对方。<br>参数有两个，分别是 p 和 g，p 是一个很大的质数，g 表示为一个生成器，值很小；服务端通过 p 和 g 参数，生成一个 DH 密钥对 pub_key（Ys） 和 priv_key(b)，私钥需要保密；p、g 和 pub_key 发给客户端，客户端也生成一个 DH 密钥对 pub_key(Yc) 和 priv_key(a)，并把 pub_key 也发送给服务端。服务端根据 Yc 和 b 计算 Z，客户端根据 Ys 和 a 计算 Z。到此协商完成。<br>可以看到 DH 和 RSA 算法一样属于离散对数和因式分解问题。因此 DH 密钥协商不存在 RSA 密钥协商存在的问题。</p>
+<h4 id="3-4-2-nbsp-nbsp-DH-密钥协商算法"><a href="#3-4-2-nbsp-nbsp-DH-密钥协商算法" class="headerlink" title="3.4.2 &nbsp;&nbsp;DH 密钥协商算法"></a>3.4.2 &nbsp;&nbsp;DH 密钥协商算法</h4><p>DH（Diffie-Hellman）算法在进行密钥协商的时候，通信双方的任何一方无法独自计算出一个会话密钥，通信双方各自保留一部分关键信息。<br>在使用 DH 算法之前，先要生成一些公共参数，这个参数是公开的，一般由服务端生成，然后发给对方。<br>参数有两个，分别是 p 和 g，p 是一个很大的质数，g 表示为一个生成器，值很小；服务端通过 p 和 g 参数，生成一个 DH 密钥对 priv_key(b，b是一个随机数) 和 pub_key(Ys) =（g^b）mod p，私钥需要保密；p、g 和 pub_key 发给客户端，客户端也生成一个 DH 密钥对 priv_key(a，a是随机数)和 pub_key(Yc) = (g^a) mod p，并把 pub_key 也发送给服务端。服务端根据 Yc 和 b 计算 Z = (Yc^b) mod p，客户端根据 Ys 和 a 计算 Z = (Ys^a) mod p。Z 即会话密钥，到此协商完成。<br>可以看到 DH 和 RSA 算法一样属于离散对数和因式分解问题。而 DH 协商中不需要用到服务器的私钥，服务器私钥的功能被削弱到用来身份认证，因此 DH 密钥协商不存在 RSA 密钥传输存在的问题。</p>
+<p>在 TLS 中，密码协商都是依赖 client key exchange 和 server key exchange 两个子消息来传递的。server key exchange 的结尾处需要使用服务器私钥对该报文本身进行签名，以表明自己拥有私钥，即使如此，私钥还是没有参与密钥计算，只是用多一次身份认证。</p>
 <p>DHE 和 ECDHE 密码套件实际上分别称为临时 DH 密码套件和临时 ECDH 密码套件，所谓临时（ephemeral）表示客户端和服务端每次生成的 DH 密钥和 ECC 密钥都是动态密钥，客户端和服务端进行协商算法的时候，服务器使用 Server Key Exchange 子消息传递相关的参数（DH 参数和 ECC 命名曲线）和服务器的公钥；客户端收到服务器发送的相关参数后，需要使用这些参数生成客户端的公钥（DH 公钥和 ECDH 公钥），客户端和服务端结合双方的密钥才能协商出一致的预备主密钥。</p>
-<h3 id="3-5-nbsp-nbsp-密码套件"><a href="#3-5-nbsp-nbsp-密码套件" class="headerlink" title="3.5 &nbsp;&nbsp;密码套件"></a>3.5 &nbsp;&nbsp;密码套件</h3><p>密码套件是 TLS/SSL 的核心，可以说只有充分理解密码套件才能真正理解 TLS/SSL 协议。以 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256(IANA 表示法，编号为 0xC0,0x2F，OpenSSL 表示为 ECDHE_RSA_AES128_GCM_SHA256) 密钥套件为例，其总体上由两部分组成：(1)Key Exchange(ECDHE_RSA)、(2)Cipher(AES_128_GCM) + Mac(SHA256)，Mac 是 Cipher 对称加密算法中的 Mac 算法采用的加密基元。<br>密码套件中这两部分涉及三个算法：身份验证算法、密钥协商算法、加密算法，身份验证算法和密钥协商算法可以是同一个算法。</p>
+<h3 id="3-5-nbsp-nbsp-密码套件"><a href="#3-5-nbsp-nbsp-密码套件" class="headerlink" title="3.5 &nbsp;&nbsp;密码套件"></a>3.5 &nbsp;&nbsp;密码套件</h3><p>密码套件提供了身份认证、数据机密性、数据完整性，是 TLS/SSL 的核心，可以说只有充分理解密码套件才能真正理解 TLS/SSL 协议。以 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256(IANA 表示法，编号为 0xC0,0x2F，OpenSSL 表示为 ECDHE_RSA_AES128_GCM_SHA256) 密钥套件为例，其总体上由两部分组成：(1)Key Exchange(ECDHE_RSA)、(2)Cipher(AES_128_GCM) + Mac(SHA256)，Mac 是 Cipher 对称加密算法中的 Mac 算法采用的加密基元。<br>密码套件中这两部分涉及三个算法：身份验证算法、密钥协商算法、加密算法（里面包括 Mac 算法，使用的密钥是协商出来 的密钥），身份验证算法和密钥协商算法可以是同一个算法。</p>
 <ol>
 <li>使用 ECDHE_RSA 进行身份验证和密钥协商，协商出会话密钥；在密码套件中，身份验证和密码协商是一起理解的（也包含了证书的信息），他们可以是同一个算法。<br>RSA 表示证书包含 RSA 公钥，ECDHE 和 ECHD 密码套件差不多，但是不包含匿名的密码套件；</li>
 <li>使用 AES_128_GCM 加密算法和会话密钥进行会话加密，并且 AES_128_GCM 底层使用 SHA256 的 Mac 算法；<br>因为在数据加密过程中，是需要保证机密性和完整性的，所以需要对称加密算法 + Mac 算法，实现 AD 或者 AEAD 的加密模式。</li>
 </ol>
 <h2 id="4-nbsp-nbsp-OpenSSL-库或命令工具"><a href="#4-nbsp-nbsp-OpenSSL-库或命令工具" class="headerlink" title="4 &nbsp;&nbsp;OpenSSL 库或命令工具"></a>4 &nbsp;&nbsp;OpenSSL 库或命令工具</h2><hr>
 <p>程序开发，证书生成都需要使用实现了各种密码学算法的 openssl 库或命令工具，目前 openssl 已经被大部分系统替换成 LibreSSL（PHP 大部分内置的密码学函数也是基于底层的 LibreSSL 库），只是工具名还是习惯地称 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
-<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] <a href="https://blog.csdn.net/mrpre/article/details/78025940" target="_blank" rel="noopener">https://blog.csdn.net/mrpre/article/details/78025940</a> Mrpre 版次：2017年09月19日</p>
+<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] <a href="https://blog.csdn.net/mrpre/article/details/78025940" target="_blank" rel="noopener">https://blog.csdn.net/mrpre/article/details/78025940</a> Mrpre 版次：2017年09月19日<br>[3] <a href="https://blog.nlogn.cn/pfs-ecdhe/" target="_blank" rel="noopener">https://blog.nlogn.cn/pfs-ecdhe/</a></p>
 
       
      <!-- by blair add this if sentence at 20160725 -->
