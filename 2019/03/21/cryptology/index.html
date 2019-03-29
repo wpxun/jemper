@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://img.jemper.cn/2019/03/AD_Encryption.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/https.png">
-<meta property="og:updated_time" content="2019-03-29T08:06:31.503Z">
+<meta property="og:updated_time" content="2019-03-29T09:11:56.594Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="密码学">
 <meta name="twitter:description" content="近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。">
@@ -234,7 +234,7 @@
 <h4 id="3-2-2-nbsp-nbsp-AEAD-加密模式"><a href="#3-2-2-nbsp-nbsp-AEAD-加密模式" class="headerlink" title="3.2.2 &nbsp;&nbsp;AEAD 加密模式"></a>3.2.2 &nbsp;&nbsp;AEAD 加密模式</h4><p>AEAD 是 AE 加密模式的一种变体，是在<strong>底层组合了加密算法和 Mac 算法</strong>，能够同时保证数据机密性和完整性，减轻了使用者的负担，与 AD 相比，AD 是使用者自己实现，AEAD 是底层实现（里面使用了结构，包含了密文和 用于 Mac 校验的属性）。主要有三种方式。</p>
 <ul>
 <li>CCM 模式，HTTPS 中使用得少，底层采用的是 Mac-then-Encrypt。</li>
-<li>GCM 模式，流行的 AEAD 模式，采用了 GHASH 算法（一种 Mac 算法）进行 Mac 运算，不，使用块密码 AES 算法进行加密运算，在效率和性能上都很出色。</li>
+<li>GCM 模式，流行的 AEAD 模式，采用了 GHASH 算法（一种 Mac 算法）进行 Mac 运算，不需要 Mac 密钥，使用块密码 AES 算法进行加密运算，在效率和性能上都很出色。</li>
 <li>ChaCha20-Poly1305, 使用了 ChaCha20 流密码算法进行加密运算，使用 Poly1305 算法进行 Mac 运算。</li>
 </ul>
 <p>注意，AEAD 的 Mac 算法是不用 Mac 密钥的，而是用 additional_data 属性来校验数据完整性的。<br><img src="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png" alt="AEAD 模式逻辑图"></p>

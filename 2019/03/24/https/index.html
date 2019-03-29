@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/https.png">
-<meta property="og:updated_time" content="2019-03-29T08:05:47.172Z">
+<meta property="og:updated_time" content="2019-03-29T19:36:26.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS">
 <meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  我也只是简单认识了 HTTPS，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。">
@@ -197,7 +197,7 @@
 <h2 id="5-nbsp-nbsp-测试"><a href="#5-nbsp-nbsp-测试" class="headerlink" title="5 &nbsp;&nbsp;测试"></a>5 &nbsp;&nbsp;测试</h2><hr>
 <ol>
 <li>服务端：nghttpd -v -d /usr/local/www 443 /Users/ada/.ssh/localhost/wpxkey.pem /Users/ada/.ssh/localhost/cert.pem</li>
-<li>抓包工具：wireshark + npcap，过滤 ip.addr = <a href="http://www.xxx.cn" target="_blank" rel="noopener">www.xxx.cn</a> &amp;&amp; (ssl || tcp)</li>
+<li>抓包工具：Wireshark + npcap，过滤 ip.addr = <a href="http://www.xxx.cn" target="_blank" rel="noopener">www.xxx.cn</a> &amp;&amp; (ssl || tcp)</li>
 <li>客户端：cURL命令，curl -w “@curl.txt” -so /dev/null <a href="https://www.xxx.cn" target="_blank" rel="noopener">https://www.xxx.cn</a><br>常用参数：<br>-w tells cURL to use our format file, 可以是文本 <code>-w &quot;TCP handshake: %{time_connect}, SSL handshake: %{time_appconnect}\n&quot;</code>，也可以是文件 <code>-w &quot;@curl.txt&quot;</code>。<br>-o redirects the out of the request to /dev/null<br>-s tells cURL not to show a progress meter，即不显示进度<br>-k, –insecure turn off curl’s verification of the certificate<br>-H, –header Pass custom header，可设置多次<br>-d, –data HTTP POST data<br>打印时间信息（单位秒）：</li>
 </ol>
 <ul>
@@ -209,7 +209,11 @@
 <li>time_starttransfer:  从请求开始到 Web 服务器返回数据的第一个字节所用的时间</li>
 <li>time_total:  总时间，按秒计</li>
 </ul>
-<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a> 阮一峰 2016年8月19日</p>
+<ol start="4">
+<li>解密 HTTPS 流量：可以用 Wireshark、Fidder；另外如果用的是 RSA 密钥协商，还可以用 Wireshark 的 RSA key list，不过对 TLSv1.2 已经不支持 RSA 密钥协商了。<br>这里介绍一下 Wireshark 存储主密钥的解密方式。<br>(1) 使用 SSLKEYLOGFILE 环境变量，Chrome 读取到 SSLKEYLOGFILE 后就会把主密钥存储到日志文件中。<br>(2) open /Applications/Google\ Chrome.app，这种打开方式保证 Chrome 能读取到 SSLKEYLOGFILE 环境变量。<br>(3) 在 Wireshark/Preferences/Protocals/TLS 中设置 (Pre)-Master-Secret log filename 指向（1）设置的日志文件，最好将 TLS debug file 也配上，这样解密过程中的日志都会记录下来，便于调试分析。</li>
+</ol>
+<p>其中(1)(2)做完 SSLKEYLOGFILE 指向的文件就会有数据了（不依赖于 Wireshark）；另外要注意两个日志文件会起来越大，定期删除日志文件，否则 Wireshark 会运行得非常缓慢。</p>
+<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a>  阮一峰 2016年8月19日<br>[3] 三种解密 HTTPS 流量的方法介绍 <a href="https://imququ.com/post/how-to-decrypt-https.html" target="_blank" rel="noopener">https://imququ.com/post/how-to-decrypt-https.html</a>  Jerry Qu 2016/03/28<br>[4] HTTP/2的历史、特性、调试、性能 <a href="https://www.jianshu.com/p/748c7ca7c50f" target="_blank" rel="noopener">https://www.jianshu.com/p/748c7ca7c50f</a>  阿里云云栖社区 2017.07.25</p>
 
       
      <!-- by blair add this if sentence at 20160725 -->
