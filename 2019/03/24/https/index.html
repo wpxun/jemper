@@ -5,20 +5,21 @@
   
   <title>HTTPS - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》">
+  <meta name="description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  我也只是简单认识了 HTTPS，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。">
 <meta name="keywords" content="http tcp ip">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTPS">
 <meta property="og:url" content="http://blog.jemper.cn/2019/03/24/https/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》">
+<meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  我也只是简单认识了 HTTPS，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png">
+<meta property="og:image" content="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/https.png">
-<meta property="og:updated_time" content="2019-03-28T16:31:55.540Z">
+<meta property="og:updated_time" content="2019-03-29T08:05:47.172Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS">
-<meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》">
+<meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP、HTTP；可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅《密码学》  我也只是简单认识了 HTTPS，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。">
 <meta name="twitter:image" content="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png">
   
   
@@ -99,6 +100,7 @@
 <li>基础部分：TCP/IP、HTTP；可以参阅<a href="/2019/03/10/tcpip-theory/">《TCP/IP 原理》</a></li>
 <li>安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL 和 HTTPS；可以参阅<a href="/2019/03/21/cryptology/">《密码学》</a></li>
 </ol>
+<p>我也只是简单认识了 HTTPS，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。</p>
 <a id="more"></a>
 <h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><hr>
 <ul>
@@ -114,11 +116,42 @@
 <li>篡改风险（tampering）：完整性，对数据的篡改，数字签名，需要权威的 CA 机构证明；</li>
 <li>冒充风险（pretending）：身份验证，对公钥的冒充，数字签名，需要权威的 CA 机构证明；</li>
 </ol>
-<p>同 TCP 一样，SSL 的知识体系也是非常的庞大，我也只是简单认识了 SSL，写此文算是我的一种学习方式吧，下面将从一些重点脉络进行梳理。<br>SSL 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
-<p><img src="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png" alt="TLS/SSL格式协议"><br>子消息类型 HandshakeType(十六进制) 有以下这些（参见《RFC 5246》）：<br>hello_request(0x00), client_hello(0x01), server_hello(0x02),certificate(0x0b), server_key_exchange (0x0c),certificate_request(0x0d), server_hello_done(0x0e),certificate_verify(0x0f), client_key_exchange(0x10),finished(0x14), encrypted_handshake_message(0x23), (0xff)</p>
-<p>以 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 密钥套件（密码套件可参阅<a href="/2019/03/21/cryptology/">《密码学》</a>）为例来分析 TLS。</p>
-<p>下面重点理解 TLS 记录层协议和握手协议：</p>
-<h4 id="2-1-nbsp-nbsp-TLS-记录层协议"><a href="#2-1-nbsp-nbsp-TLS-记录层协议" class="headerlink" title="2.1 &nbsp;&nbsp;TLS 记录层协议"></a>2.1 &nbsp;&nbsp;TLS 记录层协议</h4><h4 id="2-2-nbsp-nbsp-TLS-握手协议"><a href="#2-2-nbsp-nbsp-TLS-握手协议" class="headerlink" title="2.2 &nbsp;&nbsp;TLS 握手协议"></a>2.2 &nbsp;&nbsp;TLS 握手协议</h4><h2 id="3-nbsp-nbsp-HTTPS"><a href="#3-nbsp-nbsp-HTTPS" class="headerlink" title="3 &nbsp;&nbsp;HTTPS"></a>3 &nbsp;&nbsp;HTTPS</h2><hr>
+<p>SSL 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
+<p><img src="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png" alt="TLS/SSL格式协议"></p>
+<p>以下的代码结构基本都引自《RFC 5246》文档。</p>
+<p>子消息类型 HandshakeType(十六进制) 有以下这些：<br>hello_request(0x00), client_hello(0x01), server_hello(0x02),certificate(0x0b), server_key_exchange (0x0c),certificate_request(0x0d), server_hello_done(0x0e),certificate_verify(0x0f), client_key_exchange(0x10),finished(0x14), (0xff)</p>
+<p>对于 TLS 协议来说，多个子协议可以合并到一个 TLS 协议包中，减少延迟；</p>
+<p>ECDHE_RSA 密码套件中的证书包含一个 RSA 服务器的公钥（注意 CA 公钥算法是在证书里指定的，不需要在密码套件中指定），对 DH_XXX、ECDH_XXX、DHE_XXX、ECDHE_XXX 套件来说，套件的后半部分对应的公钥不会用来加密或者数字签名（如果要用于数字签名，前提是证书 Key Usage 扩展必须置为 digitalSignature），也不限制 CA 机构签发证书所用的数字签名，所以服务器的公钥可以看作普通的消息，服务器的非对称加密没有存在的必要性。ECDHE_RSA 这些名字的存在仅仅是历史原因。</p>
+<p>下面主要以 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 密钥套件为例来分析 TLS。</p>
+<h4 id="2-1-nbsp-nbsp-TLS-记录层协议"><a href="#2-1-nbsp-nbsp-TLS-记录层协议" class="headerlink" title="2.1 &nbsp;&nbsp;TLS 记录层协议"></a>2.1 &nbsp;&nbsp;TLS 记录层协议</h4><p>主要有四部分的逻辑处理：</p>
+<ul>
+<li>数据分块：每个块的大小小于2^14字节，握手协议都不需要分块；生成 TLSPlaintext 结构；</li>
+<li>压缩：由于存在一些安全问题，一般不启用压缩；TLSPlaintext 结构转换为 TLSCompressed 结构，如果不压缩，可以认为 TLSPlaintext 和 TLSCompressed 一致，其实是 TLSPlaintext 和 TLSCompressed.fragment 一致；</li>
+<li>加密和完整性保护：TLSCompressed 结构转换为 TLSCiphertext 结构，对 TLSCiphertext 解压后 其实就是 TLSCompressed.fragment，</li>
+<li>添加记录层消息头：看格式协议图；</li>
+</ul>
+<p>接下来单独解释一下加密和完整性保护，这里以 AEAD 为例，AEAD 函数将 TLSCompressed.fragment 结构转换/逆转换为 AEAD TLSCiphertext.fragment 结构。</p>
+<p><img src="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png" alt="AEAD 模式逻辑图"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">additional_data = seq_num + TLSCompressed.type +</span><br><span class="line">                        TLSCompressed.version + TLSCompressed.length;</span><br></pre></td></tr></table></figure>
+<p>（1）加密<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AEADEncrypted = AEAD-Encrypt(write_key, nonce, plaintext, additional_data)</span><br></pre></td></tr></table></figure></p>
+<p>其中 nonce 是明文传输的；plaintext 为 TLSCompressed.fragment；这里的 AEAD 函数校验数据完整性是通过 additional_data 这个数据，所以 Mac 密钥已经不需要了。下面这段引自 rfc5246</p>
+<p>   AEAD ciphers take as input a single key, a nonce, a plaintext, and<br>   “additional data” to be included in the authentication check, as<br>   described in Section 2.1 of [AEAD].  The key is either the<br>   client_write_key or the server_write_key.  No MAC key is used.</p>
+<p>（2）解密<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TLSCompressed.fragment = AEAD-Decrypt(write_key, nonce, AEADEncrypted, additional_data)</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-2-nbsp-nbsp-TLS-握手协议"><a href="#2-2-nbsp-nbsp-TLS-握手协议" class="headerlink" title="2.2 &nbsp;&nbsp;TLS 握手协议"></a>2.2 &nbsp;&nbsp;TLS 握手协议</h4><ul>
+<li><strong>client_hello</strong>: 密码套件支持，曲线支持（ecc_curve）等。</li>
+<li><strong>server_hello</strong>: 协商出密码套件。</li>
+<li><strong>certificate</strong>(server):</li>
+<li><strong>server_key_exchange</strong>: 一般 HTTPS 网站会部署 ECDHE_RSA、DHE_RSA、ECDHE_ECDSA、RSA 这四种密码套件，这些套件中，前三个一定需要发送 server_key_exchange 子消息才有足够的信息进行密钥协商，最后一个不允许服务器发送 server_key_exchange 子消息，因为单靠 RSA 已经足以进行密钥协商（密钥传输），除 RSA 之外 DH_DSS、DH_RAS 都不需要该子消息。<br>对 DH_RSA 来说，ServerDhParams 里包含了 dh_p、dh_g、dh_Ys，即 p 大质数、g 生成元、Ys 服务器 DH 公钥。<br>对 ECDHE_RSA 来说，ServerECDHParams 里包含了 curve_params、public，即椭圆曲线（一般是命名曲线，需要双方都支持）、ECC 公钥。<br>另外该消息会对发送的 DH/ECDH 参数和公钥进行签名，不过这不是重点。</li>
+<li><strong>server_hello_done</strong>: 其实就是一条空消息，表示服务端发送了足够的消息，接下来可以和客户端一起协商出预备主密钥。</li>
+<li><strong>client_key_exchange</strong>s: 收到 server_hello_done 后客户端立刻发送该消息。以 ECDHE_RSA 为例，把客户端 ECDH 公钥（ecdh_Yc）发送给服务端。注意的是，client_key_exchange 一定会发的，而 server_key_exchange 不一定会发，如果理解了密钥协商的要素，也就理解发与不发了。<br>讲到这里就要讲一下密钥协商过程，计算主密钥和密钥块是两个不同的过程。<br>（1）计算主密钥：一旦客户端和服务端协商出预备主密钥，就会立刻计算主密钥，在 Change Cipher Spec 协议发送之前，客户端和服务端计算出主密钥就行。通过 PRF 函数将预备主密钥转换为主密钥后，客户端和服务端应该立刻从内存中删除预备主密钥，避免被窃取。计算公式如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">master_secret = PRF(pre_master_secret, &quot;master secret&quot;,</span><br><span class="line">                ClientHello.random + ServerHello.random)</span><br><span class="line">                [0..47];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中，客户端和服务端的随机数组合起来就是 seed；主密钥的长度固定是48字节，而预备主密钥的长度取决于密码协商算法，对 RSA 密钥协商其预备主密钥的长度是48字节，对 DH/ECDH 密钥协商其预备主密钥长度取决于 DH/ECDH 公钥。<br>（2）计算密钥块： 客户端和服务端计算出主密钥后，立刻计算密钥块（key_block），TLS 记录层协议（实际上是记录层协议上的应用协议）需要使用这些密钥块进行密码学机密性和完整性保护。<br>主密钥的长度固定是48字节，而密钥块的个数和长度取决于密钥协商算法。计算如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">key_block = PRF(SecurityParameters.master_secret,</span><br><span class="line">            &quot;key expansion&quot;,</span><br><span class="line">            SecurityParameters.server_random +</span><br><span class="line">            SecurityParameters.client_random);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>Change Cipher Spec</strong> 协议：该协议并不是握手协议的一部分，但是握手协议依赖于该协议，所以 为了避免握手流程理解中断而放在这里。它是可以和握手协议的组成一个 TLS 包一起发送的。客户端和服务端计算出预备主密钥、主密钥和密钥块后，接下来通知对端后续的消息都需要 TLS 记录协议加密和完整性保护了，连接状态由待读、待写状态切换为可读、可写状态。该协议只有一个字节</li>
+<li><strong>finished</strong>：在 Wireshark 中显示的是 encrypted_handshake_message。理论上只要发了 Change Cipher Spec 就可以对数据进行加密保护了，但因为握手协议过程中的包都没有加密和完整性保护，为了避免消息篡改，客户端和服务端需要校验对方发送的 Finished 子消息确保握手消息没有被篡改。该消息一定是在 Change Cipher Spec 子消息之后，否则会产生一个致命的错误。一旦客户端和服务端都校验了对方的 Finished 子消息，那么接下来就可以立刻加密保护应用层数据了。</li>
+</ul>
+<h2 id="3-nbsp-nbsp-HTTPS"><a href="#3-nbsp-nbsp-HTTPS" class="headerlink" title="3 &nbsp;&nbsp;HTTPS"></a>3 &nbsp;&nbsp;HTTPS</h2><hr>
 <p>HTTPS 握手阶段到加密阶段整体流程图：<br><img src="http://img.jemper.cn/2019/03/https.png" alt="HTTPS"></p>
 <h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><hr>
 <p><strong>服务器发送证书有两个目标：一个是身份验证，另一个是证书中包含服务器的公钥</strong>。需要注意的是它并非 TLS/SSL 的一部分，另外数字证书是数字签名的应用例子，数字签名可以回看《密码学》。<br>数字证书生成方式分为自签名证书和 CA 证书，就是自用和通用的区别。</p>
