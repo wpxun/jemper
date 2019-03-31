@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTTPS - 在路上的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
+<meta name="keywords" content="https http2 h2 ssl tls">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTPS">
+<meta property="og:url" content="http://blog.jemper.cn/2019/04/01/https/index.html">
+<meta property="og:site_name" content="在路上的博客">
+<meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-31T16:48:45.756Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTPS">
+<meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <!-- blair add baidu tongji start... @2017.10.03 -->
+<!-- blair add baidu tongji end ! @2017.10.03 -->
+
+<header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <br>
+    <section id="main" class="outer"><article id="post-https" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTPS
+      <small class=article-detail-date-index>&nbsp; 2019-04-01</small>
+    </h1>
+  
+
+
+        <div class=page-title></div>
+        <br>
+      </header>
+    
+    <div class="article-meta">
+      <!--<a href="/2019/04/01/https/" class="article-date">
+  <time datetime="2019-04-01T09:34:00.000Z" itemprop="datePublished">2019-04-01</time>
+</a>-->
+      <!-- 
+--><!-- by blair 160724 -->
+      <!-- by blair
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://blog.jemper.cn/2019/04/01/https/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+      -->
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：</p>
+<ol>
+<li>基础部分：TCP/IP，可以参阅<a href="/2019/03/10/tcpip-theory/">《TCP/IP 原理》</a></li>
+<li>安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅<a href="/2019/03/21/cryptology/">《密码学》</a>和<a href="/2019/03/24/tls/">《SSL/TLS 协议》</a></li>
+<li>应用部分：HTTP/2，可以参阅<a href="/2019/03/31/http2/">《HTTP/2 协议》</a></li>
+</ol>
+<p>本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。</p>
+<a id="more"></a>
+<h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><hr>
+<ul>
+<li><p>http/1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
+</li>
+<li><p>http/2:2015 发布</p>
+</li>
+</ul>
+<h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><hr>
+<p>证书的生成有多种方式，开发者熟悉以下两种生成方式就可以了。</p>
+<h4 id="4-1-nbsp-nbsp-自签名证书"><a href="#4-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.1. &nbsp;&nbsp;自签名证书"></a>4.1. &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
+<h4 id="4-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。</p>
+<p>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
+<ul>
+<li>certonly 是插件；</li>
+<li>-d 支持的域名，*.xxx.com 是通配符证书，但不支持 xxx.com，所以后面还得再配置一个 xxx.com，多个 -d 参数需要配置多条 TXT 记录，注意 TXT 可以对同一主机配置多条值，等证书都生成了才可以删除 TXT 配置；</li>
+<li>–preferred-challenges dns-01 域名的认证方式，这里的 dns-01 表示用设置域名 TXT 的方式来验证，也只有 dns-01 才支持通配符证书；</li>
+<li>acme 版本，只有 v02 才支持 通配符证书；</li>
+</ul>
+<p>需要注意的可能要创建一些文件夹，如没权限时会提示手动创建，不用特别记。<br>–logs-dir    /var/log/letsencrypt<br>–config-dir  /etc/letsencrypt<br>–work-dir    /var/lib/letsencrypt<br>sudo mkdir -p /usr/local/sbin<br>sudo chown -R $(whoami) /usr/local/sbin</p>
+<p>域名 TXT 是否配置成功可以用 dig 进行验证：<br>dig  -t txt _acme-challenge.xxx.com，验证 txt 是否配置好。</p>
+<p>运行成功之后会有提示，最后一句表示<strong>更新证书</strong>的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/fullchain.pem</span><br><span class="line">Your key file has been saved at:</span><br><span class="line">/etc/letsencrypt/live/xxx.com/privkey.pem</span><br><span class="line">Your cert will expire on 2019-06-19. To obtain a new or tweaked</span><br><span class="line">version of this certificate in the future, simply run certbot</span><br><span class="line">again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">&quot;certbot renew&quot;</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cert.pem</td>
+<td>服务端证书</td>
+</tr>
+<tr>
+<td>chain.pem</td>
+<td>浏览器需要的所有证书但不包括服务端证书，比如根证书和中间证书</td>
+</tr>
+<tr>
+<td>fullchain.pem</td>
+<td>包括了cert.pem和chain.pem的内容，服务端证书是第一张证书，接下来是中间证书</td>
+</tr>
+<tr>
+<td>privkey.pem</td>
+<td>证书的私钥</td>
+</tr>
+</tbody>
+</table>
+<p>代理配置一般情况下 fullchain.pem 和 privkey.pem 就够用了，另外需要注意，如果服务器有修改证书，必须 reload nginx 才会重新加载密钥等。</p>
+<h2 id="5-nbsp-nbsp-调试"><a href="#5-nbsp-nbsp-调试" class="headerlink" title="5 &nbsp;&nbsp;调试"></a>5 &nbsp;&nbsp;调试</h2><hr>
+<h3 id="5-1-nbsp-nbsp-服务端"><a href="#5-1-nbsp-nbsp-服务端" class="headerlink" title="5.1 &nbsp;&nbsp;服务端"></a>5.1 &nbsp;&nbsp;服务端</h3><ol>
+<li>nghttp2 工具集中的 nghttpd 服务器：nghttpd -v -d /usr/local/www 443 /Users/ada/.ssh/localhost/wpxkey.pem /Users/ada/.ssh/localhost/cert.pem</li>
+<li>nginx，通过 nginx -V 可以查看是否支持 ssl(–with-http_ssl_module) 和 http2(–with-http_v2_module)，OpenSSL 1.0.2版本以上的都支持 h2。</li>
+</ol>
+<h3 id="5-2-nbsp-nbsp-客户端"><a href="#5-2-nbsp-nbsp-客户端" class="headerlink" title="5.2 &nbsp;&nbsp;客户端"></a>5.2 &nbsp;&nbsp;客户端</h3><ol>
+<li>cURL命令<br>curl -w “@curl.txt” -so /dev/null <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>curl -v –http2 <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>常用参数：<br>-w tells cURL to use our format file, 可以是文本 <code>-w &quot;TCP handshake: %{time_connect}, SSL handshake: %{time_appconnect}\n&quot;</code>，也可以是文件 <code>-w &quot;@curl.txt&quot;</code>。<br>-o redirects the out of the request to /dev/null<br>-s tells cURL not to show a progress meter，即不显示进度<br>-k, –insecure turn off curl’s verification of the certificate<br>-H, –header Pass custom header，可设置多次<br>-d, –data HTTP POST data<br>-v  显示更多关于你访问的 URL 的调度信息<br>–http2 模拟 HTTP/2 的请求<br>打印时间信息（单位秒）：</li>
+</ol>
+<ul>
+<li>time_namelookup:  DNS解析时间,从请求开始到DNS解析完毕所用时间</li>
+<li>time_connect:  连接时间,从请求开始到建立TCP连接完成所用时间,包括前边DNS解析时间，如果需要单纯的得到连接时间，用这个time_connect时间减去前边time_namelookup时间</li>
+<li>time_appconnect:  从请求开始到连接建立完成时间，到SSL/SSH等建立连接时间。</li>
+<li>time_pretransfer:  从请求开始到准备传输的时间。</li>
+<li>time_redirect:  重定向时间</li>
+<li>time_starttransfer:  从请求开始到 Web 服务器返回数据的第一个字节所用的时间</li>
+<li>time_total:  总时间，按秒计</li>
+</ul>
+<ol start="2">
+<li>nghttp2 工具集中的 nghttp 命令行客户端，nghttp -ns <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a> ，常用参数有</li>
+</ol>
+<ul>
+<li>-v（打印 debug 信息）</li>
+<li>-n（丢弃下载的数据，如 HTML 内容）</li>
+<li>-a（下载在 HTML 中指明的、与 HTML 同一个域的引用资源，不过推送的资源不受此参数影响）</li>
+<li>-s（打印统计信息）</li>
+<li>-H <header>（给请求添加首部，如 -H’:method: PUT’）</header></li>
+</ul>
+<h3 id="5-3-nbsp-nbsp-抓包解密"><a href="#5-3-nbsp-nbsp-抓包解密" class="headerlink" title="5.3 &nbsp;&nbsp;抓包解密"></a>5.3 &nbsp;&nbsp;抓包解密</h3><p>其实很多命令行工具如 openssl、curl 也都有请求日志，但不够详细。</p>
+<ol>
+<li>Chrome 会话密钥日志：Chrome 和 Firefox 都提供了记录 TLS 会话密钥的功能，这是 Mozilla 的规范。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SSLKEYLOGFILE = ~/tls/tls_master_secret.log</span><br><span class="line">open /Applications/Google\ Chrome.app，这种打开方式保证 Chrome 能读取到 SSLKEYLOGFILE 环境变量。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>接下来可以使用像 Wireshark 这种工具检查 HTTP/2 流量和观察 HTTP/2 帧。前提是需要在 Wireshark 做一些配置。<br><code>Wireshark/Preferences/Protocals/TLS 中设置 (Pre)-Master-Secret log filename 指向（1）设置的日志文件，最好将 TLS debug file 也配上，这样解密过程中的日志都会记录下来，便于调试分析。</code><br>要注意两个日志文件会起来越大，定期删除日志文件，否则 Wireshark 会运行得非常缓慢。<br>本地抓包工具推荐 Wireshark + npcap，过滤 ip.addr = <a href="http://www.xxx.cn" target="_blank" rel="noopener">www.xxx.cn</a> &amp;&amp; (ssl || tcp)。<br>另外如果用的是 RSA 密钥协商，还可以用 Wireshark 的 RSA key list，不过 TLSv1.2+ 已经不支持 RSA 密钥协商了。</p>
+<ol start="2">
+<li><p>chrome://net-export/ + <a href="https://netlog-viewer.appspot.com" target="_blank" rel="noopener">https://netlog-viewer.appspot.com</a><br>可以进行 HTTP/2 帧的分析等。chrome 已经不再集成 chrome://net-internals/#http2 了，改用上面的组合，前者负责 save netlogs，后者负责 catapult netlog_viewer to view them。netlog-viewer 也可以本地化，但觉得没必要。</p>
+</li>
+<li><p>Fiddler、Charles 代理，也就是中间人方式，需要安装代理的证书，特别适合移动端抓包分析。</p>
+</li>
+</ol>
+<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a>  阮一峰 2016年8月19日<br>[3] 三种解密 HTTPS 流量的方法介绍 <a href="https://imququ.com/post/how-to-decrypt-https.html" target="_blank" rel="noopener">https://imququ.com/post/how-to-decrypt-https.html</a>  Jerry Qu 2016/03/28<br>[4] HTTP/2的历史、特性、调试、性能 <a href="https://www.jianshu.com/p/748c7ca7c50f" target="_blank" rel="noopener">https://www.jianshu.com/p/748c7ca7c50f</a>  阿里云云栖社区 2017.07.25</p>
+
+      
+     <!-- by blair add this if sentence at 20160725 -->
+      <br>
+      
+<div id="bottom-donation-section">
+</div>
+<div class="well">
+  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
+  <a href="http://blog.jemper.cn">wpxun</a> <br>
+  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
+</div>
+
+ <!-- by blair add 160724-->
+    
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-数字证书"><span class="toc-number">2.</span> <span class="toc-text">4   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-nbsp-nbsp-自签名证书"><span class="toc-number">2.0.1.</span> <span class="toc-text">4.1.   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">2.0.2.</span> <span class="toc-text">4.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-调试"><span class="toc-number">3.</span> <span class="toc-text">5   调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-nbsp-nbsp-服务端"><span class="toc-number">3.1.</span> <span class="toc-text">5.1   服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-nbsp-nbsp-客户端"><span class="toc-number">3.2.</span> <span class="toc-text">5.2   客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-nbsp-nbsp-抓包解密"><span class="toc-number">3.3.</span> <span class="toc-text">5.3   抓包解密</span></a></li></ol></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+        
+ <!-- by blair add 160724-->
+        <!--
+        <div style="width:100px; height:30px;"></div> by blair add 160724
+        -->
+        
+  <div class="article-tag">
+    <a class="article-tag-link" href="/tags/https-http2-h2-ssl-tls/">https http2 h2 ssl tls</a>
+  </div>
+
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/31/http2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP/2 协议&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Sven&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
+    </div>
+  </div>
+</footer>
+
+    
+<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
+  var disqus_shortname = 'wpxun';
+  
+  var disqus_url = 'http://blog.jemper.cn/2019/04/01/https/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
