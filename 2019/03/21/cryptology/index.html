@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/AD_Encryption.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png">
-<meta property="og:updated_time" content="2019-03-31T16:50:44.738Z">
+<meta property="og:updated_time" content="2019-04-01T08:16:46.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="密码学">
 <meta name="twitter:description" content="近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。">
@@ -216,7 +216,7 @@
 <p>公开密钥算法最重要和最广泛使用的算法就是 RSA 算法，它是 Ron Rivest、Adi Shamir、Leonard Adleman 三人创建的。 <strong>RSA 算法是一个多用途的算法，可以进行加密解密、密钥协商、数字签名；</strong>基础原理都是一样的：公钥加密私钥解密，私钥加密公钥解密。</p>
 <ul>
 <li>加密解密：双向加密，如果不考虑性能，双方可以用各自的密钥对实现双向加密。</li>
-<li>密钥协商：单向加密，即公钥加密密钥发给对方，对方用私钥解密得到密钥，实现对称加密。</li>
+<li>密钥协商：单向加密，即公钥加密密钥发给对方，对方用私钥解密得到密钥，实现对称加密。目前已经被淘汰。</li>
 <li>数字签名：也是单向，不过和密钥协商相反，是用私钥加密数据（签名值），把签名值和数据发给对方，对方用公钥解密难签名。数字证书是数字签名一种例子，只是用 CA 机构的私钥给服务器的公钥这个数据进行签名而已。一言蔽之：数字签名是为了证明身份，不是为了加密数据。</li>
 </ul>
 <p>RSA 原理 n = p*q, 其中p、q是大质数, φ(n) = (p-1)(q-1); 公钥 e、n: 1 &lt; e &lt; f(n), e 和 f(n) 互质; 私钥 d、n: e*d mod f(n) = 1.<br>签名：m^e mod n = c（密文）<br>解密：c^d mod n = m（明文）<br>安全性：传播 n、e、c; 要解密需要 n、d、c, 由 e 要推导出d, 必须先由n推导到p、q, 大因数分解很难.<br>基于算法是可以知道 RSA 如果加密的明文 m &gt; n，就会有二义性，所以是不适合用来加密明文的，只用来加密密钥（比 n 小）。</p>

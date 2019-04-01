@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://img.jemper.cn/2019/03/https.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png">
-<meta property="og:updated_time" content="2019-03-31T16:48:57.703Z">
+<meta property="og:updated_time" content="2019-04-01T08:16:45.003Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSL&#x2F;TLS 协议">
 <meta name="twitter:description" content="SSL/TLS 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。">
@@ -104,17 +104,16 @@
 <li>冒充风险（pretending）：身份验证，对公钥的冒充，数字签名，需要权威的 CA 机构证明；</li>
 </ol>
 <p>TLS 便是要解决通信中存在的安全风险，并提供减少延迟可用方案。对于安全风险的处理方式，为了便于理解，可以看这一张简化的流程图：<br><img src="http://img.jemper.cn/2019/03/https.png" alt="SSL/TLS 通信流程"></p>
-<p>协议格式是 TLS 的重点内容，具体的文档可以查阅《RFC 5246》。</p>
-<p><img src="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png" alt="TLS/SSL格式协议"></p>
-<p>其中握手协议的子消息类型 HandshakeType(十六进制)常规有以下这些：<br>hello_request(0x00), client_hello(0x01), server_hello(0x02),certificate(0x0b), server_key_exchange (0x0c),certificate_request(0x0d), server_hello_done(0x0e),certificate_verify(0x0f), client_key_exchange(0x10),finished(0x14), (0xff)<br>扩展消息还增加了一些子消息类型，后面涉及时再介绍。需要注意的是，对于 TLS 协议来说，多个子协议可以合并到一个 TLS 协议包中，减少延迟；</p>
+<p>TLS 是一个分层协议，具体的文档可以查阅《RFC 5246》。</p>
+<p><img src="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png" alt="TLS/SSL格式协议"><br>协议-&gt;消息类型-&gt;子消息类型（如果有的话）<br>其中握手协议的子消息类型 HandshakeType(十六进制)常规有以下这些：<br>hello_request(0x00), client_hello(0x01), server_hello(0x02),certificate(0x0b), server_key_exchange (0x0c),certificate_request(0x0d), server_hello_done(0x0e),certificate_verify(0x0f), client_key_exchange(0x10),finished(0x14), (0xff)<br>扩展消息还增加了一些子消息类型，后面涉及时再介绍。需要注意的是，对于 TLS 协议来说，多个子协议可以合并到一个 TLS 协议包中，减少延迟；</p>
 <p>下面主要以 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 密钥套件为例来分析 TLS。</p>
 <h2 id="1-nbsp-nbsp-记录层协议"><a href="#1-nbsp-nbsp-记录层协议" class="headerlink" title="1 &nbsp;&nbsp;记录层协议"></a>1 &nbsp;&nbsp;记录层协议</h2><hr>
-<p>主要有四部分的逻辑处理：</p>
+<p>主要有四部分的逻辑处理：<br>（握手完成，从应用层接收数据）</p>
 <ul>
-<li>数据分块：每个块的大小小于2^14字节，握手协议都不需要分块；生成 TLSPlaintext 结构；</li>
+<li>数据分块：每个块的大小小于2^14字节（16KB）；生成 TLSPlaintext 结构；</li>
 <li>压缩：由于存在一些安全问题，一般不启用压缩；TLSPlaintext 结构转换为 TLSCompressed 结构，如果不压缩，可以认为 TLSPlaintext 和 TLSCompressed 一致，其实是 TLSPlaintext 和 TLSCompressed.fragment 一致；</li>
 <li>加密和完整性保护：TLSCompressed 结构转换为 TLSCiphertext 结构，对 TLSCiphertext 解压后 其实就是 TLSCompressed.fragment，</li>
-<li>添加记录层消息头：看格式协议图；</li>
+<li>添加记录层消息头：看格式协议图；<br>（交付给 TCP 层传输）</li>
 </ul>
 <p>接下来单独解释一下加密和完整性保护，这里以 AEAD 为例，AEAD 函数将 TLSCompressed.fragment 结构转换/逆转换为 AEAD TLSCiphertext.fragment 结构。</p>
 <p><img src="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png" alt="AEAD 模式逻辑图"></p>
@@ -139,7 +138,7 @@
 <h3 id="2-2-nbsp-nbsp-身份认证"><a href="#2-2-nbsp-nbsp-身份认证" class="headerlink" title="2.2 &nbsp;&nbsp;身份认证"></a>2.2 &nbsp;&nbsp;身份认证</h3><ul>
 <li><strong>certificate</strong>：一般只是证明服务端的身份，银行大额转账则要求双向认证，这时候就需要用到银行发的 Ukey。</li>
 </ul>
-<p>身份认证就是密码学的数字签名的实际应用例子，由权威的 CA 机构签名背书给服务器发放数字证书，身份认证就是对数字证书的身份求证，除了 TLS 使用的数字证书，银行 Ukey 里的数字证书都是一样的原理。SSL/TLS 通信流程图结合密码学的数字签名就可以讲清楚身份认证的过程。</p>
+<p><strong>身份认证</strong>就是密码学中<strong>数字签名</strong>的实际应用例子，由权威的 CA 机构签名背书给服务器发放<strong>数字证书</strong>（类似现实生活中身份证，驾驶证），身份认证就是对数字证书的身份求证，除了 TLS 使用的数字证书，银行 Ukey 里的数字证书都是一样的原理。SSL/TLS 通信流程图结合密码学的数字签名就可以讲清楚身份认证的过程。</p>
 <p><strong>数字证书</strong>解决了服务器身份认证和公钥传输问题，服务器实体并不能自己证明自己，所以需要通过 CA 机构来进行认证，对服务端来说 CA 机构的私钥用来给服务器颁发证书，对客户端来说浏览器集成了 CA 机构的公钥可以验证服务器证书。<strong>理解数字证书就要理解一次对话中需要两对非对称加密：CA 机构的公钥私钥和服务器的公钥私钥，且这两套的算法没有必然的联系。</strong>目前密钥协商已不再使用 RSA 算法，所以服务器的公钥和私钥已经限于身份认证功能了。</p>
 <h3 id="2-3-nbsp-nbsp-密钥协商"><a href="#2-3-nbsp-nbsp-密钥协商" class="headerlink" title="2.3 &nbsp;&nbsp;密钥协商"></a>2.3 &nbsp;&nbsp;密钥协商</h3><ul>
 <li><strong>server_key_exchange</strong>: 一般 HTTPS 网站会部署 ECDHE_RSA、DHE_RSA、ECDHE_ECDSA、RSA 这四种密码套件，这些套件中，前三个一定需要发送 server_key_exchange 子消息才有足够的信息进行密钥协商，最后一个不允许服务器发送 server_key_exchange 子消息，因为单靠 RSA 已经足以进行密钥协商（密钥传输），除 RSA 之外 DH_DSS、DH_RAS 都不需要该子消息。<br>对 DH_RSA 来说，ServerDhParams 里包含了 dh_p、dh_g、dh_Ys，即 p 大质数、g 生成元、Ys 服务器 DH 公钥。<br>对 ECDHE_RSA 来说，ServerECDHParams 里包含了 curve_params、public，即椭圆曲线（一般是命名曲线，需要双方都支持）、ECC 公钥。<br>另外该消息会对发送的 DH/ECDH 参数和公钥进行签名，不过这不是重点。</li>

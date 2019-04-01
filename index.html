@@ -159,9 +159,12 @@
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<p> <strong>参考文献</strong><br>[1] HTTP/2 基础教程 Stephen Ludin, Javier Garza，罗正龙（译）, 郑维智（译） 版次：2018年1月第1版</p>
-
+        <p>HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。<br>h2 和 h1 的最大差别在于在 <strong>http 层</strong>上增加了<strong>分帧层</strong>；把原来的 http 层的数据拆分成多种帧类型，并在每种类型前加上协议性的帧首部。基于这一点改动，传输的细节得以改善（采用帧、流模式），传输的功能得以扩展（如服务端推送、首部压缩、线上传输）。学习 HTTP/2 最好的文档是 RFC 7540。</p>
+        
+          <p class="article-more-link">
+            <a href="/2019/03/31/http2/">Read More</a>
+          </p>
+        
       
     </div>
 	

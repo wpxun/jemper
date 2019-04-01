@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-31T16:48:45.756Z">
+<meta property="og:updated_time" content="2019-04-01T08:44:58.725Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS">
 <meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
@@ -103,7 +103,7 @@
 <ul>
 <li><p>http/1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
 </li>
-<li><p>http/2:2015 发布</p>
+<li><p>http/2:2015 发布<br>高并发高可用性系统经常需要做一些基于 HTTP/1.1 的优化，比如资源合并。升级到 HTTP/2，这些优化将不再必要），域名拆分还是有必要，一个多个socket可能优于单一socket，二来微服务化不可能把所有功能都集于一个服务器。<br>（1）魔法字节流的 PRI 其实就是美国国家安全局 PRISM（棱镜）监控计划的一个笑话。<br>（2）由早期的 HTTP/2.0 改成 HTTP/2 表示不能保证语义向后兼容，也就是不会有 2.1、2.2 之类的版本。</p>
 </li>
 </ul>
 <h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><hr>
@@ -153,8 +153,9 @@
 <li>nginx，通过 nginx -V 可以查看是否支持 ssl(–with-http_ssl_module) 和 http2(–with-http_v2_module)，OpenSSL 1.0.2版本以上的都支持 h2。</li>
 </ol>
 <h3 id="5-2-nbsp-nbsp-客户端"><a href="#5-2-nbsp-nbsp-客户端" class="headerlink" title="5.2 &nbsp;&nbsp;客户端"></a>5.2 &nbsp;&nbsp;客户端</h3><ol>
-<li>cURL命令<br>curl -w “@curl.txt” -so /dev/null <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>curl -v –http2 <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>常用参数：<br>-w tells cURL to use our format file, 可以是文本 <code>-w &quot;TCP handshake: %{time_connect}, SSL handshake: %{time_appconnect}\n&quot;</code>，也可以是文件 <code>-w &quot;@curl.txt&quot;</code>。<br>-o redirects the out of the request to /dev/null<br>-s tells cURL not to show a progress meter，即不显示进度<br>-k, –insecure turn off curl’s verification of the certificate<br>-H, –header Pass custom header，可设置多次<br>-d, –data HTTP POST data<br>-v  显示更多关于你访问的 URL 的调度信息<br>–http2 模拟 HTTP/2 的请求<br>打印时间信息（单位秒）：</li>
+<li>cURL命令<br>curl -w “@curl.txt” -so /dev/null <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>curl -v –http2 <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>常用参数：<br>-w tells cURL to use our format file, 可以是文本 <code>-w &quot;TCP handshake: %{time_connect}, SSL handshake: %{time_appconnect}\n&quot;</code>，也可以是文件 <code>-w &quot;@curl.txt&quot;</code>。<br>-o redirects the out of the request to /dev/null<br>-s tells cURL not to show a progress meter，即不显示进度<br>-k, –insecure turn off curl’s verification of the certificate<br>-H, –header Pass custom header，可设置多次<br>-d, –data HTTP POST data<br>-v  显示更多关于你访问的 URL 的调度信息<br>–http2 模拟 HTTP/2 的请求</li>
 </ol>
+<p>打印时间信息（单位秒）：</p>
 <ul>
 <li>time_namelookup:  DNS解析时间,从请求开始到DNS解析完毕所用时间</li>
 <li>time_connect:  连接时间,从请求开始到建立TCP连接完成所用时间,包括前边DNS解析时间，如果需要单纯的得到连接时间，用这个time_connect时间减去前边time_namelookup时间</li>
@@ -172,7 +173,7 @@
 <li>-n（丢弃下载的数据，如 HTML 内容）</li>
 <li>-a（下载在 HTML 中指明的、与 HTML 同一个域的引用资源，不过推送的资源不受此参数影响）</li>
 <li>-s（打印统计信息）</li>
-<li>-H <header>（给请求添加首部，如 -H’:method: PUT’）</header></li>
+<li><code>-H &lt;header&gt;</code>（给请求添加首部，如 -H’:method: PUT’）</li>
 </ul>
 <h3 id="5-3-nbsp-nbsp-抓包解密"><a href="#5-3-nbsp-nbsp-抓包解密" class="headerlink" title="5.3 &nbsp;&nbsp;抓包解密"></a>5.3 &nbsp;&nbsp;抓包解密</h3><p>其实很多命令行工具如 openssl、curl 也都有请求日志，但不够详细。</p>
 <ol>
