@@ -14,7 +14,7 @@
 <meta property="og:description" content="HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。h2 和 h1 的最大差别在于在 http 层上增加了分帧层；把原来的 http 层的数据拆分成多种帧类型，并在每种类型前加上协议性的帧首部。基于这一点改动，传输的细节得以改善（采用帧、流模式），传输的功能得以扩展（如服务端推送、首部压缩、线上传输）。学">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/request_response.png">
-<meta property="og:updated_time" content="2019-04-01T09:52:13.423Z">
+<meta property="og:updated_time" content="2019-04-02T01:59:32.642Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP&#x2F;2 协议">
 <meta name="twitter:description" content="HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。h2 和 h1 的最大差别在于在 http 层上增加了分帧层；把原来的 http 层的数据拆分成多种帧类型，并在每种类型前加上协议性的帧首部。基于这一点改动，传输的细节得以改善（采用帧、流模式），传输的功能得以扩展（如服务端推送、首部压缩、线上传输）。学">
@@ -96,7 +96,7 @@
         <p>HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。<br>h2 和 h1 的最大差别在于在 <strong>http 层</strong>上增加了<strong>分帧层</strong>；把原来的 http 层的数据拆分成多种帧类型，并在每种类型前加上协议性的帧首部。基于这一点改动，传输的细节得以改善（采用帧、流模式），传输的功能得以扩展（如服务端推送、首部压缩、线上传输）。学习 HTTP/2 最好的文档是 RFC 7540。</p>
 <a id="more"></a>
 <h2 id="1-nbsp-nbsp-帧"><a href="#1-nbsp-nbsp-帧" class="headerlink" title="1 &nbsp;&nbsp;帧"></a>1 &nbsp;&nbsp;帧</h2><hr>
-<p>HTTP/2 是基于帧（frame）的协议，采用分帧是为了将重要的信息都封闭起来，让协议的解析方轻松解析。基于帧的协议，所有的帧都固定用 9 个字节的帧首部加上帧负载数据组成。</p>
+<p>HTTP/2 是基于帧（frame）的协议，帧是 HTTP/2 最小传输单位；采用分帧是为了将重要的信息都封装起来，让协议的解析方轻松解析。基于帧的协议，所有的帧都固定用 9 个字节的帧首部加上帧负载数据组成。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-----------------------------------------------+</span><br><span class="line">|                 Length (24)                   |</span><br><span class="line">+---------------+---------------+---------------+</span><br><span class="line">|   Type (8)    |   Flags (8)   |</span><br><span class="line">+-+-------------+---------------+-------------------------------+</span><br><span class="line">|R|                 Stream Identifier (31)                      |</span><br><span class="line">+=+=============================================================+</span><br><span class="line">|                   Frame Payload (0...)                      ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
 <ol>
 <li>帧首部字段解析：</li>
@@ -207,12 +207,78 @@
 </tbody>
 </table>
 <h2 id="2-nbsp-nbsp-流"><a href="#2-nbsp-nbsp-流" class="headerlink" title="2 &nbsp;&nbsp;流"></a>2 &nbsp;&nbsp;流</h2><hr>
-<p>流（stream）的定义是：HTTP/2连接上独立、双向的帧序列交接。一个流代表一次 HTTP 请求和响应所产生的一系列帧，流 ID 用来标识帧所属的流；单个 socket 上可以创建多个流，HTTP/2的设计思路是尽量在单个 TCP/IP socket 上通信。</p>
-<h3 id="2-1-nbsp-nbsp-消息"><a href="#2-1-nbsp-nbsp-消息" class="headerlink" title="2.1 &nbsp;&nbsp;消息"></a>2.1 &nbsp;&nbsp;消息</h3><p>帧消息的关注点在于 HEADERS 和 DATA 这两个帧类型，这也是由 h1 的头部和数据拆分而来。</p>
+<p>流（stream）的定义是：HTTP/2连接上独立、双向的帧序列交接。流代 ID 表示一次 HTTP 请求和响应所产生的一系列帧，流 ID 用来标识帧所属的流；单个 socket 上可以创建多个流，HTTP/2的设计思路是尽量在单个 TCP/IP socket 上通信。</p>
+<h3 id="2-1-nbsp-nbsp-消息"><a href="#2-1-nbsp-nbsp-消息" class="headerlink" title="2.1 &nbsp;&nbsp;消息"></a>2.1 &nbsp;&nbsp;消息</h3><p>帧消息的关注点在于 HEADERS 和 DATA 这两个帧类型，这也是由 h1 的头部和数据拆分而来。<br>帧首部必须以 +END_STREAM、+END_HEADERS 结束。</p>
 <p><img src="http://img.jemper.cn/2019/03/request_response.png" alt="GET 或 POST 请求和响应消息"></p>
 <p>h1 把 header 拆分成两部分：请求/状态行（GET / HTTP/1.1、HTTP/1.1 200 OK）、首部（Host、User-agent等）；而 h2 取消了这种拆分，<strong>一切都是 header</strong>，并引入了伪首部（Pseudo-Header）：<br>（1）请求伪首部：:method、:scheme、:authority、:path<br>（2）响应伪首部：:status</p>
-<h3 id="2-1-nbsp-nbsp-流量控制"><a href="#2-1-nbsp-nbsp-流量控制" class="headerlink" title="2.1 &nbsp;&nbsp;流量控制"></a>2.1 &nbsp;&nbsp;流量控制</h3><h3 id="2-1-nbsp-nbsp-优先级"><a href="#2-1-nbsp-nbsp-优先级" class="headerlink" title="2.1 &nbsp;&nbsp;优先级"></a>2.1 &nbsp;&nbsp;优先级</h3><p>客户端拿到页面分析依赖关系的时候是通过声明<strong>依赖关系</strong>树和树里的相对<strong>权重</strong>实现的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">index.html</span><br><span class="line">- style.css</span><br><span class="line">  - critical.js</span><br><span class="line">    - less_critical.js(weight 20)</span><br><span class="line">    - photo.jpg(weight 8)</span><br><span class="line">    - header.jpg(weight 8)</span><br><span class="line">    - ad.js(weight 4)</span><br></pre></td></tr></table></figure></p>
-<p>树是客户端自己维护的，而权重则是告诉服务端实现对象优先传输顺序，不过说到底，做什么以及如何处理优先级，最终还是得听服务器的，服务器仍有做它自己认为正确的事的权力。<br>那么客户端怎么告诉服务端的？通过 HEADERS 帧和 PRIORITY 帧，客户端可以明确的和服务沟通它需要什么，以及它需要这些资源的顺序。</p>
+<ol>
+<li>HEADERS 帧<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+---------------+</span><br><span class="line">|Pad Length? (8)|</span><br><span class="line">+-+-------------+-----------------------------------------------+</span><br><span class="line">|E|                 Stream Dependency? (31)                     |</span><br><span class="line">+-+-------------+-----------------------------------------------+</span><br><span class="line">|  Weight? (8)  |</span><br><span class="line">+-+-------------+-----------------------------------------------+</span><br><span class="line">|                   Header Block Fragment (*)                 ...</span><br><span class="line">+---------------------------------------------------------------+</span><br><span class="line">|                           Padding (*)                       ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Flags：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>END_STREAM</td>
+<td>0x1</td>
+<td>表明这是流中最后的帧（流终止）</td>
+</tr>
+<tr>
+<td>END_HEADERS</td>
+<td>0x4</td>
+<td>表明这是流中最后一个 HEADERS 帧；如果此标识未设置，表示随后会有 CONTINUATION 帧</td>
+</tr>
+<tr>
+<td>PADDED</td>
+<td>0x8</td>
+<td>表明此帧添加了填充数据，要使用 Pad Length 和 Padding 字段</td>
+</tr>
+<tr>
+<td>END_STREAM</td>
+<td>0x20</td>
+<td>设置了此标识，表明要使用 E、Stream Dependency 以及 Weight 字段</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>DATA 帧<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+---------------+</span><br><span class="line">|Pad Length? (8)|</span><br><span class="line">+---------------+-----------------------------------------------+</span><br><span class="line">|                            Data (*)                         ...</span><br><span class="line">+---------------------------------------------------------------+</span><br><span class="line">|                           Padding (*)                       ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Flags：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>END_STREAM</td>
+<td>0x1</td>
+<td>表明这是流中最后的帧（流终止）</td>
+</tr>
+<tr>
+<td>PADDED</td>
+<td>0x8</td>
+<td>表明此帧添加了填充数据，要使用 Pad Length 和 Padding 字段</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-2-nbsp-nbsp-流量控制"><a href="#2-2-nbsp-nbsp-流量控制" class="headerlink" title="2.2 &nbsp;&nbsp;流量控制"></a>2.2 &nbsp;&nbsp;流量控制</h3><h3 id="2-3-nbsp-nbsp-优先级"><a href="#2-3-nbsp-nbsp-优先级" class="headerlink" title="2.3 &nbsp;&nbsp;优先级"></a>2.3 &nbsp;&nbsp;优先级</h3><p>客户端拿到页面分析依赖关系的时候是通过声明<strong>依赖关系</strong>树和树里的相对<strong>权重</strong>实现的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">index.html</span><br><span class="line">- style.css</span><br><span class="line">  - critical.js</span><br><span class="line">    - less_critical.js(weight 20)</span><br><span class="line">    - photo.jpg(weight 8)</span><br><span class="line">    - header.jpg(weight 8)</span><br><span class="line">    - ad.js(weight 4)</span><br></pre></td></tr></table></figure></p>
+<p>依赖树是客户端自己维护的，而权重则需要告诉服务端实现对象优先传输顺序，不过说到底，做什么以及如何处理优先级，最终还是得听服务器的，服务器仍有做它自己认为正确的事的权力。<br>那么客户端怎么告诉服务端的？通过 HEADERS 帧和 PRIORITY 帧，客户端可以明确的和服务沟通它需要什么，以及它需要这些资源的顺序。</p>
+<h3 id="2-4-nbsp-nbsp-CONTINUATON-帧"><a href="#2-4-nbsp-nbsp-CONTINUATON-帧" class="headerlink" title="2.4 &nbsp;&nbsp;CONTINUATON 帧"></a>2.4 &nbsp;&nbsp;CONTINUATON 帧</h3><p>有些帧的帧负载很简单，比如 DATA，只有 Pad Length 后面就是 DATA；有些帧负载配置较多，比如 HEADERS、PUSH_PROMISE 帧，而且这些帧的<strong>首部块片段</strong>（header Block Fragment）较大（少见），需要分帧传输，有两种选择：<br>（1）再次使用 HEADERS、PUSH_PROMISE 等帧，缺点是帧负载的配置重复传递，还得处理帧负载的配置有分歧的情况，可能引起麻烦。<br>（2）采用新的 CONTINUATON 帧，没有帧负载的配置，仅仅有 header Block Fragment，缺点是 CONTINUATON 和前面的帧必须是有序的，会减损多路复用的益处。</p>
+<p>最终定制人员选择了处理较为简洁的新帧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+---------------------------------------------------------------+</span><br><span class="line">|                   Header Block Fragment (*)                 ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<p>Flags：<br>名称|位|描述<br>-|-|-<br>END_HEADERS|0x4|表明这是流中最后一个 HEADERS 帧；如果此标识未设置，表示随后会有 CONTINUATION 帧</p>
 <p> <strong>参考文献</strong><br>[1] HTTP/2 基础教程 Stephen Ludin, Javier Garza，罗正龙（译）, 郑维智（译） 版次：2018年1月第1版</p>
 
       
@@ -233,7 +299,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-帧"><span class="toc-number">1.</span> <span class="toc-text">1   帧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-流"><span class="toc-number">2.</span> <span class="toc-text">2   流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-消息"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-流量控制"><span class="toc-number">2.2.</span> <span class="toc-text">2.1   流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-优先级"><span class="toc-number">2.3.</span> <span class="toc-text">2.1   优先级</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-帧"><span class="toc-number">1.</span> <span class="toc-text">1   帧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-流"><span class="toc-number">2.</span> <span class="toc-text">2   流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-消息"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-流量控制"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-优先级"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-nbsp-nbsp-CONTINUATON-帧"><span class="toc-number">2.4.</span> <span class="toc-text">2.4   CONTINUATON 帧</span></a></li></ol></li></ol>
       </div>
     
     

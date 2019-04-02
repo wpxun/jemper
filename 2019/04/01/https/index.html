@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="在路上的博客">
 <meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-01T08:44:58.725Z">
+<meta property="og:updated_time" content="2019-04-01T10:59:18.796Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS">
 <meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
@@ -101,9 +101,9 @@
 <a id="more"></a>
 <h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><hr>
 <ul>
-<li><p>http/1.1:1999发布<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
+<li><p>http/1.1:1999发布，RFC 7230<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
 </li>
-<li><p>http/2:2015 发布<br>高并发高可用性系统经常需要做一些基于 HTTP/1.1 的优化，比如资源合并。升级到 HTTP/2，这些优化将不再必要），域名拆分还是有必要，一个多个socket可能优于单一socket，二来微服务化不可能把所有功能都集于一个服务器。<br>（1）魔法字节流的 PRI 其实就是美国国家安全局 PRISM（棱镜）监控计划的一个笑话。<br>（2）由早期的 HTTP/2.0 改成 HTTP/2 表示不能保证语义向后兼容，也就是不会有 2.1、2.2 之类的版本。</p>
+<li><p>http/2:2015 发布，RFC 7540<br>高并发高可用性系统经常需要做一些基于 HTTP/1.1 的优化，比如资源合并。升级到 HTTP/2，这些优化将不再必要），域名拆分还是有必要，一个多个socket可能优于单一socket，二来微服务化不可能把所有功能都集于一个服务器。<br>（1）魔法字节流的 PRI 其实就是美国国家安全局 PRISM（棱镜）监控计划的一个笑话。<br>（2）由早期的 HTTP/2.0 改成 HTTP/2 表示不能保证语义向后兼容，也就是不会有 2.1、2.2 之类的版本。</p>
 </li>
 </ul>
 <h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><hr>
