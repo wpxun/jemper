@@ -14,7 +14,7 @@
 <meta property="og:description" content="HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。h2 和 h1 的最大差别在于在 http 层上增加了分帧层；把原来的 http 层的数据拆分成多种帧类型，并在每种类型前加上协议性的帧首部。基于这一点改动，传输的细节得以改善（采用帧、流模式），传输的功能得以扩展（如服务端推送、首部压缩、线上传输）。学">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/request_response.png">
-<meta property="og:updated_time" content="2019-04-02T01:59:32.642Z">
+<meta property="og:updated_time" content="2019-04-02T02:03:23.585Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP&#x2F;2 协议">
 <meta name="twitter:description" content="HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。h2 和 h1 的最大差别在于在 http 层上增加了分帧层；把原来的 http 层的数据拆分成多种帧类型，并在每种类型前加上协议性的帧首部。基于这一点改动，传输的细节得以改善（采用帧、流模式），传输的功能得以扩展（如服务端推送、首部压缩、线上传输）。学">
@@ -215,7 +215,7 @@
 <li>HEADERS 帧<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+---------------+</span><br><span class="line">|Pad Length? (8)|</span><br><span class="line">+-+-------------+-----------------------------------------------+</span><br><span class="line">|E|                 Stream Dependency? (31)                     |</span><br><span class="line">+-+-------------+-----------------------------------------------+</span><br><span class="line">|  Weight? (8)  |</span><br><span class="line">+-+-------------+-----------------------------------------------+</span><br><span class="line">|                   Header Block Fragment (*)                 ...</span><br><span class="line">+---------------------------------------------------------------+</span><br><span class="line">|                           Padding (*)                       ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>Flags：</p>
+<p>标识位（Flags）：</p>
 <table>
 <thead>
 <tr>
@@ -251,7 +251,7 @@
 <li>DATA 帧<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+---------------+</span><br><span class="line">|Pad Length? (8)|</span><br><span class="line">+---------------+-----------------------------------------------+</span><br><span class="line">|                            Data (*)                         ...</span><br><span class="line">+---------------------------------------------------------------+</span><br><span class="line">|                           Padding (*)                       ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>Flags：</p>
+<p>标识位（Flags）：</p>
 <table>
 <thead>
 <tr>
@@ -278,7 +278,7 @@
 <h3 id="2-4-nbsp-nbsp-CONTINUATON-帧"><a href="#2-4-nbsp-nbsp-CONTINUATON-帧" class="headerlink" title="2.4 &nbsp;&nbsp;CONTINUATON 帧"></a>2.4 &nbsp;&nbsp;CONTINUATON 帧</h3><p>有些帧的帧负载很简单，比如 DATA，只有 Pad Length 后面就是 DATA；有些帧负载配置较多，比如 HEADERS、PUSH_PROMISE 帧，而且这些帧的<strong>首部块片段</strong>（header Block Fragment）较大（少见），需要分帧传输，有两种选择：<br>（1）再次使用 HEADERS、PUSH_PROMISE 等帧，缺点是帧负载的配置重复传递，还得处理帧负载的配置有分歧的情况，可能引起麻烦。<br>（2）采用新的 CONTINUATON 帧，没有帧负载的配置，仅仅有 header Block Fragment，缺点是 CONTINUATON 和前面的帧必须是有序的，会减损多路复用的益处。</p>
 <p>最终定制人员选择了处理较为简洁的新帧。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+---------------------------------------------------------------+</span><br><span class="line">|                   Header Block Fragment (*)                 ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
-<p>Flags：<br>名称|位|描述<br>-|-|-<br>END_HEADERS|0x4|表明这是流中最后一个 HEADERS 帧；如果此标识未设置，表示随后会有 CONTINUATION 帧</p>
+<p>标识位（Flags）：<br>名称|位|描述<br>-|-|-<br>END_HEADERS|0x4|表明这是流中最后一个 HEADERS 帧；如果此标识未设置，表示随后会有 CONTINUATION 帧</p>
 <p> <strong>参考文献</strong><br>[1] HTTP/2 基础教程 Stephen Ludin, Javier Garza，罗正龙（译）, 郑维智（译） 版次：2018年1月第1版</p>
 
       
