@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://img.jemper.cn/2019/03/https.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/TLS_SSL%E6%A0%BC%E5%BC%8F%E5%8D%8F%E8%AE%AE.png">
 <meta property="og:image" content="http://img.jemper.cn/2019/03/AEAD%E6%A8%A1%E5%BC%8F%E9%80%BB%E8%BE%91%E5%9B%BE.png">
-<meta property="og:updated_time" content="2019-04-01T08:16:45.003Z">
+<meta property="og:updated_time" content="2019-04-03T03:32:55.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSL&#x2F;TLS 协议">
 <meta name="twitter:description" content="SSL/TLS 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。">
@@ -171,7 +171,14 @@
 </li>
 </ul>
 <p>注意，发送 NewSessionTicket 子消息来更新 ticket，ticket 也是有有效期的。</p>
-<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a>  阮一峰 2016年8月19日<br>[4] HTTP/2的历史、特性、调试、性能 <a href="https://www.jianshu.com/p/748c7ca7c50f" target="_blank" rel="noopener">https://www.jianshu.com/p/748c7ca7c50f</a>  阿里云云栖社区 2017.07.25</p>
+<h2 id="4-nbsp-nbsp-总结"><a href="#4-nbsp-nbsp-总结" class="headerlink" title="4 &nbsp;&nbsp;总结"></a>4 &nbsp;&nbsp;总结</h2><hr>
+<p>TLS 为了更安全必然造成一些损耗，但其的设计上已经做了优化，比如采用对称加密。如果采用 HTTP/2 协议传输，那么带来的性能提升完全可以抵消 TLS 带来的性能损耗。下面这些诀窍可供借鉴。</p>
+<ul>
+<li>保持连接开启尽可能长的时间。TLS 成本最高的地方就是连接时的握手过程。如果连接时间能保持足够长，握手次数就可以减少。</li>
+<li>使用基于 SessionTicket 的会话恢复，允许客户端复用上次的握手直接重连服务器。</li>
+<li>使用内置加解密支持的芯片。</li>
+</ul>
+<p> <strong>参考文献</strong><br>[1] 虞卫东. 深入浅出 HTTPS 从原理一实战. 版次：2018年6月第1版<br>[2] 阮一峰. HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a>. 2016年8月19日</p>
 
       
      <!-- by blair add this if sentence at 20160725 -->
@@ -191,7 +198,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-记录层协议"><span class="toc-number">1.</span> <span class="toc-text">1   记录层协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-握手协议"><span class="toc-number">2.</span> <span class="toc-text">2   握手协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-密码套件协商"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   密码套件协商</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-身份认证"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   身份认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-密钥协商"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   密钥协商</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-nbsp-nbsp-完成握手"><span class="toc-number">2.4.</span> <span class="toc-text">2.4   完成握手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-会话恢复"><span class="toc-number">3.</span> <span class="toc-text">3   会话恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-基于-Session-ID-的会话恢复"><span class="toc-number">3.1.</span> <span class="toc-text">3.1   基于 Session ID 的会话恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-基于-SessionTicket-的会话恢复"><span class="toc-number">3.2.</span> <span class="toc-text">3.2   基于 SessionTicket 的会话恢复</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-记录层协议"><span class="toc-number">1.</span> <span class="toc-text">1   记录层协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-握手协议"><span class="toc-number">2.</span> <span class="toc-text">2   握手协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-密码套件协商"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   密码套件协商</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-身份认证"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   身份认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-密钥协商"><span class="toc-number">2.3.</span> <span class="toc-text">2.3   密钥协商</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-nbsp-nbsp-完成握手"><span class="toc-number">2.4.</span> <span class="toc-text">2.4   完成握手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-会话恢复"><span class="toc-number">3.</span> <span class="toc-text">3   会话恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-基于-Session-ID-的会话恢复"><span class="toc-number">3.1.</span> <span class="toc-text">3.1   基于 Session ID 的会话恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-基于-SessionTicket-的会话恢复"><span class="toc-number">3.2.</span> <span class="toc-text">3.2   基于 SessionTicket 的会话恢复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-总结"><span class="toc-number">4.</span> <span class="toc-text">4   总结</span></a></li></ol>
       </div>
     
     

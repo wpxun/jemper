@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>HTTPS - 在路上的博客</title>
+  <title>HTTPS 性能和调试 - 在路上的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
+  <meta name="description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》">
 <meta name="keywords" content="https http2 h2 ssl tls">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTPS">
+<meta property="og:title" content="HTTPS 性能和调试">
 <meta property="og:url" content="http://blog.jemper.cn/2019/04/01/https/index.html">
 <meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
+<meta property="og:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-01T10:59:18.796Z">
+<meta property="og:updated_time" content="2019-04-03T04:40:35.798Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTPS">
-<meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》  本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。">
+<meta name="twitter:title" content="HTTPS 性能和调试">
+<meta name="twitter:description" content="HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：  基础部分：TCP/IP，可以参阅《TCP/IP 原理》 安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅《密码学》和《SSL/TLS 协议》 应用部分：HTTP/2，可以参阅《HTTP/2 协议》">
   
   
     <link rel="icon" href="/favicon.png">
@@ -65,7 +65,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      HTTPS
+      HTTPS 性能和调试
       <small class=article-detail-date-index>&nbsp; 2019-04-01</small>
     </h1>
   
@@ -97,19 +97,15 @@
 <li>安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅<a href="/2019/03/21/cryptology/">《密码学》</a>和<a href="/2019/03/24/tls/">《SSL/TLS 协议》</a></li>
 <li>应用部分：HTTP/2，可以参阅<a href="/2019/03/31/http2/">《HTTP/2 协议》</a></li>
 </ol>
-<p>本文的 HTTPS 指的是构建在 HTTP/2 上，当然也向下兼容HTTP/1.1。</p>
 <a id="more"></a>
-<h2 id="1-nbsp-nbsp-HTTP-简概"><a href="#1-nbsp-nbsp-HTTP-简概" class="headerlink" title="1 &nbsp;&nbsp;HTTP 简概"></a>1 &nbsp;&nbsp;HTTP 简概</h2><hr>
-<ul>
-<li><p>http/1.1:1999发布，RFC 7230<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST理论）<br>（2）支持 keepalive 并默认开启，需要注意的TCP Keep-Alive和HTTP Keep-Alive是不同层次上的概念，TCP的keep alive是检查当前TCP连接是否活着；HTTP的Keep-alive是要让一个TCP连接在timeout周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机<br>（4）中间发展了 SPDY、RPC 等协议来解决性能问题</p>
-</li>
-<li><p>http/2:2015 发布，RFC 7540<br>高并发高可用性系统经常需要做一些基于 HTTP/1.1 的优化，比如资源合并。升级到 HTTP/2，这些优化将不再必要），域名拆分还是有必要，一个多个socket可能优于单一socket，二来微服务化不可能把所有功能都集于一个服务器。<br>（1）魔法字节流的 PRI 其实就是美国国家安全局 PRISM（棱镜）监控计划的一个笑话。<br>（2）由早期的 HTTP/2.0 改成 HTTP/2 表示不能保证语义向后兼容，也就是不会有 2.1、2.2 之类的版本。</p>
-</li>
-</ul>
-<h2 id="4-nbsp-nbsp-数字证书"><a href="#4-nbsp-nbsp-数字证书" class="headerlink" title="4 &nbsp;&nbsp;数字证书"></a>4 &nbsp;&nbsp;数字证书</h2><hr>
-<p>证书的生成有多种方式，开发者熟悉以下两种生成方式就可以了。</p>
-<h4 id="4-1-nbsp-nbsp-自签名证书"><a href="#4-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.1. &nbsp;&nbsp;自签名证书"></a>4.1. &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
-<h4 id="4-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。</p>
+<h2 id="1-nbsp-nbsp-HTTP-1-1-性能"><a href="#1-nbsp-nbsp-HTTP-1-1-性能" class="headerlink" title="1 &nbsp;&nbsp;HTTP/1.1 性能"></a>1 &nbsp;&nbsp;HTTP/1.1 性能</h2><hr>
+<p>第一部分我们要介绍一下 HTTP/1.1 性能方面的问题，它的问题也是 HTTP/2 设计的初衷。<br>http/1.1 于 1999发布，主要文档为 RFC 7230，提出了很多新的机制：<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST 理论）<br>（2）支持 keepalive 并默认开启，需要注意的 TCP Keep-Alive 和 HTTP Keep-Alive 是不同层次上的概念，TCP 的 keep alive 是检查当前 TCP 连接是否活着；HTTP 的 Keep-alive 是要让一个 TCP 连接在 timeout 周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机</p>
+<p>HTTP/1.1 的设计目标并没有重点关注性能，在高可用和高并发上的瓶颈越来越大，为了提升性能，基于 HTTP/1.1 出现了很多优化方案，比如长连接、HTTP pipelining(管道)、多 TCP、WebSocket 机制，这些优化方案能提升性能，但也带来很多负面的影响，比如 HTTP 管理技术基于 HTTP/1.1 并没有可行性（线头阻塞），而长连接技术给浏览器和服务器带来了很大的负载。<br>中间发展了 SPDY、RPC 等协议来解决性能问题，特别是 SPDY 是 HTTP/2 的灯塔。</p>
+<h2 id="4-nbsp-nbsp-部署或升级"><a href="#4-nbsp-nbsp-部署或升级" class="headerlink" title="4 &nbsp;&nbsp;部署或升级"></a>4 &nbsp;&nbsp;部署或升级</h2><hr>
+<p>本文的 HTTPS 指的是构建在 HTTP/2 上，当然服务器是要向下兼容 HTTP/1.1。对于安全部分要定期检测，可以使用工具定期检测网站的 TLS 配置，例如 Qualys Lab 的 SSL Test.</p>
+<h3 id="4-1-nbsp-nbsp-数字证书"><a href="#4-1-nbsp-nbsp-数字证书" class="headerlink" title="4.1 &nbsp;&nbsp;数字证书"></a>4.1 &nbsp;&nbsp;数字证书</h3><p>证书的生成有多种方式，开发者熟悉以下两种生成方式就可以了。</p>
+<h4 id="4-1-1-nbsp-nbsp-自签名证书"><a href="#4-1-1-nbsp-nbsp-自签名证书" class="headerlink" title="4.1.1 &nbsp;&nbsp;自签名证书"></a>4.1.1 &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
+<h4 id="4-1-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#4-1-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="4.1.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>4.1.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。</p>
 <p>$ certbot certonly  -d “*.xxx.com” -d “xxx.com” –manual –preferred-challenges dns-01  –server <a href="https://acme-v02.api.letsencrypt.org/directory" target="_blank" rel="noopener">https://acme-v02.api.letsencrypt.org/directory</a></p>
 <ul>
 <li>certonly 是插件；</li>
@@ -146,15 +142,25 @@
 </tr>
 </tbody>
 </table>
-<p>代理配置一般情况下 fullchain.pem 和 privkey.pem 就够用了，另外需要注意，如果服务器有修改证书，必须 reload nginx 才会重新加载密钥等。</p>
+<h3 id="4-2-nbsp-nbsp-WEB-服务器"><a href="#4-2-nbsp-nbsp-WEB-服务器" class="headerlink" title="4.2 &nbsp;&nbsp;WEB 服务器"></a>4.2 &nbsp;&nbsp;WEB 服务器</h3><p>每种 Web 服务器配置 HTTPS 的方式都略有差异，这里以 nginx 为例。<br>通过 nginx -V 可以查看是否支持 ssl(–with-http_ssl_module) 和 http2(–with-http_v2_module)<br>OpenSSL 1.0.2 版本及以上的都支持 ALPN。server 配置例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    listen [::]:80;</span><br><span class="line">    server_name jemper.cn www.jemper.cn;</span><br><span class="line">    return 301 https://www.jemper.cn$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">        listen 443 ssl http2;</span><br><span class="line">        server_name www.jemper.cn jemper.cn;</span><br><span class="line"></span><br><span class="line">  ssl on;</span><br><span class="line">  ssl_certificate /etc/nginx/jemper.cn/fullchain.pem;</span><br><span class="line">  ssl_certificate_key /etc/nginx/jemper.cn/privkey.pem;</span><br><span class="line">  ssl_trusted_certificate  /etc/nginx/jemper.cn/chain.pem;</span><br><span class="line"></span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>证书一般情况下 fullchain.pem 和 privkey.pem 就够用了，另外需要注意，如果服务器有修改证书，必须 reload nginx 才会重新加载密钥等。</p>
 <h2 id="5-nbsp-nbsp-调试"><a href="#5-nbsp-nbsp-调试" class="headerlink" title="5 &nbsp;&nbsp;调试"></a>5 &nbsp;&nbsp;调试</h2><hr>
-<h3 id="5-1-nbsp-nbsp-服务端"><a href="#5-1-nbsp-nbsp-服务端" class="headerlink" title="5.1 &nbsp;&nbsp;服务端"></a>5.1 &nbsp;&nbsp;服务端</h3><ol>
-<li>nghttp2 工具集中的 nghttpd 服务器：nghttpd -v -d /usr/local/www 443 /Users/ada/.ssh/localhost/wpxkey.pem /Users/ada/.ssh/localhost/cert.pem</li>
-<li>nginx，通过 nginx -V 可以查看是否支持 ssl(–with-http_ssl_module) 和 http2(–with-http_v2_module)，OpenSSL 1.0.2版本以上的都支持 h2。</li>
+<h3 id="5-1-nbsp-nbsp-nghttp2"><a href="#5-1-nbsp-nbsp-nghttp2" class="headerlink" title="5.1 &nbsp;&nbsp;nghttp2"></a>5.1 &nbsp;&nbsp;nghttp2</h3><ol>
+<li><p>nghttp2 工具集中的 nghttpd 服务器：nghttpd -v -d /usr/local/www 443 /Users/ada/.ssh/localhost/wpxkey.pem /Users/ada/.ssh/localhost/cert.pem</p>
+</li>
+<li><p>nghttp2 工具集中的 nghttp 命令行客户端，<br>nghttp -ns <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>nghttp -v –no-dep -w 14 -H”header1: myhead” <a href="https://localhost" target="_blank" rel="noopener">https://localhost</a><br>常用参数有</p>
+</li>
 </ol>
-<h3 id="5-2-nbsp-nbsp-客户端"><a href="#5-2-nbsp-nbsp-客户端" class="headerlink" title="5.2 &nbsp;&nbsp;客户端"></a>5.2 &nbsp;&nbsp;客户端</h3><ol>
-<li>cURL命令<br>curl -w “@curl.txt” -so /dev/null <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>curl -v –http2 <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>常用参数：<br>-w tells cURL to use our format file, 可以是文本 <code>-w &quot;TCP handshake: %{time_connect}, SSL handshake: %{time_appconnect}\n&quot;</code>，也可以是文件 <code>-w &quot;@curl.txt&quot;</code>。<br>-o redirects the out of the request to /dev/null<br>-s tells cURL not to show a progress meter，即不显示进度<br>-k, –insecure turn off curl’s verification of the certificate<br>-H, –header Pass custom header，可设置多次<br>-d, –data HTTP POST data<br>-v  显示更多关于你访问的 URL 的调度信息<br>–http2 模拟 HTTP/2 的请求</li>
-</ol>
+<ul>
+<li>-v（打印 debug 信息），一般打印出来足以进行 HTTP/2的分析和学习</li>
+<li>-n（丢弃下载的数据，如 HTML 内容）</li>
+<li>-a（下载在 HTML 中指明的、与 HTML 同一个域的引用资源，不过推送的资源不受此参数影响）</li>
+<li>-s（打印统计信息）</li>
+<li><code>-H &lt;header&gt;</code>（给请求添加首部，如 -H’:method: PUT’）</li>
+<li>-w 设置窗口大小 -w 14 表示 2^14-1</li>
+<li>–no-dep Don’t send dependency based priority hint to server</li>
+</ul>
+<h3 id="5-2-nbsp-nbsp-cURL命令"><a href="#5-2-nbsp-nbsp-cURL命令" class="headerlink" title="5.2 &nbsp;&nbsp;cURL命令"></a>5.2 &nbsp;&nbsp;cURL命令</h3><p>cURL命令<br>curl -w “@curl.txt” -so /dev/null <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>curl -v –http2 <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a><br>常用参数：<br>-w tells cURL to use our format file, 可以是文本 <code>-w &quot;TCP handshake: %{time_connect}, SSL handshake: %{time_appconnect}\n&quot;</code>，也可以是文件 <code>-w &quot;@curl.txt&quot;</code>。<br>-o redirects the out of the request to /dev/null<br>-s tells cURL not to show a progress meter，即不显示进度<br>-k, –insecure turn off curl’s verification of the certificate<br>-H, –header Pass custom header，可设置多次<br>-d, –data HTTP POST data<br>-v  显示更多关于你访问的 URL 的调度信息<br>–http2 模拟 HTTP/2 的请求</p>
 <p>打印时间信息（单位秒）：</p>
 <ul>
 <li>time_namelookup:  DNS解析时间,从请求开始到DNS解析完毕所用时间</li>
@@ -164,16 +170,6 @@
 <li>time_redirect:  重定向时间</li>
 <li>time_starttransfer:  从请求开始到 Web 服务器返回数据的第一个字节所用的时间</li>
 <li>time_total:  总时间，按秒计</li>
-</ul>
-<ol start="2">
-<li>nghttp2 工具集中的 nghttp 命令行客户端，nghttp -ns <a href="https://www.jemper.cn" target="_blank" rel="noopener">https://www.jemper.cn</a> ，常用参数有</li>
-</ol>
-<ul>
-<li>-v（打印 debug 信息）</li>
-<li>-n（丢弃下载的数据，如 HTML 内容）</li>
-<li>-a（下载在 HTML 中指明的、与 HTML 同一个域的引用资源，不过推送的资源不受此参数影响）</li>
-<li>-s（打印统计信息）</li>
-<li><code>-H &lt;header&gt;</code>（给请求添加首部，如 -H’:method: PUT’）</li>
 </ul>
 <h3 id="5-3-nbsp-nbsp-抓包解密"><a href="#5-3-nbsp-nbsp-抓包解密" class="headerlink" title="5.3 &nbsp;&nbsp;抓包解密"></a>5.3 &nbsp;&nbsp;抓包解密</h3><p>其实很多命令行工具如 openssl、curl 也都有请求日志，但不够详细。</p>
 <ol>
@@ -187,7 +183,7 @@
 <li><p>Fiddler、Charles 代理，也就是中间人方式，需要安装代理的证书，特别适合移动端抓包分析。</p>
 </li>
 </ol>
-<p> <strong>参考文献</strong><br>[1] 深入浅出 HTTPS 从原理一实战 虞卫东 版次：2018年6月第1版<br>[2] HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a>  阮一峰 2016年8月19日<br>[3] 三种解密 HTTPS 流量的方法介绍 <a href="https://imququ.com/post/how-to-decrypt-https.html" target="_blank" rel="noopener">https://imququ.com/post/how-to-decrypt-https.html</a>  Jerry Qu 2016/03/28<br>[4] HTTP/2的历史、特性、调试、性能 <a href="https://www.jianshu.com/p/748c7ca7c50f" target="_blank" rel="noopener">https://www.jianshu.com/p/748c7ca7c50f</a>  阿里云云栖社区 2017.07.25</p>
+<p> <strong>参考文献</strong><br>[1] 虞卫东. 深入浅出 HTTPS 从原理一实战. 版次：2018年6月第1版<br>[2] 阮一峰. HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a>. 2016年8月19日<br>[3] 三种解密 HTTPS 流量的方法介绍 <a href="https://imququ.com/post/how-to-decrypt-https.html" target="_blank" rel="noopener">https://imququ.com/post/how-to-decrypt-https.html</a>. 2016/03/28<br>[4] HTTP/2的历史、特性、调试、性能 <a href="https://www.jianshu.com/p/748c7ca7c50f" target="_blank" rel="noopener">https://www.jianshu.com/p/748c7ca7c50f</a>. 2017.07.25</p>
 
       
      <!-- by blair add this if sentence at 20160725 -->
@@ -207,7 +203,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-简概"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP 简概</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-数字证书"><span class="toc-number">2.</span> <span class="toc-text">4   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-nbsp-nbsp-自签名证书"><span class="toc-number">2.0.1.</span> <span class="toc-text">4.1.   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">2.0.2.</span> <span class="toc-text">4.2   Let’s Encrypt 证书</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-调试"><span class="toc-number">3.</span> <span class="toc-text">5   调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-nbsp-nbsp-服务端"><span class="toc-number">3.1.</span> <span class="toc-text">5.1   服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-nbsp-nbsp-客户端"><span class="toc-number">3.2.</span> <span class="toc-text">5.2   客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-nbsp-nbsp-抓包解密"><span class="toc-number">3.3.</span> <span class="toc-text">5.3   抓包解密</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-1-1-性能"><span class="toc-number">1.</span> <span class="toc-text">1   HTTP/1.1 性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-部署或升级"><span class="toc-number">2.</span> <span class="toc-text">4   部署或升级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-nbsp-nbsp-数字证书"><span class="toc-number">2.1.</span> <span class="toc-text">4.1   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-nbsp-nbsp-自签名证书"><span class="toc-number">2.1.1.</span> <span class="toc-text">4.1.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-number">2.1.2.</span> <span class="toc-text">4.1.2   Let’s Encrypt 证书</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-WEB-服务器"><span class="toc-number">2.2.</span> <span class="toc-text">4.2   WEB 服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-调试"><span class="toc-number">3.</span> <span class="toc-text">5   调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-nbsp-nbsp-nghttp2"><span class="toc-number">3.1.</span> <span class="toc-text">5.1   nghttp2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-nbsp-nbsp-cURL命令"><span class="toc-number">3.2.</span> <span class="toc-text">5.2   cURL命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-nbsp-nbsp-抓包解密"><span class="toc-number">3.3.</span> <span class="toc-text">5.3   抓包解密</span></a></li></ol></li></ol>
       </div>
     
     
