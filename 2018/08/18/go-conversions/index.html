@@ -63,6 +63,11 @@
     </header>
     <div class="entry">
       
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#错误相关的概念"><span class="toc-text">错误相关的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go-Conversions"><span class="toc-text">Go Conversions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型断言"><span class="toc-text">类型断言</span></a></li></ol>
+			</div>
+		
         <p>Go Conversions 和 类型断言是两种类型转换方式。</p>
 <h3 id="错误相关的概念"><a href="#错误相关的概念" class="headerlink" title="错误相关的概念"></a>错误相关的概念</h3><p><strong>编译错误</strong>：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈溢出等等。是大意疏忽。<br><strong>运行错误</strong>：run的时候才报错，由于程序设计思路的错误导致程序异常或难以得到预期的效果。它是不可预期的，对于可预期的不要用panic，panic异常机制是意料之外。<br><strong>error错误</strong>：错误是业务过程的一部分，而异常不是。错误是可预期的结果，error错误机制是意料之中。<br><a id="more"></a></p>
 <ol>

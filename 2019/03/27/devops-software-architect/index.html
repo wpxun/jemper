@@ -63,6 +63,11 @@
     </header>
     <div class="entry">
       
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-工具链"><span class="toc-text">1 工具链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-组织架构"><span class="toc-text">2 组织架构</span></a></li></ol>
+			</div>
+		
         <p>DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。</p>
 <a id="more"></a>
 <h2 id="1-工具链"><a href="#1-工具链" class="headerlink" title="1 工具链"></a>1 工具链</h2><p>基础经济决定上层建筑，所以团队采用 DevOps 需要因地制宜。为了让DevOps落地，前期我们还是要从 DevOps 工具链开始实践，搭建一只小的 DevOps 团队来承载一项新的业务，等小团队适用了 DevOps 的管理节奏再推广到大团队。以下是随手记的工具链：<br>生产力工具：JIRA、Confluence、Swagger<br>部署工具：gitlab、jenkins、docker、k8s、ELK+自动报警机制<br>我们是这样进行工作的：产品经理在 JIRA 上撰写文档创建任务，研发 Leader 将任务分配给开发，Swagger 上撰写接口文档协作，开发完成后提交代码，并创建 MR，我们在本地部署了 Jenkins 进行持续集成进行构建和测试，再由其他工程师进行人工评审，通过后并到发布分支，进行预发布，再通过持续集成进行构建，自建 Docker registry 进行构建物管理。构建出的 Docker 镜像在测试环境和预发布环境上依次进行自动化测试及人工测试，测试通过后，使用我们运维自己搭建的工具进行部署管理。</p>

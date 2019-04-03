@@ -63,6 +63,11 @@
     </header>
     <div class="entry">
       
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-为什么并发很难？"><span class="toc-text">1   为什么并发很难？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-原子性"><span class="toc-text">2   原子性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-互斥量-Mutex"><span class="toc-text">3   互斥量 Mutex</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-条件变量-Conditions"><span class="toc-text">4   条件变量 Conditions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-信号量-Semaphore"><span class="toc-text">5   信号量 Semaphore</span></a></li></ol>
+			</div>
+		
         <p>本文谈到的并发是指单程序、单节点并发，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。分布式系统可以看我另一篇文章<a href="/2019/03/17/microservice-architecture-difficult/">《分布式系统的复杂性》</a>。<br>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。<br>在功能开发中，非并发程序往往未能充分利用服务器的性能，为用户提供服务基本都是排队处理。而并发程序有时可以代替集群，其性能提高对整个系统是至关重要的作用。当然，单个节点的性能提高，却带来了编程的复杂性。不同程序单元之间的远程过程调用可以参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。<br><a id="more"></a></p>
 <h2 id="1-nbsp-nbsp-为什么并发很难？"><a href="#1-nbsp-nbsp-为什么并发很难？" class="headerlink" title="1 &nbsp;&nbsp;为什么并发很难？"></a>1 &nbsp;&nbsp;为什么并发很难？</h2><p>主要原因是临界区引起的，任何空间，只要被同时访问，都可能发生问题。洗手间就是现实世界中的临界区，互斥量就是洗手间的使用规则。<br>(1) 进去时锁上门，出来时再解锁门；<br>(2) 其它人需要在门外等待；<br>(3) 等待的人可能很多，需要排队进入。<br>需要根据不同程序酌情考虑究竟是扩大还是缩小临界区，临界区大了其它被阻塞线程等待时间较长，临界区小了频繁调用互斥量也是缺点。</p>
 <h2 id="2-nbsp-nbsp-原子性"><a href="#2-nbsp-nbsp-原子性" class="headerlink" title="2 &nbsp;&nbsp;原子性"></a>2 &nbsp;&nbsp;原子性</h2><p>如果某个东西是原子的，隐含的意思就是它在并发环境中是安全的。<br>谈论原子性必然要谈“上下文（context）”这个词，上下文的概念很多，有函数层级的上下文（函数栈），有程序界限的上下文（php和redis），有用户程序和系统程序或CPU的上下文（程序的运算和内核的运算），原子性可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。在考虑原子性时，经常第一件需要做的事就是定义上下文或范围然后再考虑这操作是否是原子性的。一切都应该遵循这个原则。<br>比如 go 中 i++ 是由三步组成的，是不可分割的，但是可中断的。</p>

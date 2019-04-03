@@ -63,6 +63,11 @@
     </header>
     <div class="entry">
       
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-nbsp-nbsp-Context-接口"><span class="toc-text">1.1   Context 接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-nbsp-nbsp-四个重要的类型"><span class="toc-text">1.2   四个重要的类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-nbsp-nbsp-重要的内部函数"><span class="toc-text">1.3   重要的内部函数</span></a></li></ol>
+			</div>
+		
         <p>整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。</p>
 <h4 id="1-1-nbsp-nbsp-Context-接口"><a href="#1-1-nbsp-nbsp-Context-接口" class="headerlink" title="1.1 &nbsp;&nbsp;Context 接口"></a>1.1 &nbsp;&nbsp;Context 接口</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// 取消树和过期时间的实现</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // 过期时间点</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // 过期或者手动取消时关闭通道</span><br><span class="line">	Err() error // 可以判断是过期还是手动取消</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// 键值对的实现，valueCtx类型真正实现</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>

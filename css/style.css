@@ -494,6 +494,15 @@ article footer .addthis {
 article footer .addthis iframe {
   margin-top: 0;
 }
+.toc-article {
+  margin: 0.5em;
+  border-left: 5px solid #ddd;
+  padding: 0.5em;
+strong
+}
+.toc-article li {
+  list-style: none;
+}
 #comment {
   padding: 20px;
   background: #fff;
