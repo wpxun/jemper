@@ -71,8 +71,7 @@
 </ol>
 <p>学习 HTTP/2 最好的文档是 RFC 7540。</p>
 <a id="more"></a>
-<h2 id="1-nbsp-nbsp-连接"><a href="#1-nbsp-nbsp-连接" class="headerlink" title="1 &nbsp;&nbsp;连接"></a>1 &nbsp;&nbsp;连接</h2><hr>
-<p>HTTP/2 对每一个域名只会开启一个连接（或者说 一个 TCP、一个 socket 都是可以的），HTTP/2 的设计思路是尽量在单个 TCP/IP socket 上通信。</p>
+<h2 id="1-nbsp-nbsp-连接"><a href="#1-nbsp-nbsp-连接" class="headerlink" title="1 &nbsp;&nbsp;连接"></a>1 &nbsp;&nbsp;连接</h2><p>HTTP/2 对每一个域名只会开启一个连接（或者说 一个 TCP、一个 socket 都是可以的），HTTP/2 的设计思路是尽量在单个 TCP/IP socket 上通信。</p>
 <h3 id="1-1-nbsp-nbsp-启用-http-2"><a href="#1-1-nbsp-nbsp-启用-http-2" class="headerlink" title="1.1 &nbsp;&nbsp;启用 http/2"></a>1.1 &nbsp;&nbsp;启用 http/2</h3><p>对于浏览器来说，它无法知晓该服务端是否支持了 h2，有三种方式来了解是否支持。</p>
 <ul>
 <li>为”http” URIs启用HTTP/2协议：客户端利用 Upgrade 首部来表明期望使用 h2；服务端返回 <code>101 Swiching Protocols</code>;</li>
@@ -132,8 +131,7 @@
 </table>
 <h3 id="1-4-nbsp-nbsp-PING-帧"><a href="#1-4-nbsp-nbsp-PING-帧" class="headerlink" title="1.4 &nbsp;&nbsp;PING 帧"></a>1.4 &nbsp;&nbsp;PING 帧</h3><p>PING 帧用以计算两端之间的往返时间 RTT，只有一个标识位 ACK，这个标识位和 SETTINGS 帧一样意识。</p>
 <h3 id="1-5-nbsp-nbsp-关闭连接"><a href="#1-5-nbsp-nbsp-关闭连接" class="headerlink" title="1.5 &nbsp;&nbsp;关闭连接"></a>1.5 &nbsp;&nbsp;关闭连接</h3><p>GOAWAY 帧用于礼貌地关闭连接。这个是连接层的帧，也就是发送时流 ID 要设置为 0x0，</p>
-<h2 id="2-nbsp-nbsp-帧"><a href="#2-nbsp-nbsp-帧" class="headerlink" title="2 &nbsp;&nbsp;帧"></a>2 &nbsp;&nbsp;帧</h2><hr>
-<p>HTTP/2 是基于帧（frame）的协议，帧是 HTTP/2 最小传输单位；采用分帧是为了将重要的信息都封装起来，让协议的解析方轻松解析。基于帧的协议，所有的帧都固定用 9 个字节的帧首部加上帧负载数据组成。</p>
+<h2 id="2-nbsp-nbsp-帧"><a href="#2-nbsp-nbsp-帧" class="headerlink" title="2 &nbsp;&nbsp;帧"></a>2 &nbsp;&nbsp;帧</h2><p>HTTP/2 是基于帧（frame）的协议，帧是 HTTP/2 最小传输单位；采用分帧是为了将重要的信息都封装起来，让协议的解析方轻松解析。基于帧的协议，所有的帧都固定用 9 个字节的帧首部加上帧负载数据组成。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-----------------------------------------------+</span><br><span class="line">|                 Length (24)                   |</span><br><span class="line">+---------------+---------------+---------------+</span><br><span class="line">|   Type (8)    |   Flags (8)   |</span><br><span class="line">+-+-------------+---------------+-------------------------------+</span><br><span class="line">|R|                 Stream Identifier (31)                      |</span><br><span class="line">+=+=============================================================+</span><br><span class="line">|                   Frame Payload (0...)                      ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
 <ol>
 <li>帧首部字段解析：</li>
@@ -243,8 +241,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="3-nbsp-nbsp-流"><a href="#3-nbsp-nbsp-流" class="headerlink" title="3 &nbsp;&nbsp;流"></a>3 &nbsp;&nbsp;流</h2><hr>
-<p>流（stream）的定义是：HTTP/2连接上独立、双向的帧序列交接。流代 ID 表示一次 HTTP 请求和响应所产生的一系列帧，流 ID 用来标识帧所属的流；单个 socket 上可以创建多个流，HTTP/2 的设计思路是尽量在单个 TCP/IP socket 上通信。<br>流 ID 在设计时就避免了客户端和服务端之间的流 ID 冲突，也可以轻地判断流的源头。</p>
+<h2 id="3-nbsp-nbsp-流"><a href="#3-nbsp-nbsp-流" class="headerlink" title="3 &nbsp;&nbsp;流"></a>3 &nbsp;&nbsp;流</h2><p>流（stream）的定义是：HTTP/2连接上独立、双向的帧序列交接。流代 ID 表示一次 HTTP 请求和响应所产生的一系列帧，流 ID 用来标识帧所属的流；单个 socket 上可以创建多个流，HTTP/2 的设计思路是尽量在单个 TCP/IP socket 上通信。<br>流 ID 在设计时就避免了客户端和服务端之间的流 ID 冲突，也可以轻地判断流的源头。</p>
 <ul>
 <li>客户端会从 1 开始设置流 ID，之后每新开启一个流，就会增加 2，并一直使用奇数。</li>
 <li>服务端开启在 PUSH_PROMISE 中标明的流时，设置的流 ID 从 2 开始，之后一直使用偶数。</li>
@@ -348,8 +345,7 @@
 </tbody>
 </table>
 <h3 id="3-6-nbsp-nbsp-关闭流"><a href="#3-6-nbsp-nbsp-关闭流" class="headerlink" title="3.6 &nbsp;&nbsp;关闭流"></a>3.6 &nbsp;&nbsp;关闭流</h3><p>如果要终止一个流，可以将 RST_STREAM 加在该流的两端。帧字段只有 32 位的 Error Code。</p>
-<h2 id="4-nbsp-nbsp-推送响应"><a href="#4-nbsp-nbsp-推送响应" class="headerlink" title="4 &nbsp;&nbsp;推送响应"></a>4 &nbsp;&nbsp;推送响应</h2><hr>
-<p>PUSH_PROMISE 帧可以看成是服务端响应的首部，字段如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+---------------+</span><br><span class="line">|Pad Length? (8)|</span><br><span class="line">+-+-------------+-----------------------------------------------+</span><br><span class="line">|R|                  Promised Stream ID (31)                    |</span><br><span class="line">+-+-----------------------------+-------------------------------+</span><br><span class="line">|                   Header Block Fragment (*)                 ...</span><br><span class="line">+---------------------------------------------------------------+</span><br><span class="line">|                           Padding (*)                       ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-nbsp-nbsp-推送响应"><a href="#4-nbsp-nbsp-推送响应" class="headerlink" title="4 &nbsp;&nbsp;推送响应"></a>4 &nbsp;&nbsp;推送响应</h2><p>PUSH_PROMISE 帧可以看成是服务端响应的首部，字段如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+---------------+</span><br><span class="line">|Pad Length? (8)|</span><br><span class="line">+-+-------------+-----------------------------------------------+</span><br><span class="line">|R|                  Promised Stream ID (31)                    |</span><br><span class="line">+-+-----------------------------+-------------------------------+</span><br><span class="line">|                   Header Block Fragment (*)                 ...</span><br><span class="line">+---------------------------------------------------------------+</span><br><span class="line">|                           Padding (*)                       ...</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure></p>
 <p>有几个属性需要理解：</p>
 <ul>
 <li>Promised Stream ID 推送响应一定会对应到客户端已发送的某个请求；</li>
@@ -367,8 +363,7 @@
 <li>可用的带宽，以及其他类似的会影响客户端接收推送的资源；</li>
 </ul>
 <p>如果服务器选择正解，那就真的有助于提升页面的整体性能，反之则会损耗页面性能，这也是如今通用服务端推送解决方案非常少的原因。估计在 APP 上应用场景较多。</p>
-<h2 id="5-nbsp-nbsp-首部压缩"><a href="#5-nbsp-nbsp-首部压缩" class="headerlink" title="5 &nbsp;&nbsp;首部压缩"></a>5 &nbsp;&nbsp;首部压缩</h2><hr>
-<p>HPACK 的文档为 rfc 7541</p>
+<h2 id="5-nbsp-nbsp-首部压缩"><a href="#5-nbsp-nbsp-首部压缩" class="headerlink" title="5 &nbsp;&nbsp;首部压缩"></a>5 &nbsp;&nbsp;首部压缩</h2><p>HPACK 的文档为 rfc 7541</p>
 <h3 id="5-1-nbsp-nbsp-索引表"><a href="#5-1-nbsp-nbsp-索引表" class="headerlink" title="5.1 &nbsp;&nbsp;索引表"></a>5.1 &nbsp;&nbsp;索引表</h3><p>请求端和响应端各维护了两张索引表。一张是静态表，见 <a href="https://tools.ietf.org/html/rfc7541#appendix-A" target="_blank" rel="noopener">Static Table Definition</a><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-------+-----------------------------+---------------+</span><br><span class="line">| Index | Header Name                 | Header Value  |</span><br><span class="line">+-------+-----------------------------+---------------+</span><br><span class="line">| 1     | :authority                  |               |</span><br><span class="line">| 2     | :method                     | GET           |</span><br><span class="line">| 3     | :method                     | POST          |</span><br><span class="line">| 4     | :path                       | /             |</span><br><span class="line">| 5     | :path                       | /index.html   |</span><br><span class="line">| 6     | :scheme                     | http          |</span><br><span class="line">| 7     | :scheme                     | https         |</span><br><span class="line">| 8     | :status                     | 200           |</span><br><span class="line">| 9     | :status                     | 204           |</span><br><span class="line">|                                                     |</span><br><span class="line">|                       ......                        |</span><br><span class="line">|                                                     |</span><br><span class="line">| 58    | user-agent                  |               |</span><br><span class="line">| 59    | vary                        |               |</span><br><span class="line">| 60    | via                         |               |</span><br><span class="line">| 61    | www-authenticate            |               |</span><br><span class="line">+-------+-----------------------------+---------------+</span><br></pre></td></tr></table></figure></p>
 <p>另一张动态表索引编号从 62 开始。</p>
 <p>每个动态表只针对一个连接，每个连接的压缩解压缩的上下文有且仅有一个动态表。<br>什么是连接，抽象的说是HTTP依赖的可靠的传输层的连接，一般来说指的是一个TCP连接。 HTTP/2 中引入了多路复用的概念，对于同一个域名的多个请求，会复用同一个连接。</p>
@@ -395,7 +390,7 @@
         
   
   <div class="tags">
-    <a href="/tags/http/">http</a>, <a href="/tags/https/">https</a>, <a href="/tags/http2/">http2</a>, <a href="/tags/h2/">h2</a>
+    <a href="/tags/HTTPS/">HTTPS</a>, <a href="/tags/协议/">协议</a>, <a href="/tags/HTTP2/">HTTP2</a>, <a href="/tags/H2/">H2</a>
   </div>
 
         
@@ -453,7 +448,7 @@
   
     <li><a href="/categories/Docker/">Docker</a><small>1</small></li>
   
-    <li><a href="/categories/Golang/">Golang</a><small>5</small></li>
+    <li><a href="/categories/Go/">Go</a><small>6</small></li>
   
     <li><a href="/categories/HTTPS/">HTTPS</a><small>5</small></li>
   
@@ -462,6 +457,13 @@
 
 
   
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/Apline/" style="font-size: 10px;">Apline</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Go/" style="font-size: 20px;">Go</a> <a href="/tags/H2/" style="font-size: 13.33px;">H2</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 16.67px;">HTTPS</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/context/" style="font-size: 10px;">context</a> <a href="/tags/dockerfile/" style="font-size: 10px;">dockerfile</a> <a href="/tags/io/" style="font-size: 10px;">io</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/time/" style="font-size: 10px;">time</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 13.33px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 13.33px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+  </div>
+</div>
+
 </aside>
     <div class="clearfix"></div>
   </div>

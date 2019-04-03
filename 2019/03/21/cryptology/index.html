@@ -72,8 +72,7 @@
 <li>不可抵赖性：也是由数字签名实现；</li>
 </ol>
 <p>以下将分三部分简单归纳：基础算法、简单加密算法和组合加密算法。不过本文只讲解交互过程，不讲解具体实现。<br>需要强调的是，似乎每隔几个月，服务器和 HTTPS 就会曝出新的漏洞，针对这些漏洞及攻击摒弃老旧的加密算法，RC4、DES、MD5 等都已经强制丢弃。所以有些算法其实并不实用，但可了解其原理。</p>
-<h2 id="1-nbsp-nbsp-基础算法"><a href="#1-nbsp-nbsp-基础算法" class="headerlink" title="1 &nbsp;&nbsp;基础算法"></a>1 &nbsp;&nbsp;基础算法</h2><hr>
-<p>随机数生成器和密码学 Hash 算法都是密码学中的基础算法，很多其它的密码学算法选择这两个算法作为加密基元。</p>
+<h2 id="1-nbsp-nbsp-基础算法"><a href="#1-nbsp-nbsp-基础算法" class="headerlink" title="1 &nbsp;&nbsp;基础算法"></a>1 &nbsp;&nbsp;基础算法</h2><p>随机数生成器和密码学 Hash 算法都是密码学中的基础算法，很多其它的密码学算法选择这两个算法作为加密基元。</p>
 <h3 id="1-1-nbsp-nbsp-随机数生成器算法"><a href="#1-1-nbsp-nbsp-随机数生成器算法" class="headerlink" title="1.1 &nbsp;&nbsp;随机数生成器算法"></a>1.1 &nbsp;&nbsp;随机数生成器算法</h3><table>
 <thead>
 <tr>
@@ -180,8 +179,7 @@
 </ol>
 <h3 id="1-2-nbsp-nbsp-Hash-算法"><a href="#1-2-nbsp-nbsp-Hash-算法" class="headerlink" title="1.2 &nbsp;&nbsp;Hash 算法"></a>1.2 &nbsp;&nbsp;Hash 算法</h3><p>是一种从任意文件中创造小的数字「指纹」的方法，因为 Hash 是单向性的，所以不是加密算法了。基于 Hash 算法产生的其它密码学算法有很多：Mac 消息验证码、伪随机数生成器、数字签名、块密码加密算法等。需要注意的是密码学 Hash 算法和普通 Hash 算法不是同一个概念，普通 Hash 算法实现的 Hash 表与检验和（checksum）不能用于密码学。<br>密码学 Hash 算法，有 MD5（128） 算法 和 SHA 族类，SHA 族类有 SHA-1（160）、SHA-2（SHA-256、SHA-512、SHA-224、SHA-384）、SHA-3（SHA3-256、SHA3-512、SHA3-224、SHA3-384） 三类算法（数字二进制数，除以4为16进制数），基于碰撞考虑建议用 SHA-2 类。</p>
 <p>Hash 算法一般还用于文件比较和密码口令，密码口令为了防止攻击者对常用密码字典破解；推荐使用 密码衍生算法（KDF），利用盐值（随机数）增大密钥的搜索空间，简单的理解就是通过某些值可以生成任意长度的一个（多个）密钥，常见的有 PBKDF2、bcrypt、scrypt，还有 TLS 使用的 PRF 函数等。</p>
-<h2 id="2-nbsp-nbsp-简单加密算法"><a href="#2-nbsp-nbsp-简单加密算法" class="headerlink" title="2 &nbsp;&nbsp;简单加密算法"></a>2 &nbsp;&nbsp;简单加密算法</h2><hr>
-<h3 id="2-1-nbsp-nbsp-对称加密"><a href="#2-1-nbsp-nbsp-对称加密" class="headerlink" title="2.1 &nbsp;&nbsp;对称加密"></a>2.1 &nbsp;&nbsp;对称加密</h3><p>在日常开发中是最常用的保证数据机密性的方式；在 HTTP 中因为非对称加密计算量大，所以频繁数据传输采用了”对话密钥”进行对称加密。对称加密中密钥由双方保管。<br>对称加密算法有很多，如一次性密码本（XOR运算）、流密码算法（RC4_128、CHACHA20）、块密码算法（AES_256_CBC、3DES_EDE_CBC）、AEAD算法（AES_GCM（目前主流的AEAD）、AES_CCM、CHACHA20_Poly1305（谷歌提出的AEAD）），AEAD加密模式由于同时完成了机密性和完整性保护，在安全性上更有保障，服务器应该优先支持相关的密码套件。</p>
+<h2 id="2-nbsp-nbsp-简单加密算法"><a href="#2-nbsp-nbsp-简单加密算法" class="headerlink" title="2 &nbsp;&nbsp;简单加密算法"></a>2 &nbsp;&nbsp;简单加密算法</h2><h3 id="2-1-nbsp-nbsp-对称加密"><a href="#2-1-nbsp-nbsp-对称加密" class="headerlink" title="2.1 &nbsp;&nbsp;对称加密"></a>2.1 &nbsp;&nbsp;对称加密</h3><p>在日常开发中是最常用的保证数据机密性的方式；在 HTTP 中因为非对称加密计算量大，所以频繁数据传输采用了”对话密钥”进行对称加密。对称加密中密钥由双方保管。<br>对称加密算法有很多，如一次性密码本（XOR运算）、流密码算法（RC4_128、CHACHA20）、块密码算法（AES_256_CBC、3DES_EDE_CBC）、AEAD算法（AES_GCM（目前主流的AEAD）、AES_CCM、CHACHA20_Poly1305（谷歌提出的AEAD）），AEAD加密模式由于同时完成了机密性和完整性保护，在安全性上更有保障，服务器应该优先支持相关的密码套件。</p>
 <h3 id="2-2-nbsp-nbsp-非对称加密"><a href="#2-2-nbsp-nbsp-非对称加密" class="headerlink" title="2.2 &nbsp;&nbsp;非对称加密"></a>2.2 &nbsp;&nbsp;非对称加密</h3><p>也叫公开密钥算法，因为计算量大，日常开发不会用来保证数据机密性，而是基于网络传输信息不安全事实，采用非对称加密进行身份认证。非对称加密的私钥由谁生成就由谁保管；对服务器来说，私钥是服务器生成的，由服务器保密，公钥给用户；对 github.com 来说，私钥由用户生成的，由用户保密，公钥上传配置到 github.com。</p>
 <p>公开密钥算法最重要和最广泛使用的算法就是 RSA 算法，它是 Ron Rivest、Adi Shamir、Leonard Adleman 三人创建的。 <strong>RSA 算法是一个多用途的算法，可以进行加密解密、密钥协商、数字签名；</strong>基础原理都是一样的：公钥加密私钥解密，私钥加密公钥解密。</p>
 <ul>
@@ -190,8 +188,7 @@
 <li>数字签名：也是单向，不过和密钥协商相反，是用私钥加密数据（签名值），把签名值和数据发给对方，对方用公钥解密难签名。数字证书是数字签名一种例子，只是用 CA 机构的私钥给服务器的公钥这个数据进行签名而已。一言蔽之：数字签名是为了证明身份，不是为了加密数据。</li>
 </ul>
 <p>RSA 原理 n = p*q, 其中p、q是大质数, φ(n) = (p-1)(q-1); 公钥 e、n: 1 &lt; e &lt; f(n), e 和 f(n) 互质; 私钥 d、n: e*d mod f(n) = 1.<br>签名：m^e mod n = c（密文）<br>解密：c^d mod n = m（明文）<br>安全性：传播 n、e、c; 要解密需要 n、d、c, 由 e 要推导出d, 必须先由n推导到p、q, 大因数分解很难.<br>基于算法是可以知道 RSA 如果加密的明文 m &gt; n，就会有二义性，所以是不适合用来加密明文的，只用来加密密钥（比 n 小）。</p>
-<h2 id="3-nbsp-nbsp-组合加密算法"><a href="#3-nbsp-nbsp-组合加密算法" class="headerlink" title="3 &nbsp;&nbsp;组合加密算法"></a>3 &nbsp;&nbsp;组合加密算法</h2><hr>
-<p>组合基础算法和简单加密算法实现密码学的“机密性”、“完整性”、“身份验证”和“不可抵赖性”中的一个或者多个的算法；比如消息验证码需要组合 Hash 算法和加密算法、TLS 协议握手需要协商出密码套件。</p>
+<h2 id="3-nbsp-nbsp-组合加密算法"><a href="#3-nbsp-nbsp-组合加密算法" class="headerlink" title="3 &nbsp;&nbsp;组合加密算法"></a>3 &nbsp;&nbsp;组合加密算法</h2><p>组合基础算法和简单加密算法实现密码学的“机密性”、“完整性”、“身份验证”和“不可抵赖性”中的一个或者多个的算法；比如消息验证码需要组合 Hash 算法和加密算法、TLS 协议握手需要协商出密码套件。</p>
 <h3 id="3-1-nbsp-nbsp-消息验证码-Message-Authentication-Code-Mac"><a href="#3-1-nbsp-nbsp-消息验证码-Message-Authentication-Code-Mac" class="headerlink" title="3.1 &nbsp;&nbsp;消息验证码(Message Authentication Code, Mac)"></a>3.1 &nbsp;&nbsp;消息验证码(Message Authentication Code, Mac)</h3><p><strong>实现了完整性。</strong><br>消息验证码适用于不需要对数据进行加密，只需要保证数据完整性的情形，当然也可以变通，既对数据进行加密同时也保证完整性。HTTP 应用最多的 Mac 算法是 HMAC 算法（使用 Hash 算法作为基元，更具体算法比如 HMAC-SHA256 算法使用了 SHA256 作为加密基元），还有 TLS 的 AEAD 使用了 GHASH 算法（也是一种 Mac 算法）。Mac 不能进行身份验证，原因就在于消息发送方和接收方拥有同样的密钥，所以双方都可以抵赖。<br>这类算法的变种很多，原理的步骤如下：<br>（1）把消息先进行 Hash 运算，也就是使用 Hash 算法得到消息的摘要值；<br>（2）双方都有相同的密钥，通过这个密钥对消息摘要值进行 MAC 运算，得到“MAC 值”；把消息和“MAC 值”传给对方；<br>（3）接收方用相同的密钥对“MAC 值”进行解密得到消息摘要，对消息进行 Hash 运算得到消息摘要；<br>（4）比较消息摘要；</p>
 <h3 id="3-2-nbsp-nbsp-机密性-完整性"><a href="#3-2-nbsp-nbsp-机密性-完整性" class="headerlink" title="3.2 &nbsp;&nbsp;机密性+完整性"></a>3.2 &nbsp;&nbsp;机密性+完整性</h3><p><strong>实现了机密性和完整性。</strong>对称加密算法可以保证消息的机密性，Mac 算法可以保证消息的完整性，将两者结合起来，就可以保证消息同时具备机密性和完整性。</p>
 <h4 id="3-2-1-nbsp-nbsp-AD-加密模式"><a href="#3-2-1-nbsp-nbsp-AD-加密模式" class="headerlink" title="3.2.1 &nbsp;&nbsp;AD 加密模式"></a>3.2.1 &nbsp;&nbsp;AD 加密模式</h4><p>使用者结合对称加密算法和 Mac 算法，提供机密性和完整性的模式也叫 AE 加密模式（暂且理解 AE、AD 是一样的意思吧 ），主要有三种方式，只是加密算法和 Mac 算法顺序问题，总体上和消息验证码很相似，只是用同一个密钥对消息也进行加密。</p>
@@ -232,8 +229,7 @@
 <li>算法保证了Sa = Sb = S，提取其中的S的x向量作为 Premaster Key（预备主密钥）。</li>
 </ul>
 <p>客户端和服务端进行协商算法的时候，服务器使用 Server Key Exchange 子消息传递相关的参数（DH 参数和 ECC 命名曲线）和服务器的公钥；客户端收到服务器发送的相关参数后，需要使用这些参数生成客户端的公钥（DH 公钥和 ECDH 公钥），客户端和服务端结合双方的密钥才能协商出一致的预备主密钥。</p>
-<h2 id="4-nbsp-nbsp-OpenSSL-库或命令工具"><a href="#4-nbsp-nbsp-OpenSSL-库或命令工具" class="headerlink" title="4 &nbsp;&nbsp;OpenSSL 库或命令工具"></a>4 &nbsp;&nbsp;OpenSSL 库或命令工具</h2><hr>
-<p>程序开发、证书生成都需要使用实现了各种密码学算法的 openssl 库或命令工具，目前 openssl 已经被大部分系统替换成 LibreSSL（PHP 大部分内置的密码学函数也是基于底层的 LibreSSL 库），只是工具名还是习惯地称 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-nbsp-nbsp-OpenSSL-库或命令工具"><a href="#4-nbsp-nbsp-OpenSSL-库或命令工具" class="headerlink" title="4 &nbsp;&nbsp;OpenSSL 库或命令工具"></a>4 &nbsp;&nbsp;OpenSSL 库或命令工具</h2><p>程序开发、证书生成都需要使用实现了各种密码学算法的 openssl 库或命令工具，目前 openssl 已经被大部分系统替换成 LibreSSL（PHP 大部分内置的密码学函数也是基于底层的 LibreSSL 库），只是工具名还是习惯地称 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
 <p> <strong>参考文献</strong><br>[1] 虞卫东. 深入浅出 HTTPS 从原理一实战. 版次：2018年6月第1版<br>[2] Mrpre. SSL中的RSA、DHE、ECDHE、ECDH流程与区别 <a href="https://blog.csdn.net/mrpre/article/details/78025940" target="_blank" rel="noopener">https://blog.csdn.net/mrpre/article/details/78025940</a>. 2017年09月19日<br>[3] TLS Perfect Forward Secrecy 之 DH/ECDHE <a href="https://blog.nlogn.cn/pfs-ecdhe/" target="_blank" rel="noopener">https://blog.nlogn.cn/pfs-ecdhe/</a></p>
 
       
@@ -249,7 +245,7 @@
         
   
   <div class="tags">
-    <a href="/tags/tls/">tls</a>, <a href="/tags/密码学/">密码学</a>, <a href="/tags/hash/">hash</a>, <a href="/tags/aead/">aead</a>
+    <a href="/tags/TLS/">TLS</a>, <a href="/tags/密码学/">密码学</a>
   </div>
 
         
@@ -307,7 +303,7 @@
   
     <li><a href="/categories/Docker/">Docker</a><small>1</small></li>
   
-    <li><a href="/categories/Golang/">Golang</a><small>5</small></li>
+    <li><a href="/categories/Go/">Go</a><small>6</small></li>
   
     <li><a href="/categories/HTTPS/">HTTPS</a><small>5</small></li>
   
@@ -316,6 +312,13 @@
 
 
   
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/Apline/" style="font-size: 10px;">Apline</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Go/" style="font-size: 20px;">Go</a> <a href="/tags/H2/" style="font-size: 13.33px;">H2</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 16.67px;">HTTPS</a> <a href="/tags/IP/" style="font-size: 10px;">IP</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/context/" style="font-size: 10px;">context</a> <a href="/tags/dockerfile/" style="font-size: 10px;">dockerfile</a> <a href="/tags/io/" style="font-size: 10px;">io</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/time/" style="font-size: 10px;">time</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 13.33px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 13.33px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+  </div>
+</div>
+
 </aside>
     <div class="clearfix"></div>
   </div>
