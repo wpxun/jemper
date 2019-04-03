@@ -91,7 +91,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>用习惯了windows下高版本2.11.0的git，再到centos7自带的1.8.5版本觉得操作还是不方便，所以今天就把它升级到最新版。<br><a id="more"></a></p>
-<p>必须安装的dependencies<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install gcc perl openssl-devel libcurl-devel expat-devel perl-ExtUtils-MakeMaker</span></span><br></pre></td></tr></table></figure></p>
+<p>必须安装的dependencies<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># yum install gcc perl openssl-devel libcurl-devel expat-devel perl-ExtUtils-MakeMaker</span></span><br></pre></td></tr></table></figure></p>
 <p>这里不同环境具体也是不同的，缺什么就安装什么。上面只是我在阿里云服务器上安装时缺少的工具和头文件。<br>可选安装的dependencies，安装文档套件时所需要的，安装说明文档有写到：</p>
 <blockquote>
 <p>$ make prefix=/usr all doc info ;# as yourself<br># make prefix=/usr install install-doc install-html install-info ;# as root  </p>
@@ -100,8 +100,8 @@
 <p>“make doc” builds documentation in man and html formats; there are<br>also “make man”, “make html” and “make info”. Note that “make html”<br>requires asciidoc, but not xmlto. “make man” (and thus make doc)<br>requires both.</p>
 <p>“make install-doc” installs documentation in man format only; there<br>are also “make install-man”, “make install-html” and “make<br>install-info”.</p>
 </blockquote>
-<p>即安装 man 手册，需要 asciidoc 和 xmlto，用以下命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install asciidoc.noarch xmlto</span></span><br></pre></td></tr></table></figure></p>
-<p>接下来就是安装了，我一般都是查网络文档，所以没有安装任何man、info、html文档，下面是安装man文档的命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># make prefix=/usr install install-doc</span></span><br></pre></td></tr></table></figure></p>
+<p>即安装 man 手册，需要 asciidoc 和 xmlto，用以下命令<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># yum install asciidoc.noarch xmlto</span></span><br></pre></td></tr></table></figure></p>
+<p>接下来就是安装了，我一般都是查网络文档，所以没有安装任何man、info、html文档，下面是安装man文档的命令<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># make prefix=/usr install install-doc</span></span><br></pre></td></tr></table></figure></p>
 <p>如果不需要man，就不用安装 asciidoc.noarch、xmlto 了。  </p>
 <p>官方的git <a href="https://github.com/git/git/blob/master/INSTALL" target="_blank" rel="noopener">安装说明</a><br>另外，可参考另一篇写得更详细的文章<a href="http://www.cnblogs.com/grimm/p/5368777.html" target="_blank" rel="noopener">Git服务器安装详解及安装遇到问题解决方案</a></p>
 
