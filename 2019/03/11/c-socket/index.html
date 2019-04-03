@@ -1,104 +1,67 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>C Socket 编程 - 在路上的博客</title>
+  <title>C Socket 编程 | 在路上的博客</title>
+  <meta name="author" content="Sven">
+  
+  <meta name="description" content="让大家读得懂的知识才是真知识">
+  
+  
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体），代表函数是 fopen、fread、fwrite、p">
-<meta name="keywords" content="c,socket,read,write">
-<meta property="og:type" content="article">
-<meta property="og:title" content="C Socket 编程">
-<meta property="og:url" content="http://blog.jemper.cn/2019/03/11/c-socket/index.html">
-<meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体），代表函数是 fopen、fread、fwrite、p">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img.jemper.cn/2019/03/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BB%93%E6%9E%84.png?imageView2/2/w/300">
-<meta property="og:image" content="http://img.jemper.cn/2019/03/TCP%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png?imageView2/2/w/300">
-<meta property="og:image" content="http://img.jemper.cn/2019/03/UDP%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png?imageView2/2/w/300">
-<meta property="og:image" content="http://img.jemper.cn/2019/03/select%E5%AE%8F.png">
-<meta property="og:updated_time" content="2019-04-03T06:25:36.807Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C Socket 编程">
-<meta name="twitter:description" content="一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体），代表函数是 fopen、fread、fwrite、p">
-<meta name="twitter:image" content="http://img.jemper.cn/2019/03/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BB%93%E6%9E%84.png?imageView2/2/w/300">
+
+  <meta property="og:title" content="C Socket 编程"/>
+  <meta property="og:site_name" content="在路上的博客"/>
+
   
+    <meta property="og:image" content=""/>
   
-    <link rel="icon" href="/favicon.png">
-  
-  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
-  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css">
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="在路上的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
 
 </head>
 
+
 <body>
-  <div id="container">
-    <!-- blair add baidu tongji start... @2017.10.03 -->
-<!-- blair add baidu tongji end ! @2017.10.03 -->
-
-<header id="header">
-  <div id="header-outer" class="outer">
-    <div id="header-inner" class="inner">
-      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
-      <a id="logo" class="logo" href="/"></a>
-      <nav id="main-nav">
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-          <a class="main-nav-link" href="/about">About</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
-        </div>
-      </nav>
-    </div>
-  </div>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">在路上的博客</a></h1>
+  <h2><a href="/">专注于 php、docker、golang、软件架构</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
 </header>
-
-    <br>
-    <section id="main" class="outer"><article id="post-c-socket" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
-    <h1 class="article-title" itemprop="name">
-      C Socket 编程
-      <small class=article-detail-date-index>&nbsp; 2019-03-11</small>
-    </h1>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-11T12:04:00.000Z"><a href="/2019/03/11/c-socket/">2019-03-11</a></time>
+      
+      
+  
+    <h1 class="title">C Socket 编程</h1>
   
 
-
-        <div class=page-title></div>
-        <br>
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/11/c-socket/" class="article-date">
-  <time datetime="2019-03-11T12:04:00.000Z" itemprop="datePublished">2019-03-11</time>
-</a>-->
-      <!-- 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C</a>
-  </div>
-
---><!-- by blair 160724 -->
-      <!-- by blair
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/11/c-socket/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs、fgets 和 fprintf等；不过 C 标准已经不再支持对文件（这里没有包括 socket）的无缓冲操作。<br><a id="more"></a><br>“文件句柄”一般是 windows 的术语，因为在 windows 中 socket 和文件是不一样的，而 Linux 不区分文件与 socket, 所以一般用“文件描述符”术语，其中0、1、2就是我们熟悉的标准输入、标准输出和标准错误，自定义的描述符从 3 开始由小到大顺序编号。</p>
 <h2 id="1-nbsp-nbsp-套接字"><a href="#1-nbsp-nbsp-套接字" class="headerlink" title="1 &nbsp;&nbsp;套接字"></a>1 &nbsp;&nbsp;套接字</h2><p>服务端和客户端都需要通过 socket() 函数建立套接字，了解套接字的结构可以通过下面的命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adadeMacBook-Pro:lib ada$ netstat -an | grep tcp4</span><br><span class="line">Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)</span><br><span class="line">tcp4  628000      0  127.0.0.1.8090         127.0.0.1.54044        ESTABLISHED</span><br><span class="line">tcp4       0  10000  127.0.0.1.54044        127.0.0.1.8090         ESTABLISHED</span><br><span class="line">tcp4       0      0  *.8090                 *.*                    LISTEN</span><br></pre></td></tr></table></figure></p>
@@ -123,111 +86,209 @@
 <h3 id="3-3-nbsp-nbsp-I-O-复用"><a href="#3-3-nbsp-nbsp-I-O-复用" class="headerlink" title="3.3 &nbsp;&nbsp;I/O 复用"></a>3.3 &nbsp;&nbsp;I/O 复用</h3><p>不要过于依赖该模型，该方案并不适用于所有情况，应当根据目标服务器的特点采用不同实现方法。<br>复用：为了提高物理设备的效率，用最少的物理要素传递最多数据时使用的技术。有“时（time）分复用技术”和“频（frequency）分复用技术”。<br>select() 函数是最具代表性的实现复用服务器的方法，它将多个文件描述符集中到一起统一监视。<br><code>int select(int maxfd, fd_set * readset, fd_set * writeset, fd_set * exceptset, const struct timeval * timeout); 发生错误时返回 -1，超时返回时返回 0；因发生关注的事件返回时，返回大于 0 的值，该值是发生事件的文件描述符数。</code><br>(1) 文件描述符监视范围 maxfd = 最大的文件描述符值 + 1，加 1 是因为文件描述符的值从 0 开始。<br>(2) 对 fd_set 位变量的注册或者更改值的操作由宏完成，除了下面的宏，还有 FD_ISSET(int fd, fd_set *fdset) 用于验证 select 函数的调用结果。<br><img src="http://img.jemper.cn/2019/03/select%E5%AE%8F.png" alt="fd_set位 宏操作"><br>(3) select 函数调用后，fd_set 位值仍为 1 的位置上的文件描述符即是发生了变化的，监听但是没有变化的位会从 1 改变为 0，正因为 readset、writeset、exceptset 这三个集合在调用 select 函数后会发生变化，因此为了记住初始化，必须先复制保存起来以便后续继续监听；包括超时时间也需要先复制初始值，因为调用 select 后会更新为剩余时间。</p>
 
       
-     <!-- by blair add this if sentence at 20160725 -->
-      <br>
-      
-<div id="bottom-donation-section">
-</div>
-<div class="well">
-  原创文章，转载请注明： 转载自<a href="http://blog.jemper.cn"> wpxun's Blog</a>，作者：
-  <a href="http://blog.jemper.cn">wpxun</a> <br>
-  本文基于<a target="_blank" title="Creative Commons Attribution 4.0 international License" href="https://creativecommons.org/licenses/by-nc/4.0/">署名4.0国际许可协议</a>发布，转载请保留本文署名和文章链接。 如您有任何授权方面的协商，请邮件联系我。
-</div>
-
- <!-- by blair add 160724-->
-    
     </div>
-    
-      <div class="article-toc">
-        <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-套接字"><span class="toc-number">1.</span> <span class="toc-text">1   套接字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-Socket-编程"><span class="toc-number">2.</span> <span class="toc-text">2   Socket 编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-TCP"><span class="toc-number">2.1.</span> <span class="toc-text">2.1   TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-nbsp-nbsp-服务端"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1   服务端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-nbsp-nbsp-客户端"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2   客户端</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-UDP"><span class="toc-number">2.2.</span> <span class="toc-text">2.2   UDP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-并发服务器"><span class="toc-number">3.</span> <span class="toc-text">3   并发服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-多进程"><span class="toc-number">3.1.</span> <span class="toc-text">3.1   多进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-多线程"><span class="toc-number">3.2.</span> <span class="toc-text">3.2   多线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-nbsp-nbsp-I-O-复用"><span class="toc-number">3.3.</span> <span class="toc-text">3.3   I/O 复用</span></a></li></ol></li></ol>
-      </div>
-    
-    
-      <footer class="article-footer">
-        <!-- <div class="well" style="width:100px; height:30px;"></div>  by blair-->
+    <footer>
+      
         
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C</a>
+  
+  <div class="categories">
+    <a href="/categories/C/">C</a>
   </div>
 
- <!-- by blair add 160724-->
-        <!--
-        <div style="width:100px; height:30px;"></div> by blair add 160724
-        -->
         
-  <div class="article-tag">
-    <a class="article-tag-link" href="/tags/c/">c</a><span></span><a class="article-tag-link" href="/tags/read/">read</a><span></span><a class="article-tag-link" href="/tags/socket/">socket</a><span></span><a class="article-tag-link" href="/tags/write/">write</a>
+  
+  <div class="tags">
+    <a href="/tags/c/">c</a>, <a href="/tags/socket/">socket</a>, <a href="/tags/read/">read</a>, <a href="/tags/write/">write</a>
   </div>
 
-
-      </footer>
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
     
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2019/03/12/go-network/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-title"><span>&lt;</span>&nbsp;
-        
-          go 网络编程
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/03/10/tcpip-theory/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">TCP/IP 原理&nbsp;<span>&gt;</span></div>
-    </a>
-  
-</nav>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
 
-  
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
 </article>
 
-<section id="comments">
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="https://blog.jemper.cn/2019/03/11/c-socket/index.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
 </section>
 
-</section>
-    <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 Sven&nbsp;
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
-    </div>
-  </div>
-</footer>
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:blog.jemper.cn">
+  </form>
+</div>
 
-    
-<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
-  var disqus_shortname = 'wpxun';
   
-  var disqus_url = 'http://blog.jemper.cn/2019/03/11/c-socket/';
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
   
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
+    <li><a href="/categories/C/">C</a><small>1</small></li>
+  
+    <li><a href="/categories/DevOps/">DevOps</a><small>2</small></li>
+  
+    <li><a href="/categories/Docker/">Docker</a><small>1</small></li>
+  
+    <li><a href="/categories/Golang/">Golang</a><small>5</small></li>
+  
+    <li><a href="/categories/HTTPS/">HTTPS</a><small>5</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/aead/">aead</a><small>1</small></li>
+  
+    <li><a href="/tags/apline/">apline</a><small>1</small></li>
+  
+    <li><a href="/tags/architect/">architect</a><small>1</small></li>
+  
+    <li><a href="/tags/architecture/">architecture</a><small>1</small></li>
+  
+    <li><a href="/tags/c/">c</a><small>1</small></li>
+  
+    <li><a href="/tags/concurrency/">concurrency</a><small>1</small></li>
+  
+    <li><a href="/tags/context/">context</a><small>1</small></li>
+  
+    <li><a href="/tags/devops/">devops</a><small>1</small></li>
+  
+    <li><a href="/tags/difficult/">difficult</a><small>1</small></li>
+  
+    <li><a href="/tags/docker/">docker</a><small>1</small></li>
+  
+    <li><a href="/tags/dockerfile/">dockerfile</a><small>1</small></li>
+  
+    <li><a href="/tags/go/">go</a><small>5</small></li>
+  
+    <li><a href="/tags/h2/">h2</a><small>2</small></li>
+  
+    <li><a href="/tags/hash/">hash</a><small>1</small></li>
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/http/">http</a><small>2</small></li>
+  
+    <li><a href="/tags/http2/">http2</a><small>2</small></li>
+  
+    <li><a href="/tags/https/">https</a><small>3</small></li>
+  
+    <li><a href="/tags/io/">io</a><small>1</small></li>
+  
+    <li><a href="/tags/ip/">ip</a><small>1</small></li>
+  
+    <li><a href="/tags/microservice/">microservice</a><small>1</small></li>
+  
+    <li><a href="/tags/network/">network</a><small>1</small></li>
+  
+    <li><a href="/tags/perspective/">perspective</a><small>1</small></li>
+  
+    <li><a href="/tags/php/">php</a><small>1</small></li>
+  
+    <li><a href="/tags/read/">read</a><small>1</small></li>
+  
+    <li><a href="/tags/rpc/">rpc</a><small>1</small></li>
+  
+    <li><a href="/tags/socket/">socket</a><small>2</small></li>
+  
+    <li><a href="/tags/software/">software</a><small>1</small></li>
+  
+    <li><a href="/tags/ssl/">ssl</a><small>2</small></li>
+  
+    <li><a href="/tags/tcp/">tcp</a><small>1</small></li>
+  
+    <li><a href="/tags/time/">time</a><small>1</small></li>
+  
+    <li><a href="/tags/tls/">tls</a><small>3</small></li>
+  
+    <li><a href="/tags/write/">write</a><small>1</small></li>
+  
+    <li><a href="/tags/密码学/">密码学</a><small>1</small></li>
+  
+    <li><a href="/tags/性能/">性能</a><small>2</small></li>
+  
+    <li><a href="/tags/调试/">调试</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Sven
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'wpxun';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
 </script>
 
 
-<script src="/js/jquery.min.js"></script>
 
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-  </div>
 </body>
 </html>

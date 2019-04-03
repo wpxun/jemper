@@ -1,100 +1,68 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
   <meta charset="utf-8">
   
   <title>在路上的博客</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="author" content="Sven">
+  
   <meta name="description" content="让大家读得懂的知识才是真知识">
-<meta property="og:type" content="website">
-<meta property="og:title" content="在路上的博客">
-<meta property="og:url" content="http://blog.jemper.cn/index.html">
-<meta property="og:site_name" content="在路上的博客">
-<meta property="og:description" content="让大家读得懂的知识才是真知识">
-<meta property="og:locale" content="zh-CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在路上的博客">
-<meta name="twitter:description" content="让大家读得懂的知识才是真知识">
   
   
-    <link rel="icon" href="/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
   
-  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
-  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css">
+  <meta property="og:site_name" content="在路上的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="在路上的博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
 
 </head>
 
+
 <body>
-  <div id="container">
-    <!-- blair add baidu tongji start... @2017.10.03 -->
-<!-- blair add baidu tongji end ! @2017.10.03 -->
-
-<header id="header">
-  <div id="header-outer" class="outer">
-    <div id="header-inner" class="inner">
-      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
-      <a id="logo" class="logo" href="/"></a>
-      <nav id="main-nav">
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-          <a class="main-nav-link" href="/about">About</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        <div id="search-form-wrap">
-          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.jemper.cn"></form>
-        </div>
-      </nav>
-    </div>
-  </div>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">在路上的博客</a></h1>
+  <h2><a href="/">专注于 php、docker、golang、软件架构</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
 </header>
-
-    <br>
-    <section id="main" class="outer">
-      <article id="post-https" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/04/01/https/"><strong>HTTPS 性能和调试</strong></a>
-      <small class=article-date-index>&nbsp; 2019-04-01</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-04-01T09:34:00.000Z"><a href="/2019/04/01/https/">2019-04-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/04/01/https/">HTTPS 性能和调试</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/04/01/https/" class="article-date">
-  <time datetime="2019-04-01T09:34:00.000Z" itemprop="datePublished">2019-04-01</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/HTTPS/">HTTPS</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/04/01/https/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：</p>
 <ol>
@@ -102,69 +70,40 @@
 <li>安全部分：分别是学习密码学、OpenSSL命令行、TLS/SSL，可以参阅<a href="/2019/03/21/cryptology/">《密码学》</a>和<a href="/2019/03/24/tls/">《SSL/TLS 协议》</a></li>
 <li>应用部分：HTTP/2，可以参阅<a href="/2019/03/31/http2/">《HTTP/2 协议》</a></li>
 </ol>
-        
-          <p class="article-more-link">
-            <a href="/2019/04/01/https/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/04/01/https/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-http2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/31/http2/"><strong>HTTP/2 协议</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-31</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-31T06:39:00.000Z"><a href="/2019/03/31/http2/">2019-03-31</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/31/http2/">HTTP/2 协议</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/31/http2/" class="article-date">
-  <time datetime="2019-03-31T06:39:00.000Z" itemprop="datePublished">2019-03-31</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/HTTPS/">HTTPS</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/31/http2/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。<br>h2 和 h1 的最大差别在于在 <strong>http 层</strong>上增加了<strong>分帧层</strong>；把原来的 http 层的数据拆分成多种帧类型，并在每种类型前加上协议性的帧首部。基于二进制分帧的优点：</p>
 <ol>
@@ -173,589 +112,463 @@
 <li>传输的功能得以扩展（如服务端推送、首部压缩、优先级、流量控制）。</li>
 </ol>
 <p>学习 HTTP/2 最好的文档是 RFC 7540。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/31/http2/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/31/http2/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-devops-software-architect" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/27/devops-software-architect/"><strong>DevOps 软件架构师行动指南</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-27</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-27T08:03:00.000Z"><a href="/2019/03/27/devops-software-architect/">2019-03-27</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/27/devops-software-architect/">DevOps 软件架构师行动指南</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/27/devops-software-architect/" class="article-date">
-  <time datetime="2019-03-27T08:03:00.000Z" itemprop="datePublished">2019-03-27</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/DevOps/">DevOps</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/27/devops-software-architect/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/27/devops-software-architect/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/27/devops-software-architect/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-tls" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/24/tls/"><strong>SSL/TLS 协议</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-24</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-24T09:55:00.000Z"><a href="/2019/03/24/tls/">2019-03-24</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/24/tls/">SSL/TLS 协议</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/24/tls/" class="article-date">
-  <time datetime="2019-03-24T09:55:00.000Z" itemprop="datePublished">2019-03-24</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/HTTPS/">HTTPS</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/24/tls/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>SSL/TLS 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/24/tls/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/24/tls/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-cryptology" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/21/cryptology/"><strong>密码学</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-21</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-21T09:29:00.000Z"><a href="/2019/03/21/cryptology/">2019-03-21</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/21/cryptology/">密码学</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/21/cryptology/" class="article-date">
-  <time datetime="2019-03-21T09:29:00.000Z" itemprop="datePublished">2019-03-21</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/HTTPS/">HTTPS</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/21/cryptology/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。<br>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/21/cryptology/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/21/cryptology/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-microservice-architecture-difficult" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/17/microservice-architecture-difficult/"><strong>分布式系统的复杂性</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-17</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-17T07:55:00.000Z"><a href="/2019/03/17/microservice-architecture-difficult/">2019-03-17</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/17/microservice-architecture-difficult/">分布式系统的复杂性</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/17/microservice-architecture-difficult/" class="article-date">
-  <time datetime="2019-03-17T07:55:00.000Z" itemprop="datePublished">2019-03-17</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/DevOps/">DevOps</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/17/microservice-architecture-difficult/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>单进程空间的并发复杂性可以看我上一篇文章<a href="/2019/03/14/go-concurrency-difficult/">《并发的复杂性》</a>。<br>分布式系统可以理解为并发系统，不同服务器进程空间的并行系统，包括集群和服务化（日常表述中粒度，业务垂直化 &gt; 服务化 &gt; 微服务）等，企业采用服务化架构（SOA）就意味会过渡到分布式系统，目前最流行的服务化概念就是微服务，所以本文将着重讲微服务化中出现的问题和一些解决方案。</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/17/microservice-architecture-difficult/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/17/microservice-architecture-difficult/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-go-concurrency-difficult" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/14/go-concurrency-difficult/"><strong>并发的复杂性</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-14</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-14T03:10:00.000Z"><a href="/2019/03/14/go-concurrency-difficult/">2019-03-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/14/go-concurrency-difficult/">并发的复杂性</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/14/go-concurrency-difficult/" class="article-date">
-  <time datetime="2019-03-14T03:10:00.000Z" itemprop="datePublished">2019-03-14</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/Golang/">Golang</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/14/go-concurrency-difficult/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>本文谈到的并发是指单程序、单节点并发，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。分布式系统可以看我另一篇文章<a href="/2019/03/17/microservice-architecture-difficult/">《分布式系统的复杂性》</a>。<br>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。<br>在功能开发中，非并发程序往往未能充分利用服务器的性能，为用户提供服务基本都是排队处理。而并发程序有时可以代替集群，其性能提高对整个系统是至关重要的作用。当然，单个节点的性能提高，却带来了编程的复杂性。不同程序单元之间的远程过程调用可以参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。<br>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/14/go-concurrency-difficult/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/14/go-concurrency-difficult/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-go-io" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/13/go-io/"><strong>go I/O 操作</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-13</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-13T06:55:00.000Z"><a href="/2019/03/13/go-io/">2019-03-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/13/go-io/">go I/O 操作</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/13/go-io/" class="article-date">
-  <time datetime="2019-03-13T06:55:00.000Z" itemprop="datePublished">2019-03-13</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/Golang/">Golang</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/13/go-io/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>理解 I/O 的一些概念问题可以先看另一篇文章<a href="/2019/03/11/c-socket/">《C Socket 编程》</a><br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。<br>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/13/go-io/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/13/go-io/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-go-network" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/12/go-network/"><strong>go 网络编程</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-12</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-12T01:30:00.000Z"><a href="/2019/03/12/go-network/">2019-03-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/12/go-network/">go 网络编程</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/12/go-network/" class="article-date">
-  <time datetime="2019-03-12T01:30:00.000Z" itemprop="datePublished">2019-03-12</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/Golang/">Golang</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/12/go-network/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>本篇主要内容是 Go HTTP 原理和 RPC 相关知识。<br>在进行原理讲解之前我觉得有必要熟悉一下 <a href="/2019/03/10/tcpip-theory/">TCP/IP 原理</a>和 <a href="/2019/03/11/c-socket/">C Socket 编程</a>，因为 Go 是在 C 的基础上进行封装的，这样对哪些属于 C，哪些属于 Go 有一个清晰的了解，也更能避繁就简。<br>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/12/go-network/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/12/go-network/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <article id="post-c-socket" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+
+  <article class="post">
   
-    <myh11 itemprop="name">
-      <a class="article-title-index" href="/2019/03/11/c-socket/"><strong>C Socket 编程</strong></a>
-      <small class=article-date-index>&nbsp; 2019-03-11</small>
-      <!--<a>
-      <div = post.date  </div>
-      </a>-->
-    </myh11>
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-03-11T12:04:00.000Z"><a href="/2019/03/11/c-socket/">2019-03-11</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/11/c-socket/">C Socket 编程</a></h1>
   
 
-
-      </header>
-    
-    <div class="article-meta">
-      <!--<a href="/2019/03/11/c-socket/" class="article-date">
-  <time datetime="2019-03-11T12:04:00.000Z" itemprop="datePublished">2019-03-11</time>
-</a>-->
-      <!--
-  <div class="article-category-index">
-    <a class="article-category-index-link" href="/categories/C/">C</a>
-  </div>
-
--->
-      <!--
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://blog.jemper.cn/2019/03/11/c-socket/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-      -->
-    </div>
-	
-    <div class="article-entry" itemprop="articleBody">
+    </header>
+    <div class="entry">
       
         <p>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs、fgets 和 fprintf等；不过 C 标准已经不再支持对文件（这里没有包括 socket）的无缓冲操作。<br>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/11/c-socket/">Read More</a>
-          </p>
-        
       
     </div>
-	
-    <!--
-	
-    -->
-    <!--
-    
-      <footer class="article-footer">
-      </footer>
-    
-    -->
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/11/c-socket/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
   </div>
-  
 </article>
 
 
 
-    
-      <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
-      </nav>
-    
 
-</section>
-    <footer id="footer">
+
+<nav id="pagination">
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 Sven&nbsp;
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/52binge/hexo-theme-blairos">blairos</a>, <a href="http://www.miitbeian.gov.cn/" target="_blank"> 粤ICP备15111870号-1 </a>
-    </div>
+  
+    <a href="/page/2/" class="alignright next">下一页</a>
+  
+  <div class="clearfix"></div>
+</nav></div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:blog.jemper.cn">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/C/">C</a><small>1</small></li>
+  
+    <li><a href="/categories/DevOps/">DevOps</a><small>2</small></li>
+  
+    <li><a href="/categories/Docker/">Docker</a><small>1</small></li>
+  
+    <li><a href="/categories/Golang/">Golang</a><small>5</small></li>
+  
+    <li><a href="/categories/HTTPS/">HTTPS</a><small>5</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/aead/">aead</a><small>1</small></li>
+  
+    <li><a href="/tags/apline/">apline</a><small>1</small></li>
+  
+    <li><a href="/tags/architect/">architect</a><small>1</small></li>
+  
+    <li><a href="/tags/architecture/">architecture</a><small>1</small></li>
+  
+    <li><a href="/tags/c/">c</a><small>1</small></li>
+  
+    <li><a href="/tags/concurrency/">concurrency</a><small>1</small></li>
+  
+    <li><a href="/tags/context/">context</a><small>1</small></li>
+  
+    <li><a href="/tags/devops/">devops</a><small>1</small></li>
+  
+    <li><a href="/tags/difficult/">difficult</a><small>1</small></li>
+  
+    <li><a href="/tags/docker/">docker</a><small>1</small></li>
+  
+    <li><a href="/tags/dockerfile/">dockerfile</a><small>1</small></li>
+  
+    <li><a href="/tags/go/">go</a><small>5</small></li>
+  
+    <li><a href="/tags/h2/">h2</a><small>2</small></li>
+  
+    <li><a href="/tags/hash/">hash</a><small>1</small></li>
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/http/">http</a><small>2</small></li>
+  
+    <li><a href="/tags/http2/">http2</a><small>2</small></li>
+  
+    <li><a href="/tags/https/">https</a><small>3</small></li>
+  
+    <li><a href="/tags/io/">io</a><small>1</small></li>
+  
+    <li><a href="/tags/ip/">ip</a><small>1</small></li>
+  
+    <li><a href="/tags/microservice/">microservice</a><small>1</small></li>
+  
+    <li><a href="/tags/network/">network</a><small>1</small></li>
+  
+    <li><a href="/tags/perspective/">perspective</a><small>1</small></li>
+  
+    <li><a href="/tags/php/">php</a><small>1</small></li>
+  
+    <li><a href="/tags/read/">read</a><small>1</small></li>
+  
+    <li><a href="/tags/rpc/">rpc</a><small>1</small></li>
+  
+    <li><a href="/tags/socket/">socket</a><small>2</small></li>
+  
+    <li><a href="/tags/software/">software</a><small>1</small></li>
+  
+    <li><a href="/tags/ssl/">ssl</a><small>2</small></li>
+  
+    <li><a href="/tags/tcp/">tcp</a><small>1</small></li>
+  
+    <li><a href="/tags/time/">time</a><small>1</small></li>
+  
+    <li><a href="/tags/tls/">tls</a><small>3</small></li>
+  
+    <li><a href="/tags/write/">write</a><small>1</small></li>
+  
+    <li><a href="/tags/密码学/">密码学</a><small>1</small></li>
+  
+    <li><a href="/tags/性能/">性能</a><small>2</small></li>
+  
+    <li><a href="/tags/调试/">调试</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
   </div>
-</footer>
-
-    
-<script type="text/javascript"> <!-- add by blair 0724 type=text/javascript -->
-  var disqus_shortname = 'wpxun';
+  <footer id="footer" class="inner"><div class="alignleft">
   
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
+  &copy; 2019 Sven
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'wpxun';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
 </script>
 
 
-<script src="/js/jquery.min.js"></script>
 
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-  </div>
 </body>
 </html>
