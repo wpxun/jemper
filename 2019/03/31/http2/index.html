@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>HTTP/2 协议 | 在路上的博客</title>
+  <title>HTTP/2 协议 | 在路上</title>
   <meta name="author" content="Sven">
   
   <meta name="description" content="让大家读得懂的知识才是真知识">
@@ -12,14 +12,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <meta property="og:title" content="HTTP/2 协议"/>
-  <meta property="og:site_name" content="在路上的博客"/>
+  <meta property="og:site_name" content="在路上"/>
 
   
     <meta property="og:image" content=""/>
   
 
   <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="在路上的博客" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
@@ -29,7 +29,7 @@
 
 <body>
   <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">在路上的博客</a></h1>
+  <h1><a href="/">在路上</a></h1>
   <h2><a href="/"></a></h2>
 </div>
 <nav id="main-nav" class="alignright">
@@ -65,7 +65,7 @@
       
         
 			<div id="toc" class="toc-article">
-				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-连接"><span class="toc-text">1   连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-启用-http-2"><span class="toc-text">1.1   启用 http/2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-http-2-连接前奏"><span class="toc-text">1.2    http/2 连接前奏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-nbsp-nbsp-SETTINGS-帧"><span class="toc-text">1.3    SETTINGS 帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-nbsp-nbsp-PING-帧"><span class="toc-text">1.4   PING 帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-nbsp-nbsp-关闭连接"><span class="toc-text">1.5   关闭连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-帧"><span class="toc-text">2   帧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-流"><span class="toc-text">3   流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-消息"><span class="toc-text">3.1   消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-nbsp-nbsp-流量控制"><span class="toc-text">3.3   流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-nbsp-nbsp-优先级"><span class="toc-text">3.4   优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-nbsp-nbsp-CONTINUATON-帧"><span class="toc-text">3.5   CONTINUATON 帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-nbsp-nbsp-关闭流"><span class="toc-text">3.6   关闭流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-推送响应"><span class="toc-text">4   推送响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-首部压缩"><span class="toc-text">5   首部压缩</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-nbsp-nbsp-索引表"><span class="toc-text">5.1   索引表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-nbsp-nbsp-控制规则"><span class="toc-text">5.2   控制规则</span></a></li></ol></li></ol>
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-连接"><span class="toc-text">1   连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-启用-http-2"><span class="toc-text">1.1   启用 http/2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-http-2-连接前奏"><span class="toc-text">1.2    http/2 连接前奏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-nbsp-nbsp-SETTINGS-帧"><span class="toc-text">1.3    SETTINGS 帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-nbsp-nbsp-PING-帧"><span class="toc-text">1.4   PING 帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-nbsp-nbsp-关闭连接"><span class="toc-text">1.5   关闭连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-帧"><span class="toc-text">2   帧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-流"><span class="toc-text">3   流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-消息"><span class="toc-text">3.1   消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-nbsp-nbsp-流量控制"><span class="toc-text">3.3   流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-nbsp-nbsp-优先级"><span class="toc-text">3.4   优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-nbsp-nbsp-CONTINUATON-帧"><span class="toc-text">3.5   CONTINUATON 帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-nbsp-nbsp-关闭流"><span class="toc-text">3.6   关闭流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-推送响应"><span class="toc-text">4   推送响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-首部压缩"><span class="toc-text">5   首部压缩</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-nbsp-nbsp-学习的基础"><span class="toc-text">5.1   学习的基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-1-nbsp-nbsp-术语"><span class="toc-text">5.1.1   术语</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-1-nbsp-nbsp-原始数据类型的表示"><span class="toc-text">5.1.1   原始数据类型的表示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-2-nbsp-nbsp-静态Huffman码"><span class="toc-text">5.1.2   静态Huffman码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-nbsp-nbsp-索引表"><span class="toc-text">5.2   索引表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-nbsp-nbsp-编码解码"><span class="toc-text">5.3   编码解码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-1-nbsp-nbsp-Indexed-Representation-索引表示"><span class="toc-text">5.3.1   Indexed Representation 索引表示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-2-nbsp-nbsp-Literal-Representation-字面量表示"><span class="toc-text">5.3.2   Literal Representation 字面量表示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-3-nbsp-nbsp-Dynamic-Table-Size-Update-动态表大小更新"><span class="toc-text">5.3.3   Dynamic Table Size Update 动态表大小更新</span></a></li></ol></li></ol></li></ol>
 			</div>
 		
         <p>HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。<br>h2 和 h1 的最大差别在于在 <strong>http 层</strong>上增加了<strong>分帧层</strong>；把原来的 http 层的数据拆分成多种帧类型，并在每种类型前加上协议性的帧首部。基于二进制分帧的优点：</p>
@@ -76,7 +76,7 @@
 </ol>
 <p>学习 HTTP/2 最好的文档是 RFC 7540。</p>
 <a id="more"></a>
-<h2 id="1-nbsp-nbsp-连接"><a href="#1-nbsp-nbsp-连接" class="headerlink" title="1 &nbsp;&nbsp;连接"></a>1 &nbsp;&nbsp;连接</h2><p>HTTP/2 对每一个域名只会开启一个连接（或者说 一个 TCP、一个 socket 都是可以的），HTTP/2 的设计思路是尽量在单个 TCP/IP socket 上通信。</p>
+<h2 id="1-nbsp-nbsp-连接"><a href="#1-nbsp-nbsp-连接" class="headerlink" title="1 &nbsp;&nbsp;连接"></a>1 &nbsp;&nbsp;连接</h2><p>HTTP/2 对每一个域名只会开启一个连接（本质上就是 一个 TCP/Socket），HTTP/2 的设计思路是尽量在单个 TCP/IP socket 上通信。</p>
 <h3 id="1-1-nbsp-nbsp-启用-http-2"><a href="#1-1-nbsp-nbsp-启用-http-2" class="headerlink" title="1.1 &nbsp;&nbsp;启用 http/2"></a>1.1 &nbsp;&nbsp;启用 http/2</h3><p>对于浏览器来说，它无法知晓该服务端是否支持了 h2，有三种方式来了解是否支持。</p>
 <ul>
 <li>为”http” URIs启用HTTP/2协议：客户端利用 Upgrade 首部来表明期望使用 h2；服务端返回 <code>101 Swiching Protocols</code>;</li>
@@ -252,6 +252,7 @@
 <li>服务端开启在 PUSH_PROMISE 中标明的流时，设置的流 ID 从 2 开始，之后一直使用偶数。</li>
 <li>0 是保留数字，用于连接级控制消息，不能用于创建新的流。</li>
 </ul>
+<p>帧在流上发送的顺序非常重要，最后接收方会把相同 Stream Identifier (同一个流) 的帧重新组装成完整消息报文</p>
 <h3 id="3-1-nbsp-nbsp-消息"><a href="#3-1-nbsp-nbsp-消息" class="headerlink" title="3.1 &nbsp;&nbsp;消息"></a>3.1 &nbsp;&nbsp;消息</h3><p>帧消息的关注点在于 HEADERS 和 DATA 这两个帧类型，这也是由 h1 的头部和数据拆分而来。<br>帧首部必须以 +END_STREAM、+END_HEADERS 结束。</p>
 <p><img src="http://img.jemper.cn/2019/03/request_response.png" alt="GET 或 POST 请求和响应消息"></p>
 <p>h1 把 header 拆分成两部分：请求/状态行（GET / HTTP/1.1、HTTP/1.1 200 OK）、首部（Host、User-agent等）；而 h2 取消了这种拆分，<strong>一切都是 header</strong>，并引入了伪首部（Pseudo-Header）：<br>（1）请求伪首部：:method、:scheme、:authority、:path<br>（2）响应伪首部：:status</p>
@@ -368,19 +369,50 @@
 <li>可用的带宽，以及其他类似的会影响客户端接收推送的资源；</li>
 </ul>
 <p>如果服务器选择正解，那就真的有助于提升页面的整体性能，反之则会损耗页面性能，这也是如今通用服务端推送解决方案非常少的原因。估计在 APP 上应用场景较多。</p>
-<h2 id="5-nbsp-nbsp-首部压缩"><a href="#5-nbsp-nbsp-首部压缩" class="headerlink" title="5 &nbsp;&nbsp;首部压缩"></a>5 &nbsp;&nbsp;首部压缩</h2><p>HPACK 的文档为 rfc 7541</p>
-<h3 id="5-1-nbsp-nbsp-索引表"><a href="#5-1-nbsp-nbsp-索引表" class="headerlink" title="5.1 &nbsp;&nbsp;索引表"></a>5.1 &nbsp;&nbsp;索引表</h3><p>请求端和响应端各维护了两张索引表。一张是静态表，见 <a href="https://tools.ietf.org/html/rfc7541#appendix-A" target="_blank" rel="noopener">Static Table Definition</a><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+-------+-----------------------------+---------------+</span><br><span class="line">| Index | Header Name                 | Header Value  |</span><br><span class="line">+-------+-----------------------------+---------------+</span><br><span class="line">| 1     | :authority                  |               |</span><br><span class="line">| 2     | :method                     | GET           |</span><br><span class="line">| 3     | :method                     | POST          |</span><br><span class="line">| 4     | :path                       | /             |</span><br><span class="line">| 5     | :path                       | /index.html   |</span><br><span class="line">| 6     | :scheme                     | http          |</span><br><span class="line">| 7     | :scheme                     | https         |</span><br><span class="line">| 8     | :status                     | 200           |</span><br><span class="line">| 9     | :status                     | 204           |</span><br><span class="line">|                                                     |</span><br><span class="line">|                       ......                        |</span><br><span class="line">|                                                     |</span><br><span class="line">| 58    | user-agent                  |               |</span><br><span class="line">| 59    | vary                        |               |</span><br><span class="line">| 60    | via                         |               |</span><br><span class="line">| 61    | www-authenticate            |               |</span><br><span class="line">+-------+-----------------------------+---------------+</span><br></pre></td></tr></table></figure></p>
-<p>另一张动态表索引编号从 62 开始。</p>
-<p>每个动态表只针对一个连接，每个连接的压缩解压缩的上下文有且仅有一个动态表。<br>什么是连接，抽象的说是HTTP依赖的可靠的传输层的连接，一般来说指的是一个TCP连接。 HTTP/2 中引入了多路复用的概念，对于同一个域名的多个请求，会复用同一个连接。</p>
-<h3 id="5-2-nbsp-nbsp-控制规则"><a href="#5-2-nbsp-nbsp-控制规则" class="headerlink" title="5.2 &nbsp;&nbsp;控制规则"></a>5.2 &nbsp;&nbsp;控制规则</h3><ul>
-<li>发送索引编号和文本值</li>
+<h2 id="5-nbsp-nbsp-首部压缩"><a href="#5-nbsp-nbsp-首部压缩" class="headerlink" title="5 &nbsp;&nbsp;首部压缩"></a>5 &nbsp;&nbsp;首部压缩</h2><p>HPACK 的知识点相对比较多，最好的方式是通读文档 <a href="https://httpwg.org/specs/rfc7541.html" target="_blank" rel="noopener">RFC 7541</a>，以下只是做一些归纳。</p>
+<h3 id="5-1-nbsp-nbsp-学习的基础"><a href="#5-1-nbsp-nbsp-学习的基础" class="headerlink" title="5.1 &nbsp;&nbsp;学习的基础"></a>5.1 &nbsp;&nbsp;学习的基础</h3><h4 id="5-1-1-nbsp-nbsp-术语"><a href="#5-1-1-nbsp-nbsp-术语" class="headerlink" title="5.1.1 &nbsp;&nbsp;术语"></a>5.1.1 &nbsp;&nbsp;术语</h4><p>这 4 个术语是一定要理解的，才能读懂文档：</p>
+<ul>
+<li>Header Field：一个键值对；未编码；</li>
+<li>Header List：多个 Header Field 有序连接起来，未编码；</li>
+<li>Header Field Representation：单个 Header Field 的表示方法（即用 HPACK 压缩算法编码），解码后就是 Header Field；</li>
+<li>Header Block：多个 header field representations 有序连接起来，解码后就是 Header List；</li>
 </ul>
+<p>也就是说 HTTP/2 的首部有序列表编码后就是 Header Block，解码后就是 Header List。且 Header List 中的顺序要和 Header Block 中的顺序一致。<br>比如：(数字是16进制)<br><code>:method: GET</code> HPACK 编码后是 <code>82</code>；<br><code>:authority: localhost</code> HPACK 编码后是 <code>41 86 a0 e4 1d 13 9d 09</code>；<br>单个表示方法：(括号表示这个键后面的值的字节数)<br><code>:method(3)GET</code> 就是 Header Field， <code>82</code> 就是 Header Field Representation；<br>多个连接起来：<br><code>:method(3)GET:authority(9)localhost</code> 就是 Header List，<code>82 41 86 a0 e4 1d 13 9d 09</code> 就是 Header Block；</p>
+<p>除了术语，我们还要学习一下<strong>原始数据类型的表示</strong>和<strong>静态Huffman码</strong>。</p>
+<h4 id="5-1-1-nbsp-nbsp-原始数据类型的表示"><a href="#5-1-1-nbsp-nbsp-原始数据类型的表示" class="headerlink" title="5.1.1 &nbsp;&nbsp;原始数据类型的表示"></a>5.1.1 &nbsp;&nbsp;原始数据类型的表示</h4><p><strong>这部分很重要，一定要理解透</strong>，<a href="https://httpwg.org/specs/rfc7541#low-level.representation" target="_blank" rel="noopener">Primitive Type Representations</a><br>原始数据类型的表示：</p>
+<ol>
+<li><p>Integer Representation：表示对索引值（静态表或动态表索引条目）引用的表示法。<br>这部分可以看伪代码，N 可以灵活设置，后面的 Header Field Representation 使用了 N 等于 1（1）、2（01）、3（001）、4（0000、0001） 这四种 N 值来实现那 5 种情况（前面括号是 N 位二进制表示，所以是 5 种）。要理解这段代码一定要看原文档，我就不引用了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if I &lt; 2^N - 1, encode I on N bits</span><br><span class="line">else</span><br><span class="line">    encode (2^N - 1) on N bits</span><br><span class="line">    I = I - (2^N - 1)</span><br><span class="line">    while I &gt;= 128</span><br><span class="line">         encode (I % 128 + 128) on 8 bits</span><br><span class="line">         I = I / 128</span><br><span class="line">    encode I on 8 bits</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>String Literal Representation：表示字符串字面量表示法，可以是<strong>直接地编码（ASCII）</strong>，或使用<strong>静态Huffman码</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">  0   1   2   3   4   5   6   7</span><br><span class="line">+---+---+---+---+---+---+---+---+</span><br><span class="line">| H |    String Length (7+)     |</span><br><span class="line">+---+---------------------------+</span><br><span class="line">|  String Data (Length octets)  |</span><br><span class="line">+-------------------------------+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中 H 为 1 表示采用静态Huffman码，为 0 表示采用直接地编码。</p>
+<h4 id="5-1-2-nbsp-nbsp-静态Huffman码"><a href="#5-1-2-nbsp-nbsp-静态Huffman码" class="headerlink" title="5.1.2 &nbsp;&nbsp;静态Huffman码"></a>5.1.2 &nbsp;&nbsp;静态Huffman码</h4><p>静态Huffman码本质上是一个查表的编码（<a href="https://httpwg.org/specs/rfc7541.html#huffman.code" target="_blank" rel="noopener">静态Huffman码表</a>）(其实 ASCII 也是一个查表编码)。原理就是一个对字符使用概率的重新编码，常规一个字符是用8位表示，但 Huffman 常用的字符采用5位、6位等表示。大概估算一般能够缩短1/3的长度（比如 9 个字符常规是 9*8 = 72 位表示，采用 Huffman 后最少可以只用 9*5 = 45 位表示，尾部填充后最少是 6 个字符的长度，少了 3 个字符）。</p>
+<h3 id="5-2-nbsp-nbsp-索引表"><a href="#5-2-nbsp-nbsp-索引表" class="headerlink" title="5.2 &nbsp;&nbsp;索引表"></a>5.2 &nbsp;&nbsp;索引表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;----------  Index Address Space ----------&gt;</span><br><span class="line">&lt;-- Static  Table --&gt;  &lt;-- Dynamic Table --&gt;</span><br><span class="line">+---+-----------+---+  +---+-----------+---+</span><br><span class="line">| 1 |    ...    | s |  |s+1|    ...    |s+k|</span><br><span class="line">+---+-----------+---+  +---+-----------+---+</span><br><span class="line">                       ⍋                   |</span><br><span class="line">                       |                   ⍒</span><br><span class="line">                Insertion Point      Dropping Point</span><br></pre></td></tr></table></figure>
+<p>请求端和响应端各维护了两张索引表：静态表和静态表。其中静态表的条数是固定的 s = 61，在所有的编码或解码上下文间共享的一套数据；动态表编号从 62 开始，每个动态表只针对一个连接，每个连接的压缩解压缩的上下文有且仅有一个动态表。</p>
+<h3 id="5-3-nbsp-nbsp-编码解码"><a href="#5-3-nbsp-nbsp-编码解码" class="headerlink" title="5.3 &nbsp;&nbsp;编码解码"></a>5.3 &nbsp;&nbsp;编码解码</h3><p>要理解这部分一定要理解透 5.1.1 节和 5.1.2 节。</p>
+<p>首部压缩最重要的就是实现 Header Field Representation（编码的头部字段）。一个编码的头部字段可由一个索引或一个字面量表示。解码就是反向过程。</p>
+<h4 id="5-3-1-nbsp-nbsp-Indexed-Representation-索引表示"><a href="#5-3-1-nbsp-nbsp-Indexed-Representation-索引表示" class="headerlink" title="5.3.1 &nbsp;&nbsp;Indexed Representation 索引表示"></a>5.3.1 &nbsp;&nbsp;Indexed Representation 索引表示</h4><p>索引的表示法将头部字段定义为对静态表或动态表中条目的引用，<br><strong>这里就是使用了 N = 1（1） 实现的。</strong></p>
+<h4 id="5-3-2-nbsp-nbsp-Literal-Representation-字面量表示"><a href="#5-3-2-nbsp-nbsp-Literal-Representation-字面量表示" class="headerlink" title="5.3.2 &nbsp;&nbsp;Literal Representation 字面量表示"></a>5.3.2 &nbsp;&nbsp;Literal Representation 字面量表示</h4><p>字面量的表示通过描述头部字段的名称和值来定义头部字段。头部字段的名称可被字面地表示，或表示为对静态表或动态表中条目的引用。头部字段的值由字面量表示。</p>
+<p>定义了<strong>三种不同的字面的表示</strong>，每一种都分 <strong>Indexed Name</strong> 和 <strong>New Name</strong> 两种情况，表示头部字段的名称是否为对静态表或动态表中条目的引用，所以合起来算是六种：</p>
+<ol>
+<li>将头部字段作为新条目添加到动态表的起始位置的字面地表示，Literal Header Field with Incremental Indexing；<strong>这里就是使用了 N = 2（01） 实现的。</strong></li>
+<li>不向动态表添加头部字段的字面量表示，Literal Header Field without Indexing；<strong>这里就是使用了 N = 4（0000） 实现的。</strong></li>
+<li>不向动态表添加头部字段的字面量表示，且这个头部字段总是使用字面的表示，Literal Header Field Never Indexed；<strong>这里就是使用了 N = 4（0001） 实现的。</strong></li>
+</ol>
+<p>可按照 安全注意事项 的指导来选择这三种字面的表示中的一个，以保护敏感的头部字段值。</p>
+<p>头部字段的名字或值的字面表示的字节序列可以是<strong>直接地编码</strong>，或使用<strong>静态Huffman码</strong>。静态Huffman码可以看 5.1.2 节.</p>
+<p>上面三种不同的字面的表示中，只有第一种需要管理动态表（条目插入、条目被逐出）。</p>
+<h4 id="5-3-3-nbsp-nbsp-Dynamic-Table-Size-Update-动态表大小更新"><a href="#5-3-3-nbsp-nbsp-Dynamic-Table-Size-Update-动态表大小更新" class="headerlink" title="5.3.3 &nbsp;&nbsp;Dynamic Table Size Update 动态表大小更新"></a>5.3.3 &nbsp;&nbsp;Dynamic Table Size Update 动态表大小更新</h4><p><strong>这里就是使用了 N = 3（001） 实现的。</strong><br><br><br><br>  </p>
+<hr>
 <p>有趣轶事：</p>
 <ol>
 <li>魔法字节流的 PRI 其实就是美国国家安全局 PRISM（棱镜）监控计划的一个笑话。</li>
 <li>由早期的 HTTP/2.0 改成 HTTP/2 表示不能保证语义向后兼容，也就是不会有 2.1、2.2 之类的版本。</li>
 </ol>
-<p> <strong>参考文献</strong> HTTP2 详解.<br>[1] Stephen Ludin, Javier Garza. HTTP/2 基础教程. 版次：2018年1月第1版<br>[2] 谈谈 HTTP/2 的协议协商机制. <a href="https://imququ.com/post/protocol-negotiation-in-http2.html" target="_blank" rel="noopener">https://imququ.com/post/protocol-negotiation-in-http2.html</a>. Apr 14, 2016<br>[3] HTTP2 详解. <a href="https://blog.wangriyu.wang/2018/05-HTTP2.html" target="_blank" rel="noopener">https://blog.wangriyu.wang/2018/05-HTTP2.html</a> 2018.08.31</p>
+<p> <strong>参考文献</strong><br>[1] HTTP/2 RFC7540. <a href="https://httpwg.org/specs/rfc7540" target="_blank" rel="noopener">https://httpwg.org/specs/rfc7540</a><br>[2] HPACK RFC7541. <a href="https://httpwg.org/specs/rfc7541" target="_blank" rel="noopener">https://httpwg.org/specs/rfc7541</a><br>[3] HPACK RFC7541 中文文档. <a href="https://www.wolfcstech.com/2016/10/29/hpack-spec/" target="_blank" rel="noopener">https://www.wolfcstech.com/2016/10/29/hpack-spec/</a><br>[4] Stephen Ludin, Javier Garza. HTTP/2 基础教程. 版次：2018年1月第1版<br>[5] 谈谈 HTTP/2 的协议协商机制. <a href="https://imququ.com/post/protocol-negotiation-in-http2.html" target="_blank" rel="noopener">https://imququ.com/post/protocol-negotiation-in-http2.html</a>. Apr 14, 2016<br>[6] HTTP2 详解. <a href="https://blog.wangriyu.wang/2018/05-HTTP2.html" target="_blank" rel="noopener">https://blog.wangriyu.wang/2018/05-HTTP2.html</a> 2018.08.31</p>
 
       
     </div>

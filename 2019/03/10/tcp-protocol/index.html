@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>TCP 传输原理 | 在路上的博客</title>
+  <title>TCP 传输原理 | 在路上</title>
   <meta name="author" content="Sven">
   
   <meta name="description" content="让大家读得懂的知识才是真知识">
@@ -12,14 +12,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <meta property="og:title" content="TCP 传输原理"/>
-  <meta property="og:site_name" content="在路上的博客"/>
+  <meta property="og:site_name" content="在路上"/>
 
   
     <meta property="og:image" content=""/>
   
 
   <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="在路上的博客" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
@@ -29,7 +29,7 @@
 
 <body>
   <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">在路上的博客</a></h1>
+  <h1><a href="/">在路上</a></h1>
   <h2><a href="/"></a></h2>
 </div>
 <nav id="main-nav" class="alignright">
@@ -84,7 +84,8 @@
 <h3 id="3-1-nbsp-nbsp-滑动窗口"><a href="#3-1-nbsp-nbsp-滑动窗口" class="headerlink" title="3.1 &nbsp;&nbsp;滑动窗口"></a>3.1 &nbsp;&nbsp;滑动窗口</h3><p>滑动窗口是为解决服务端和客户端两边应用程序接收的速率不同导致带宽浪费的问题；我们知道，数据流进缓冲区，等待应用程序读取；对接收方，每次向发送发送 ACK 应答的时候就会告诉发送方当前己方的缓存剩余大小，如果发多了自己也接受不了；对发送方，如果接收方的窗口为 0 就只能等待，等待期间会不同发小的数据报看对方是否窗口 &gt; 0，以便继续发送数据。</p>
 <h3 id="3-2-nbsp-nbsp-reset"><a href="#3-2-nbsp-nbsp-reset" class="headerlink" title="3.2 &nbsp;&nbsp;reset"></a>3.2 &nbsp;&nbsp;reset</h3><p>当TCP连接中途突然断掉，使用RST标志位指出连接被异常中止或拒绝连接请求，但是有一点例外，即客户机向服务机发送SYN时，因为服务机倾听套接字backlog已完成连接队列已满时，不会发送RST，有两个原因：<br>（1） 完成队列满的情况是暂时的，客户机应当继续发送几次SYN数据段；<br>（2） 即使发送了客户机也不知道具体是什么原因，只能认为服务机出异常而停止握手；</p>
 <p>以下情况会发送RST：<br>（1） 客户端尝试与服务器未对外提供服务的端口建立TCP连接，服务器将会直接向客户端发送reset报文；<br>（2） 客户端和服务器的某一方在交互的过程中发生异常（如程序崩溃等），该方系统将向对端发送TCP reset报文，告之对方释放相关的TCP连接；<br>（3） 接收端收到TCP报文，但是发现该TCP的报文，并不在其已建立的TCP连接列表内，则其直接向对端发送reset报文；<br>（4） 在交互的双方中的某一方长期未收到来自对方的确认报文，则其在超出一定的重传次数或时间后，会主动向对端发送reset报文释放该TCP连接；<br>（5） 有些应用开发者在设计应用系统时，会利用reset报文快速释放已经完成数据交互的TCP连接，以提高业务交互的效率。</p>
-<h3 id="3-3-nbsp-nbsp-超时与重传"><a href="#3-3-nbsp-nbsp-超时与重传" class="headerlink" title="3.3 &nbsp;&nbsp;超时与重传"></a>3.3 &nbsp;&nbsp;超时与重传</h3><h2 id="3-nbsp-nbsp-网络层优化"><a href="#3-nbsp-nbsp-网络层优化" class="headerlink" title="3 &nbsp;&nbsp;网络层优化"></a>3 &nbsp;&nbsp;网络层优化</h2>
+<h3 id="3-3-nbsp-nbsp-超时与重传"><a href="#3-3-nbsp-nbsp-超时与重传" class="headerlink" title="3.3 &nbsp;&nbsp;超时与重传"></a>3.3 &nbsp;&nbsp;超时与重传</h3><h2 id="3-nbsp-nbsp-网络层优化"><a href="#3-nbsp-nbsp-网络层优化" class="headerlink" title="3 &nbsp;&nbsp;网络层优化"></a>3 &nbsp;&nbsp;网络层优化</h2><p>连接本身并没有长短这个属性，长短只是通过控制连接什么时候断开</p>
+
       
     </div>
     <footer>

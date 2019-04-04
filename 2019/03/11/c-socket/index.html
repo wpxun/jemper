@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>C Socket 编程 | 在路上的博客</title>
+  <title>C Socket 编程 | 在路上</title>
   <meta name="author" content="Sven">
   
   <meta name="description" content="让大家读得懂的知识才是真知识">
@@ -12,14 +12,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <meta property="og:title" content="C Socket 编程"/>
-  <meta property="og:site_name" content="在路上的博客"/>
+  <meta property="og:site_name" content="在路上"/>
 
   
     <meta property="og:image" content=""/>
   
 
   <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="在路上的博客" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
@@ -29,7 +29,7 @@
 
 <body>
   <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">在路上的博客</a></h1>
+  <h1><a href="/">在路上</a></h1>
   <h2><a href="/"></a></h2>
 </div>
 <nav id="main-nav" class="alignright">
@@ -70,12 +70,12 @@
 		
         <p>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回的是文件描述符（int 整型），代表函数是 open、read、write 和 socket 等；另一种是有缓冲的（用户层设计了缓存区），返回是的数据流 Stream（FILE 结构体），代表函数是 fopen、fread、fwrite、putc、getc、fputs、fgets 和 fprintf等；不过 C 标准已经不再支持对文件（这里没有包括 socket）的无缓冲操作。<br><a id="more"></a><br>“文件句柄”一般是 windows 的术语，因为在 windows 中 socket 和文件是不一样的，而 Linux 不区分文件与 socket, 所以一般用“文件描述符”术语，其中0、1、2就是我们熟悉的标准输入、标准输出和标准错误，自定义的描述符从 3 开始由小到大顺序编号。</p>
 <h2 id="1-nbsp-nbsp-套接字"><a href="#1-nbsp-nbsp-套接字" class="headerlink" title="1 &nbsp;&nbsp;套接字"></a>1 &nbsp;&nbsp;套接字</h2><p>服务端和客户端都需要通过 socket() 函数建立套接字，了解套接字的结构可以通过下面的命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adadeMacBook-Pro:lib ada$ netstat -an | grep tcp4</span><br><span class="line">Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)</span><br><span class="line">tcp4  628000      0  127.0.0.1.8090         127.0.0.1.54044        ESTABLISHED</span><br><span class="line">tcp4       0  10000  127.0.0.1.54044        127.0.0.1.8090         ESTABLISHED</span><br><span class="line">tcp4       0      0  *.8090                 *.*                    LISTEN</span><br></pre></td></tr></table></figure></p>
-<p>上面三行输出内容中，LISTEN 是服务器监听 socket，第一个 ESTABLISHED 是服务器的连接 socket，第二是 ESTABLISHED 是客户端的连接 socket。根据上面列的信息，其实就可以知道套接字结构的主要属性：<br><img src="http://img.jemper.cn/2019/03/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BB%93%E6%9E%84.png?imageView2/2/w/300" alt="套接字结构"><br>接收（Recv-Q）和发送（Send-Q）的缓冲区大小由系统默认设置，也可以调用 setsockopt() getsockopt() 进行设置，主动关闭套接字后该套接字将只能 read，不能 send。<br>数据流虽然是数据报形式发送，到存放到缓冲区后就没有数据报概念了，因此只能读取到没有数据为止，不能假设写到连接一端的数据大小与从连接另一端读取的数据大小之间存在任何一致性，换句话说，在发送端通过调用一次 send() 传入的数据可以通过在另一端调用 recv() 多次来获取；而调用 recv() 一次可能返回调用 send() 多次所传入的数据。<br>Local Address 和 Foreign Address 也没什么虽然特别说的。<br>state 这个却需要深入理解，这部分可以参考<a href="/2019/03/10/tcp-protocol/">《TCP/IP 原理》</a>一文。</p>
+<p>上面三行输出内容中，LISTEN 是服务器监听 socket，第一个 ESTABLISHED 是服务器的连接 socket，第二是 ESTABLISHED 是客户端的连接 socket。根据上面列的信息，其实就可以知道套接字结构的主要属性：<br><img src="http://img.jemper.cn/2019/03/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BB%93%E6%9E%84.png?imageView2/2/w/300" alt="套接字结构"><br>接收（Recv-Q）和发送（Send-Q）的缓冲区大小由系统默认设置，也可以调用 setsockopt() getsockopt() 进行设置，主动关闭套接字后该套接字将只能 read，不能 send。<br>数据流虽然是数据报形式发送，到存放到缓冲区后就没有数据报概念了，因此只能读取到没有数据为止，不能假设写到连接一端的数据大小与从连接另一端读取的数据大小之间存在任何一致性，换句话说，在发送端通过调用一次 send() 传入的数据可以通过在另一端调用 recv() 多次来获取；而调用 recv() 一次可能返回调用 send() 多次所传入的数据。<br>Local Address 和 Foreign Address 也没什么虽然特别说的。<br>state 这个却需要深入理解，这部分可以参考<a href="/2019/03/10/tcp-protocol/">《TCP 传输原理》</a>一文。</p>
 <h2 id="2-nbsp-nbsp-Socket-编程"><a href="#2-nbsp-nbsp-Socket-编程" class="headerlink" title="2 &nbsp;&nbsp;Socket 编程"></a>2 &nbsp;&nbsp;Socket 编程</h2><h3 id="2-1-nbsp-nbsp-TCP"><a href="#2-1-nbsp-nbsp-TCP" class="headerlink" title="2.1 &nbsp;&nbsp;TCP"></a>2.1 &nbsp;&nbsp;TCP</h3><h4 id="2-1-1-nbsp-nbsp-服务端"><a href="#2-1-1-nbsp-nbsp-服务端" class="headerlink" title="2.1.1 &nbsp;&nbsp;服务端"></a>2.1.1 &nbsp;&nbsp;服务端</h4><p>接下来我们来看几个核心的函数，需要注意返回值。我以打电话来勾勒其轮廓。</p>
 <ul>
 <li>电话机：<code>int socket(int domain, int type, int protocal); 成功时返回文件描述符，失败时返回 -1</code>。1从参数上看，就可以知道，domain 是选择网络层协议（IPv4、IPv6 等），type 和 protocol 是选择传输层协议（TCP、UDP 等），所以就知道 TCP/IP 这两个是整个网络协议集合里面<strong>最重要的要素，即“协议”</strong>，选择了这两个，其它的协议也就随之确定了，比如选择了 TCP 就会有窗口协议等。</li>
 <li>分配自己的电话号码：<code>int bind(int sockfd, struct sockaddr *myaddr, socklen_t addrlen); 成功时返回 0，失败时返回 -1。</code>主要是设置端口，IP 地址一般自动获取。这一步是 socket <strong>另外两个要素，IP 地址和端口</strong>。</li>
-<li>等待别人来电：<code>int listen(int sockfd, int backlog); 成功时返回0，失败时返回 -1。</code>backlog 指定监听套接字的完成连接队列的最大长度。<br>(1)未完成连接队列：未完成 3 次握手，如果完成连接队列已满，将忽略客户机新发来的 SYN，而不发 RST，原因参考《TCP/IP 原理》；<br>(2)完成连接队列：已完成 3 次握手，但未被应用程序的 accept 接受；</li>
+<li>等待别人来电：<code>int listen(int sockfd, int backlog); 成功时返回0，失败时返回 -1。</code>backlog 指定监听套接字的完成连接队列的最大长度。<br>(1)未完成连接队列：未完成 3 次握手，如果完成连接队列已满，将忽略客户机新发来的 SYN，而不发 RST，原因参考《TCP 传输原理》；<br>(2)完成连接队列：已完成 3 次握手，但未被应用程序的 accept 接受；</li>
 <li>别人打来电话，接听：<code>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); 成功时返回文件描述符，失败时返回 -1。</code>这一步生成了新的 socket，这个新的 socket 状态马上变成 ESTABLISHED，而参数里的 sockfd 还是原来的 socket，继续保持监听。</li>
 </ul>
 <h4 id="2-1-2-nbsp-nbsp-客户端"><a href="#2-1-2-nbsp-nbsp-客户端" class="headerlink" title="2.1.2 &nbsp;&nbsp;客户端"></a>2.1.2 &nbsp;&nbsp;客户端</h4><p>还是以打电话来比喻。</p>
