@@ -65,7 +65,7 @@
       
         
 			<div id="toc" class="toc-article">
-				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-HTTP-1-1-性能"><span class="toc-text">1   HTTP/1.1 性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-部署或升级"><span class="toc-text">2   部署或升级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-数字证书"><span class="toc-text">2.1   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-nbsp-nbsp-自签名证书"><span class="toc-text">2.1.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-text">2.1.2   Let’s Encrypt 证书</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-WEB-服务器"><span class="toc-text">2.2   WEB 服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-调试"><span class="toc-text">3   调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-nghttp2"><span class="toc-text">3.1   nghttp2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-cURL命令"><span class="toc-text">3.2   cURL命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-nbsp-nbsp-抓包解密"><span class="toc-text">3.3   抓包解密</span></a></li></ol></li></ol>
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-传输层优化"><span class="toc-text">1   传输层优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-应用层优化"><span class="toc-text">2   应用层优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-长连接"><span class="toc-text">2.1   长连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-多个-TCP-连接"><span class="toc-text">2.2   多个 TCP 连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-CDN-技术"><span class="toc-text">2.2   CDN 技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-HTTP-2-优化"><span class="toc-text">3   HTTP/2 优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-SSL-TLS-优化"><span class="toc-text">4   SSL/TLS 优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-部署或升级"><span class="toc-text">5   部署或升级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-数字证书"><span class="toc-text">2.1   数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-nbsp-nbsp-自签名证书"><span class="toc-text">2.1.1   自签名证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-nbsp-nbsp-Let’s-Encrypt-证书"><span class="toc-text">2.1.2   Let’s Encrypt 证书</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-WEB-服务器"><span class="toc-text">2.2   WEB 服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-调试"><span class="toc-text">3   调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-nghttp2"><span class="toc-text">3.1   nghttp2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-cURL命令"><span class="toc-text">3.2   cURL命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-nbsp-nbsp-抓包解密"><span class="toc-text">3.3   抓包解密</span></a></li></ol></li></ol>
 			</div>
 		
         <p>HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是：</p>
@@ -75,9 +75,40 @@
 <li>应用部分：HTTP/2，可以参阅<a href="/2019/03/31/http2/">《HTTP/2 协议》</a></li>
 </ol>
 <a id="more"></a>
-<h2 id="1-nbsp-nbsp-HTTP-1-1-性能"><a href="#1-nbsp-nbsp-HTTP-1-1-性能" class="headerlink" title="1 &nbsp;&nbsp;HTTP/1.1 性能"></a>1 &nbsp;&nbsp;HTTP/1.1 性能</h2><p>第一部分我们要介绍一下 HTTP/1.1 性能方面的问题，它的问题也是 HTTP/2 设计的初衷。<br>http/1.1 于 1999发布，主要文档为 RFC 7230，提出了很多新的机制：<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST 理论）<br>（2）支持 keepalive 并默认开启，需要注意的 TCP Keep-Alive 和 HTTP Keep-Alive 是不同层次上的概念，TCP 的 keep alive 是检查当前 TCP 连接是否活着；HTTP 的 Keep-alive 是要让一个 TCP 连接在 timeout 周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机</p>
+<h2 id="1-nbsp-nbsp-传输层优化"><a href="#1-nbsp-nbsp-传输层优化" class="headerlink" title="1 &nbsp;&nbsp;传输层优化"></a>1 &nbsp;&nbsp;传输层优化</h2><p>网络层性能关键点：延迟、带宽；</p>
+<ul>
+<li>三次握手：需要 1.5 次 RTT，建立一次连接的成本非常高，所以不管是 HTTP 还是 HTTPS，重用连接或者使用长连接是网站性能优化非常关键的一步骤；</li>
+<li>流量控制：接收方在每次发送 ACK 包的时候会告知发送方其接收窗口（rwnd）的大小，发送方看到接收方接收窗口比较大小，就会暂停或者发送少量的数据；Linux 系统默认接收窗口是 65535 字节（64KB），窗口缩放可以关闭，不过建议开启。</li>
+<li>慢启动：拥塞窗口默认大小是 10 个 MSS<br>可以通过命令查看 <code>ss -nli | fgrep cwnd</code>；<br>修改某个网卡的 cwnd <code>ip route change 127.0.0.1 initcwnd 10</code>；</li>
+<li>TCP 队首阻塞：TCP 要保证数据包的正确传输，一个 HTTP 或者 HTTPS 数据包发出后，会拆分为多个 TCP 包发送，对于接收方来说，收到所有 TCP 数据包后才能进行组装，然后才会发给应用层进行下一步处理。</li>
+</ul>
+<p>HTTP 队首阻塞不同于 TCP 队首阻塞。<br>对于同一个 TCP 连接，HTTP/1.1 通过 Pipelining 管道技术实现一次性发送多个请求，这样就解决了 HTTP/1.0 的客户端的队首阻塞。但是，HTTP/1.1 规定，服务器端的响应的发送要根据请求被接收的顺序排队，也就是说，先接收到的请求的响应也要先发送。这样造成的问题是，如果最先收到的请求的处理时间长的话，响应生成也慢，就会阻塞已经生成了的响应的发送。也会造成队首阻塞。<br>可见，HTTP/1.1 的队首阻塞发生在服务器端。</p>
+<p>那么，HTTP/2 是怎么解决这个问题的呢？那就是数据分帧：多个请求复用一个TCP连接，然后每个 request-response 都被拆分为若干个 frame 发送，这样即使一个请求被阻塞了，也不会影响其他请求。问题完美解决了？准确说，只解决了一部分。</p>
+<p>如果队头阻塞的粒度是 http request 这个级别，那么 HTTP/2 over TCP 的确解决了 HTTP/1.1 中的问题。但是，HTTP/2 目前实现层面上都是基于 TCP（HTTP 从来没有说过必须通过 TCP 实现，你可以用它其他传输协议实现哟），因此 HTTP/2 并没有解决传输层 TCP 的队首阻塞问题，它仅仅是通过多路复用解决了以前 HTTP/1.1 管线化请求时的队首阻塞。应用层无法解决传输层的问题，因此要完全解决队头阻塞问题，需要重新设计和实现传输层。目前而言，真正落地在应用的只看到 Google 的 QUIC。</p>
+<ol>
+<li>HTTP/2 over TCP(我们接触最多的 HTTP/2) 解决了 http request 级别的队头阻塞问题；</li>
+<li>HTTP/2 over QUIC 解决了传输层的队头阻塞问题（除去 header frame），是我们理解的真正解决了该问题；</li>
+</ol>
+<h2 id="2-nbsp-nbsp-应用层优化"><a href="#2-nbsp-nbsp-应用层优化" class="headerlink" title="2 &nbsp;&nbsp;应用层优化"></a>2 &nbsp;&nbsp;应用层优化</h2><p>http/1.1 于 1999发布，主要文档为 RFC 7230，提出了很多新的机制：<br>（1）从面向文档的协议彻底转变为面向资源的协议（REST 理论）<br>（2）支持 keepalive 并默认开启，需要注意的 TCP Keep-Alive 和 HTTP Keep-Alive 是不同层次上的概念，TCP 的 keep alive 是检查当前 TCP 连接是否活着；HTTP 的 Keep-alive 是要让一个 TCP 连接在 timeout 周期内永久存活。<br>（3）相比较于 1.0，必须得传 Host 头，支持同一IP的多虚拟机</p>
 <p>HTTP/1.1 的设计目标并没有重点关注性能，在高可用和高并发上的瓶颈越来越大，为了提升性能，基于 HTTP/1.1 出现了很多优化方案，比如长连接、HTTP pipelining(管道)、多 TCP、WebSocket 机制，这些优化方案能提升性能，但也带来很多负面的影响，比如 HTTP 管理技术基于 HTTP/1.1 并没有可行性（线头阻塞），而长连接技术给浏览器和服务器带来了很大的负载。<br>中间发展了 SPDY、RPC 等协议来解决性能问题，特别是 SPDY 是 HTTP/2 的灯塔。</p>
-<h2 id="2-nbsp-nbsp-部署或升级"><a href="#2-nbsp-nbsp-部署或升级" class="headerlink" title="2 &nbsp;&nbsp;部署或升级"></a>2 &nbsp;&nbsp;部署或升级</h2><p>本文的 HTTPS 指的是构建在 HTTP/2 上，当然服务器是要向下兼容 HTTP/1.1。对于安全部分要定期检测，可以使用工具定期检测网站的 TLS 配置，例如 Qualys Lab 的 SSL Test.</p>
+<h3 id="2-1-nbsp-nbsp-长连接"><a href="#2-1-nbsp-nbsp-长连接" class="headerlink" title="2.1 &nbsp;&nbsp;长连接"></a>2.1 &nbsp;&nbsp;长连接</h3><p>连接的创建成本非常高，所以使用长连接达到复用的目的。但是长连接可能会给服务器带来很大的负载，因为即使没有后续的请求，服务也必须保持一个连接，限制了服务器的并发处理能力，所以很多浏览器和 Web 服务器设置了长连接超时时间，比如 60 秒内没有任何新请求则关闭长连接，节省资源。</p>
+<p>需要注意的是并不是所有的应用场景都适合使用长连接：</p>
+<ul>
+<li>API 服务，API接口响应一般非常快速，也无须保存状态，所以处理完成后应该尽快关闭连接。客户端请求/响应模型一般很少使用长连接。</li>
+<li>视频服务，视频服务传输的数据量非常大，一个连接只会发送一个请求，完成一个请求的时间比较长，没有必要采用长连接技术。</li>
+</ul>
+<p>以下适合用长连接：</p>
+<ul>
+<li>Web 网站相对适合使用长连接技术，因为 Web 要加载很多子元素，一个连接可以并行发送多个子请求。</li>
+<li>数据库持久连接，也就是连接池。</li>
+</ul>
+<h3 id="2-2-nbsp-nbsp-多个-TCP-连接"><a href="#2-2-nbsp-nbsp-多个-TCP-连接" class="headerlink" title="2.2 &nbsp;&nbsp;多个 TCP 连接"></a>2.2 &nbsp;&nbsp;多个 TCP 连接</h3><p>对于一个主机，浏览器一般会并行打开 6 个连接，当然打开多个 TCP 连接对服务器和浏览器是很大的消耗。如果还想避免单机 6 个连接的限制，出现了多主机优化手段，也就是静态元素拆分成多个主机，缺陷就更明显了，就是消耗过多的客户端和服务端资源。</p>
+<h3 id="2-2-nbsp-nbsp-CDN-技术"><a href="#2-2-nbsp-nbsp-CDN-技术" class="headerlink" title="2.2 &nbsp;&nbsp;CDN 技术"></a>2.2 &nbsp;&nbsp;CDN 技术</h3><p>通过 CDN 技术，网站可以在世界范围内部署 CDN 节点，某个用户访问该网站，可以选择最近的一个 CDN 节点，选择最短的路径。<br>其优势在于：</p>
+<ul>
+<li>延迟减少，加快握手，HTTP/1.1 需要 1.5 次 RTT，HTTP/2 需要 2 次 RTT，效果比较明显。</li>
+<li>CDN 厂商会用更好的技术方案来加速 TLS/SSL 连接。</li>
+</ul>
+<h2 id="3-nbsp-nbsp-HTTP-2-优化"><a href="#3-nbsp-nbsp-HTTP-2-优化" class="headerlink" title="3 &nbsp;&nbsp;HTTP/2 优化"></a>3 &nbsp;&nbsp;HTTP/2 优化</h2><h2 id="4-nbsp-nbsp-SSL-TLS-优化"><a href="#4-nbsp-nbsp-SSL-TLS-优化" class="headerlink" title="4 &nbsp;&nbsp;SSL/TLS 优化"></a>4 &nbsp;&nbsp;SSL/TLS 优化</h2><h2 id="5-nbsp-nbsp-部署或升级"><a href="#5-nbsp-nbsp-部署或升级" class="headerlink" title="5 &nbsp;&nbsp;部署或升级"></a>5 &nbsp;&nbsp;部署或升级</h2><p>本文的 HTTPS 指的是构建在 HTTP/2 上，当然服务器是要向下兼容 HTTP/1.1。对于安全部分要定期检测，可以使用工具定期检测网站的 TLS 配置，例如 Qualys Lab 的 SSL Test.</p>
 <h3 id="2-1-nbsp-nbsp-数字证书"><a href="#2-1-nbsp-nbsp-数字证书" class="headerlink" title="2.1 &nbsp;&nbsp;数字证书"></a>2.1 &nbsp;&nbsp;数字证书</h3><p>证书的生成有多种方式，开发者熟悉以下两种生成方式就可以了。</p>
 <h4 id="2-1-1-nbsp-nbsp-自签名证书"><a href="#2-1-1-nbsp-nbsp-自签名证书" class="headerlink" title="2.1.1 &nbsp;&nbsp;自签名证书"></a>2.1.1 &nbsp;&nbsp;自签名证书</h4><p>使用上面提到的 openssl 工具生成。<br>私钥：openssl genrsa -out privkey.pem 2048<br>证书：openssl req -new -x509 -sha256 -key privkey.pem -out cert.pem -days 365 -subj “/CN=blog.xxx.com”</p>
 <h4 id="2-1-2-nbsp-nbsp-Let’s-Encrypt-证书"><a href="#2-1-2-nbsp-nbsp-Let’s-Encrypt-证书" class="headerlink" title="2.1.2 &nbsp;&nbsp;Let’s Encrypt 证书"></a>2.1.2 &nbsp;&nbsp;Let’s Encrypt 证书</h4><p>Let’s Encrypt 官网推荐用 certbot 工具，macOS 上使用 brew install cerbot 安装即可。</p>
@@ -151,13 +182,14 @@
 </li>
 </ol>
 <p>接下来可以使用像 Wireshark 这种工具检查 HTTP/2 流量和观察 HTTP/2 帧。前提是需要在 Wireshark 做一些配置。<br><code>Wireshark/Preferences/Protocals/TLS 中设置 (Pre)-Master-Secret log filename 指向（1）设置的日志文件，最好将 TLS debug file 也配上，这样解密过程中的日志都会记录下来，便于调试分析。</code><br>要注意两个日志文件会起来越大，定期删除日志文件，否则 Wireshark 会运行得非常缓慢。<br>本地抓包工具推荐 Wireshark + npcap，过滤 ip.addr = <a href="http://www.xxx.cn" target="_blank" rel="noopener">www.xxx.cn</a> &amp;&amp; (ssl || tcp)。<br>另外如果用的是 RSA 密钥协商，还可以用 Wireshark 的 RSA key list，不过 TLSv1.2+ 已经不支持 RSA 密钥协商了。</p>
+<p>wireshark 中的 TCP 有专家信息 Expert info，比如 TCP window update、TCP Zero Window Probe、TCP ACKed unseen segment 等，这些并不是 TCP 数据，而是 wireshark 根据一些规则得出的指导信息，每个信息的规则可以看 wireshark 文档 <a href="https://www.wireshark.org/docs/wsug_html_chunked/ChAdvTCPAnalysis.html" target="_blank" rel="noopener">TCP Analysis</a></p>
 <ol start="2">
 <li><p>chrome://net-export/ + <a href="https://netlog-viewer.appspot.com" target="_blank" rel="noopener">https://netlog-viewer.appspot.com</a><br>可以进行 HTTP/2 帧的分析等。chrome 已经不再集成 chrome://net-internals/#http2 了，改用上面的组合，前者负责 save netlogs，后者负责 catapult netlog_viewer to view them。netlog-viewer 也可以本地化，但觉得没必要。</p>
 </li>
 <li><p>Fiddler、Charles 代理，也就是中间人方式，需要安装代理的证书，特别适合移动端抓包分析。<br><br><br><br></p>
 </li>
 </ol>
-<p> <strong>参考文献</strong><br>[1] 虞卫东. 深入浅出 HTTPS 从原理一实战. 版次：2018年6月第1版<br>[2] 阮一峰. HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a>. 2016年8月19日<br>[3] 三种解密 HTTPS 流量的方法介绍 <a href="https://imququ.com/post/how-to-decrypt-https.html" target="_blank" rel="noopener">https://imququ.com/post/how-to-decrypt-https.html</a>. 2016/03/28<br>[4] HTTP/2的历史、特性、调试、性能 <a href="https://www.jianshu.com/p/748c7ca7c50f" target="_blank" rel="noopener">https://www.jianshu.com/p/748c7ca7c50f</a>. 2017.07.25</p>
+<p> <strong>参考文献</strong><br>[1] 虞卫东. 深入浅出 HTTPS 从原理一实战. 版次：2018年6月第1版<br>[2] 阮一峰. HTTPS 升级指南 <a href="http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html</a>. 2016年8月19日<br>[3] 三种解密 HTTPS 流量的方法介绍 <a href="https://imququ.com/post/how-to-decrypt-https.html" target="_blank" rel="noopener">https://imququ.com/post/how-to-decrypt-https.html</a>. 2016/03/28<br>[4] HTTP/2的历史、特性、调试、性能 <a href="https://www.jianshu.com/p/748c7ca7c50f" target="_blank" rel="noopener">https://www.jianshu.com/p/748c7ca7c50f</a>. 2017.07.25<br>[5] HTTP队头阻塞. <a href="https://liudanking.com/arch/what-is-head-of-line-blocking-http2-quic/" target="_blank" rel="noopener">https://liudanking.com/arch/what-is-head-of-line-blocking-http2-quic/</a></p>
 
       
     </div>

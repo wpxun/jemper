@@ -235,6 +235,7 @@
 </ul>
 <p>客户端和服务端进行协商算法的时候，服务器使用 Server Key Exchange 子消息传递相关的参数（DH 参数和 ECC 命名曲线）和服务器的公钥；客户端收到服务器发送的相关参数后，需要使用这些参数生成客户端的公钥（DH 公钥和 ECDH 公钥），客户端和服务端结合双方的密钥才能协商出一致的预备主密钥。</p>
 <h2 id="4-nbsp-nbsp-OpenSSL-库或命令工具"><a href="#4-nbsp-nbsp-OpenSSL-库或命令工具" class="headerlink" title="4 &nbsp;&nbsp;OpenSSL 库或命令工具"></a>4 &nbsp;&nbsp;OpenSSL 库或命令工具</h2><p>程序开发、证书生成都需要使用实现了各种密码学算法的 openssl 库或命令工具，目前 openssl 已经被大部分系统替换成 LibreSSL（PHP 大部分内置的密码学函数也是基于底层的 LibreSSL 库），只是工具名还是习惯地称 openssl。<br>常见系统如 OpenBSD 自 5.6 起，macOS 自 10.11 El Capitan 起，Alpine Linux 自 3.5.0 起。在 macOS 上测试如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adadeMBP:~ ada$ openssl version</span><br><span class="line">LibreSSL 2.6.5</span><br></pre></td></tr></table></figure></p>
+<p><br><br><br> </p>
 <p> <strong>参考文献</strong><br>[1] 虞卫东. 深入浅出 HTTPS 从原理一实战. 版次：2018年6月第1版<br>[2] Mrpre. SSL中的RSA、DHE、ECDHE、ECDH流程与区别 <a href="https://blog.csdn.net/mrpre/article/details/78025940" target="_blank" rel="noopener">https://blog.csdn.net/mrpre/article/details/78025940</a>. 2017年09月19日<br>[3] TLS Perfect Forward Secrecy 之 DH/ECDHE <a href="https://blog.nlogn.cn/pfs-ecdhe/" target="_blank" rel="noopener">https://blog.nlogn.cn/pfs-ecdhe/</a></p>
 
       
