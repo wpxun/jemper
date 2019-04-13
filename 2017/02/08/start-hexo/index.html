@@ -82,7 +82,7 @@
 <li>hexo generate 生成静态网站；</li>
 <li>hexo deploy 根据_config.yml文件的deplay type类型部署静态网站文件到服务器；</li>
 <li>hexo clean 清除 public，缩写 hexo cl，不能缩写成 hexo c；</li>
-<li>hexo server 可以在本地浏览器预览，可见即可得，无需 generate，方便样式调试；</li>
+<li>hexo server 可以在本地浏览器预览，可见即可得，无需 generate，方便样式调试；hexo s –drafts 可以把草稿变成文章；</li>
 </ul>
 <h3 id="GitHub-Pages"><a href="#GitHub-Pages" class="headerlink" title="GitHub Pages"></a>GitHub Pages</h3><p>Hexo 和 GitHub 是代码和代码库的关系，Hexo 和 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> 是代码和服务器的关系。<br>GitHub 创建一个库，名字一样要是{yourname}.github.io,这样才能正常用{yourname}.github.io域名访问。<br>在代码库里设置 setting 里的 Options/GitHub Pages 栏配置域名和分支，我这里是用master分支。如果有配置域名，相当于分支下 Create a CNAME file，为了不影响每次 deploy 后被 CNAME 文件删除，安装插件<code>npm install --save hexo-generator-cname3</code>。域名做 cname 记录到{yourname}.github.io。<br>然后配置 Hexo 根目录下的 _config.yml 的 deploy 属性，type 如果是用 git，相应的就需要安装<code>npm install hexo-deployer-git --save</code>；branch 和 setting 的 master 分支保持一致，有域名的话要加上一行 cname: [YOUR.DOMAIN]。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:wpxun/wpxun.github.io.git</span><br><span class="line">  branch: master</span><br><span class="line">  message: &apos;站点更新:&#123;&#123;now(&quot;YYYY-MM-DD HH/mm/ss&quot;)&#125;&#125;&apos;</span><br><span class="line"></span><br><span class="line">cname: jemper.cn</span><br></pre></td></tr></table></figure></p>
 <h3 id="引入-Disqus-评论模块"><a href="#引入-Disqus-评论模块" class="headerlink" title="引入 Disqus 评论模块"></a>引入 Disqus 评论模块</h3><p>到 <a href="https://disqus.com/" target="_blank" rel="noopener">Disqus</a> 网站注册并添加站点，获得 disqus_shortname，在根目录 /_config.yml 中添加行<code>disqus_shortname: yourDisqusShortname</code>，至于怎么在 Disqus 新建站点，网上教程好多。</p>
@@ -170,6 +170,8 @@
   
     <li><a href="/categories/HTTPS/">HTTPS</a><small>5</small></li>
   
+    <li><a href="/categories/日记/">日记</a><small>0</small></li>
+  
   </ul>
 </div>
 
@@ -178,7 +180,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/Alpine/" style="font-size: 10px;">Alpine</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/dockerfile/" style="font-size: 10px;">dockerfile</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/Alpine/" style="font-size: 10px;">Alpine</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/dockerfile/" style="font-size: 10px;">dockerfile</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 

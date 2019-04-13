@@ -1,0 +1,239 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网络杂谈 | 在路上</title>
+  <meta name="author" content="Sven">
+  
+  <meta name="description" content="让大家读得懂的知识才是真知识">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="网络杂谈"/>
+  <meta property="og:site_name" content="在路上"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">在路上</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-04-11T07:27:00.000Z"><a href="/2019/04/11/network/">2019-04-11</a></time>
+      
+      
+  
+    <h1 class="title">网络杂谈</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-OSI-网络模型"><span class="toc-text">1   OSI 网络模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-物理设备"><span class="toc-text">2   物理设备</span></a></li></ol>
+			</div>
+		
+        <p>摘要：在局域网需要靠物理地址发送给对应的主机，而到广域网是用的 IP 地址进行报文转发。IP 是点到点，负责发送给对应的主机，而 TCP 是端到端，负责发送给对应的应用程序。<br><a id="more"></a></p>
+<h2 id="1-nbsp-nbsp-OSI-网络模型"><a href="#1-nbsp-nbsp-OSI-网络模型" class="headerlink" title="1 &nbsp;&nbsp;OSI 网络模型"></a>1 &nbsp;&nbsp;OSI 网络模型</h2><p><img src="http://img.jemper.cn/2019/04/OSI.gif" alt="OSI 7层网络模型"></p>
+<p>一些英文缩写简称容易混淆，比如 MAC 有物理层的物理地址、数据链路层的介质访问控制、密码学的消息验证码、macOS苹果操作系统等，为了避免歧义，尽量要指明。</p>
+<ol>
+<li><p>数据链路层 物理地址<br>每个网卡都有全球唯一的物理地址，路由器向同一个局域网的所有主机发送收到的数据包，本地的网卡比较一下包里指明的物理地址和自己的物理地址是否一致，如果一致则接收，否则丢弃。所以可以在局域网监听发给其它人的数据包，当然也有一些反监听手段。<br>物理地址由 6 字节表示，其中前三个字节由 IEEE 分配给厂商，后三个字节由厂商自己定。比如 XiaomiCo_9f:cb:9e (d8:ce:3a:9f:cb:9e)、Apple_b3:e2:83 (f4:5c:89:b3:e2:83)，厂商分配的物理地址段可以到 <a href="https://standards.ieee.org/products-services/regauth/index.html" target="_blank" rel="noopener">IEEE-SA - Registration Authority</a> 查询。<br>物理地址前三字节是 IEEE 分配，但最终也是厂商决定，甚至用户在接入后可以自行篡改，所以很难全球唯一，但只要保证在局域网内唯一就可以了，设备在接入局域网的时候路由会检测，并把物理地址和内网 IP 进行绑定。<br>总之，由各个端点向上汇报唯一标识是不行的，得由一个中心机构向下分配唯一标识才能保证真正的唯一性。而外网 IP 就是由上往下分配的。</p>
+<p>物理地址只应用于 Ethernet II（以太网 IEEE 802.3）层，它是一种局域网技术。跨网关需要默认网关转发，所以需要默认网关的物理地址。通过子网掩码计算是否属于不同的网关。</p>
+</li>
+<li><p>网络层 ARP<br>ARP（IP -&gt; 物理地址） 和 RARP（物理地址 -&gt; IP） 是地址解析协议，用于内网 IP 和物理地址的相互转换。ARP 是向局域网广播查询方式，RARP 是用查表方式。<br>可以通过 arp -an 查看计算机上的 arp 表。</p>
+</li>
+<li><p>网络层 traceroute<br>它可以追踪路由路径，原理是向目的主机发送 UDP 报文，目的主机返回 ICMP 报文，第 N 跳的 TTL 会设置为 N，每经过一个路由，TTL 就会减 1，当减到 0 时就不再继续转发直接丢弃并返回 ICMP 错误报文（code = 0，表示 TTL 达下限）。比如第一跳设置 TTL 为 1，由于它是 1，所以下一个路由器收到这个报文后，不会再继续转发了，会给源主机发送 ICMP 出错报文，就可以知道第一个路由的 IP 地址，同理，设置 TTL 为 2，就可以知道第二个路由的 IP 地址，依次类推。另外 traceroute 每一跳固定发三个 UDP 报文，三个 ICMP 返回的 IP 可能相同，也可能不同，若某个报文没有返回则输出 *。<br>另外，返回的 ICMP 也会设置 TTL，一般 64 跳的是 Linux、MacOS 系统，255 跳的是 Unix 系统，128 跳的是 Windows 系统。</p>
+</li>
+</ol>
+<p><img src="http://img.jemper.cn/2019/04/traceroute.png?imageView2/2/w/600" alt="深圳联通到北京联通 百度官网经过的路由"><br><a href="http://img.jemper.cn/2019/04/traceroute.pcapng" target="_blank" rel="noopener">traceroute 抓包</a></p>
+<p>TTL（time to live）是报文的生存时间，单位是秒（处理时间不到一秒算一秒，以现在的计算数度可以认为一秒等于一跳）,用于防止回环，位于 IP 报文的第 9 个字节，8bit，TTL的最大值是255，TTL的一个推荐值是 64；DNS TTL 是一条域名解析记录在DNS服务器上缓存时间。本质上都是表示存活时间。IPv6 首部采用了跳数限制，不再使用 TTL。</p>
+<ol start="4">
+<li>网络层 ping<br>ping 是向目的 IP 发送 ICMP 报文，目的主机返回 ICMP 报文，打印列里有 ttl，就是返回时 TTL 减去经过的路由数剩下值，比如 49，那发出时 TTL 应该是 64，经过 15 跳（经过 15 个路由器）；比如 217，那发出时 TTL 应该是 255，经过 38 跳。</li>
+</ol>
+<h2 id="2-nbsp-nbsp-物理设备"><a href="#2-nbsp-nbsp-物理设备" class="headerlink" title="2 &nbsp;&nbsp;物理设备"></a>2 &nbsp;&nbsp;物理设备</h2><p>一个设备工作在哪一层，关键看它工作时利用哪一层的数据头部信息。网桥工作时，是以介质访问控制（MAC） 头部来决定转发端口的，因此显然它是数据链路层的设备。具体说:</p>
+<ul>
+<li>物理层：网卡、网线、集线器、中继器、调制解调器</li>
+<li>数据链路层：网桥、交换机</li>
+<li>网络层：路由器</li>
+<li>网关工作在第四层传输层及其以上</li>
+</ul>
+<p>常见设备如：</p>
+<ul>
+<li>集线器是物理层设备,采用广播的形式来传输信息。</li>
+<li>交换机就是用来进行报文交换的机器。多为链路层设备(二层交换机)，能够进行地址学习，采用存储转发的形式来交换报文。</li>
+<li>路由器的一个作用是连通不同的网络，另一个作用是选择信息传送的线路。选择通畅快捷的近路，能大大提高通信速度，减轻网络系统通信负荷，节约网络系统资源，提高网络系统畅通率。</li>
+</ul>
+<ol>
+<li><p>交换机和路由器的区别<br>交换机拥有一条很高带宽的背部总线和内部交换矩阵。交换机的所有的端口都挂接在这条总线上，控制电路收到数据包以后，处理端口会查找内存中的地址对照表以确定目的MAC（网卡的硬件地址）的NIC（网卡）挂接在哪个端口上，通过内部交换矩阵迅速将数据包传送到目的端口，目的MAC若不存在则广播到所有的端口，接收端口回应后交换机会“学习”新的地址，并把它添加入内部MAC地址表中。<br>使用交换机也可以把网络“分段”，通过对照MAC地址表，交换机只允许必要的网络流量通过交换机。通过交换机的过滤和转发，可以有效的隔离广播风暴，减少误包和错包的出现，避免共享冲突。<br>交换机在同一时刻可进行多个端口对之间的数据传输。每一端口都可视为独立的网段，连接在其上的网络设备独自享有全部的带宽，无须同其他设备竞争使用。当节点A向节点D发送数据时，节点B可同时向节点C发送数据，而且这两个传输都享有网络的全部带宽，都有着自己的虚拟连接。假使这里使用的是10Mbps的以太网交换机，那么该交换机这时的总流通量就等于2×10Mbps＝20Mbps，而使用10Mbps的共享式HUB时，一个HUB的总流通量也不会超出10Mbps。<br>总之，交换机是一种基于MAC地址识别，能完成封装转发数据包功能的网络设备。交换机可以“学习”MAC地址，并把其存放在内部地址表中，通过在数据帧的始发者和目标接收者之间建立临时的交换路径，使数据帧直接由源地址到达目的地址。<br>从过滤网络流量的角度来看，路由器的作用与交换机和网桥非常相似。但是与工作在网络物理层，从物理上划分网段的交换机不同，路由器使用专门的软件协议从逻辑上对整个网络进行划分。例如，一台支持IP协议的路由器可以把网络划分成多个子网段，只有指向特殊IP地址的网络流量才可以通过路由器。对于每一个接收到的数据包，路由器都会重新计算其校验值，并写入新的物理地址。因此，使用路由器转发和过滤数据的速度往往要比只查看数据包物理地址的交换机慢。但是，对于那些结构复杂的网络，使用路由器可以提高网络的整体效率。路由器的另外一个明显优势就是可以自动过滤网络广播。</p>
+</li>
+<li><p>集线器与路由器在功能上有什么不同?<br>首先说HUB,也就是集线器。它的作用可以简单的理解为将一些机器连接起来组成一个局域网。而交换机（又名交换式集线器）作用与集线器大体相同。但是两者在性能上有区别：集线器采用的式共享带宽的工作方式，而交换机是独享带宽。这样在机器很多或数据量很大时，两者将会有比较明显的。而路由器与以上两者有明显区别，它的作用在于连接不同的网段并且找到网络中数据传输最合适的路径。路由器是产生于交换机之后，就像交换机产生于集线器之后，所以路由器与交换机也有一定联系，不是完全独立的两种设备。路由器主要克服了交换机不能路由转发数据包的不足。<br>总的来说，路由器与交换机的主要区别体现在以下几个方面： </p>
+<ul>
+<li><p>工作层次不同<br>最初的的交换机是工作在数据链路层，而路由器一开始就设计工作在网络层。由于交换机工作在数据链路层，所以它的工作原理比较简单，而路由器工作在网络层，可以得到更多的协议信息，路由器可以做出更加智能的转发决策。 </p>
+</li>
+<li><p>数据转发所依据的对象不同<br>交换机是利用物理地址或者说MAC地址来确定转发数据的目的地址。而路由器则是利用IP地址来确定数据转发的地址。IP地址是在软件中实现的，描述的是设备所在的网络。MAC地址通常是硬件自带的，由网卡生产商来分配的，而且已经固化到了网卡中去，一般来说是不可更改的。而IP地址则通常由网络管理员或系统自动分配。 </p>
+</li>
+<li><p>传统的交换机只能分割冲突域，不能分割广播域；而路由器可以分割广播域<br>由交换机连接的网段仍属于同一个广播域，广播数据包会在交换机连接的所有网段上传播，在某些情况下会导致通信拥挤和安全漏洞。连接到路由器上的网段会被分配成不同的广播域，广播数据不会穿过路由器。虽然第三层以上交换机具有VLAN功能，也可以分割广播域，但是各子广播域之间是不能通信交流的，它们之间的交流仍然需要路由器。 </p>
+</li>
+<li><p>路由器提供了防火墙的服务<br>路由器仅仅转发特定地址的数据包，不传送不支持路由协议的数据包传送和未知目标网络数据包的传送，从而可以防止广播风暴。</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/网络/">网络</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:blog.jemper.cn">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/C/">C</a><small>1</small></li>
+  
+    <li><a href="/categories/DevOps/">DevOps</a><small>2</small></li>
+  
+    <li><a href="/categories/Docker/">Docker</a><small>1</small></li>
+  
+    <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
+  
+    <li><a href="/categories/HTTPS/">HTTPS</a><small>5</small></li>
+  
+    <li><a href="/categories/日记/">日记</a><small>0</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/Alpine/" style="font-size: 10px;">Alpine</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/dockerfile/" style="font-size: 10px;">dockerfile</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Sven
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'wpxun';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
