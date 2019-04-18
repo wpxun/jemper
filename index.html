@@ -54,6 +54,114 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2019-04-18T07:28:00.000Z"><a href="/2019/04/18/docker-compose/">2019-04-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/04/18/docker-compose/">docker-compose 编排工具</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>本文基于 Alpine 来讲解，其它系统概念是相同的。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/04/18/docker-compose/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-04-15T09:00:14.000Z"><a href="/2019/04/15/docker-dockerfile/">2019-04-15</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/04/15/docker-dockerfile/">Dockerfile 创建镜像</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Dockerfile 用来快速创建自定义镜像，具有众多的指令。一般分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/04/15/docker-dockerfile/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-04-13T09:00:14.000Z"><a href="/2019/04/13/docker-engine/">2019-04-13</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/04/13/docker-engine/">Docker Engine</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>目前，以容器技术为代表的应用形态和以虚拟化为代表的系统形态完美融合于 OpenStack 生态圈之上，Kubernetes 是用于自动部署，扩展和管理容器化应用程序的开源系统(基于容器技术的分布式架构)，Kubernetes 底层支持两种容器技术 Docker 和 CoreOS 的 Rocket。<br>Docker 主要以 linux 内核的 namespace 和 cgroup 等特性为基础，保障进程或者进程组处于一个隔离、受限、安全的环境之中。Docker 用 Go 实现，并在容器技术之中有风靡之势。自 2007 年 cgroups 合并至 linux 内核 2.6.24 版本，2008 年 LXC 诞生，2009 年 Go 发布，2013 年 Docker 开源，2015 年 Kubernetes 发布。到 2018 年已经有不少企业应用于生产环境；当然不免有唱衰的 <a href="https://technodrone.blogspot.com/2019/02/goodbye-docker-and-thanks-for-all-fish.html" target="_blank" rel="noopener">再见 docker</a>。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/04/13/docker-engine/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2019-04-12T06:04:00.000Z"><a href="/2019/04/12/before-work/">2019-04-12</a></time>
       
       
@@ -219,7 +327,7 @@
     </header>
     <div class="entry">
       
-        <p>DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。</p>
+        <p>DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。<br>作为对比的是敏捷开发，强调迭代增量的开发模式，没有自动化测试和部署，更没有监控等相关的流程。<br>所以一个明显的区别就是敏捷开发可能1-6周一次迭代；而 DevOps 一天几十次迭代都可以。</p>
       
     </div>
     <footer>
@@ -311,114 +419,6 @@
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-03-17T07:55:00.000Z"><a href="/2019/03/17/microservice-architecture-difficult/">2019-03-17</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/03/17/microservice-architecture-difficult/">分布式系统的复杂性</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>单进程空间的并发复杂性可以看我上一篇文章<a href="/2019/03/14/go-concurrency-difficult/">《并发的复杂性》</a>。<br>分布式系统可以理解为并发系统，不同服务器进程空间的并行系统，包括集群和服务化（日常表述中粒度，业务垂直化 &gt; 服务化 &gt; 微服务）等，企业采用服务化架构（SOA）就意味会过渡到分布式系统，目前最流行的服务化概念就是微服务，所以本文将着重讲微服务化中出现的问题和一些解决方案。</p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2019/03/17/microservice-architecture-difficult/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-03-14T03:10:00.000Z"><a href="/2019/03/14/go-concurrency-difficult/">2019-03-14</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/03/14/go-concurrency-difficult/">并发的复杂性</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>本文谈到的并发是指单程序、单节点并发，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。分布式系统可以看我另一篇文章<a href="/2019/03/17/microservice-architecture-difficult/">《分布式系统的复杂性》</a>。<br>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以 有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。<br>在功能开发中，非并发程序往往未能充分利用服务器的性能，为用户提供服务基本都是排队处理。而并发程序有时可以代替集群，其性能提高对整个系统是至关重要的作用。当然，单个节点的性能提高，却带来了编程的复杂性。不同程序单元之间的远程过程调用可以参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2019/03/14/go-concurrency-difficult/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-03-13T06:55:00.000Z"><a href="/2019/03/13/go-io/">2019-03-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/03/13/go-io/">go I/O 操作</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>理解 I/O 的一些概念问题可以先看另一篇文章<a href="/2019/03/11/c-socket/">《C Socket 编程》</a><br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2019/03/13/go-io/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
@@ -444,7 +444,7 @@
   
     <li><a href="/categories/DevOps/">DevOps</a><small>2</small></li>
   
-    <li><a href="/categories/Docker/">Docker</a><small>1</small></li>
+    <li><a href="/categories/Docker/">Docker</a><small>3</small></li>
   
     <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
   
@@ -460,7 +460,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/Alpine/" style="font-size: 10px;">Alpine</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/dockerfile/" style="font-size: 10px;">dockerfile</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Dockerfile/" style="font-size: 10px;">Dockerfile</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/docker-compose/" style="font-size: 10px;">docker-compose</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 

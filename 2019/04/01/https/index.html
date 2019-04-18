@@ -220,9 +220,8 @@
 </ul>
 <p>最后可以看到期望下一序号是 400002，所以一共发送了 400001 个字节数据，但因为握手阶段被算了 1 字节，所以实际发送量是 400000 个字节。<br>下面提供两个软件抓包数据对比(两者数据是一致的)：<a href="http://img.jemper.cn/2019/04/tcpdump_tcp.log" target="_blank" rel="noopener">tcpdump TCP 抓包</a>、<a href="http://img.jemper.cn/2019/04/wireshark_tcp.pcapng" target="_blank" rel="noopener">Wireshark TCP 抓包</a></p>
 <h3 id="6-5-nbsp-nbsp-Wireshark-抓包"><a href="#6-5-nbsp-nbsp-Wireshark-抓包" class="headerlink" title="6.5 &nbsp;&nbsp;Wireshark 抓包"></a>6.5 &nbsp;&nbsp;Wireshark 抓包</h3><h4 id="6-5-1-nbsp-nbsp-过滤"><a href="#6-5-1-nbsp-nbsp-过滤" class="headerlink" title="6.5.1 &nbsp;&nbsp;过滤"></a>6.5.1 &nbsp;&nbsp;过滤</h4><ul>
-<li>ip.addr eq</li>
-<li>tcp.port eq</li>
-<li>tcp</li>
+<li>ip 和 port：ip.addr eq &amp;&amp; tcp.port eq</li>
+<li>直接用协议名：不过用此方式过滤要知道协议之间的依赖关系，否则经常会把某次访问的多种协议过滤掉。</li>
 </ul>
 <h4 id="6-5-2-nbsp-nbsp-自动分析"><a href="#6-5-2-nbsp-nbsp-自动分析" class="headerlink" title="6.5.2 &nbsp;&nbsp;自动分析"></a>6.5.2 &nbsp;&nbsp;自动分析</h4><p>集中在 Analyze 和 Statistics 两个菜单。</p>
 <ul>
@@ -360,7 +359,7 @@
   
     <li><a href="/categories/DevOps/">DevOps</a><small>2</small></li>
   
-    <li><a href="/categories/Docker/">Docker</a><small>1</small></li>
+    <li><a href="/categories/Docker/">Docker</a><small>3</small></li>
   
     <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
   
@@ -376,7 +375,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/Alpine/" style="font-size: 10px;">Alpine</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/dockerfile/" style="font-size: 10px;">dockerfile</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Dockerfile/" style="font-size: 10px;">Dockerfile</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/docker-compose/" style="font-size: 10px;">docker-compose</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 
