@@ -65,38 +65,41 @@
       
         
 			<div id="toc" class="toc-article">
-				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-诞生与发展"><span class="toc-text">1   诞生与发展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-架构"><span class="toc-text">2   架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-Docker-vs-虚拟机"><span class="toc-text">2.1   Docker vs 虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-引擎架构"><span class="toc-text">2.2   引擎架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-安装"><span class="toc-text">3   安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-镜像"><span class="toc-text">4   镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-nbsp-nbsp-images-和-layers"><span class="toc-text">4.1   images 和 layers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-通过命令输出理解镜像"><span class="toc-text">4.2   通过命令输出理解镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-nbsp-nbsp-inspect-image"><span class="toc-text">4.3   inspect image</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-容器"><span class="toc-text">5   容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-nbsp-nbsp-常用命令"><span class="toc-text">6   常用命令</span></a></li></ol>
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-诞生与发展"><span class="toc-text">1   诞生与发展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-引擎架构"><span class="toc-text">2   引擎架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-Docker-vs-虚拟机"><span class="toc-text">2.1   Docker vs 虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-引擎模块"><span class="toc-text">2.2   引擎模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-nbsp-nbsp-模块通信"><span class="toc-text">2.3   模块通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-nbsp-nbsp-启动容器的过程"><span class="toc-text">2.4   启动容器的过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-安装"><span class="toc-text">3   安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-镜像"><span class="toc-text">4   镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-nbsp-nbsp-images-和-layers"><span class="toc-text">4.1   images 和 layers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-通过命令输出理解镜像"><span class="toc-text">4.2   通过命令输出理解镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-nbsp-nbsp-inspect-image"><span class="toc-text">4.3   inspect image</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-容器"><span class="toc-text">5   容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-nbsp-nbsp-常用命令"><span class="toc-text">6   常用命令</span></a></li></ol>
 			</div>
 		
-        <p>目前，以容器技术为代表的应用形态和以虚拟化为代表的系统形态完美融合于 OpenStack 生态圈之上，Kubernetes 是用于自动部署，扩展和管理容器化应用程序的开源系统(基于容器技术的分布式架构)，Kubernetes 底层支持两种容器技术 Docker 和 CoreOS 的 Rocket。<br>Docker 主要以 linux 内核的 namespace 和 cgroup 等特性为基础，保障进程或者进程组处于一个隔离、受限、安全的环境之中。Docker 用 Go 实现，并在容器技术之中有风靡之势。自 2007 年 cgroups 合并至 linux 内核 2.6.24 版本，2008 年 LXC 诞生，2009 年 Go 发布，2013 年 Docker 开源，2015 年 Kubernetes 发布。到 2018 年已经有不少企业应用于生产环境；当然不免有唱衰的 <a href="https://technodrone.blogspot.com/2019/02/goodbye-docker-and-thanks-for-all-fish.html" target="_blank" rel="noopener">再见 docker</a>。<br><a id="more"></a></p>
+        <p>目前，以容器技术为代表的应用形态和以虚拟化为代表的系统形态完美融合于 OpenStack 生态圈之上，Kubernetes 是用于自动部署，扩展和管理容器化应用程序的开源系统(基于容器技术的分布式架构)，Kubernetes 底层支持两种容器技术 Docker 的 containerd 和 CoreOS 的 rkt。<br>Docker 主要以 linux 内核的 namespace 和 cgroup 等特性为基础，保障进程或者进程组处于一个隔离、受限、安全的环境之中。Docker 用 Go 实现，并在容器技术之中有风靡之势。自 2007 年 cgroups 合并至 linux 内核 2.6.24 版本，2008 年 LXC 诞生，2009 年 Go 发布，2013 年 Docker 开源，2015 年 Kubernetes 发布。到 2018 年已经有不少企业应用于生产环境；当然不免有唱衰的 <a href="https://technodrone.blogspot.com/2019/02/goodbye-docker-and-thanks-for-all-fish.html" target="_blank" rel="noopener">再见 docker</a>。<br><a id="more"></a></p>
 <h2 id="1-nbsp-nbsp-诞生与发展"><a href="#1-nbsp-nbsp-诞生与发展" class="headerlink" title="1 &nbsp;&nbsp;诞生与发展"></a>1 &nbsp;&nbsp;诞生与发展</h2><p>Docker 和 Kubernetes 一样都是新生事物，处于快速迭代期，所以很多规范、架构、功能一直在更新中。书籍和网上的文章淘汰速度也很快，特别是 v1.13.0（2017年）前的版本其知识点并不一定适用于最新的版本。所以这里有必要对一些重要版本或时间点作一些说明：</p>
 <ul>
 <li>2013-03，发布 <a href="https://github.com/docker/engine" target="_blank" rel="noopener">Docker Engine 项目</a> v0.1.0；</li>
-<li>2014-12，CoreOS 由于与 Docker 对于容器的发展方向见解不合，自立门户建立了 Rocket 容器项目和 AppC 容器标准，该标准为后来的容器统一标准 OCI 的诞生奠定了基础。</li>
-<li>2015-04，CoreOS 成为 Kubernetes 的战略合作平台，并共同推出了 CoreOS+Rocket+Kubernetes 的新项目 Tectonic(和 Swarm 同级产品)。</li>
+<li>2014-03，v0.9.0，用 libcontainerd 取代了早期 Docker 架构中的 LXC；</li>
+<li>2014-12，CoreOS 由于与 Docker 对于容器的发展方向见解不合，自立门户建立了 rkt 容器项目和 AppC 容器标准，该标准为后来的容器统一标准 OCI 的诞生奠定了基础。</li>
+<li>2015-04，CoreOS 成为 Kubernetes 的战略合作平台，并共同推出了 CoreOS+rkt+Kubernetes 的新项目 Tectonic(和 Swarm 同级产品)。</li>
 <li>2015-06，Linux 基金会出面调和，成立开放容器计划（The Open Container Initiative，前身是 OCP），谷歌、CoreOS 及 Docker 都加入 OCI 开放标准，Docker 引擎往模块化设计方向走。</li>
 <li>2015-07，Kubernetes v1.0 正式发布；</li>
 <li>2015-08，Linux 基金会宣布成立 <a href="https://www.cncf.io/projects/" target="_blank" rel="noopener">CNCF</a>，也就是原生云计算基金会(Cloud Native Computing Foundation)，原生云应用和服务成为焦点。有毕业、孵化中、初级三个级别项目，比如 Kubernetes、containerd 是毕业项目（目前是6个），gRPC 是孵化项目；现有 300 多个成员，国内包括阿里、腾讯、百度。</li>
 <li>2016-02，v1.10.0，<strong>对 images 和 layers 采用了新的 content-addressable storage 方式</strong>，镜像的结构变得更加灵活；</li>
-<li>2016-04，v.1.11，Docker Engine 由 4 个执行程序 docker, docker-containerd, docker-containerd-shim and docker-runc 组成；</li>
+<li>2016-04，v.1.11，Docker 由 4 个执行程序 docker, docker-containerd, docker-containerd-shim and docker-runc 组成；</li>
 <li>2016-07，v1.12.0，把 docker 执行程序拆分成 docker(docker client)程序和 dockerd(docker daemon)程序。</li>
 <li>2016-12，containerd 捐献给了云原生计算基金会(CNCF)，CorsOS 的 <a href="https://coreos.com/rkt/" target="_blank" rel="noopener">rkt</a> 也捐献给 CNCF；containerd 和 rkt 都是 Container Runtime，不过后者是孵化中项目。</li>
+<li>2017-01， v1.13.0 API 1.25 开始支持 docker stack；</li>
 <li>2017-02，<a href="https://docs.docker.com/release-notes/docker-engine/" target="_blank" rel="noopener">v1.13.1</a> 版本之后分化成了 <a href="https://github.com/docker/docker-ce" target="_blank" rel="noopener">Community Edition(CE)</a> 和 Enterprise Edition(EE) 两个版本，版本从 <a href="https://docs.docker.com/engine/release-notes/" target="_blank" rel="noopener">v17.04.0</a> 开始，这也算是 docker 商业化的一个探索；而且对命令进行了整合，<strong>移除了 <code>docker daemon</code> 命令，并把之前的顶级命令归类到 <a href="https://blog.couchbase.com/docker-1-13-management-commands/" target="_blank" rel="noopener">Management Commands</a> 中</strong>，使得命令的含意更加清晰。</li>
 <li>2017-04，Docker 项目正式命名为 <a href="https://github.com/moby/moby" target="_blank" rel="noopener">Moby 项目</a>，并遵循开放容器计划（The Open Container Initiative, OCI）规范，比如容器运行时格式和镜像格式等。Docker 公司为了让 Docker Engine 项目得以生存，逐渐放弃自己独家控制权；</li>
 <li>2017-12，containerd 并发布了 <a href="https://github.com/containerd/containerd" target="_blank" rel="noopener">v1.0 版本</a>。</li>
-<li>2018-09，v18.09.0，<strong>The client and container runtime are now in separate packages from the daemon in Docker Engine 18.09.</strong> Users should install and update all three packages at the same time to get the latest patch releases. For example, on Ubuntu: sudo apt install <strong>docker-ce docker-ce-cli containerd.io</strong>，<strong>docker-ce = Docker Engine ≈ daemon</strong> 可以说是历史以来最简化，目前引擎还有网络、镜像等功能。</li>
+<li>2018-09，v18.09.0，<strong>The client and container runtime are now in separate packages from the daemon in Docker Engine 18.09.</strong> Users should install and update all three packages at the same time to get the latest patch releases. For example, on Ubuntu: sudo apt install <strong>docker-ce docker-ce-cli containerd.io</strong>，这里的 docker-ce 相当于 deamon，daemon 去掉了 client 和 containerd，可以说是历史以来最简化，目前 daemon 还剩下镜像管理、镜像构建、REST API、身份验证、安全、核心网络以及编排。Docker 引擎的模块化工作仍在进行中。</li>
 </ul>
-<h2 id="2-nbsp-nbsp-架构"><a href="#2-nbsp-nbsp-架构" class="headerlink" title="2 &nbsp;&nbsp;架构"></a>2 &nbsp;&nbsp;架构</h2><h3 id="2-1-nbsp-nbsp-Docker-vs-虚拟机"><a href="#2-1-nbsp-nbsp-Docker-vs-虚拟机" class="headerlink" title="2.1 &nbsp;&nbsp;Docker vs 虚拟机"></a>2.1 &nbsp;&nbsp;Docker vs 虚拟机</h3><p>容器比虚拟机轻量级的原因是共享宿主机的操作系统内核；而虚拟机各自运行一个完整的 Guest OS 并通过 hypervisor 连接到宿主机。所以 Docker 的 linux 内核版本一定是跟宿主机一样，不同的是操作系统发行版本。下面引用 <a href="https://docs.docker.com/get-started/" target="_blank" rel="noopener">docker 文档图片</a>：</p>
+<h2 id="2-nbsp-nbsp-引擎架构"><a href="#2-nbsp-nbsp-引擎架构" class="headerlink" title="2 &nbsp;&nbsp;引擎架构"></a>2 &nbsp;&nbsp;引擎架构</h2><h3 id="2-1-nbsp-nbsp-Docker-vs-虚拟机"><a href="#2-1-nbsp-nbsp-Docker-vs-虚拟机" class="headerlink" title="2.1 &nbsp;&nbsp;Docker vs 虚拟机"></a>2.1 &nbsp;&nbsp;Docker vs 虚拟机</h3><p>容器比虚拟机轻量级的原因是共享宿主机的操作系统内核；而虚拟机各自运行一个完整的 Guest OS 并通过 hypervisor 连接到宿主机。所以 Docker 的 linux 内核版本一定是跟宿主机一样，不同的是操作系统发行版本。下面引用 <a href="https://docs.docker.com/get-started/" target="_blank" rel="noopener">docker 文档图片</a>：</p>
 <img src="http://img.jemper.cn/2019/04/Container@2x.png" width="300">
 <img src="http://img.jemper.cn/2019/04/VM@2x.png" width="300">
-<h3 id="2-2-nbsp-nbsp-引擎架构"><a href="#2-2-nbsp-nbsp-引擎架构" class="headerlink" title="2.2 &nbsp;&nbsp;引擎架构"></a>2.2 &nbsp;&nbsp;引擎架构</h3><p>综合 <code>systemctl status docker</code>、<code>systemctl status containerd</code> 等可以理解以下内容：</p>
+<h3 id="2-2-nbsp-nbsp-引擎模块"><a href="#2-2-nbsp-nbsp-引擎模块" class="headerlink" title="2.2 &nbsp;&nbsp;引擎模块"></a>2.2 &nbsp;&nbsp;引擎模块</h3><p>一般我们用 Docker(大写D)表示整个 Docker，docker 和 dockerd 表示执行程序，docker ≈ docker client，dockerd ≈ docker daemon，docker engine ≈ client + daemon + containerd + runc，daemon ≈ 镜像管理、镜像构建、REST API、身份验证、安全、核心网络以及编排。总体逻辑如下图：<br><img src="http://img.jemper.cn/2019/04/docker_engine.jpeg" width="300">  </p>
+<h3 id="2-3-nbsp-nbsp-模块通信"><a href="#2-3-nbsp-nbsp-模块通信" class="headerlink" title="2.3 &nbsp;&nbsp;模块通信"></a>2.3 &nbsp;&nbsp;模块通信</h3><p>综合 <code>systemctl status docker</code>、<code>systemctl status containerd</code> 等可以理解以下内容：</p>
 <ol>
 <li><code>/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</code>，dockerd 通过 -H 连接到 containerd；</li>
 <li>API listen on /var/run/docker.sock，dockerd 提供 API 接口并开启监听；</li>
 <li><code>docker -H unix:///var/run/docker.sock</code>，docker 通过 -H 连接到 dockerd(docker daemon);<br>docker 默认是 unix socket，所以只能同一宿主机调用，远程调用可以改为 TCP socket。<br>守护进程：<code>dockerd -H tcp://0.0.0.0:2375</code><br>客户进程：<code>docker -H tcp://&lt;宿主机 IP&gt;:2375</code><br>需要注意的时，守护进程改用 tcp 提供调用后，客户进程即使在本机也需要通过 tcp 去调用。</li>
 </ol>
-<p>dockerd 监听 client 的处理请求，并连接到 containerd 管理容器在宿主机的生命周期：start、stop、pause、rm 等。Docker 引擎架构如下图：<br><img src="http://img.jemper.cn/2019/04/docker_engine.jpeg" width="300"></p>
 <p>docker 和 dockerd 的通信可以用 socat 进行抓包。socat 是一个强大的代理命令，能让用户在两个几乎任意类型的通道之间中继数据。groups 包括 FD,SOCKET,LISTEN,CHILD,RANGE,IP4,IP6,UDP,TCP 等，操作如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">socat -v unix-listen:/tmp/dockerapi.sock unix-connect:/var/run/docker.sock</span><br><span class="line">docker -H unix:///tmp/dockerapi.sock images</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-4-nbsp-nbsp-启动容器的过程"><a href="#2-4-nbsp-nbsp-启动容器的过程" class="headerlink" title="2.4 &nbsp;&nbsp;启动容器的过程"></a>2.4 &nbsp;&nbsp;启动容器的过程</h3><p>dockerd 监听 client 的处理请求，并连接到 containerd 管理容器在宿主机的生命周期：start、stop、pause、rm 等。启动容器的过程如下图：<br><img src="http://img.jemper.cn/2019/04/docker_step_container.jpeg" width="300"></p>
 <h2 id="3-nbsp-nbsp-安装"><a href="#3-nbsp-nbsp-安装" class="headerlink" title="3 &nbsp;&nbsp;安装"></a>3 &nbsp;&nbsp;安装</h2><p>安装 docker 和 docker-compose 等都很简单，按<a href="https://docs.docker.com/install/linux/docker-ce/centos/" target="_blank" rel="noopener">官方文档</a>安装就可以了。一般安装最新社区版（CE）即可，安装完成后 systemctl start docker、systemctl enable docker 自启动。macOS 和 Windows 抛弃了过时的 Docker Toolbox，采用桌面版安装。一般 linux 服务器只安装 Docker Engine(Docker 引擎)，Mac 的桌面版包括了 Docker 引擎、Compose、Machine、Notary。</p>
 <p>最好通过非 root 用户使用 Docker，如有提示：Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock; 处理方式文档中有说明<br>By default, a unix domain socket (or IPC socket) is created at /var/run/docker.sock, requiring either root permission, or docker group membership. <code>sudo usermod -aG docker USER_NAME</code></p>
 <p>Docker 文档提供了命令的使用 <a href="https://docs.docker.com/engine/reference/commandline/docker/" target="_blank" rel="noopener">Command-Line Interfaces</a>：</p>
@@ -214,8 +217,8 @@
 </tr>
 </tbody>
 </table>
-<p>根据以上分析可以看出，所有涉及的镜像仅由 5 layers 组成，第一个就是基础镜像的 layer，RUN、COPY、ADD、RUN 新增加 4 个 layers。而 ENV、EXPOSE、CMD 只增加了元数据。每一个指令都有相应的镜像，但是否生成中间容器要看指令看是否需要运行验证。<br>删除镜像的时候，会把新生成的7个镜像和4个 layers 都删除掉。对于拉取的镜像没有中间镜像，删除的时候就只主镜像和 layers。</p>
-<h3 id="4-3-nbsp-nbsp-inspect-image"><a href="#4-3-nbsp-nbsp-inspect-image" class="headerlink" title="4.3 &nbsp;&nbsp;inspect image"></a>4.3 &nbsp;&nbsp;inspect image</h3><p>inspect 命令可以列出与镜像相关的信息，但是这些信息并不都是镜像的属性，以下列举一些说明:</p>
+<p>根据以上分析可以看出，所有涉及的镜像仅由 5 layers 组成，第一个就是基础镜像的 layer，RUN、COPY、ADD、RUN 新增加 4 个 layers，从 history 的 SIZE 字段也可以看出。而 ENV、EXPOSE、CMD 只增加了元数据。关于如何区分命令是否会新建镜像层，一个基本的原则是，如果指令的作用是向镜像中增添新的文件或者程序，那么这条指令就会新建镜像层；如果只是告诉 Docker 如何完成构建或者如何运行应用程序，那么就只会增加镜像的元数据。所以并非所有的 RUN 都会有创建新层，比如 <code>RUN echo &quot;no data&quot;</code> 就不会创建新的层。<br>每一个指令都有相应的镜像，但是否生成中间容器要看指令看是否需要运行验证。<br>删除镜像的时候，会把新生成的7个镜像和4个 layers 都删除掉。对于拉取的镜像没有中间镜像，删除的时候就只主镜像和 layers。</p>
+<h3 id="4-3-nbsp-nbsp-inspect-image"><a href="#4-3-nbsp-nbsp-inspect-image" class="headerlink" title="4.3 &nbsp;&nbsp;inspect image"></a>4.3 &nbsp;&nbsp;inspect image</h3><p>inspect 命令可以列出与镜像相关的信息，但是这些信息并不都是镜像的属性，而是对同一个镜像 ID 信息的归纳。以下列举一些说明:</p>
 <ul>
 <li>Id            ：即配置对象本身的散列值，一般叫 IMAGE ID；这个 Id 是跟仓库等属性无关的，只与 layer 和 元数据有关。</li>
 <li>RepoTags      ：数组类型，格式为 name:tag；按名称和标签分组；</li>
@@ -244,7 +247,7 @@
 <li>nginx -g “daemon off”. CMD 或者 ENTRYPOINT 两种方式。entrypoint</li>
 <li>nginx.conf 加入 daemon off. 这样 run 指令就只要 nginx 就可以了</li>
 </ol>
-<p>也可以不加-d,并运行/bin/sh，依次输入ctrl+p、ctrl+q，就不会终止容器而只是退出。</p>
+<p>也可以不加-d,并运行/bin/sh，依次输入ctrl+p、ctrl+q，就不会终止容器而只是退出。<br>–restart string                 Restart policy to apply when a container exits (default “no”)</p>
 </li>
 <li><p>exec 进入容器，如 docker exec -it e97e3208d019 /bin/sh，在运行中的容器内部额外启动进程，参数和 run 类似。直接 exit 或 ctrl+D 不会退出容器</p>
 </li>
@@ -258,7 +261,7 @@
 </li>
 </ul>
 <p>上面的命令基本够用了，更多的命令可以查阅官方文档 <a href="https://docs.docker.com/engine/reference/commandline/docker/" target="_blank" rel="noopener">Command-Line Interfaces</a>。<br><br><br><br></p>
-<p> <strong>参考文献</strong><br>[1] Nigel Poulton. 深入浅出 Dokcer<br>[2] Lan Miell.等. Docker 实践. 版次：2018年2月第1版<br>[3] Explaining Docker Image IDs. <a href="https://windsock.io/explaining-docker-image-ids/" target="_blank" rel="noopener">https://windsock.io/explaining-docker-image-ids/</a></p>
+<p> <strong>参考文献</strong><br>[1] Nigel Poulton. 深入浅出 Dokcer. 版次：2019年4月第1版<br>[2] Lan Miell.等. Docker 实践. 版次：2018年2月第1版<br>[3] Explaining Docker Image IDs. <a href="https://windsock.io/explaining-docker-image-ids/" target="_blank" rel="noopener">https://windsock.io/explaining-docker-image-ids/</a></p>
 
       
     </div>
@@ -329,7 +332,7 @@
   
     <li><a href="/categories/DevOps/">DevOps</a><small>2</small></li>
   
-    <li><a href="/categories/Docker/">Docker</a><small>3</small></li>
+    <li><a href="/categories/Docker/">Docker</a><small>2</small></li>
   
     <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
   
@@ -345,7 +348,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Dockerfile/" style="font-size: 10px;">Dockerfile</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/docker-compose/" style="font-size: 10px;">docker-compose</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Compose/" style="font-size: 10px;">Compose</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Dockerfile/" style="font-size: 10px;">Dockerfile</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/容器化/" style="font-size: 10px;">容器化</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a> <a href="/tags/部署/" style="font-size: 10px;">部署</a>
   </div>
 </div>
 
