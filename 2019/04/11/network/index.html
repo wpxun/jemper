@@ -65,7 +65,7 @@
       
         
 			<div id="toc" class="toc-article">
-				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-OSI-网络模型"><span class="toc-text">1   OSI 网络模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-物理设备"><span class="toc-text">2   物理设备</span></a></li></ol>
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-OSI-网络模型"><span class="toc-text">1   OSI 网络模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-物理设备"><span class="toc-text">2   物理设备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-网络测试"><span class="toc-text">3   网络测试</span></a></li></ol>
 			</div>
 		
         <p>摘要：在局域网需要靠物理地址发送给对应的主机，而到广域网是用的 IP 地址进行报文转发。IP 是点到点，负责发送给对应的主机，而 TCP 是端到端，负责发送给对应的应用程序。<br><a id="more"></a></p>
@@ -114,6 +114,11 @@
 </ul>
 </li>
 </ol>
+<h2 id="3-nbsp-nbsp-网络测试"><a href="#3-nbsp-nbsp-网络测试" class="headerlink" title="3 &nbsp;&nbsp;网络测试"></a>3 &nbsp;&nbsp;网络测试</h2><p>安装 telnet、telnet-server、xinetd，可以查看是否已经安装，有<code>@</code>前缀表示已经安装：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; yum list | grep -E &quot;xinetd|telnet&quot;</span><br><span class="line">telnet.x86_64                           1:0.17-64.el7                  @base</span><br><span class="line">telnet-server.x86_64                    1:0.17-64.el7                  @base</span><br><span class="line">xinetd.x86_64                           2:2.3.15-13.el7                @base</span><br></pre></td></tr></table></figure></p>
+<p>systemctl enable telnet.socket<br>systemctl start telnet.socket<br>systemctl enable xinetd<br>systemctl start xinetd</p>
+<p>less /etc/services | grep telnet</p>
+<p>firewall-cmd –add-service=telnet –zone=public –permanent</p>
+<p><a href="https://sharadchhetri.com/2014/12/08/install-telnet-server-on-centos-7-rhel-7/" target="_blank" rel="noopener">https://sharadchhetri.com/2014/12/08/install-telnet-server-on-centos-7-rhel-7/</a></p>
 
       
     </div>
@@ -179,7 +184,7 @@
   
     <li><a href="/categories/DevOps/">DevOps</a><small>2</small></li>
   
-    <li><a href="/categories/Docker/">Docker</a><small>2</small></li>
+    <li><a href="/categories/Docker/">Docker</a><small>3</small></li>
   
     <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
   
@@ -195,7 +200,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Compose/" style="font-size: 10px;">Compose</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Dockerfile/" style="font-size: 10px;">Dockerfile</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/容器化/" style="font-size: 10px;">容器化</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a> <a href="/tags/部署/" style="font-size: 10px;">部署</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Compose/" style="font-size: 10px;">Compose</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Dockerfile/" style="font-size: 10px;">Dockerfile</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/容器化/" style="font-size: 13.33px;">容器化</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a> <a href="/tags/部署/" style="font-size: 13.33px;">部署</a>
   </div>
 </div>
 
