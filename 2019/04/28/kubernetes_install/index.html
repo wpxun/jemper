@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Kubernetes 集群安装 | 在路上</title>
+  <meta name="author" content="Sven">
+  
+  <meta name="description" content="让大家读得懂的知识才是真知识">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Kubernetes 集群安装"/>
+  <meta property="og:site_name" content="在路上"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">在路上</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-04-28T08:06:00.000Z"><a href="/2019/04/28/kubernetes_install/">2019-04-28</a></time>
+      
+      
+  
+    <h1 class="title">Kubernetes 集群安装</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-环境"><span class="toc-text">1   环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-工具准备"><span class="toc-text">2   工具准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-Docker-安装"><span class="toc-text">2.1   Docker 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-kube-相关工具"><span class="toc-text">2.2   kube 相关工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-启动集群"><span class="toc-text">3   启动集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-初始化集群"><span class="toc-text">3.1   初始化集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-访问集群"><span class="toc-text">3.2   访问集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-nbsp-nbsp-选择安装网络插件"><span class="toc-text">3.4   选择安装网络插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-nbsp-nbsp-查看信息"><span class="toc-text">3.5   查看信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-创建节点"><span class="toc-text">4   创建节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-nbsp-nbsp-另一种用-minikube-创建集群"><span class="toc-text">5   另一种用 minikube 创建集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-nbsp-nbsp-Vagrant-集群安装实战"><span class="toc-text">6    Vagrant 集群安装实战</span></a></li></ol>
+			</div>
+		
+        <p>有了 Docker Swarm 基础，再来学习 Kubernetes 会相对容易一些，不过安装 Kubernetes 还是挺繁琐的，对官方文档中需要访问谷歌外网的部分，还需要替换成国内源。<br><a id="more"></a></p>
+<h2 id="1-nbsp-nbsp-环境"><a href="#1-nbsp-nbsp-环境" class="headerlink" title="1 &nbsp;&nbsp;环境"></a>1 &nbsp;&nbsp;环境</h2><p>Swarm 对主机（节点）的要求并不高，但 Kubernetes 会进行预检，一般注意以下几点：</p>
+<ul>
+<li>master 节点需至少 2CPUs 和至少 2GB 内存</li>
+<li>关闭 swap 交换区</li>
+</ul>
+<p>安装环境以官方文档为准 <a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/" target="_blank" rel="noopener">install-kubeadm</a>；</p>
+<h2 id="2-nbsp-nbsp-工具准备"><a href="#2-nbsp-nbsp-工具准备" class="headerlink" title="2 &nbsp;&nbsp;工具准备"></a>2 &nbsp;&nbsp;工具准备</h2><h3 id="2-1-nbsp-nbsp-Docker-安装"><a href="#2-1-nbsp-nbsp-Docker-安装" class="headerlink" title="2.1 &nbsp;&nbsp;Docker 安装"></a>2.1 &nbsp;&nbsp;Docker 安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line">yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line">yum install -y docker-ce docker-ce-cli containerd.io</span><br><span class="line"></span><br><span class="line">usermod -aG docker feixin10</span><br><span class="line">systemctl start docker</span><br><span class="line">systemctl <span class="built_in">enable</span> docker</span><br><span class="line">//重新登录</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-nbsp-nbsp-kube-相关工具"><a href="#2-2-nbsp-nbsp-kube-相关工具" class="headerlink" title="2.2 &nbsp;&nbsp;kube 相关工具"></a>2.2 &nbsp;&nbsp;kube 相关工具</h3><p>采用 <a href="https://opsx.alibaba.com/mirror" target="_blank" rel="noopener">aliyun 源</a>：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">repo_gpgcheck=1</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">setenforce 0</span><br><span class="line">sed -i <span class="string">'s/^SELINUX=enforcing$/SELINUX=permissive/'</span> /etc/selinux/config</span><br><span class="line"></span><br><span class="line">yum install -y kubelet kubeadm kubectl</span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">enable</span> --now kubelet</span><br></pre></td></tr></table></figure></p>
+<p>此时 kubelet 处于 activating (auto-restart)状态，当运行 kubeadm init 或者 kubeadm join 时才会变成 active (running) 状态。</p>
+<p>注意，必须关闭 selinux，确保容器可访问宿主机文件系统；注意 setenforce 为能设置为[ Enforcing | Permissive | 1 | 0 ]，修改文件可以设置为 disable。<br>另外一些 RHEL/CentOS 7 的用户曾经遇到过：由于 iptables 被绕过导致网络请求被错误的路由。您得保证 在您的 sysctl 配置中 net.bridge.bridge-nf-call-iptables 被设为 1。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;  /etc/sysctl.d/k8s.conf</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">EOF</span><br><span class="line">sysctl --system</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-nbsp-nbsp-启动集群"><a href="#3-nbsp-nbsp-启动集群" class="headerlink" title="3 &nbsp;&nbsp;启动集群"></a>3 &nbsp;&nbsp;启动集群</h2><h3 id="3-1-nbsp-nbsp-初始化集群"><a href="#3-1-nbsp-nbsp-初始化集群" class="headerlink" title="3.1 &nbsp;&nbsp;初始化集群"></a>3.1 &nbsp;&nbsp;初始化集群</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@instance-2 ~]<span class="comment"># kubeadm init</span></span><br><span class="line">[init] Using Kubernetes version: v1.14.1</span><br><span class="line">[preflight] Running pre-flight checks</span><br><span class="line">  [WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not <span class="keyword">function</span> correctly</span><br><span class="line">  [WARNING IsDockerSystemdCheck]: detected <span class="string">"cgroupfs"</span> as the Docker cgroup driver. The recommended driver is <span class="string">"systemd"</span>. Please follow the guide at https://kubernetes.io/docs/setup/cri/</span><br><span class="line">[preflight] Pulling images required <span class="keyword">for</span> setting up a Kubernetes cluster</span><br><span class="line">[preflight] This might take a minute or two, depending on the speed of your internet connection</span><br><span class="line">[preflight] You can also perform this action <span class="keyword">in</span> beforehand using <span class="string">'kubeadm config images pull'</span></span><br><span class="line">[kubelet-start] Writing kubelet environment file with flags to file <span class="string">"/var/lib/kubelet/kubeadm-flags.env"</span></span><br><span class="line">[kubelet-start] Writing kubelet configuration to file <span class="string">"/var/lib/kubelet/config.yaml"</span></span><br><span class="line">[kubelet-start] Activating the kubelet service</span><br><span class="line">[certs] Using certificateDir folder <span class="string">"/etc/kubernetes/pki"</span></span><br><span class="line">[certs] Generating <span class="string">"ca"</span> certificate and key</span><br><span class="line">[certs] Generating <span class="string">"apiserver-kubelet-client"</span> certificate and key</span><br><span class="line">[certs] Generating <span class="string">"apiserver"</span> certificate and key</span><br><span class="line">[certs] apiserver serving cert is signed <span class="keyword">for</span> DNS names [instance-2 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 10.150.0.2]</span><br><span class="line">[certs] Generating <span class="string">"front-proxy-ca"</span> certificate and key</span><br><span class="line">[certs] Generating <span class="string">"front-proxy-client"</span> certificate and key</span><br><span class="line">[certs] Generating <span class="string">"etcd/ca"</span> certificate and key</span><br><span class="line">[certs] Generating <span class="string">"etcd/server"</span> certificate and key</span><br><span class="line">[certs] etcd/server serving cert is signed <span class="keyword">for</span> DNS names [instance-2 localhost] and IPs [10.150.0.2 127.0.0.1 ::1]</span><br><span class="line">[certs] Generating <span class="string">"etcd/peer"</span> certificate and key</span><br><span class="line">[certs] etcd/peer serving cert is signed <span class="keyword">for</span> DNS names [instance-2 localhost] and IPs [10.150.0.2 127.0.0.1 ::1]</span><br><span class="line">[certs] Generating <span class="string">"etcd/healthcheck-client"</span> certificate and key</span><br><span class="line">[certs] Generating <span class="string">"apiserver-etcd-client"</span> certificate and key</span><br><span class="line">[certs] Generating <span class="string">"sa"</span> key and public key</span><br><span class="line">[kubeconfig] Using kubeconfig folder <span class="string">"/etc/kubernetes"</span></span><br><span class="line">[kubeconfig] Writing <span class="string">"admin.conf"</span> kubeconfig file</span><br><span class="line">[kubeconfig] Writing <span class="string">"kubelet.conf"</span> kubeconfig file</span><br><span class="line">[kubeconfig] Writing <span class="string">"controller-manager.conf"</span> kubeconfig file</span><br><span class="line">[kubeconfig] Writing <span class="string">"scheduler.conf"</span> kubeconfig file</span><br><span class="line">[control-plane] Using manifest folder <span class="string">"/etc/kubernetes/manifests"</span></span><br><span class="line">[control-plane] Creating static Pod manifest <span class="keyword">for</span> <span class="string">"kube-apiserver"</span></span><br><span class="line">[control-plane] Creating static Pod manifest <span class="keyword">for</span> <span class="string">"kube-controller-manager"</span></span><br><span class="line">[control-plane] Creating static Pod manifest <span class="keyword">for</span> <span class="string">"kube-scheduler"</span></span><br><span class="line">[etcd] Creating static Pod manifest <span class="keyword">for</span> <span class="built_in">local</span> etcd <span class="keyword">in</span> <span class="string">"/etc/kubernetes/manifests"</span></span><br><span class="line">[<span class="built_in">wait</span>-control-plane] Waiting <span class="keyword">for</span> the kubelet to boot up the control plane as static Pods from directory <span class="string">"/etc/kubernetes/manifests"</span>. This can take up to 4m0s</span><br><span class="line">[apiclient] All control plane components are healthy after 21.002951 seconds</span><br><span class="line">[upload-config] storing the configuration used <span class="keyword">in</span> ConfigMap <span class="string">"kubeadm-config"</span> <span class="keyword">in</span> the <span class="string">"kube-system"</span> Namespace</span><br><span class="line">[kubelet] Creating a ConfigMap <span class="string">"kubelet-config-1.14"</span> <span class="keyword">in</span> namespace kube-system with the configuration <span class="keyword">for</span> the kubelets <span class="keyword">in</span> the cluster</span><br><span class="line">[upload-certs] Skipping phase. Please see --experimental-upload-certs</span><br><span class="line">[mark-control-plane] Marking the node instance-2 as control-plane by adding the label <span class="string">"node-role.kubernetes.io/master=''"</span></span><br><span class="line">[mark-control-plane] Marking the node instance-2 as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]</span><br><span class="line">[bootstrap-token] Using token: rtbkg0.b6xgzvz2x9xekegi</span><br><span class="line">[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles</span><br><span class="line">[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs <span class="keyword">in</span> order <span class="keyword">for</span> nodes to get long term certificate credentials</span><br><span class="line">[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token</span><br><span class="line">[bootstrap-token] configured RBAC rules to allow certificate rotation <span class="keyword">for</span> all node client certificates <span class="keyword">in</span> the cluster</span><br><span class="line">[bootstrap-token] creating the <span class="string">"cluster-info"</span> ConfigMap <span class="keyword">in</span> the <span class="string">"kube-public"</span> namespace</span><br><span class="line">[addons] Applied essential addon: CoreDNS</span><br><span class="line">[addons] Applied essential addon: kube-proxy</span><br><span class="line"></span><br><span class="line">Your Kubernetes control-plane has initialized successfully!</span><br><span class="line"></span><br><span class="line">To start using your cluster, you need to run the following as a regular user:</span><br><span class="line"></span><br><span class="line">  mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">  sudo cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">  sudo chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"></span><br><span class="line">You should now deploy a pod network to the cluster.</span><br><span class="line">Run <span class="string">"kubectl apply -f [podnetwork].yaml"</span> with one of the options listed at:</span><br><span class="line">  https://kubernetes.io/docs/concepts/cluster-administration/addons/</span><br><span class="line"></span><br><span class="line">Then you can join any number of worker nodes by running the following on each as root:</span><br><span class="line"></span><br><span class="line">kubeadm join 10.150.0.2:6443 --token rtbkg0.b6xgzvz2x9xekegi \</span><br><span class="line">    --discovery-token-ca-cert-hash sha256:b4659d6b5d8e6015a5a31da172225b625336c095760191b51f246bf34b113864</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-nbsp-nbsp-访问集群"><a href="#3-2-nbsp-nbsp-访问集群" class="headerlink" title="3.2 &nbsp;&nbsp;访问集群"></a>3.2 &nbsp;&nbsp;访问集群</h3><p>有了 Kubernetes cluster，那么接下就是访问集群，官方文档<a href="https://k8smeetup.github.io/docs/tasks/administer-cluster/access-cluster-api/" target="_blank" rel="noopener">《通过 Kubernetes API 访问集群》</a>列有多种方式，当然都需要 Kubernetes API 的 endpoint(IP 和端口)、token 和证书，以下可以获取到：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ APISERVER=$(kubectl config view | grep server | cut -f 2- -d &quot;:&quot; | tr -d &quot; &quot;)</span><br><span class="line">$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d &apos; &apos;) | grep -E &apos;^token&apos; | cut -f2 -d&apos;:&apos; | tr -d &apos;\t&apos;)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>直接访问 REST API，比如 curl、wget 等，<code>curl $APISERVER/api --header &quot;Authorization: Bearer $TOKEN&quot; --insecure</code></li>
+<li>通过编程方式访问 API，比如有 Go、Python 客户端工具</li>
+<li><p>kubectl command-line tool，通过以下方式配置 Kubernetes API endpoint、token 和证书，且 master 节点和 worker 节点都可以操作集群，如果是 worker 节点，把需要把 /etc/kubernetes/admin.conf 分发到 worker 节点上，然后执行以下操作：</p>
+<ul>
+<li><p>对普通用户：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir -p $HOME/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) $HOME/.kube/config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对 root 用户：<br><code>export KUBECONFIG=/etc/kubernetes/admin.conf</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-4-nbsp-nbsp-选择安装网络插件"><a href="#3-4-nbsp-nbsp-选择安装网络插件" class="headerlink" title="3.4 &nbsp;&nbsp;选择安装网络插件"></a>3.4 &nbsp;&nbsp;选择安装网络插件</h3><p>这里选择 weave net，kubectl apply -f [podnetwork].yaml：<br><code>kubectl apply -f &quot;https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d &#39;\n&#39;)&quot;</code></p>
+<h3 id="3-5-nbsp-nbsp-查看信息"><a href="#3-5-nbsp-nbsp-查看信息" class="headerlink" title="3.5 &nbsp;&nbsp;查看信息"></a>3.5 &nbsp;&nbsp;查看信息</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; kubectl get pods --all-namespaces</span><br><span class="line">NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE</span><br><span class="line">kube-system   coredns-fb8b8dccf-6r95r              1/1     Running   0          113m</span><br><span class="line">kube-system   coredns-fb8b8dccf-lhmvl              1/1     Running   0          113m</span><br><span class="line">kube-system   etcd-instance-2                      1/1     Running   0          112m</span><br><span class="line">kube-system   kube-apiserver-instance-2            1/1     Running   0          112m</span><br><span class="line">kube-system   kube-controller-manager-instance-2   1/1     Running   0          112m</span><br><span class="line">kube-system   kube-proxy-pnc9h                     1/1     Running   0          113m</span><br><span class="line">kube-system   kube-scheduler-instance-2            1/1     Running   0          112m</span><br><span class="line">kube-system   weave-net-l9hps                      2/2     Running   0          61s</span><br><span class="line"></span><br><span class="line">&gt; kubectl get nodes</span><br><span class="line">NAME         STATUS   ROLES    AGE    VERSION</span><br><span class="line">instance-2   Ready    master   113m   v1.14.1</span><br></pre></td></tr></table></figure>
+<h2 id="4-nbsp-nbsp-创建节点"><a href="#4-nbsp-nbsp-创建节点" class="headerlink" title="4 &nbsp;&nbsp;创建节点"></a>4 &nbsp;&nbsp;创建节点</h2><p>node 的依赖关系就没那么多，没有要求 CPU 和 内存数，没有要求 selinux，不需要选择网络插件，一般也不需要安装 kubectl。<br>即只需要 docker 环境、kubelet、kubeadm，其中 kubelet 启动后一样会进入 activating (auto-restart)状态，kubeadm join 后才会转变成 active (running) 状态。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@instance-4 ~]# kubeadm join 10.150.0.2:6443 --token rtbkg0.b6xgzvz2x9xekegi \</span><br><span class="line">&gt;     --discovery-token-ca-cert-hash sha256:b4659d6b5d8e6015a5a31da172225b625336c095760191b51f246bf34b113864</span><br><span class="line">[preflight] Running pre-flight checks</span><br><span class="line">  [WARNING IsDockerSystemdCheck]: detected &quot;cgroupfs&quot; as the Docker cgroup driver. The recommended driver is &quot;systemd&quot;. Please follow the guide at https://kubernetes.io/docs/setup/cri/</span><br><span class="line">[preflight] Reading configuration from the cluster...</span><br><span class="line">[preflight] FYI: You can look at this config file with &apos;kubectl -n kube-system get cm kubeadm-config -oyaml&apos;</span><br><span class="line">[kubelet-start] Downloading configuration for the kubelet from the &quot;kubelet-config-1.14&quot; ConfigMap in the kube-system namespace</span><br><span class="line">[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;</span><br><span class="line">[kubelet-start] Writing kubelet environment file with flags to file &quot;/var/lib/kubelet/kubeadm-flags.env&quot;</span><br><span class="line">[kubelet-start] Activating the kubelet service</span><br><span class="line">[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...</span><br><span class="line"></span><br><span class="line">This node has joined the cluster:</span><br><span class="line">* Certificate signing request was sent to apiserver and a response was received.</span><br><span class="line">* The Kubelet was informed of the new secure connection details.</span><br><span class="line"></span><br><span class="line">Run &apos;kubectl get nodes&apos; on the control-plane to see this node join the cluster.</span><br></pre></td></tr></table></figure></p>
+<h2 id="5-nbsp-nbsp-另一种用-minikube-创建集群"><a href="#5-nbsp-nbsp-另一种用-minikube-创建集群" class="headerlink" title="5 &nbsp;&nbsp;另一种用 minikube 创建集群"></a>5 &nbsp;&nbsp;另一种用 minikube 创建集群</h2><p>可以参考官方的教程文档 <a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-intro/" target="_blank" rel="noopener">Tutorials</a>;<br>原理就是：给一个启动一个安装有 Docker 和 minikube CLI 的 Ubuntu 虚拟机，使用 minikube start 就可以安装以上所有步骤。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ minikube start</span><br><span class="line">o   minikube v0.34.1 on linux (amd64)</span><br><span class="line">&gt;   Configuring local host environment ...</span><br><span class="line">&gt;   Creating none VM (CPUs=2, Memory=2048MB, Disk=20000MB) ...</span><br><span class="line">-   &quot;minikube&quot; IP address is 172.17.0.86</span><br><span class="line">-   Configuring Docker as the container runtime ...</span><br><span class="line">-   Preparing Kubernetes environment ...</span><br><span class="line">@   Downloading kubeadm v1.13.3</span><br><span class="line">@   Downloading kubelet v1.13.3</span><br><span class="line">-   Pulling images required by Kubernetes v1.13.3 ...</span><br><span class="line">-   Launching Kubernetes v1.13.3 using kubeadm ...</span><br><span class="line">-   Configuring cluster permissions ...</span><br><span class="line">-   Verifying component health .....</span><br><span class="line">+   kubectl is now configured to use &quot;minikube&quot;</span><br><span class="line">=   Done! Thank you for using minikube!</span><br></pre></td></tr></table></figure></p>
+<h2 id="6-nbsp-nbsp-Vagrant-集群安装实战"><a href="#6-nbsp-nbsp-Vagrant-集群安装实战" class="headerlink" title="6 &nbsp;&nbsp; Vagrant 集群安装实战"></a>6 &nbsp;&nbsp; Vagrant 集群安装实战</h2><p><br><br><br></p>
+<p> <strong>参考文献</strong><br>[1] 龚正. 等. Kubernetes 权威指南. 版次：2017年9月第1版<br>[2] Docker Swarm or Kubernetes — Help me decide. <a href="https://stackshare.io/stackups/docker-swarm-vs-kubernetes" target="_blank" rel="noopener">https://stackshare.io/stackups/docker-swarm-vs-kubernetes</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/Kubernetes/">Kubernetes</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/Docker/">Docker</a>, <a href="/tags/Kubernetes/">Kubernetes</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:blog.jemper.cn">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/C/">C</a><small>1</small></li>
+  
+    <li><a href="/categories/DevOps/">DevOps</a><small>4</small></li>
+  
+    <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
+  
+    <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
+  
+    <li><a href="/categories/HTTPS/">HTTPS</a><small>5</small></li>
+  
+    <li><a href="/categories/Kubernetes/">Kubernetes</a><small>3</small></li>
+  
+    <li><a href="/categories/日记/">日记</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Compose/" style="font-size: 10px;">Compose</a> <a href="/tags/DevOps/" style="font-size: 16.67px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Dockerfile/" style="font-size: 10px;">Dockerfile</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 16.67px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/容器化/" style="font-size: 16.67px;">容器化</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 13.33px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a> <a href="/tags/部署/" style="font-size: 16.67px;">部署</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Sven
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'wpxun';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

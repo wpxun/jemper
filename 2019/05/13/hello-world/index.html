@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>日记——从现实世界看计算机世界（2） | 在路上</title>
+  <meta name="author" content="Sven">
+  
+  <meta name="description" content="让大家读得懂的知识才是真知识">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="日记——从现实世界看计算机世界（2）"/>
+  <meta property="og:site_name" content="在路上"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">在路上</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-05-13T10:16:00.000Z"><a href="/2019/05/13/hello-world/">2019-05-13</a></time>
+      
+      
+  
+    <h1 class="title">日记——从现实世界看计算机世界（2）</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-组件"><span class="toc-text">  组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-文件"><span class="toc-text">  文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-限制"><span class="toc-text">  限制</span></a></li></ol>
+			</div>
+		
+        <p>最近在思考计算机的发展方向，它们跟现实世界的关系是紧密的、有迹可循的，架构设计过程中理应从社会活动中得到启示。<br><a id="more"></a></p>
+<h2 id="nbsp-nbsp-组件"><a href="#nbsp-nbsp-组件" class="headerlink" title="&nbsp;&nbsp;组件"></a>&nbsp;&nbsp;组件</h2><p>世界上千千万万的事件，电视、空调、保湿杯、书桌、手机、房子、玩具等，它们通常都是一个完整的个体，但是他们本质上就是由各个组件组装形成的，大部分企业将它组装好再出售，比如将空调组装成一个整体，并和安装安调的服务二次组装整体出售；而像宜家、电商大件商品偏向提供所有零部件，让用户自行安装。太多的太多都可以看出组装的身影，只有极少的东西才是一体的比如玻璃杯、陶瓷、水果，这些东西看不出组装的痕迹，我只能把它们归类到不可拆分的东西部分。</p>
+<p>但因为计算机世界是依据于现实世界而存在或设计的，其设计理念也必然适用这种现象，我们的库组件，微服务的服务组件都是往这方面发展，这两种组件的区别只是组件的调用方式，但组件化越来越为人看好，而不是单体程序。</p>
+<h2 id="nbsp-nbsp-文件"><a href="#nbsp-nbsp-文件" class="headerlink" title="&nbsp;&nbsp;文件"></a>&nbsp;&nbsp;文件</h2><p>蒙昧时代跨入文明时代的象征一般认为两个：金属工具的作用和文字的发明。文字其实就是知识的记载工具，文字未发明之前只能靠记忆，后来人类用绳子打结来记录一件事件，但这种记录本质上也是记忆。而记忆的缺点就是无法传承、数据量有限、容易出错。</p>
+<p>在计算机世界里，人类和计算机交流的协议就是类似人类与人类交流的文字，编程语言是协议，通信要协议，运行要协议。然而只有协议还不够，就如同只有文字还不够一样，还要知道怎么用这些协议去编写程序，描述操作，就如同用文字描述论文、描述科技、描述知识一样；以配置一个软件为例，先要安装，要点这个确定那个确定，要修改配置，要运行，要开机运行，要日志输出配置等，因此开发人员就要按照经验一步步输入指令操作（当然可以自己记录成流程文档，以后复制执行），但其本质上还是没有逃脱记忆的处理方式，于是 unix 提出了“一切皆文件”，Plan9 计划更是按照这一标准设计，到现在大大小小的工具软件都提出了这一要求，就是文件化。发展到现在，有一个词就是：xx即代码；基础设施即代码(vagrantfile)、流水线即代码(jenkinsfile)、依赖即代码(glide)、容器部署即代码(dockerfile)、Kubernetes 资源配置文件，这些努力无非就是记忆电子化，变成一篇一篇的“论文”，不需要再依靠人的记忆；总之所有的流水线操作都应该往自动化方向发展。</p>
+<h2 id="nbsp-nbsp-限制"><a href="#nbsp-nbsp-限制" class="headerlink" title="&nbsp;&nbsp;限制"></a>&nbsp;&nbsp;限制</h2><p>法国大革命口号是：“自由、平等、博爱”。孙中山的三民主义：“民族、民权、民生”。都有交织的地方，一般来说民权强调自由，民生着重平等；人类社会中有相对的平等，但不可能有绝对的自由，统治管理的目的就是“限制”人的自由，法律条文本质上也是对“限制“做出明文规定。以驾驶证来说，没有驾驶证限制你驾车，驾驶证的车型限制你开的车的类型，斑马线限制你走的路线。如果没有这些限制，那就是原始社会了。从古代文明发展到现代文明，对人的限制变得宽松——更自由，限制的政策不歧视——更平等，但限制一直存在。</p>
+<p>计算机也是由规则组成，否则无法与计算机交流，所谓规则也是限制。架构就是限制，限制源码位置，限制依赖，限制通信方式等；三种编程范式也是限制，它限制我们的控制流和数据流：结构化编程限制了控制权的直接转移，面向对象编程限制了控制权的间接转移，函数式编程限制了赋值。</p>
+<p><br><br><br></p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/日记/">日记</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/生活/">生活</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:blog.jemper.cn">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/C/">C</a><small>1</small></li>
+  
+    <li><a href="/categories/DevOps/">DevOps</a><small>4</small></li>
+  
+    <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
+  
+    <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
+  
+    <li><a href="/categories/HTTPS/">HTTPS</a><small>5</small></li>
+  
+    <li><a href="/categories/Kubernetes/">Kubernetes</a><small>3</small></li>
+  
+    <li><a href="/categories/日记/">日记</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Compose/" style="font-size: 10px;">Compose</a> <a href="/tags/DevOps/" style="font-size: 16.67px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Dockerfile/" style="font-size: 10px;">Dockerfile</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 13.33px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a> <a href="/tags/HTTP2/" style="font-size: 13.33px;">HTTP2</a> <a href="/tags/HTTPS/" style="font-size: 13.33px;">HTTPS</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 16.67px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Socket/" style="font-size: 13.33px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 16.67px;">TLS</a> <a href="/tags/io/" style="font-size: 13.33px;">io</a> <a href="/tags/分布式/" style="font-size: 10px;">分布式</a> <a href="/tags/协议/" style="font-size: 16.67px;">协议</a> <a href="/tags/容器化/" style="font-size: 16.67px;">容器化</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 16.67px;">工具</a> <a href="/tags/并发/" style="font-size: 13.33px;">并发</a> <a href="/tags/微服务/" style="font-size: 10px;">微服务</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/生活/" style="font-size: 13.33px;">生活</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a> <a href="/tags/部署/" style="font-size: 16.67px;">部署</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Sven
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'wpxun';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
