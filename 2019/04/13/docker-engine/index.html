@@ -276,7 +276,7 @@
 <li>对 MacOS 桌面版，把公钥放在 ~/.docker/certs.d 目录下，并重启 Docker<br><code>~/.docker/certs.d/&lt;MyRegistry&gt;:&lt;Port&gt;/ca.crt</code></li>
 </ul>
 </li>
-<li>对 curl，可以把公钥追加到 /etc/pki/tls/certs/ca-bundle.crt 中，也可以 –cacert 指定证书，还可以加 -k 参数不安全访问</li>
+<li>对 curl，可以把公钥追加到 /etc/pki/tls/certs/ca-bundle.crt 中，也可以 –cacert 指定证书，还可以加 -k 参数不安全访问<br>curl <a href="https://192.168.56.113:5000/v2/_catalog" target="_blank" rel="noopener">https://192.168.56.113:5000/v2/_catalog</a> -k<br>curl <a href="https://192.168.56.113:5000/v2/golang/tags/list" target="_blank" rel="noopener">https://192.168.56.113:5000/v2/golang/tags/list</a> -k</li>
 </ul>
 <p><br><br><br></p>
 <p> <strong>参考文献</strong><br>[1] Nigel Poulton. 深入浅出 Dokcer. 版次：2019年4月第1版<br>[2] Lan Miell.等. Docker 实践. 版次：2018年2月第1版<br>[3] Explaining Docker Image IDs. <a href="https://windsock.io/explaining-docker-image-ids/" target="_blank" rel="noopener">https://windsock.io/explaining-docker-image-ids/</a></p>
@@ -348,7 +348,7 @@
   
     <li><a href="/categories/C/">C</a><small>1</small></li>
   
-    <li><a href="/categories/DevOps/">DevOps</a><small>4</small></li>
+    <li><a href="/categories/DevOps/">DevOps</a><small>5</small></li>
   
     <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
   
