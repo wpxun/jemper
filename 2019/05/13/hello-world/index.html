@@ -65,7 +65,7 @@
       
         
 			<div id="toc" class="toc-article">
-				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-组件"><span class="toc-text">  组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-文件"><span class="toc-text">  文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-限制"><span class="toc-text">  限制</span></a></li></ol>
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-组件"><span class="toc-text">  组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-文件"><span class="toc-text">  文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-限制"><span class="toc-text">  限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nbsp-nbsp-能集中控制的要集中，需分散配置的要分散"><span class="toc-text">  能集中控制的要集中，需分散配置的要分散</span></a></li></ol>
 			</div>
 		
         <p>最近在思考计算机的发展方向，它们跟现实世界的关系是紧密的、有迹可循的，架构设计过程中理应从社会活动中得到启示。<br><a id="more"></a></p>
@@ -73,9 +73,9 @@
 <p>但因为计算机世界是依据于现实世界而存在或设计的，其设计理念也必然适用这种现象，我们的库组件，微服务的服务组件都是往这方面发展，这两种组件的区别只是组件的调用方式，但组件化越来越为人看好，而不是单体程序。</p>
 <h2 id="nbsp-nbsp-文件"><a href="#nbsp-nbsp-文件" class="headerlink" title="&nbsp;&nbsp;文件"></a>&nbsp;&nbsp;文件</h2><p>蒙昧时代跨入文明时代的象征一般认为两个：金属工具的作用和文字的发明。文字其实就是知识的记载工具，文字未发明之前只能靠记忆，后来人类用绳子打结来记录一件事件，但这种记录本质上也是记忆。而记忆的缺点就是无法传承、数据量有限、容易出错。</p>
 <p>在计算机世界里，人类和计算机交流的协议就是类似人类与人类交流的文字，编程语言是协议，通信要协议，运行要协议。然而只有协议还不够，就如同只有文字还不够一样，还要知道怎么用这些协议去编写程序，描述操作，就如同用文字描述论文、描述科技、描述知识一样；以配置一个软件为例，先要安装，要点这个确定那个确定，要修改配置，要运行，要开机运行，要日志输出配置等，因此开发人员就要按照经验一步步输入指令操作（当然可以自己记录成流程文档，以后复制执行），但其本质上还是没有逃脱记忆的处理方式，于是 unix 提出了“一切皆文件”，Plan9 计划更是按照这一标准设计，到现在大大小小的工具软件都提出了这一要求，就是文件化。发展到现在，有一个词就是：xx即代码；基础设施即代码(vagrantfile)、流水线即代码(jenkinsfile)、依赖即代码(glide)、容器部署即代码(dockerfile)、Kubernetes 资源配置文件，这些努力无非就是记忆电子化，变成一篇一篇的“论文”，不需要再依靠人的记忆；总之所有的流水线操作都应该往自动化方向发展。</p>
-<h2 id="nbsp-nbsp-限制"><a href="#nbsp-nbsp-限制" class="headerlink" title="&nbsp;&nbsp;限制"></a>&nbsp;&nbsp;限制</h2><p>法国大革命口号是：“自由、平等、博爱”。孙中山的三民主义：“民族、民权、民生”。都有交织的地方，一般来说民权强调自由，民生着重平等；人类社会中有相对的平等，但不可能有绝对的自由，统治管理的目的就是“限制”人的自由，法律条文本质上也是对“限制“做出明文规定。以驾驶证来说，没有驾驶证限制你驾车，驾驶证的车型限制你开的车的类型，斑马线限制你走的路线。如果没有这些限制，那就是原始社会了。从古代文明发展到现代文明，对人的限制变得宽松——更自由，限制的政策不歧视——更平等，但限制一直存在。</p>
+<h2 id="nbsp-nbsp-限制"><a href="#nbsp-nbsp-限制" class="headerlink" title="&nbsp;&nbsp;限制"></a>&nbsp;&nbsp;限制</h2><p>法国大革命口号是：“自由、平等、博爱”。孙中山的三民主义：“民族、民权、民生”。都有交织的地方，一般来说民权强调自由，民生着重平等；人类社会中有相对的平等，但不可能有绝对的自由，统治管理的目的就是“限制”人的自由，法律条文本质上也是对“限制“做出明文规定。以驾驶证来说，没有驾驶证限制你驾车，驾驶证的车型限制你开的车的类型，斑马线限制你走的路线。如果没有这些限制，那就是原始社会了。历来中国素被称为“礼乐之邦”，“礼”就是规范人的行为；发展到现代文明，对人的限制变得宽松——更自由，限制的政策不歧视——更平等，但限制一直存在。</p>
 <p>计算机也是由规则组成，否则无法与计算机交流，所谓规则也是限制。架构就是限制，限制源码位置，限制依赖，限制通信方式等；三种编程范式也是限制，它限制我们的控制流和数据流：结构化编程限制了控制权的直接转移，面向对象编程限制了控制权的间接转移，函数式编程限制了赋值。</p>
-<p><br><br><br></p>
+<h2 id="nbsp-nbsp-能集中控制的要集中，需分散配置的要分散"><a href="#nbsp-nbsp-能集中控制的要集中，需分散配置的要分散" class="headerlink" title="&nbsp;&nbsp;能集中控制的要集中，需分散配置的要分散"></a>&nbsp;&nbsp;能集中控制的要集中，需分散配置的要分散</h2><p><br><br><br></p>
 
       
     </div>
