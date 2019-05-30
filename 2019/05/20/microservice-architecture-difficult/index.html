@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>微服务架构 | 在路上</title>
+  <meta name="author" content="Sven">
+  
+  <meta name="description" content="让大家读得懂的知识才是真知识">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="微服务架构"/>
+  <meta property="og:site_name" content="在路上"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">在路上</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-05-20T07:55:00.000Z"><a href="/2019/05/20/microservice-architecture-difficult/">2019-05-20</a></time>
+      
+      
+  
+    <h1 class="title">微服务架构</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-互联网架构变迁"><span class="toc-text">1   互联网架构变迁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-集中式架构"><span class="toc-text">1.1   集中式架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-分布式架构"><span class="toc-text">1.2   分布式架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-nbsp-nbsp-云原生架构"><span class="toc-text">1.3   云原生架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1-nbsp-nbsp-微服务"><span class="toc-text">1.3.1   微服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2-nbsp-nbsp-云原生平台"><span class="toc-text">1.3.2   云原生平台</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3-nbsp-nbsp-后-Kubernetes-时代"><span class="toc-text">1.3.3   后 Kubernetes 时代</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-nbsp-nbsp-一言蔽之"><span class="toc-text">1.4   一言蔽之</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-微服务"><span class="toc-text">1   微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-服务治理"><span class="toc-text">2   服务治理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-事务"><span class="toc-text">3   事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-nbsp-nbsp-数据库事务"><span class="toc-text">3.1   数据库事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-nbsp-nbsp-分布式事务"><span class="toc-text">3.2   分布式事务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-调优"><span class="toc-text">4   调优</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-nbsp-nbsp-扩容"><span class="toc-text">4.1   扩容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-动静分离"><span class="toc-text">4.2   动静分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-nbsp-nbsp-缓存"><span class="toc-text">4.3   缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-nbsp-nbsp-消峰和限流"><span class="toc-text">4.4   消峰和限流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-nbsp-nbsp-超时、重试和熔断"><span class="toc-text">4.5   超时、重试和熔断</span></a></li></ol></li></ol>
+			</div>
+		
+        <p>这是一个架构概念爆发的时代，这是一个架构本身的复杂度已经开始超越业务逻辑本身，</p>
+<a id="more"></a>
+<h2 id="1-nbsp-nbsp-互联网架构变迁"><a href="#1-nbsp-nbsp-互联网架构变迁" class="headerlink" title="1 &nbsp;&nbsp;互联网架构变迁"></a>1 &nbsp;&nbsp;互联网架构变迁</h2><p>从历史观来看，一般是用更优的方案代替旧的方案，但同时引来新的问题，在新的方案完善直接解决或者在方案外新的层次里间接地解决问题，直到下一个更优的方案出现。架构地发展也是如此，互联网架构从集中式架构（单体应用）到分布式架构（服务化），再到云原生架构（微服务）变迁，架构的升级的目的是追求更高的质量和效率。</p>
+<h3 id="1-1-nbsp-nbsp-集中式架构"><a href="#1-1-nbsp-nbsp-集中式架构" class="headerlink" title="1.1 &nbsp;&nbsp;集中式架构"></a>1.1 &nbsp;&nbsp;集中式架构</h3><p>集中式架构又称为单体式架构，B/S架构的后端系统大都采用该架构，分为标准的三层：</p>
+<ul>
+<li>Web 层：也就是典型的 MVC</li>
+<li>服务层：用于对应用业务逻辑进行处理，整个系统的核心</li>
+<li>数据访问层：实现对真实数据库的访问，面向对象的域模型 ORM，如 MyBatis</li>
+</ul>
+<p>存在的问题：</p>
+<ul>
+<li>单体应用代码库庞大，不易于理解和修改</li>
+<li>持续部署困难，耦合性强</li>
+<li>扩展应用困难，只能从一个维度进行扩展，即增加实例副本提供处理能力，即只能通过增加服务器的配置有限度地提升系统的处理能力，这种伸缩方式被称为垂直伸缩；另一方面，单体应用各个组件对资源的使用情况需求不同，一些是 CPU 密集型，另一些是内存密集型，但是不能独立地扩展单个组件</li>
+<li>阻碍快速开发，团队需要花更多的时间在部门间协调和统一功能特性</li>
+<li>迫使开发人员长期专注于一种技术栈</li>
+<li>Cattle vs Cat 争论中，服务器的特点是有功能、有个性、难替换的 Cat</li>
+</ul>
+<h3 id="1-2-nbsp-nbsp-分布式架构"><a href="#1-2-nbsp-nbsp-分布式架构" class="headerlink" title="1.2 &nbsp;&nbsp;分布式架构"></a>1.2 &nbsp;&nbsp;分布式架构</h3><p>分布式架构解决了集中式架构中的问题，实现了服务器的水平伸缩，但也产生了新的问题：</p>
+<ul>
+<li>服务部署：部署基于微服务的应用也要复杂得多，当前，云计算、云原生技术地快速发展比如容器、Kubernetes 技术使得开发和落地微服务更加便捷，从这一点看，运行成本是越来越低的</li>
+<li>服务间通信的管理，因为网络不可靠、不安全、延迟丢包等客观存在的事实让服务间通信变得复杂，另外当一个来自 Web 的查询触发了几十个跨越了很多不同机器的内部远程过程调用时（HTTP 或 RPC），我们如何能达到最低的延迟呢？</li>
+<li>分区的数据库体系和分布式事务的管理，不同服务可能拥有不同的数据库。CAP 原理的约束，使得我们不得不放弃传统的强一致性，而转而追求最终一致性，这个对开发人员来说是一个挑战。</li>
+<li>微服务架构对测试也带来了很大的挑战。传统的单体 Web 应用只需测试单一的 REST API 即可，而对微服务进行测试，需要启动它依赖的所有其他服务。这种复杂性不可低估。</li>
+<li>对服务的依赖设计需要参考一些成熟的设计原则，如：SRP（单一职责原则）、OCP（开闭原则）、LSP（里氏替换原则）、ISP（接口隔离原则）、DIP（依赖反转原则）</li>
+<li>服务发现机制</li>
+<li>日志分散严重，跟踪和分析难度加大</li>
+</ul>
+<p>随着分布式架构的普及，越来越多的互联网公司在重新审视一个并不崭新但却一直难于落地的概念，那就是面向服务架构（SOA）。一些大企业的分布式框架也相继出现，服务发现、负载均衡、失效转移、动态扩容、数据分片、调用链路监控等分布式系统的核心功能也一个个趋于成熟。<br>随着应用的规模越来越大，服务器的数量也急速增加，运维工程师越来越难以远程登录每一台服务器云进行管理，包括流程管理（搭建环境、部署应用、服务器伸缩等）和监控管理（查看服务状态、日志跟踪等）。自动化运维工具主要包括两大类：流程自动化工具和监控自动化工具；于是成堆的自动化运维工具就出来了。此时运维和开发的鸿沟越来越明显，急需自动化运维体系与开发技术体系配合（DevOps）。</p>
+<p>备注：分布式系统可以理解为并发系统，不同服务器进程空间的并行系统，像集群和分布式都是并行系统的概念，一般我们将同一个程序单元用负载的方式将多台独立的服务器通过网络连接组合成一个有效的整体对外提供服务称为集群，而将多程序单元通过网络连接组合成一个有效的整体对外提供服务称为分布式。与之对应，单进程空间的并发复杂性可以看我另一篇文章<a href="/2019/03/14/go-concurrency-difficult/">《并发的复杂性》</a>。</p>
+<h3 id="1-3-nbsp-nbsp-云原生架构"><a href="#1-3-nbsp-nbsp-云原生架构" class="headerlink" title="1.3 &nbsp;&nbsp;云原生架构"></a>1.3 &nbsp;&nbsp;云原生架构</h3><h4 id="1-3-1-nbsp-nbsp-微服务"><a href="#1-3-1-nbsp-nbsp-微服务" class="headerlink" title="1.3.1 &nbsp;&nbsp;微服务"></a>1.3.1 &nbsp;&nbsp;微服务</h4><p>容器的出现，使原有的基于虚拟机的云主机应用，彻底转变为更加灵活和轻量的“容器+编排调度”的云平台应用。基于容器的微服务架构（有些人将微服务架构称为 SOA2.0 或 SOA++）解决了单体应用的很多老问题，提供了更细粒度的服务化落地方案，但同时服务化的很多问题还是存在或者产生了新的问题(微服务本质上也是服务化)：</p>
+<ul>
+<li>对部署和运维的自动化要求更高</li>
+<li>对网络这一不可靠的基础设施依赖增强</li>
+<li>调用链路变长</li>
+<li>日志分散，跟踪和分析难度加大</li>
+<li>服务分散，受攻击面积更广</li>
+<li>在不同的服务之间存在协作关系，对跨服务控制协调能力要求更高</li>
+<li>自动伸缩、路由管理、故障控制、存储共享等</li>
+</ul>
+<h4 id="1-3-2-nbsp-nbsp-云原生平台"><a href="#1-3-2-nbsp-nbsp-云原生平台" class="headerlink" title="1.3.2 &nbsp;&nbsp;云原生平台"></a>1.3.2 &nbsp;&nbsp;云原生平台</h4><p>为了解决微服务架构产生的一些问题，以 Kubernetes 为代表的容器云系统出现了。这类容器云系统以容器技术为基础，在进程级别为微服务提供了一致的部署、调度、伸缩、监控、日志等功能。Cattle vs Cat 争论中，服务器的特点转变为有功能、无个性、可替代的 Cattle。</p>
+<h4 id="1-3-3-nbsp-nbsp-后-Kubernetes-时代"><a href="#1-3-3-nbsp-nbsp-后-Kubernetes-时代" class="headerlink" title="1.3.3 &nbsp;&nbsp;后 Kubernetes 时代"></a>1.3.3 &nbsp;&nbsp;后 Kubernetes 时代</h4><p>对多数企业而言架构本身的复杂度已经开始超越业务逻辑本身，如果不加以统一管理与规划，那么只是维护成本就已经很高了。在 Kubernetes 成为事实的标准之后，围绕 Kubernetes 未解决的问题，第三方机构基于 Kubernetes 相继开发相应的中间件完善。<br>比如，除了进程本身的问题，微服务之间的通信和联系更加复杂，其中的观测、控制和服务质量保障等都成为微服务方案的短板，因此随着 Kubernetes 成为事实标准，Service Mesh 顺势登场。它让分布式应用无须关注服务（全球）发现与路由、限流、降级、熔断、安全等通用问题。</p>
+<p>我们看到 <a href="https://www.cncf.io/" target="_blank" rel="noopener">CNCF 云原生计算基金会</a> 提供了很多开源软件栈致力于大型微服务快速应用部署，国内企业也纷纷加入该组织，并在国内对微服务架构落地提供强大的支持。CNCF 提供的<a href="https://landscape.cncf.io/" target="_blank" rel="noopener">软件栈</a>未来会成为企业软件栈的趋势。像 Kubernetes、Container、Linkerd、gRPC、etcd 都榜上有名，从下图可以了解整个软件栈，其中标注 CNCF 的项目来自于 CNCF。<br><img src="https://landscape.cncf.io/images/landscape.png" alt="CNCF Cloud Native Interactive Landscape from https://landscape.cncf.io/"></p>
+<h3 id="1-4-nbsp-nbsp-一言蔽之"><a href="#1-4-nbsp-nbsp-一言蔽之" class="headerlink" title="1.4 &nbsp;&nbsp;一言蔽之"></a>1.4 &nbsp;&nbsp;一言蔽之</h3><p>单体应用问题很多，用微服务架构来解决，但微服务架构实施部署难度加大，借助 Kubernetes 实现了，尔后发现 Kubernetes 只是解决了大部分问题，还有遗留的问题；比如在服务间通信上，第三方（Buoyant 公司，也就是 Linkerd 的开发商）在新的层次里（Kubernetes 层次外，也就是 Service Mesh）间接地解决。</p>
+<h2 id="1-nbsp-nbsp-微服务"><a href="#1-nbsp-nbsp-微服务" class="headerlink" title="1 &nbsp;&nbsp;微服务"></a>1 &nbsp;&nbsp;微服务</h2><p>微服务化是不同的程序单元（子系统）互相协作形成完整的大系统对外服务，微服务化更多是指业务框架的拆分，将单体应用的进程内调用变为服务间的网络通信，意义在于解耦，而非指部署方式（虽然不同子系统一般是采用分布式部署）。微服务本质上等同于服务化，只是强调了服务化拆分的粒度或程度——“微”，比如大型电商网站都会拆分出首页、用户、搜索、广告、购物、订单、商品、收益结算、日志埋点等子系统。</p>
+<p>Martin Fowler 写于 2014 年的著名文章 <a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">《Microservices》</a>，对微服务做出了纲领性的定义，总结了微服务应该具备的特点，如下所述：</p>
+<ul>
+<li>在结构上，将原有的从技术角度拆分的组件，升级为从业务角度拆分的独立运行的服务，这些服务具备各自的实现平台，并且独占自有数据，在服务之间以智能端点和哑管道的方式通信。</li>
+<li>在工程上，从产品而非项目的角度进行设计，强调迭代、自动化和面向故障的设计方法。</li>
+</ul>
+<p><img src="https://martinfowler.com/articles/microservices/images/sketch.png" alt="Monoliths and Microservices"></p>
+<p>下面可能是目前或未来炙热的微服务架构：<br><img src="http://img.jemper.cn/2019/05/may-microservice-arch.jpg" alt="微服务架构 from https://cloud.tencent.com/info/71a0b4783039214f7f633b3c5269451f.html"></p>
+<h2 id="2-nbsp-nbsp-服务治理"><a href="#2-nbsp-nbsp-服务治理" class="headerlink" title="2 &nbsp;&nbsp;服务治理"></a>2 &nbsp;&nbsp;服务治理</h2><p>服务如何拆分，粒度如何把控，以及服务与服务之间的 RPC 调用应该如何实现，这些问题解决之后，就要思考大规模服务化之前应该如何实施服务治理。<br>服务治理并不是一个统一的概念，可以用城市治理的思路来思考服务治理，</p>
+<ol>
+<li>请求网关：就是整个整体的守门人，</li>
+<li>信息采集：日志采集，追踪工具，服务注册发现都是用来采集信息的，常用的工具有：<ul>
+<li>ElasticSearch，虽然是一个搜索引擎和分析框架，但因为提供很好的存储和查询性能，所以经常用于日志的采集和存储</li>
+<li>logstash，Elastic的日志分析工具</li>
+</ul>
+</li>
+<li>信息分析：监控平台来展现这些采集的信息，并进行监控和分析，常用的工具有：<ul>
+<li>Kibana，Elastic的可视化插件，可以配合Elastic使用可视化查询日志</li>
+<li>grafna，时序性分析工具，提供漂亮的图形化界面</li>
+<li>Promethues，强大系统监控和报警框架，提供多维度数据模型，灵活强大的查询语句，有多种可视化图形界面</li>
+</ul>
+</li>
+<li>治理策略：根据分析的结果采取治理策略，有的服务快撑不住了要限流，有的服务坏了要熔断，并且还能够及时的调整这些服务的配置。</li>
+</ol>
+<p>当然有的书提到服务治理的三个基础：</p>
+<ol>
+<li>服务的动态注册与发现；</li>
+<li>服务的扩容评估；</li>
+<li>服务的升降级处理；</li>
+</ol>
+<p>其中第一点就是信息采集，后面两点就是治理策略。</p>
+<h2 id="3-nbsp-nbsp-事务"><a href="#3-nbsp-nbsp-事务" class="headerlink" title="3 &nbsp;&nbsp;事务"></a>3 &nbsp;&nbsp;事务</h2><p>只有落地的数据才需要考虑事务，从简到繁，先讨论单库事务，再考虑分布式事务；我们进行微服务化的时候，一般会同步进行分库分表操作，分表还是单库事务，常规数据库事务就可以解决，分库就产生分布式事务了。比如文章系统，把用户中心（注册、登录等）、积分系统和发布内容拆分成微服务，同时也进行分库（用户库、积分库和内容库）；用户注册成功时写入用户库后异步进行用户积分初始化（如果这一步比较慢或者出错），并马上返回注册成功给用户，用户登录后发布内容，服务器发现用户积分没有初始化完成而报错，这就是分布式事务不一致的例子。</p>
+<h3 id="3-1-nbsp-nbsp-数据库事务"><a href="#3-1-nbsp-nbsp-数据库事务" class="headerlink" title="3.1 &nbsp;&nbsp;数据库事务"></a>3.1 &nbsp;&nbsp;数据库事务</h3><p>这里是指单个数据库事务，数据库事务的几个特性：原子性(Atomicity )、一致性( Consistency )、隔离性或独立性( Isolation)和持久性(Durabilily)，简称就是ACID。数据库是由两个文件组成的，一个数据库文件和一个日志文件，通常情况下，日志文件都要比数据库文件大很多，数据库进行任何写入操作的时候都是要先写日志的；同样的道理，我们在执行事务的时候数据库首先会记录下这个事务的redo操作日志，然后才开始真正操作数据库，在操作之前首先会把日志文件写入磁盘，那么当突然断电的时候，即使操作没有完成，在重新启动数据库时候，数据库会根据当前数据的情况进行undo回滚或者是redo前滚，这样就保证了数据的强一致性。</p>
+<h3 id="3-2-nbsp-nbsp-分布式事务"><a href="#3-2-nbsp-nbsp-分布式事务" class="headerlink" title="3.2 &nbsp;&nbsp;分布式事务"></a>3.2 &nbsp;&nbsp;分布式事务</h3><p>分布式事务主要还是要达到最终一致性，分布式事务要解决的问题是如何使多次操作，对外部看起来是一个整体的操作。本质上来说，分布式事务就是为了保证不同数据库的数据一致性。区别于单库，在单库中使用本地事务保证数据库的一致性已经习以为常，但在分布式环境下处理一致性较复杂。<br>要保证BASE理论是对CAP中的一致性和可用性进行一个权衡的结果，理论的核心思想就是：我们无法做到强一致，但每个应用都可以根据自身的业务特点，采用适当的方式来使系统达到最终一致性（Eventual consistency）。</p>
+<h2 id="4-nbsp-nbsp-调优"><a href="#4-nbsp-nbsp-调优" class="headerlink" title="4 &nbsp;&nbsp;调优"></a>4 &nbsp;&nbsp;调优</h2><p>分布式系统应对大流量和高并发，业界多年的技术及经验总结，已经提出很多有助于提高系统可用性和弹性的通用技术指南或模式，通常做法如通过扩容、动静分离、缓存、服务降级和限流五种常规手段来保护系统的稳定运行。归纳为纵向优化和横向优化，扩容相当集群，是横向优化。而动静分享、缓存、服务降级和限流则是纵向优化，本质上一层一层过滤流量。</p>
+<h3 id="4-1-nbsp-nbsp-扩容"><a href="#4-1-nbsp-nbsp-扩容" class="headerlink" title="4.1 &nbsp;&nbsp;扩容"></a>4.1 &nbsp;&nbsp;扩容</h3><h3 id="4-2-nbsp-nbsp-动静分离"><a href="#4-2-nbsp-nbsp-动静分离" class="headerlink" title="4.2 &nbsp;&nbsp;动静分离"></a>4.2 &nbsp;&nbsp;动静分离</h3><p>静态数据缓存在 CDN 上，或者只是通过 nginx 代理，而不走程序处理。<br>CDN：用户的请求并不会直接落到 ICP (ICP备案的企业的数据中心)，而是请求到离用户最近的 ISP（互联网服务提供商）上，因此可以大幅提升系统整体的响应速度，CDN 是一种廉价的加速方式。</p>
+<h3 id="4-3-nbsp-nbsp-缓存"><a href="#4-3-nbsp-nbsp-缓存" class="headerlink" title="4.3 &nbsp;&nbsp;缓存"></a>4.3 &nbsp;&nbsp;缓存</h3><p>读请求尽量在缓存中命中</p>
+<h3 id="4-4-nbsp-nbsp-消峰和限流"><a href="#4-4-nbsp-nbsp-消峰和限流" class="headerlink" title="4.4 &nbsp;&nbsp;消峰和限流"></a>4.4 &nbsp;&nbsp;消峰和限流</h3><ol>
+<li><p>消峰不是通过技术手段而是通过在业务上做调整，本质上就是降低高并发，比如活动分时间段进行，通过答题验证等。12306 都在这方面做了处理，比如去程是早上9点抢，回程是下午14点抢，并加了复杂验证码过滤掉一部分用户。</p>
+</li>
+<li><p>限速节流限定服务在固定的时间内只处理一定数量的请求，确保系统有足够的能力优雅地处理其他请求，可避免峰值流量导致系统崩溃，与第三方系统集成时可以提供安全保障。好比高峰期地铁站的流量管理，排队进站。限流第一保证满负荷运行，第二保证有序运行。数据库的写服务一般就要进行限流控制负载压力。限流的方案：</p>
+</li>
+</ol>
+<ul>
+<li>计数器算法：比如池化技术（数据库连接池、redis连接池、线程池、对象池等），长连接和控制并发环境下的连接数使得流量在能够承载的最大上限内，保证系统不被击垮。</li>
+<li>令牌桶算法：桶的容量固定不变，控制均衡流入量，放开流出量；nginx 限流就是采用此方式。</li>
+<li>漏桶算法：桶的容量固定不变，控制均衡流出量，放开流入量，和令牌桶算法相反。原理上只要保证一个方向是均衡的即可。</li>
+</ul>
+<h3 id="4-5-nbsp-nbsp-超时、重试和熔断"><a href="#4-5-nbsp-nbsp-超时、重试和熔断" class="headerlink" title="4.5 &nbsp;&nbsp;超时、重试和熔断"></a>4.5 &nbsp;&nbsp;超时、重试和熔断</h3><ol>
+<li>超时（Timeout）使得如果访问下游服务缓慢或失败时，上游服务应快速失败而不是无限或者长时间等待，以此避免级联故障，隔离故障范围。</li>
+<li>重试（Retry）有效地解决访问服务时发生的间隙性故障，有助于减少服务恢复时间。</li>
+<li>熔断（Circuit Breaker）机制避免将请求继续发送给已经失败或者不健康的下游服务处理，而是等待它们恢复，避免级联故障。</li>
+</ol>
+<p><strong>参考文献</strong><br>[1] Susan J. Fowler. Microservices in Production. 版次：2016年09月第1版<br>[2] 张亮 吴晟 敖小剑 宋净超. 未来架构 | 从服务化到云原生. 版次：2019年4月第1版<br>[3] Robert C.Martin, 孙宇聪（译）. 架构整洁之道. 2018年9月第1版<br>[4] 高翔龙. 人人都是架构师 分布式系统架构落地与瓶颈突破 版次：2017年5月第1版<br>[5] 微服务 <a href="https://www.cnblogs.com/liuning8023/p/4493156.html" target="_blank" rel="noopener">https://www.cnblogs.com/liuning8023/p/4493156.html</a> 原文作者：Martin Fowler（马丁·福勒）<br>[6] 聊聊分布式事务，再说说解决方案 <a href="https://www.cnblogs.com/savorboard/p/distributed-system-transaction-consistency.html" target="_blank" rel="noopener">https://www.cnblogs.com/savorboard/p/distributed-system-transaction-consistency.html</a> 杨晓东 2017-10-17<br>[7] 分布式事务 CAP 理解论证 解决方案 <a href="https://blog.csdn.net/weixin_40533111/article/details/85069536" target="_blank" rel="noopener">https://blog.csdn.net/weixin_40533111/article/details/85069536</a> 小太阳 2018年12月28日<br>[8] 事务隔离级别浅析 <a href="http://geyifan.cn/2016/07/17/talk-about-transaction/" target="_blank" rel="noopener">http://geyifan.cn/2016/07/17/talk-about-transaction/</a>  葛一凡 2016-07-17<br>[9] 微服务并非Spring Cloud和Dubbo，下一代微服务是什么？<a href="https://cloud.tencent.com/info/71a0b4783039214f7f633b3c5269451f.html" target="_blank" rel="noopener">https://cloud.tencent.com/info/71a0b4783039214f7f633b3c5269451f.html</a><br>[10] Spring Cloud 微服务架构学习笔记与示例 <a href="http://www.likecs.com/default/index/show?id=32356" target="_blank" rel="noopener">http://www.likecs.com/default/index/show?id=32356</a><br>[11] 当我们在说微服务治理的时候究竟在说什么 <a href="https://www.jianshu.com/p/dd818114ab4b" target="_blank" rel="noopener">https://www.jianshu.com/p/dd818114ab4b</a><br>[12] 后 Kubernetes 时代的微服务 <a href="https://www.infoq.cn/article/microservices-post-kubernetes" target="_blank" rel="noopener">https://www.infoq.cn/article/microservices-post-kubernetes</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/云原生/">云原生</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/并发/">并发</a>, <a href="/tags/云原生/">云原生</a>, <a href="/tags/架构/">架构</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:blog.jemper.cn">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/C/">C</a><small>1</small></li>
+  
+    <li><a href="/categories/DevOps/">DevOps</a><small>3</small></li>
+  
+    <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
+  
+    <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
+  
+    <li><a href="/categories/HTTP/">HTTP</a><small>5</small></li>
+  
+    <li><a href="/categories/云原生/">云原生</a><small>5</small></li>
+  
+    <li><a href="/categories/日记/">日记</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/DevOps/" style="font-size: 14px;">DevOps</a> <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 14px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 16px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/io/" style="font-size: 12px;">io</a> <a href="/tags/云原生/" style="font-size: 18px;">云原生</a> <a href="/tags/协议/" style="font-size: 14px;">协议</a> <a href="/tags/容器/" style="font-size: 14px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 14px;">工具</a> <a href="/tags/并发/" style="font-size: 12px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Sven
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'wpxun';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

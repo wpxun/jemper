@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>go context 包 | 在路上</title>
+  <title>Istio 基础 | 在路上</title>
   <meta name="author" content="Sven">
   
   <meta name="description" content="让大家读得懂的知识才是真知识">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="go context 包"/>
+  <meta property="og:title" content="Istio 基础"/>
   <meta property="og:site_name" content="在路上"/>
 
   
@@ -53,11 +53,11 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2019-03-08T07:03:00.000Z"><a href="/2019/03/08/go-context/">2019-03-08</a></time>
+        <time datetime="2019-05-29T16:33:00.000Z"><a href="/2019/05/30/istio/">2019-05-30</a></time>
       
       
   
-    <h1 class="title">go context 包</h1>
+    <h1 class="title">Istio 基础</h1>
   
 
     </header>
@@ -65,33 +65,31 @@
       
         
 			<div id="toc" class="toc-article">
-				<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-nbsp-nbsp-Context-接口"><span class="toc-text">1.1   Context 接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-nbsp-nbsp-四个重要的类型"><span class="toc-text">1.2   四个重要的类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-nbsp-nbsp-重要的内部函数"><span class="toc-text">1.3   重要的内部函数</span></a></li></ol>
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-为什么需要-Service-Mesh"><span class="toc-text">1   为什么需要 Service Mesh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-安装"><span class="toc-text">2   安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-快速安装"><span class="toc-text">2.1   快速安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-Helm"><span class="toc-text">2.2   Helm</span></a></li></ol></li></ol>
 			</div>
 		
-        <p>整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。</p>
-<h4 id="1-1-nbsp-nbsp-Context-接口"><a href="#1-1-nbsp-nbsp-Context-接口" class="headerlink" title="1.1 &nbsp;&nbsp;Context 接口"></a>1.1 &nbsp;&nbsp;Context 接口</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type Context interface &#123;</span><br><span class="line">	// 取消树和过期时间的实现</span><br><span class="line">	Deadline() (deadline time.Time, ok bool) // 过期时间点</span><br><span class="line">	Done() &lt;-chan struct&#123;&#125; // 过期或者手动取消时关闭通道</span><br><span class="line">	Err() error // 可以判断是过期还是手动取消</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// 键值对的实现，valueCtx类型真正实现</span><br><span class="line">	Value(key interface&#123;&#125;) interface&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>从这点可以看出，Context 库设计的目的：<br>(1) 退出通知机制<br>(2) 传递数据</p>
-<h4 id="1-2-nbsp-nbsp-四个重要的类型"><a href="#1-2-nbsp-nbsp-四个重要的类型" class="headerlink" title="1.2 &nbsp;&nbsp;四个重要的类型"></a>1.2 &nbsp;&nbsp;四个重要的类型</h4><ul>
-<li>emptyCtx 类型：无实际作用的 int 型，这是最原始的 Context 接口实现；</li>
-<li>cancelCtx 类型：Context + 取消树（这里的“取消树”是一个完整的名词，“取消树”上的键是 canceler 类型，说明它可能是 cancelCtx，也可能是 timerCtx）；</li>
-<li>timerCtx 类型：cancelCtx + 过期时间；在上下级的超时时间中，下级超时时间一定要比上级早，否则即使用 WithDeadline() 创造出来的也是 cancelCtx，这还是很容易理解的。有一个 timer 属性，是用于提前取消定时，即调用 Stop() 方法；</li>
-<li>valueCtx 类型：Context + 键值对。</li>
-</ul>
-<p>实例化上述四个类型的API函数：</p>
+        <p>我选择 Istio 而非 Service Mesh 鼻祖 Linkerd 的原因是有大牌厂商支持、社区生态圈优势、重点支持 Kubernetes。<br><a id="more"></a></p>
+<h2 id="1-nbsp-nbsp-为什么需要-Service-Mesh"><a href="#1-nbsp-nbsp-为什么需要-Service-Mesh" class="headerlink" title="1 &nbsp;&nbsp;为什么需要 Service Mesh"></a>1 &nbsp;&nbsp;为什么需要 Service Mesh</h2><p>有了 Kubernetes 的 Service，为什么还需要 Service Mesh ？相信这是初学者最大的疑问。</p>
+<p>微服务架构解决了单体应用的很多老问题，但同时也带来了一些新问题：</p>
 <ul>
-<li>Background()、TODO()：构造 emptyCtx；</li>
-<li>WithCancel()：构造 cancelCtx；</li>
-<li>WithDeadline()、WithTimeout()：构造 timerCtx；一个是时间点，一个是时间段，时间段会转化为时间点；定时用了 time.AfterFunc 函数，返回值存储在 timer 属性；</li>
-<li>WithValue()：构造valueCtx。</li>
+<li>对部署和运维的自动化要求更高</li>
+<li>对网络这一不可靠的基础设施依赖增强</li>
+<li>调用链路变长</li>
+<li>日志分散，跟踪和分析难度加大</li>
+<li>服务分散，受攻击面积更广</li>
+<li>跨服务控制协调能力要求更高</li>
+<li>自动伸缩、路由管理、存储共享等</li>
 </ul>
-<p>在实例化中，有两条主线：<br>(1) 第一条线是context，上面四个类型是一个衔接一个。后期由 removeChild() 负责找到父节点并从其 children 移除该节点。所以其特点就是向上追溯父节点。<br>Background(a框) &gt; WithCancel(b框) &gt; WithTimeout(c框，超时3秒) &gt; WithTimeout(d框，超时6秒) &gt; WithValue(e框)；需要注意一点的是 d 框不是 timerCtx，因为其超时比父晚，所以会直接生成 cancelCtx。<br><img src="http://img.jemper.cn/2019/03/context%E9%93%BE.png?imageView2/2/w/300" alt="context 链"><br>(2) 第二条线是 children，只有 cancelCtx 和 timerCtx 能串成链，如果上级不是这两个类型，再继续向上上级找，直到找到才挂靠。由 propagateCancel() 和 parentCancelCtx() 这两个函数负责该逻辑。所以其特点是就向下一级一级取消子节点。</p>
-<h4 id="1-3-nbsp-nbsp-重要的内部函数"><a href="#1-3-nbsp-nbsp-重要的内部函数" class="headerlink" title="1.3 &nbsp;&nbsp;重要的内部函数"></a>1.3 &nbsp;&nbsp;重要的内部函数</h4><ul>
-<li>cancel()：无论是超时还是手动取消都会调用，DeadlineExceeded 和 Canceled 分别是超时取消和动手取消；<br>(1) cancelCtx 的 cancel()：关闭 done 通道，cancel “取消树”上的节点（也就是取消所有子节点），判断要不要从父节点上移除；<br>(2) timerCtx 的 cancel()：会先调用 cancelCtx 的 cancel(false, err)，判断要不要从父节点上移除，最后 c.timer.Stop()，这也是建议无论是否设置超时都习惯性调用 defer cancel()，否则 c.timer 计时器到时之前不会被回收。</li>
-<li>propagateCancel()：“取消树”的繁衍，或者是“构造”也可以；</li>
-<li>parentCancelCtx()：propagateCancel()调用时会调用到该函数；从当前节点往上查找到最近的父级 cancelCtx 节点，并作为子节点挂靠在其下面。</li>
-<li>removeChild()：从父节点上移除；cancel 是自上而下的，当前的节点 cancel 了，那么其所有子节点也要 cancel，但父节点按原先的逻辑走；先从父节点上移除，等父节点 cancel 的时候就不用再去 cancel 那个已经 cancel 掉的子节点了。</li>
-</ul>
+<p>为了解决微服务架构产生的一些问题，以 Kubernetes 为代表的容器云系统出现了。这类容器云系统以容器技术为基础，在进程级别为微服务提供了一致的部署、调度、伸缩、监控、日志等功能。<br>然而，除了进程本身的问题，微服务之间的通信和联系更加复杂，其中的观测、控制和服务质量保障等都成为微服务方案的短板，因此随着 Kubernetes 成为事实标准，Service Mesh 顺势登场。</p>
+<p>一言蔽之：就是单体应用问题很多，用微服务架构来解决，但微服务架构实施部署难度加大，借助 Kubernetes 实现了，尔后发现 Kubernetes 只是解决了大部分问题，还有遗留的问题，于是第三方（Buoyant 公司，也就是 Linkerd 的开发商）在新的层次里（Kubernetes 层次外，也就是 Service Mesh）间接地解决。</p>
+<p><img src="http://img.jemper.cn/2019/05/istio_architecture.svg" alt="Istio Architecture from https://istio.io/docs/concepts/what-is-istio/"></p>
+<h2 id="2-nbsp-nbsp-安装"><a href="#2-nbsp-nbsp-安装" class="headerlink" title="2 &nbsp;&nbsp;安装"></a>2 &nbsp;&nbsp;安装</h2><p>Helm 是目前 <a href="https://istio.io/docs/setup/kubernetes/install/" target="_blank" rel="noopener">Istio 官方推荐的安装方式</a>，不过功能性学习时可以选择快速安装</p>
+<h3 id="2-1-nbsp-nbsp-快速安装"><a href="#2-1-nbsp-nbsp-快速安装" class="headerlink" title="2.1 &nbsp;&nbsp;快速安装"></a>2.1 &nbsp;&nbsp;快速安装</h3><ol>
+<li>安装 Istio 定义的资源  Custom Resource Definitions (CRDs)<br><code>for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done</code></li>
+<li>安装 Istio<br><code>kubectl apply -f install/kubernetes/istio-demo.yaml</code></li>
+</ol>
+<h3 id="2-2-nbsp-nbsp-Helm"><a href="#2-2-nbsp-nbsp-Helm" class="headerlink" title="2.2 &nbsp;&nbsp;Helm"></a>2.2 &nbsp;&nbsp;Helm</h3><p><br><br><br></p>
+<p> <strong>参考文献</strong><br>[1] 崔秀龙. 深入浅出 Istio | Service Mesh 快速入门与实践. 版次：2019年3月第1版<br>[2] 杨章显. Service Mesh 实战 | 基于 Linkerd 和 Kubernetes 的微服务实践. 版次：2019年1月第1版</p>
 
       
     </div>
@@ -100,13 +98,13 @@
         
   
   <div class="categories">
-    <a href="/categories/Golang/">Golang</a>
+    <a href="/categories/云原生/">云原生</a>
   </div>
 
         
   
   <div class="tags">
-    <a href="/tags/Golang/">Golang</a>, <a href="/tags/Go包/">Go包</a>
+    <a href="/tags/Kubernetes/">Kubernetes</a>, <a href="/tags/云原生/">云原生</a>
   </div>
 
         
