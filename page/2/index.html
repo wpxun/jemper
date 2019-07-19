@@ -54,6 +54,125 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2019-04-26T09:58:00.000Z"><a href="/2019/04/26/docker-stack/">2019-04-26</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/04/26/docker-stack/">Docker Stack 多服务</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>我们从简到繁看一下 Docker 的学习路线：</p>
+<ul>
+<li>docker run：Single Engine(者称 Single-Host，单 Docker 节点)下单服务运行</li>
+<li>docker-compose：Single Engine(或者称 Single-Host，单 Docker 节点)下多服务编排</li>
+<li>docker swarm：Multi-Host(多 Docker 节点，集群)下单服务编排</li>
+<li>docker stack：Multi-Host(多 Docker 节点，集群)下多服务编排</li>
+</ul>
+<p>可以看到 docker stack 其实就是 docker-compose 多应用和 docker swarm 规模化两者的结合。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/04/26/docker-stack/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-04-16T09:38:00.000Z"><a href="/2019/04/16/docker-swarm-mode/">2019-04-16</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/04/16/docker-swarm-mode/">Docker Swarm 集群</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>概括来说，Swarm 有两个核心组件：</p>
+<ul>
+<li>企业级的 Docker 安全集群</li>
+<li>微服务应用编排引擎
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/04/16/docker-swarm-mode/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-04-15T09:00:14.000Z"><a href="/2019/04/15/docker-single-engine-mode/">2019-04-15</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/04/15/docker-single-engine-mode/">Dockerfile 应用容器化及 Compose 部署应用</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>将应用整合到容器中并且运行起来的这个过程，或者把应用打包成为一个镜像的过程，称为<strong>容器化</strong>，有时也叫作“Docker 化”。容器化核心就是创建镜像，创建镜像有两种方式，一种是 commit 容器，还有一种是使用 Dockerfile 快速创建自定义镜像。</p>
+<p>docker compose 能够在 Docker 节点上，以<strong>单引擎模式(Single-Engine Mode)</strong>进行多容器应用的部署和管理。它区别于 Swarm 和 Kubernetes 可以进行多引擎多容器应用部署(在 docker 中叫 swarm mode，Compose does not use swarm mode to deploy services to multiple nodes in a swarm)。compose 和 Kubernetes 其适用范围不同，所以不适合作对比。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/04/15/docker-single-engine-mode/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2019-04-13T09:00:14.000Z"><a href="/2019/04/13/docker-engine/">2019-04-13</a></time>
       
       
@@ -311,114 +430,6 @@
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-03-21T09:29:00.000Z"><a href="/2019/03/21/cryptology/">2019-03-21</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/03/21/cryptology/">密码学</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学算法（语言支持的加密算法函数）。学习密码学有利于分析安全工具其背后的密码学原理，比如数字证书、SSH、AES的密码原理等。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2019/03/21/cryptology/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-03-14T03:10:00.000Z"><a href="/2019/03/14/go-concurrency-difficult/">2019-03-14</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/03/14/go-concurrency-difficult/">并发的复杂性</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>本文谈到的并发是指单程序、单节点并发，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一般可以同时在不同的硬件环境上运行。分布式系统可以看我另一篇文章<a href="/2019/03/17/microservice-architecture-difficult/">《微服务架构的复杂性》</a>。<br>并发指的是多个任务几乎被同时发起运行，但是在同一时刻这些任务不一定都处于运行状态，这取决于 CPU 核心或者 CPU 数量。并行指的是在同一时刻可以有多个任务真正地同时运行。并行运行的必要条件是多 CPU 核心或者多 CPU 的计算环境。<br>在功能开发中，非并发程序往往未能充分利用服务器的性能，为用户提供服务基本都是排队处理。而并发程序有时可以代替集群，其性能提高对整个系统是至关重要的作用，如果我们将单个节点的性能提高 30%，或者甚至超过 100%，那么我们可以节省多少台机器呢？不过同时并发却带来了编程的复杂性。不同程序单元之间的远程过程调用可以参考另一篇文章<a href="/2019/03/12/go-network/">《go 网络编程》</a>。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2019/03/14/go-concurrency-difficult/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-03-13T06:55:00.000Z"><a href="/2019/03/13/go-io/">2019-03-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/03/13/go-io/">go I/O 操作</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>理解 I/O 的一些概念问题可以先看另一篇文章<a href="/2019/03/11/c-socket/">《C Socket 编程》</a><br>Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2019/03/13/go-io/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
@@ -452,7 +463,7 @@
   
     <li><a href="/categories/HTTP/">HTTP</a><small>5</small></li>
   
-    <li><a href="/categories/云原生/">云原生</a><small>5</small></li>
+    <li><a href="/categories/云原生/">云原生</a><small>8</small></li>
   
     <li><a href="/categories/日记/">日记</a><small>2</small></li>
   
@@ -464,7 +475,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12.5px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Socket/" style="font-size: 12.5px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 15px;">TLS</a> <a href="/tags/io/" style="font-size: 12.5px;">io</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/容器/" style="font-size: 15px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/并发/" style="font-size: 12.5px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 18px;">Docker</a> <a href="/tags/Golang/" style="font-size: 16px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 14px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 14px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/io/" style="font-size: 12px;">io</a> <a href="/tags/协议/" style="font-size: 14px;">协议</a> <a href="/tags/容器/" style="font-size: 14px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 14px;">工具</a> <a href="/tags/并发/" style="font-size: 12px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 

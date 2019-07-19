@@ -73,7 +73,7 @@
 <p>一些英文缩写简称容易混淆，比如 MAC 有物理层的物理地址、数据链路层的介质访问控制、密码学的消息验证码、macOS苹果操作系统等，为了避免歧义，尽量要指明。</p>
 <ol>
 <li><p>数据链路层 物理地址<br>每个网卡都有全球唯一的物理地址，路由器向同一个局域网的所有主机发送收到的数据包，本地的网卡比较一下包里指明的物理地址和自己的物理地址是否一致，如果一致则接收，否则丢弃。所以可以在局域网监听发给其它人的数据包，当然也有一些反监听手段。<br>物理地址由 6 字节表示，其中前三个字节由 IEEE 分配给厂商，后三个字节由厂商自己定。比如 XiaomiCo_9f:cb:9e (d8:ce:3a:9f:cb:9e)、Apple_b3:e2:83 (f4:5c:89:b3:e2:83)，厂商分配的物理地址段可以到 <a href="https://standards.ieee.org/products-services/regauth/index.html" target="_blank" rel="noopener">IEEE-SA - Registration Authority</a> 查询。<br>物理地址前三字节是 IEEE 分配，但最终也是厂商决定，甚至用户在接入后可以自行篡改，所以很难全球唯一，但只要保证在局域网内唯一就可以了，设备在接入局域网的时候路由会检测，并把物理地址和内网 IP 进行绑定。<br>总之，由各个端点向上汇报唯一标识是不行的，得由一个中心机构向下分配唯一标识才能保证真正的唯一性。而外网 IP 就是由上往下分配的。</p>
-<p>物理地址只应用于 Ethernet II（以太网 IEEE 802.3）层，它是一种局域网技术。跨网关需要默认网关转发，所以需要默认网关的物理地址。通过子网掩码计算是否属于不同的网关。</p>
+<p>物理地址只应用于 Ethernet II（以太网 IEEE 802.3）层，它是一种局域网技术（以太网就是使用最广泛的局域网技术）。交换机等二层设备都是局域网内设备，交换机把端口与所连接适配器的物理地址关联起来（MAC 表），实现定点传输，其它适配器就不必查看网络上传输的全部帧。</p>
 </li>
 <li><p>网络层 ARP<br>ARP（IP -&gt; 物理地址） 和 RARP（物理地址 -&gt; IP） 是地址解析协议，用于内网 IP 和物理地址的相互转换。ARP 是向局域网广播查询方式，RARP 是用查表方式。<br>可以通过 arp -an 查看计算机上的 arp 表。</p>
 </li>
@@ -83,7 +83,15 @@
 <p><img src="http://img.jemper.cn/2019/04/traceroute.png?imageView2/2/w/600" alt="深圳联通到北京联通 百度官网经过的路由"><br><a href="http://img.jemper.cn/2019/04/traceroute.pcapng" target="_blank" rel="noopener">traceroute 抓包</a></p>
 <p>TTL（time to live）是报文的生存时间，单位是秒（处理时间不到一秒算一秒，以现在的计算数度可以认为一秒等于一跳）,用于防止回环，位于 IP 报文的第 9 个字节，8bit，TTL的最大值是255，TTL的一个推荐值是 64；DNS TTL 是一条域名解析记录在DNS服务器上缓存时间。本质上都是表示存活时间。IPv6 首部采用了跳数限制，不再使用 TTL。</p>
 <ol start="4">
-<li>网络层 ping<br>ping 是向目的 IP 发送 ICMP 报文，目的主机返回 ICMP 报文，打印列里有 ttl，就是返回时 TTL 减去经过的路由数剩下值，比如 49，那发出时 TTL 应该是 64，经过 15 跳（经过 15 个路由器）；比如 217，那发出时 TTL 应该是 255，经过 38 跳。</li>
+<li><p>网络层 ping<br>ping 是向目的 IP 发送 ICMP 报文，目的主机返回 ICMP 报文，打印列里有 ttl，就是返回时 TTL 减去经过的路由数剩下值，比如 49，那发出时 TTL 应该是 64，经过 15 跳（经过 15 个路由器）；比如 217，那发出时 TTL 应该是 255，经过 38 跳。</p>
+</li>
+<li><p>网络地址转换 NAT<br>如果 DHCP 服务器为客户端提供了一个 IP 地址，那么这个地址可能不是一个“公共的”、在 Internet 上唯一的 IP 地址。只要路由器自己具有在 Internet 上有效的 IP 地址，那么路由器就可以成为网络客户端的代理，从客户端接收请求，向 Internet 地址空间转发这个请求，进而接收来自于 Internet 地址空间的响应。许多路由器/DHCP 设备都可以提供 NAT 服务。NAT 设备从私有地址（10.0.0.0、172.16.0.0、192.168.0.0）来分配 IP 地址。这些地址一般意义上是不可路由的，只能通过地址转换来达到 NAT 客户端计算机。</p>
+<p>跨网关需要默认网关转发（主机和路由器都有路由表），所以需要默认网关的物理地址。通过子网掩码计算是否属于不同的网关。对于本地网段上的主机来说，路由器的IP地址一般都是默认网关的地址。<br>对于转发，要区分路由和 NAT：</p>
+<ul>
+<li>NAT 地址转换，要区别接收和发送：1. 发送时目的 IP 不变，源 IP 改变；2. 接收时源 IP 不变，目的 IP 改变；</li>
+<li>路由，则目的 IP 和源 IP 都不会改变。<br>当然 MAC 地址都是会改变的。</li>
+</ul>
+</li>
 </ol>
 <h2 id="2-nbsp-nbsp-物理设备"><a href="#2-nbsp-nbsp-物理设备" class="headerlink" title="2 &nbsp;&nbsp;物理设备"></a>2 &nbsp;&nbsp;物理设备</h2><p>一个设备工作在哪一层，关键看它工作时利用哪一层的数据头部信息。网桥工作时，是以介质访问控制（MAC） 头部来决定转发端口的，因此显然它是数据链路层的设备。具体说:</p>
 <ul>
@@ -190,7 +198,7 @@
   
     <li><a href="/categories/HTTP/">HTTP</a><small>5</small></li>
   
-    <li><a href="/categories/云原生/">云原生</a><small>5</small></li>
+    <li><a href="/categories/云原生/">云原生</a><small>8</small></li>
   
     <li><a href="/categories/日记/">日记</a><small>2</small></li>
   
@@ -202,7 +210,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12.5px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Socket/" style="font-size: 12.5px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 15px;">TLS</a> <a href="/tags/io/" style="font-size: 12.5px;">io</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/容器/" style="font-size: 15px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/并发/" style="font-size: 12.5px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 18px;">Docker</a> <a href="/tags/Golang/" style="font-size: 16px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 14px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 14px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/io/" style="font-size: 12px;">io</a> <a href="/tags/协议/" style="font-size: 14px;">协议</a> <a href="/tags/容器/" style="font-size: 14px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 14px;">工具</a> <a href="/tags/并发/" style="font-size: 12px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 
