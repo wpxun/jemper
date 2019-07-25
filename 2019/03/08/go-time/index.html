@@ -91,8 +91,8 @@
 <li><strong>定时相关的接口和函数</strong></li>
 </ol>
 <ul>
-<li>Timer 接口，包含有 NewTimer()、Stop() 方法，包含的函数有 After()，返回通道（阻塞），所以无法提前停止；AfterFunc() ，返回 Timer，后期可以用 Stop() 提前停止；当然 NewTimer() 也是返回 Timer，故也可以提前停止；</li>
-<li>Ticker 接口，也是包含有 NewTicker()、Stop() 方法，包含有函数有 Tick()，返回通道（阻塞），无法提前停止，如果需要提前停止，只能调用 NewTicker()。</li>
+<li>Timer 接口，包含有 Stop()、Reset() 方法，包含的函数有 After()，返回通道（阻塞），所以无法提前停止；AfterFunc() ，返回 Timer，后期可以用 Stop() 提前停止；还有 NewTimer() 函数也是返回 Timer，故也可以提前停止；</li>
+<li>Ticker 接口，也是包含有 Stop() 方法，包含有函数有 Tick() 和 NewTicker()，前者返回通道（阻塞），无法提前停止，如果需要提前停止，只能调用后者，因为它返回 Ticker。</li>
 </ul>
 <ol start="3">
 <li><p><strong>时间段</strong>的操作比较简单，暂不举例。</p>
