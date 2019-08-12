@@ -391,7 +391,7 @@
 <p>其中 H 为 1 表示采用静态Huffman码，为 0 表示采用直接地编码。</p>
 <h4 id="5-1-2-nbsp-nbsp-静态Huffman码"><a href="#5-1-2-nbsp-nbsp-静态Huffman码" class="headerlink" title="5.1.2 &nbsp;&nbsp;静态Huffman码"></a>5.1.2 &nbsp;&nbsp;静态Huffman码</h4><p>静态Huffman码本质上是一个查表的编码（<a href="https://httpwg.org/specs/rfc7541.html#huffman.code" target="_blank" rel="noopener">静态Huffman码表</a>）(其实 ASCII 也是一个查表编码)。原理就是一个对字符使用概率的重新编码，常规一个字符是用8位表示，但 Huffman 常用的字符采用5位、6位等表示。大概估算一般能够缩短1/3的长度（比如 9 个字符常规是 9*8 = 72 位表示，采用 Huffman 后最少可以只用 9*5 = 45 位表示，尾部填充后最少是 6 个字符的长度，少了 3 个字符）。</p>
 <h3 id="5-2-nbsp-nbsp-索引表"><a href="#5-2-nbsp-nbsp-索引表" class="headerlink" title="5.2 &nbsp;&nbsp;索引表"></a>5.2 &nbsp;&nbsp;索引表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;----------  Index Address Space ----------&gt;</span><br><span class="line">&lt;-- Static  Table --&gt;  &lt;-- Dynamic Table --&gt;</span><br><span class="line">+---+-----------+---+  +---+-----------+---+</span><br><span class="line">| 1 |    ...    | s |  |s+1|    ...    |s+k|</span><br><span class="line">+---+-----------+---+  +---+-----------+---+</span><br><span class="line">                       ⍋                   |</span><br><span class="line">                       |                   ⍒</span><br><span class="line">                Insertion Point      Dropping Point</span><br></pre></td></tr></table></figure>
-<p>请求端和响应端各维护了两张索引表：静态表和静态表。其中静态表的条数是固定的 s = 61，在所有的编码或解码上下文间共享的一套数据；动态表编号从 62 开始，每个动态表只针对一个连接，每个连接的压缩解压缩的上下文有且仅有一个动态表。</p>
+<p>请求端和响应端各维护了两张索引表：<a href="https://httpwg.org/specs/rfc7541.html#static.table.definition" target="_blank" rel="noopener">静态表</a>和动态表。其中静态表的条数是固定的 s = 61，在所有的编码或解码上下文间共享的一套数据；动态表编号从 62 开始，每个动态表只针对一个连接，每个连接的压缩解压缩的上下文有且仅有一个动态表。</p>
 <h3 id="5-3-nbsp-nbsp-编码解码"><a href="#5-3-nbsp-nbsp-编码解码" class="headerlink" title="5.3 &nbsp;&nbsp;编码解码"></a>5.3 &nbsp;&nbsp;编码解码</h3><p>要理解这部分一定要理解透 5.1.1 节和 5.1.2 节。</p>
 <p>首部压缩最重要的就是实现 Header Field Representation（编码的头部字段）。一个编码的头部字段可由一个索引或一个字面量表示。解码就是反向过程。</p>
 <h4 id="5-3-1-nbsp-nbsp-Indexed-Representation-索引表示"><a href="#5-3-1-nbsp-nbsp-Indexed-Representation-索引表示" class="headerlink" title="5.3.1 &nbsp;&nbsp;Indexed Representation 索引表示"></a>5.3.1 &nbsp;&nbsp;Indexed Representation 索引表示</h4><p>索引的表示法将头部字段定义为对静态表或动态表中条目的引用，<br><strong>这里就是使用了 N = (1)7 实现的。</strong></p>
@@ -407,7 +407,7 @@
 <p>上面三种不同的字面的表示中，只有第一种需要管理动态表（条目插入、条目被逐出）。</p>
 <h4 id="5-3-3-nbsp-nbsp-Dynamic-Table-Size-Update-动态表大小更新"><a href="#5-3-3-nbsp-nbsp-Dynamic-Table-Size-Update-动态表大小更新" class="headerlink" title="5.3.3 &nbsp;&nbsp;Dynamic Table Size Update 动态表大小更新"></a>5.3.3 &nbsp;&nbsp;Dynamic Table Size Update 动态表大小更新</h4><p><strong>这里就是使用了 N = (001)5 实现的。</strong></p>
 <h3 id="5-4-nbsp-nbsp-简单例子"><a href="#5-4-nbsp-nbsp-简单例子" class="headerlink" title="5.4 &nbsp;&nbsp;简单例子"></a>5.4 &nbsp;&nbsp;简单例子</h3><ul>
-<li>:method: GET =&gt; 82, 采用 N = (1)7 索引表示表，Representation: Indexed Header Field；采用了查静态表的方式实现。</li>
+<li>:method: GET =&gt; 82, 采用 N = (1)7 索引表示表，Representation: Indexed Header Field；采用了查静态表的方式实现，即 10000010(0x82)。</li>
 <li>:authority: <a href="http://www.jemper.cn" target="_blank" rel="noopener">www.jemper.cn</a> =&gt; 41 8a f1 e3 c2 fd 0b 4d 65 b1 72 55, 采用 N = (01)6，Representation: Literal Header Field with Incremental Indexing - Indexed Name，看一下 RFC 文档即可找到该表示法：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">  0   1   2   3   4   5   6   7</span><br><span class="line">+---+---+---+---+---+---+---+---+</span><br><span class="line">| 0 | 1 |      Index (6+)       |</span><br><span class="line">+---+---+-----------------------+</span><br><span class="line">| H |     Value Length (7+)     |</span><br><span class="line">+---+---------------------------+</span><br><span class="line">| Value String (Length octets)  |</span><br><span class="line">+-------------------------------+</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -419,7 +419,7 @@
 <li>魔法字节流的 PRI 其实就是美国国家安全局 PRISM（棱镜）监控计划的一个笑话。</li>
 <li>由早期的 HTTP/2.0 改成 HTTP/2 表示不能保证语义向后兼容，也就是不会有 2.1、2.2 之类的版本。</li>
 </ol>
-<p> <strong>参考文献</strong><br>[1] HTTP/2 RFC7540. <a href="https://httpwg.org/specs/rfc7540" target="_blank" rel="noopener">https://httpwg.org/specs/rfc7540</a><br>[2] HPACK RFC7541. <a href="https://httpwg.org/specs/rfc7541" target="_blank" rel="noopener">https://httpwg.org/specs/rfc7541</a><br>[3] HPACK RFC7541 中文文档. <a href="https://www.wolfcstech.com/2016/10/29/hpack-spec/" target="_blank" rel="noopener">https://www.wolfcstech.com/2016/10/29/hpack-spec/</a><br>[4] Stephen Ludin, Javier Garza. HTTP/2 基础教程. 版次：2018年1月第1版<br>[5] 谈谈 HTTP/2 的协议协商机制. <a href="https://imququ.com/post/protocol-negotiation-in-http2.html" target="_blank" rel="noopener">https://imququ.com/post/protocol-negotiation-in-http2.html</a>. Apr 14, 2016<br>[6] HTTP2 详解. <a href="https://blog.wangriyu.wang/2018/05-HTTP2.html" target="_blank" rel="noopener">https://blog.wangriyu.wang/2018/05-HTTP2.html</a> 2018.08.31</p>
+<p> <strong>参考文献</strong><br>[1] HTTP/2 RFC7540. <a href="https://httpwg.org/specs/rfc7540" target="_blank" rel="noopener">https://httpwg.org/specs/rfc7540</a><br>[2] HPACK RFC7541. <a href="https://httpwg.org/specs/rfc7541" target="_blank" rel="noopener">https://httpwg.org/specs/rfc7541</a><br>[3] HPACK RFC7541 中文文档. <a href="https://www.wolfcstech.com/2016/10/29/hpack-spec/" target="_blank" rel="noopener">https://www.wolfcstech.com/2016/10/29/hpack-spec/</a><br>[4] Stephen Ludin, Javier Garza. HTTP/2 基础教程. 版次：2018年1月第1版<br>[5] 谈谈 HTTP/2 的协议协商机制. <a href="https://imququ.com/post/protocol-negotiation-in-http2.html" target="_blank" rel="noopener">https://imququ.com/post/protocol-negotiation-in-http2.html</a>. Apr 14, 2016<br>[6] HTTP2 详解. <a href="https://blog.wangriyu.wang/2018/05-HTTP2.html" target="_blank" rel="noopener">https://blog.wangriyu.wang/2018/05-HTTP2.html</a> 2018.08.31<br>[7] 掌握 HTTP2.0 <a href="http://jartto.wang/2018/03/30/grasp-http2-0/" target="_blank" rel="noopener">http://jartto.wang/2018/03/30/grasp-http2-0/</a></p>
 
       
     </div>
@@ -492,7 +492,7 @@
   
     <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
   
-    <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
+    <li><a href="/categories/Golang/">Golang</a><small>7</small></li>
   
     <li><a href="/categories/HTTP/">HTTP</a><small>5</small></li>
   
@@ -508,7 +508,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 18px;">Docker</a> <a href="/tags/Golang/" style="font-size: 16px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 14px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 14px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/io/" style="font-size: 12px;">io</a> <a href="/tags/协议/" style="font-size: 14px;">协议</a> <a href="/tags/容器/" style="font-size: 14px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 14px;">工具</a> <a href="/tags/并发/" style="font-size: 12px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/Golang/" style="font-size: 17.5px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12.5px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 15px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12.5px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 15px;">TLS</a> <a href="/tags/io/" style="font-size: 12.5px;">io</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/容器/" style="font-size: 15px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/并发/" style="font-size: 12.5px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 

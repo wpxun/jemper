@@ -54,6 +54,45 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2019-08-06T08:44:00.000Z"><a href="/2019/08/06/go-log/">2019-08-06</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/08/06/go-log/">go log 包</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="1-nbsp-nbsp-错误相关的概念"><a href="#1-nbsp-nbsp-错误相关的概念" class="headerlink" title="1 &nbsp;&nbsp;错误相关的概念"></a>1 &nbsp;&nbsp;错误相关的概念</h2><ul>
+<li><strong>编译错误</strong>：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈溢出等等。是大意疏忽。</li>
+<li><strong>运行错误</strong>：run的时候才报错，由于程序设计思路的错误导致程序异常或难以得到预期的效果。运行错误可以是预期的，也可以是不可预期的，对于可预期的不要用 panic，panic 恐慌机制是意料之外，如果不恢复（recover）就会导致宕机。<strong>宕机（panic）</strong>不是一件很好的事情，可能造成体验停止、服务中断，就像没有人希望在取钱时遇到 ATM 机蓝屏一样。但是，如果在损失发生时，程序没有因为宕机而停止，那么用户将会付出更大的代价，这种代价可以是金钱、时间甚至生命。因此宕机有时是一种合理的止损方法。</li>
+<li><strong>error错误</strong>：错误是业务过程的一部分，而异常不是。错误是可预期的结果，error错误机制是意料之中。
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/08/06/go-log/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2019-06-26T09:00:00.000Z"><a href="/2019/06/26/istio-traffic-management/">2019-06-26</a></time>
       
       
@@ -372,42 +411,6 @@
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-04-27T02:04:00.000Z"><a href="/2019/04/27/vagrant/">2019-04-27</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/04/27/vagrant/">Vagrant 虚拟机管理</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>个人操作系统并不需要配置化，但随着开发人员的复杂化，每个开发人员都需要同样的主机系统以保证开发环境的可移植性；另外一方面，随着微服务的推广需要多主机节点管理，重复性的指令配置消耗大量时间且容易出错，于是出现了多主机配置化，可以用现在流行的说法“基础设施即代码”，Infrastructure as code (IaC)，例如 docker machine、vagrant，本文将讲解 vagrant 的使用，并安装 Kubernetes 集群进行实战。</p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2019/04/27/vagrant/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
@@ -435,7 +438,7 @@
   
     <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
   
-    <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
+    <li><a href="/categories/Golang/">Golang</a><small>7</small></li>
   
     <li><a href="/categories/HTTP/">HTTP</a><small>5</small></li>
   
@@ -451,7 +454,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 18px;">Docker</a> <a href="/tags/Golang/" style="font-size: 16px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 14px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 14px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/io/" style="font-size: 12px;">io</a> <a href="/tags/协议/" style="font-size: 14px;">协议</a> <a href="/tags/容器/" style="font-size: 14px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 14px;">工具</a> <a href="/tags/并发/" style="font-size: 12px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/Golang/" style="font-size: 17.5px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12.5px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 15px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12.5px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 15px;">TLS</a> <a href="/tags/io/" style="font-size: 12.5px;">io</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/容器/" style="font-size: 15px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/并发/" style="font-size: 12.5px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 

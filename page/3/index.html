@@ -54,6 +54,42 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2019-03-24T09:55:00.000Z"><a href="/2019/03/24/tls/">2019-03-24</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/24/tls/">SSL/TLS 协议</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>SSL/TLS 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firefox、Chrome、Safari、Opera、IE、Edge）已共同宣布，他们只支持实现基于 TLS 的 HTTP/2，也就是说加密将是下一代协议的强制事实标准。</p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/24/tls/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2019-03-21T09:29:00.000Z"><a href="/2019/03/21/cryptology/">2019-03-21</a></time>
       
       
@@ -360,55 +396,21 @@
     </header>
     <div class="entry">
       
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-Go-Conversions"><span class="toc-text">1   Go Conversions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-类型断言"><span class="toc-text">1   类型断言</span></a></li></ol>
+			</div>
+		
         <p>Go Conversions 和 类型断言是两种类型转换方式。</p>
-<h3 id="错误相关的概念"><a href="#错误相关的概念" class="headerlink" title="错误相关的概念"></a>错误相关的概念</h3><ul>
-<li><strong>编译错误</strong>：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈溢出等等。是大意疏忽。</li>
-<li><strong>运行错误</strong>：run的时候才报错，由于程序设计思路的错误导致程序异常或难以得到预期的效果。运行错误可以是预期的，也可以是不可预期的，对于可预期的不要用 panic，panic 恐慌机制是意料之外，如果不恢复（recover）就会导致宕机。<strong>宕机（panic）</strong>不是一件很好的事情，可能造成体验停止、服务中断，就像没有人希望在取钱时遇到 ATM 机蓝屏一样。但是，如果在损失发生时，程序没有因为宕机而停止，那么用户将会付出更大的代价，这种代价可以是金钱、时间甚至生命。因此宕机有时是一种合理的止损方法。</li>
-<li><strong>error错误</strong>：错误是业务过程的一部分，而异常不是。错误是可预期的结果，error错误机制是意料之中。
+<h2 id="1-nbsp-nbsp-Go-Conversions"><a href="#1-nbsp-nbsp-Go-Conversions" class="headerlink" title="1 &nbsp;&nbsp;Go Conversions"></a>1 &nbsp;&nbsp;Go Conversions</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*Point(p)        // same as *(Point(p))</span><br><span class="line">(*Point)(p)      // p is converted to *Point</span><br><span class="line">&lt;-chan int(c)    // same as &lt;-(chan int(c))</span><br><span class="line">(&lt;-chan int)(c)  // c is converted to &lt;-chan int</span><br><span class="line">func()(x)        // function signature func() x</span><br><span class="line">(func())(x)      // x is converted to func()</span><br><span class="line">(func() int)(x)  // x is converted to func() int</span><br><span class="line">func() int(x)    // x is converted to func() int (unambiguous)</span><br></pre></td></tr></table></figure>
+<h2 id="1-nbsp-nbsp-类型断言"><a href="#1-nbsp-nbsp-类型断言" class="headerlink" title="1 &nbsp;&nbsp;类型断言"></a>1 &nbsp;&nbsp;类型断言</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type (</span><br><span class="line">	Bar interface &#123;</span><br><span class="line">		Bar()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	Foobar interface &#123;</span><br><span class="line">		Bar()</span><br><span class="line">		Foo()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fbStr string</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func (fbStr)Foo()  &#123;&#125;</span><br><span class="line">func (fbStr)Bar()  &#123;&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	var test fbStr = &quot;test&quot;</span><br><span class="line">	var a Bar = test  //这里可以隐式转换</span><br><span class="line">	var b Foobar</span><br><span class="line">	b = a.(Foobar)	//这里不是子集，变量需要断言，也可以 b = a.(fbStr)</span><br><span class="line"></span><br><span class="line">	var a2 Foobar = test</span><br><span class="line">	var b2 Bar</span><br><span class="line">	b2 = a2	//这里 Bar 是 Foobar 的子集，不需要断言</span><br><span class="line"></span><br><span class="line">	fmt.Println(b, b2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译时会检查当前变量所属<strong>类型</strong>的方法，如果是子集或相同就可以隐式转换<br>运行时会检查当前<strong>变量</strong>的方法，如果是子集或相同就可以断言转换<br>总结：可以用类型判断转换的，就可以隐式转换；只能用变量判断转换的，就不可以隐式转换。  </p>
+<p>断言还可以断言空方法的接口（比如 interface{}）为简单类型，或者直接用类型转换实现而不用断言<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var kn interface&#123;&#125; = &quot;test&quot;</span><br><span class="line">tkn := kn.(string)</span><br><span class="line">fmt.Println(tkn)</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     <footer>
       
-        
-          <div class="alignleft">
-            <a href="/2018/08/18/go-conversions/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2017-03-20T06:06:52.000Z"><a href="/2017/03/20/joomla-magento/">2017-03-20</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/03/20/joomla-magento/">Joomla + Magento 官网加商城</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：<a href="http://blog.jemper.cn/2017/02/08/docker-and-dockerfile/">docker 入门与 docker-compose 编配工具</a>。<br>说点题外话，如果现在还有小公司在开发什么商城或者官网类型的应用，赶紧放弃，投入到 Joomla 和 Magento 的怀抱吧。这两个已经很成熟，也是开源的，要开发也可以参考这两者或者基于它们去开发，省时省力，也利于成功。<br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2017/03/20/joomla-magento/#more" class="more-link">Read More</a>
-          </div>
         
         
       
@@ -449,7 +451,7 @@
   
     <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
   
-    <li><a href="/categories/Golang/">Golang</a><small>6</small></li>
+    <li><a href="/categories/Golang/">Golang</a><small>7</small></li>
   
     <li><a href="/categories/HTTP/">HTTP</a><small>5</small></li>
   
@@ -465,7 +467,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 18px;">Docker</a> <a href="/tags/Golang/" style="font-size: 16px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 14px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 14px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 14px;">TLS</a> <a href="/tags/io/" style="font-size: 12px;">io</a> <a href="/tags/协议/" style="font-size: 14px;">协议</a> <a href="/tags/容器/" style="font-size: 14px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 14px;">工具</a> <a href="/tags/并发/" style="font-size: 12px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/Golang/" style="font-size: 17.5px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12.5px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 15px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12.5px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 15px;">TLS</a> <a href="/tags/io/" style="font-size: 12.5px;">io</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/容器/" style="font-size: 15px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/并发/" style="font-size: 12.5px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 
