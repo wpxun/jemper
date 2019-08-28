@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>第 3 页 | 归档：2019 | 在路上</title>
+  <title>go command 命令 | 在路上</title>
   <meta name="author" content="Sven">
   
   <meta name="description" content="让大家读得懂的知识才是真知识">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="go command 命令"/>
   <meta property="og:site_name" content="在路上"/>
 
   
@@ -47,144 +47,117 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2019</h2>
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-08-16T08:53:00.000Z"><a href="/2019/08/16/go-command/">2019-08-16</a></time>
+      
+      
+  
+    <h1 class="title">go command 命令</h1>
+  
 
+    </header>
+    <div class="entry">
+      
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-nbsp-nbsp-go-二级子命令"><span class="toc-text">1   go  二级子命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-nbsp-nbsp-go-tool-三级子命令"><span class="toc-text">2   go tool 三级子命令</span></a></li></ol>
+			</div>
+		
+        <p>/usr/local/go/bin 下提供了三个命令 go、gofmt、godoc。主命令 Go 下分二级和三级子命令，本文档将迭代完善，争取列出所有功能点，目前还处于更新状态。<br><a id="more"></a></p>
+<h3 id="1-nbsp-nbsp-go-二级子命令"><a href="#1-nbsp-nbsp-go-二级子命令" class="headerlink" title="1 &nbsp;&nbsp;go  二级子命令"></a>1 &nbsp;&nbsp;go <command> 二级子命令</h3><ul>
+<li>go fmt 简单封装了gofmt，后者更多设置</li>
+<li>go doc 是简单版的 godoc，后者可以做项目文档服务器</li>
+<li>go get 获取网上包</li>
+<li>go run 只能运行 Go 文件</li>
+<li>go build 可以编译包或 Go 文件，对 Goland 来说表示编译加运行</li>
+<li>go test 单元测试和性能测试</li>
+<li>go install 安装到 $GOPATH/bin 目录下，无法指定到其它目录</li>
+<li>go tool 放在第二部分讲解</li>
+</ul>
+<p>常见的参数</p>
+<ul>
+<li>n print the command that would be executed but not execute it</li>
+</ul>
+<h3 id="2-nbsp-nbsp-go-tool-三级子命令"><a href="#2-nbsp-nbsp-go-tool-三级子命令" class="headerlink" title="2 &nbsp;&nbsp;go tool 三级子命令"></a>2 &nbsp;&nbsp;go tool 三级子命令</h3><p><code>go tool [-n] &lt;command&gt;</code> 下又有很多命令，代码基本都在 /src/cmd 下，不加参数表示直接打印可以看到三级子命令：</p>
+<ul>
+<li>addr2line</li>
+<li>asm</li>
+<li>buildid</li>
+<li>cgo</li>
+<li>compile 这里会直接编译成 .o 文件，一般用 -S 打印出汇编文本</li>
+<li>cover</li>
+<li>dist</li>
+<li>doc</li>
+<li>fix</li>
+<li>link 进行链接</li>
+<li>nm</li>
+<li>objdump 反汇编</li>
+<li>pack</li>
+<li>pprof 性能监控</li>
+<li>test2json</li>
+<li>tour</li>
+<li>trace 和 -trace 一样的功能，进行竞争态监查，如果有竞争默认会输出到 stderr。</li>
+<li>vet</li>
+</ul>
+<p><br><br><br> </p>
+<p> <strong>参考文献</strong><br>[1] Command go <a href="https://golang.org/cmd/go/" target="_blank" rel="noopener">https://golang.org/cmd/go/</a></p>
 
-  <div class="archive">
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-31T06:39:00.000Z"><a href="/2019/03/31/http2/">2019-03-31</a></time>
-            
-              <h1 class="title"><a href="/2019/03/31/http2/">HTTP/2 协议</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-27T08:03:00.000Z"><a href="/2019/03/27/devops/">2019-03-27</a></time>
-            
-              <h1 class="title"><a href="/2019/03/27/devops/">DevOps</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-24T09:55:00.000Z"><a href="/2019/03/24/tls/">2019-03-24</a></time>
-            
-              <h1 class="title"><a href="/2019/03/24/tls/">SSL/TLS 协议</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-21T09:29:00.000Z"><a href="/2019/03/21/cryptology/">2019-03-21</a></time>
-            
-              <h1 class="title"><a href="/2019/03/21/cryptology/">密码学</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-14T03:10:00.000Z"><a href="/2019/03/14/go-concurrency-difficult/">2019-03-14</a></time>
-            
-              <h1 class="title"><a href="/2019/03/14/go-concurrency-difficult/">并发的复杂性</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-13T06:55:00.000Z"><a href="/2019/03/13/go-io/">2019-03-13</a></time>
-            
-              <h1 class="title"><a href="/2019/03/13/go-io/">go I/O 操作</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-12T01:30:00.000Z"><a href="/2019/03/12/go-network/">2019-03-12</a></time>
-            
-              <h1 class="title"><a href="/2019/03/12/go-network/">go 网络编程</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-11T12:04:00.000Z"><a href="/2019/03/11/c-socket/">2019-03-11</a></time>
-            
-              <h1 class="title"><a href="/2019/03/11/c-socket/">C Socket 编程</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-10T10:00:59.000Z"><a href="/2019/03/10/tcp-protocol/">2019-03-10</a></time>
-            
-              <h1 class="title"><a href="/2019/03/10/tcp-protocol/">TCP 传输原理</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2019-03-08T07:03:00.000Z"><a href="/2019/03/08/go-context/">2019-03-08</a></time>
-            
-              <h1 class="title"><a href="/2019/03/08/go-context/">go context 包</a></h1>
-            
-          </header>
-        </div>
-      </article>
-    
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/Golang/">Golang</a>
   </div>
 
+        
+  
+  <div class="tags">
+    <a href="/tags/Golang/">Golang</a>
+  </div>
 
-<nav id="pagination">
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
   
-    <a href="/archives/2019/page/2/" class="alignleft prev">上一页</a>
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
   
-  
-    <a href="/archives/2019/page/4/" class="alignright next">下一页</a>
-  
-  <div class="clearfix"></div>
-</nav>
+</section>
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
@@ -246,7 +219,7 @@ var disqus_shortname = 'wpxun';
   var dsq = document.createElement('script');
   dsq.type = 'text/javascript';
   dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 }());
 </script>

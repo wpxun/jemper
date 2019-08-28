@@ -54,6 +54,91 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2019-03-08T01:39:00.000Z"><a href="/2019/03/08/go-time/">2019-03-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/03/08/go-time/">go time 包</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="时间概念"><a href="#时间概念" class="headerlink" title="时间概念"></a>时间概念</h3><p>时间对所有程序语言来说原理都是一样的：时间点、时间段、时区和显示格式。</p>
+<ul>
+<li>时间点：时间点没有时区差异，也就是说全世界无论哪个时区都是同一个时间点，时间戳就是时间点的表达方式，所以时间戳没有时区差异。</li>
+<li>时间段：时间段其实就是一个整数型，从小到大依次是皮秒（ps）、纳秒（ns）、微秒（μs）、毫秒（ms）、秒（s），在 go 程序中 1s == 1e9。</li>
+<li>时区：时间点有时区差异，同一个时间戳在不同时区具有时差区别。</li>
+<li>显示格式：这部分没有逻辑问题，纯粹是视图显示。</li>
+</ul>
+<h3 id="time-包使用"><a href="#time-包使用" class="headerlink" title="time 包使用"></a>time 包使用</h3>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/03/08/go-time/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2018-08-18T09:46:00.000Z"><a href="/2018/08/18/go-conversions/">2018-08-18</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/08/18/go-conversions/">go 类型转换</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-Go-Conversions"><span class="toc-text">1   Go Conversions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-类型断言"><span class="toc-text">1   类型断言</span></a></li></ol>
+			</div>
+		
+        <p>Go Conversions 和 类型断言是两种类型转换方式。</p>
+<h2 id="1-nbsp-nbsp-Go-Conversions"><a href="#1-nbsp-nbsp-Go-Conversions" class="headerlink" title="1 &nbsp;&nbsp;Go Conversions"></a>1 &nbsp;&nbsp;Go Conversions</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*Point(p)        // same as *(Point(p))</span><br><span class="line">(*Point)(p)      // p is converted to *Point</span><br><span class="line">&lt;-chan int(c)    // same as &lt;-(chan int(c))</span><br><span class="line">(&lt;-chan int)(c)  // c is converted to &lt;-chan int</span><br><span class="line">func()(x)        // function signature func() x</span><br><span class="line">(func())(x)      // x is converted to func()</span><br><span class="line">(func() int)(x)  // x is converted to func() int</span><br><span class="line">func() int(x)    // x is converted to func() int (unambiguous)</span><br></pre></td></tr></table></figure>
+<h2 id="1-nbsp-nbsp-类型断言"><a href="#1-nbsp-nbsp-类型断言" class="headerlink" title="1 &nbsp;&nbsp;类型断言"></a>1 &nbsp;&nbsp;类型断言</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">type (</span><br><span class="line">	Bar interface &#123;</span><br><span class="line">		Bar()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	Foobar interface &#123;</span><br><span class="line">		Bar()</span><br><span class="line">		Foo()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fbStr string</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func (fbStr)Foo()  &#123;&#125;</span><br><span class="line">func (fbStr)Bar()  &#123;&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	var test fbStr = &quot;test&quot;</span><br><span class="line">	var a Bar = test  //这里可以隐式转换</span><br><span class="line">	var b Foobar</span><br><span class="line">	b = a.(Foobar)	//这里不是子集，变量需要断言，也可以 b = a.(fbStr)</span><br><span class="line"></span><br><span class="line">	var a2 Foobar = test</span><br><span class="line">	var b2 Bar</span><br><span class="line">	b2 = a2	//这里 Bar 是 Foobar 的子集，不需要断言</span><br><span class="line"></span><br><span class="line">	fmt.Println(b, b2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译时会检查当前变量所属<strong>类型</strong>的方法，如果是子集或相同就可以隐式转换<br>运行时会检查当前<strong>变量</strong>的方法，如果是子集或相同就可以断言转换<br>总结：可以用类型判断转换的，就可以隐式转换；只能用变量判断转换的，就不可以隐式转换。  </p>
+<p>断言还可以断言空方法的接口（比如 interface{}）为简单类型，或者直接用类型转换实现而不用断言<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var kn interface&#123;&#125; = &quot;test&quot;</span><br><span class="line">tkn := kn.(string)</span><br><span class="line">fmt.Println(tkn)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2017-03-20T06:06:52.000Z"><a href="/2017/03/20/joomla-magento/">2017-03-20</a></time>
       
       
@@ -177,13 +262,13 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/C/">C</a><small>1</small></li>
+    <li><a href="/categories/C/">C</a><small>2</small></li>
   
     <li><a href="/categories/DevOps/">DevOps</a><small>3</small></li>
   
     <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
   
-    <li><a href="/categories/Golang/">Golang</a><small>7</small></li>
+    <li><a href="/categories/Golang/">Golang</a><small>8</small></li>
   
     <li><a href="/categories/HTTP/">HTTP</a><small>5</small></li>
   
@@ -199,7 +284,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/Golang/" style="font-size: 17.5px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12.5px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 15px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12.5px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 15px;">TLS</a> <a href="/tags/io/" style="font-size: 12.5px;">io</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/容器/" style="font-size: 15px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/并发/" style="font-size: 12.5px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+    <a href="/tags/C/" style="font-size: 12.5px;">C</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12.5px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 15px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12.5px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 15px;">TLS</a> <a href="/tags/io/" style="font-size: 12.5px;">io</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/容器/" style="font-size: 15px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/并发/" style="font-size: 12.5px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 12.5px;">编程</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
   </div>
 </div>
 

@@ -1,0 +1,319 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>汇编语言 | 在路上</title>
+  <meta name="author" content="Sven">
+  
+  <meta name="description" content="让大家读得懂的知识才是真知识">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="汇编语言"/>
+  <meta property="og:site_name" content="在路上"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">在路上</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">关于我</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-08-27T13:51:00.000Z"><a href="/2019/08/27/assembly/">2019-08-27</a></time>
+      
+      
+  
+    <h1 class="title">汇编语言</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        
+			<div id="toc" class="toc-article">
+				<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-nbsp-nbsp-基础知识"><span class="toc-text">1   基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-nbsp-nbsp-冯诺依曼的“存储程序”思想"><span class="toc-text">1.1   冯诺依曼的“存储程序”思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-nbsp-nbsp-计算机系统抽象层"><span class="toc-text">1.2   计算机系统抽象层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-nbsp-nbsp-语言处理系统"><span class="toc-text">1.3   语言处理系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-nbsp-nbsp-操作系统"><span class="toc-text">1.4   操作系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-nbsp-nbsp-什么叫自举"><span class="toc-text">1.5   什么叫自举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-nbsp-nbsp-既简单又复杂的汇编"><span class="toc-text">1.6   既简单又复杂的汇编</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-nbsp-nbsp-汇编与反汇编"><span class="toc-text">1.7   汇编与反汇编</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-nbsp-nbsp-微体系架构"><span class="toc-text">2   微体系架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-nbsp-nbsp-内存"><span class="toc-text">2.1   内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-nbsp-nbsp-寄存器"><span class="toc-text">2.2   寄存器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nbsp-nbsp-ISA-指令集"><span class="toc-text">3   ISA 指令集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-nbsp-nbsp-汇编"><span class="toc-text">4   汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-nbsp-nbsp-不同汇编的差异"><span class="toc-text">4.1   不同汇编的差异</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-nbsp-nbsp-调用规约"><span class="toc-text">4.2   调用规约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-nbsp-nbsp-C-语言实例"><span class="toc-text">4.3   C 语言实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-nbsp-nbsp-实例分析"><span class="toc-text">4.4   实例分析</span></a></li></ol></li></ol>
+			</div>
+		
+        <p>图灵在数理逻辑方面的理论研究，间接地创造了机器指令设计的基本方法，计算机界最高奖项也因此称图灵奖；现代计算机之父冯诺依曼，于1945年提出了“存储程序通用电子计算方案”，提出了指令数据存储思想，并在 1951 年成功研制出了冯诺依曼结构的 IAS 计算机（现在计算机的原型机），奠定了现代计算机的微体系设计和程序结构设计。<br><a id="more"></a></p>
+<h2 id="1-nbsp-nbsp-基础知识"><a href="#1-nbsp-nbsp-基础知识" class="headerlink" title="1 &nbsp;&nbsp;基础知识"></a>1 &nbsp;&nbsp;基础知识</h2><h3 id="1-1-nbsp-nbsp-冯诺依曼的“存储程序”思想"><a href="#1-1-nbsp-nbsp-冯诺依曼的“存储程序”思想" class="headerlink" title="1.1 &nbsp;&nbsp;冯诺依曼的“存储程序”思想"></a>1.1 &nbsp;&nbsp;冯诺依曼的“存储程序”思想</h3><p>任何要计算完成的工作都要先被编写成程序，然后将程序和原始数据送入主存并启动。一旦程序被启动，计算机应能在不需操作的人员干预下，自己完成逐条取出指令和执行指令的任务。</p>
+<h3 id="1-2-nbsp-nbsp-计算机系统抽象层"><a href="#1-2-nbsp-nbsp-计算机系统抽象层" class="headerlink" title="1.2 &nbsp;&nbsp;计算机系统抽象层"></a>1.2 &nbsp;&nbsp;计算机系统抽象层</h3><p>计算机就是一层层的抽象设计，比如 ISA 指令集体系结构是对硬件的抽象，机器语言、汇编语言、高级语言都是通过 ISA 使用硬件的。计算机专业课程基本上是围绕其中一个或多个抽象层开展教学，但从业人员要知道你所工作的层处在整个层次的哪一部分，跟哪些相关，要有整个的背景知识。<br><img src="http://img.jemper.cn/2019/08/computer_systems.png" alt="计算机系统抽象层"></p>
+<p>对程序员来说，硬件部分要理解微体系架构的实现方式，这部分我们放在第二部分讲；软件部分大致可以分为<strong>语言处理系统</strong>和<strong>操作系统</strong>。</p>
+<h3 id="1-3-nbsp-nbsp-语言处理系统"><a href="#1-3-nbsp-nbsp-语言处理系统" class="headerlink" title="1.3 &nbsp;&nbsp;语言处理系统"></a>1.3 &nbsp;&nbsp;语言处理系统</h3><p>语言处理系统由“语言处理程序”和“语言运行时系统”组成：</p>
+<ul>
+<li>语言处理程序：高级语言源程序 –编译-&gt; 汇编文本 –汇编-&gt; 目标二进制 –链接-&gt; 目标二进制。一般来说，编译有广义的编译（高级语言源代码转成机器语言）；也有狭义的编译（高级语言源代码转成汇编文本），这需要根据上下文理解就可以了，一般情况都是指狭义的编译。除了编译方式之外，还有解释方式运行的解释程序（如 PHP）。</li>
+<li>语言运行时系统：GC、协程调度、优化、库函数、初始化等</li>
+</ul>
+<h3 id="1-4-nbsp-nbsp-操作系统"><a href="#1-4-nbsp-nbsp-操作系统" class="headerlink" title="1.4 &nbsp;&nbsp;操作系统"></a>1.4 &nbsp;&nbsp;操作系统</h3><p>汇编语言及以上层都通过操作系统抽象层使用指令集，操作系统主要由“人机接口”和“操作系统内核”组成：</p>
+<ul>
+<li>人机接口：界面操作，GUI 操作和 CUI 操作</li>
+<li>操作系统内核：输入输出等系统调用、虚拟内存和物理内存分配，进程和内核线程调度，多任务多用户等。</li>
+</ul>
+<h3 id="1-5-nbsp-nbsp-什么叫自举"><a href="#1-5-nbsp-nbsp-什么叫自举" class="headerlink" title="1.5 &nbsp;&nbsp;什么叫自举"></a>1.5 &nbsp;&nbsp;什么叫自举</h3><p>初学者可能会误认为是鸡和蛋的问题，要理解自举，就是清楚编译器本身就是一个程序，它的功能就是把源代码翻译为计算机可执行的程序，它和被翻译的语言并没有关系。下面以 Go 语言作为例子：</p>
+<ol>
+<li>Go 语言：发明了 Go 语言，Go 源代码由 Go 程序和 Go 汇编（plan9 语法）组成；</li>
+<li>C 写的编译器程序：前期得用 C 语言写一个 Go 源程序的编译器，用来把 Go 源代码编译成汇编文本；</li>
+<li>Go 写的编译器程序：用 Go 写一个把 Go 源代码编译成汇编文本的程序，并用“步骤 2”生成的 C 编译器编译成可执行程序；</li>
+<li>用 “Go 写的编译器程序” 去编译 “Go 源代码”，不再用“步骤 2”生成的 C 编译器去编译。</li>
+</ol>
+<p>其中第 3 步就是实现了自举，因为编译器既是一个复杂的工程，也有一套成熟的评价体系，一般能实现自举的程序可以说是完备成熟的编程语言了。</p>
+<h3 id="1-6-nbsp-nbsp-既简单又复杂的汇编"><a href="#1-6-nbsp-nbsp-既简单又复杂的汇编" class="headerlink" title="1.6 &nbsp;&nbsp;既简单又复杂的汇编"></a>1.6 &nbsp;&nbsp;既简单又复杂的汇编</h3><p>简单是因为汇编语言采用助记符来编写程序；复杂是因为不同 CPU 架构有不同的汇编（需要针对不同的架构写不同的汇编实现），同一 CPU 不同的系统也有不同的汇编（因为有不同的汇编程序负责汇编），但同一 CPU 汇编后生成的机器语言可以一样，毕竟指令集是一样的。同一 CPU 表示寄存器数量和种类、寄存器存储的数值、CPU 指令集是一样的，但可以采用不同的汇编语法并与之对应的汇编编译器，编译成机器语言；这就是汇编语言如此之多的原因。<br>pep/9 汇编、plan9 汇编、x86 汇编，相当于不同的语言，Go 用的就是 plan9汇编。</p>
+<h3 id="1-7-nbsp-nbsp-汇编与反汇编"><a href="#1-7-nbsp-nbsp-汇编与反汇编" class="headerlink" title="1.7 &nbsp;&nbsp;汇编与反汇编"></a>1.7 &nbsp;&nbsp;汇编与反汇编</h3><p>汇编语言和机器语言基本上是一一对应的，将汇编语言编写的程序转化成机器语言的过程称为汇编；反之，机器语言程序转化成汇编语言程序的过程则称为反汇编。这一点和高级编程语言有很大不同，因此懂得汇编必然就懂得CPU指令集和内存的微架构原理。</p>
+<p>反汇编工具有 objdump、otool，与 <code>objdump -Sl</code> 能力接近的命令是 <code>otool -tV</code>，表示列出指令段。<br>对于 Go 自己提供了汇编与反汇编工具，</p>
+<ul>
+<li><code>go tool objdump &lt;binary&gt;</code> 相当于 <code>objdump &lt;binary&gt;、otool -t &lt;binary&gt;</code>，不过输出格式都不一样；</li>
+<li><code>go tool compile -S &lt;gofile&gt;</code> 是没有连接的汇编结果，地址可能会跟反汇编结果不太一样；</li>
+<li>Go 汇编和前两者其实是不同的，Go 汇编其实算是 <strong>Go 源代码</strong>，和前面两种格式也不尽相同。</li>
+</ul>
+<h2 id="2-nbsp-nbsp-微体系架构"><a href="#2-nbsp-nbsp-微体系架构" class="headerlink" title="2 &nbsp;&nbsp;微体系架构"></a>2 &nbsp;&nbsp;微体系架构</h2><p><img src="http://img.jemper.cn/2019/08/Mc2_level.png" alt="微体系架构"></p>
+<h3 id="2-1-nbsp-nbsp-内存"><a href="#2-1-nbsp-nbsp-内存" class="headerlink" title="2.1 &nbsp;&nbsp;内存"></a>2.1 &nbsp;&nbsp;内存</h3><p>内存结构，有以下四种引脚<br>VCC、GND：电源<br>A0-A9：地址信号，决定多少个地址编号，现在一般都是64位了<br>D0-D7：数据信号，决定一次可读取的数据，一直以来都是8位<br>RD、WR：控制信号</p>
+<ul>
+<li>64位内存可以存储 2^64 个 1 字节的数据，所以最大容量为 2^64B</li>
+<li>多于 1 字节的数据就要区分大小端了</li>
+<li>寄存器的大小才是决定了数据是否要编写分割处理程序，比如寄存器是 64 位的，则大于8个字节的数据运算才需要编写分割处理程序</li>
+<li>64 位一个指针就是 8 字节</li>
+</ul>
+<h3 id="2-2-nbsp-nbsp-寄存器"><a href="#2-2-nbsp-nbsp-寄存器" class="headerlink" title="2.2 &nbsp;&nbsp;寄存器"></a>2.2 &nbsp;&nbsp;寄存器</h3><p>CPU 我们只认识寄存器就可以，其它的对编程来说相对透明：</p>
+<ul>
+<li>一般叫法（不同CPU架构叫法可能不同）：程序计数器、累加寄存器、标志寄存器、指令寄存器和栈寄存器都只有一个，其它的一般有多个（基址寄存器、变址寄存器、通用寄存器都不止一个）</li>
+<li>8088 有8个通用寄存器（适用于存储任意数据），x86也有8个，32位都在前面加了e(extended)，如果仅利用32位寄存器的低16位，此时只需把要指定的寄存器名开头的字母e去掉即可（但是plan9都寄存器不加前缀），amd64前面都加了R</li>
+<li>IR 指令寄存器是 CPU 内部使用，程序员无法通过程序对寄存器进行读写操作。</li>
+</ul>
+<h2 id="3-nbsp-nbsp-ISA-指令集"><a href="#3-nbsp-nbsp-ISA-指令集" class="headerlink" title="3 &nbsp;&nbsp;ISA 指令集"></a>3 &nbsp;&nbsp;ISA 指令集</h2><p>ISA 也正是介于软硬件的交界处，是高级语言和操作系统操作的抽象硬件（对硬件的抽象）。</p>
+<p>这里自行去查找不同的架构指令集即可（cat /proc/cpuinfo | grep flags | head -1）<br>macOS 可以用 sysctl -a | grep machdep.cpu</p>
+<h2 id="4-nbsp-nbsp-汇编"><a href="#4-nbsp-nbsp-汇编" class="headerlink" title="4 &nbsp;&nbsp;汇编"></a>4 &nbsp;&nbsp;汇编</h2><h3 id="4-1-nbsp-nbsp-不同汇编的差异"><a href="#4-1-nbsp-nbsp-不同汇编的差异" class="headerlink" title="4.1 &nbsp;&nbsp;不同汇编的差异"></a>4.1 &nbsp;&nbsp;不同汇编的差异</h3><p>这部分我也无法体系的讲，也找不比较全面的资料，只能列举一些差异，以后遇到不会感到迷惑。</p>
+<ul>
+<li><p>plan9 的汇编的操作数的方向是和 intel 汇编相反的，与 AT&amp;T 类似，不过凡事总有例外，如果想了解这种意外，可以参见参考资料[1]。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MOVQ $0x10, AX ===== mov rax, 0x10</span><br><span class="line">       |    |------------|      |</span><br><span class="line">       |------------------------|</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下面是通用通用寄存器的名字在 IA64 和 plan9 中的对应关系：</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>IA64</th>
+<th>RAX</th>
+<th>RBX</th>
+<th>RCX</th>
+<th>RDX</th>
+<th>RDI</th>
+<th>RSI</th>
+<th>RBP</th>
+<th>RSP</th>
+<th>R8</th>
+<th>R9</th>
+<th>R10</th>
+<th>R11</th>
+<th>R12</th>
+<th>R13</th>
+<th>R14</th>
+<th>RIP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plan9</td>
+<td>AX</td>
+<td>BX</td>
+<td>CX</td>
+<td>DX</td>
+<td>DI</td>
+<td>SI</td>
+<td>BP</td>
+<td>SP</td>
+<td>R8</td>
+<td>R9</td>
+<td>R10</td>
+<td>R11</td>
+<td>R12</td>
+<td>R13</td>
+<td>R14</td>
+<td>PC</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>intel 或 AT&amp;T 汇编提供了 push 和 pop 指令族，plan9 中没有 push 和 pop，栈的调整是通过对硬件 SP 寄存器进行运算来实现的，例如:<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">subq $0x18, SP // 对 SP 做减法，为函数分配函数栈帧</span><br><span class="line">...               // 省略无用代码</span><br><span class="line">addq $0x18, SP // 对 SP 做加法，清除函数栈帧</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-2-nbsp-nbsp-调用规约"><a href="#4-2-nbsp-nbsp-调用规约" class="headerlink" title="4.2 &nbsp;&nbsp;调用规约"></a>4.2 &nbsp;&nbsp;调用规约</h3><p>主要是要知道哪些寄存器是需要 caller save，哪些是 callee save。具体可以参见参考资料[6]。</p>
+<h3 id="4-3-nbsp-nbsp-C-语言实例"><a href="#4-3-nbsp-nbsp-C-语言实例" class="headerlink" title="4.3 &nbsp;&nbsp;C 语言实例"></a>4.3 &nbsp;&nbsp;C 语言实例</h3><p>本次测试基于darwin系统(macOS)，amd64架构（intel i5），测试 C 程序如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int AddNum(int a, int b)</span><br><span class="line">&#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int c;</span><br><span class="line">    c = AddNum(123, 456);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>内存指令或数据是分段的，比如：<br>_TEXT：指令的段定义<br>_DATA：是被初始化（有初始值）的数据段定义<br>_BSS：尚未初始化的数据的段定义</p>
+<p>我们主要关注指令段，即 _TEXT，对编译或者反汇编来说差异是不大的，实例分析我们就以编译结果进行分析。</p>
+<ol>
+<li><p>编译结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adadeMacBook-Pro:debug ada$ cat main.s</span><br><span class="line">	.section	__TEXT,__text,regular,pure_instructions</span><br><span class="line">	.build_version macos, 10, 14	sdk_version 10, 14</span><br><span class="line">	.globl	_AddNum                 ## -- Begin function AddNum</span><br><span class="line">	.p2align	4, 0x90</span><br><span class="line">_AddNum:                                ## @AddNum</span><br><span class="line">	.cfi_startproc</span><br><span class="line">## %bb.0:</span><br><span class="line">	pushq	%rbp</span><br><span class="line">	.cfi_def_cfa_offset 16</span><br><span class="line">	.cfi_offset %rbp, -16</span><br><span class="line">	movq	%rsp, %rbp</span><br><span class="line">	.cfi_def_cfa_register %rbp</span><br><span class="line">	movl	%edi, -4(%rbp)</span><br><span class="line">	movl	%esi, -8(%rbp)</span><br><span class="line">	movl	-4(%rbp), %esi</span><br><span class="line">	addl	-8(%rbp), %esi</span><br><span class="line">	movl	%esi, %eax</span><br><span class="line">	popq	%rbp</span><br><span class="line">	retq</span><br><span class="line">	.cfi_endproc</span><br><span class="line">                                        ## -- End function</span><br><span class="line">	.globl	_main                   ## -- Begin function main</span><br><span class="line">	.p2align	4, 0x90</span><br><span class="line">_main:                                  ## @main</span><br><span class="line">	.cfi_startproc</span><br><span class="line">## %bb.0:</span><br><span class="line">	pushq	%rbp</span><br><span class="line">	.cfi_def_cfa_offset 16</span><br><span class="line">	.cfi_offset %rbp, -16</span><br><span class="line">	movq	%rsp, %rbp</span><br><span class="line">	.cfi_def_cfa_register %rbp</span><br><span class="line">	subq	$16, %rsp</span><br><span class="line">	movl	$0, -4(%rbp)</span><br><span class="line">	movl	$123, %edi</span><br><span class="line">	movl	$456, %esi              ## imm = 0x1C8</span><br><span class="line">	callq	_AddNum</span><br><span class="line">	xorl	%esi, %esi</span><br><span class="line">	movl	%eax, -8(%rbp)</span><br><span class="line">	movl	%esi, %eax</span><br><span class="line">	addq	$16, %rsp</span><br><span class="line">	popq	%rbp</span><br><span class="line">	retq</span><br><span class="line">	.cfi_endproc</span><br><span class="line">                                        ## -- End function</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反汇编结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adadeMacBook-Pro:debug ada$ otool -tV a.out</span><br><span class="line">a.out:</span><br><span class="line">(__TEXT,__text) section</span><br><span class="line">_AddNum:</span><br><span class="line">0000000100000f60	pushq	%rbp</span><br><span class="line">0000000100000f61	movq	%rsp, %rbp</span><br><span class="line">0000000100000f64	movl	%edi, -0x4(%rbp)</span><br><span class="line">0000000100000f67	movl	%esi, -0x8(%rbp)</span><br><span class="line">0000000100000f6a	movl	-0x4(%rbp), %esi</span><br><span class="line">0000000100000f6d	addl	-0x8(%rbp), %esi</span><br><span class="line">0000000100000f70	movl	%esi, %eax</span><br><span class="line">0000000100000f72	popq	%rbp</span><br><span class="line">0000000100000f73	retq</span><br><span class="line">0000000100000f74	nopw	%cs:(%rax,%rax)</span><br><span class="line">0000000100000f7e	nop</span><br><span class="line">_main:</span><br><span class="line">0000000100000f80	pushq	%rbp</span><br><span class="line">0000000100000f81	movq	%rsp, %rbp</span><br><span class="line">0000000100000f84	subq	$0x10, %rsp</span><br><span class="line">0000000100000f88	movl	$0x0, -0x4(%rbp)</span><br><span class="line">0000000100000f8f	movl	$0x7b, %edi</span><br><span class="line">0000000100000f94	movl	$0x1c8, %esi</span><br><span class="line">0000000100000f99	callq	_AddNum</span><br><span class="line">0000000100000f9e	xorl	%esi, %esi</span><br><span class="line">0000000100000fa0	movl	%eax, -0x8(%rbp)</span><br><span class="line">0000000100000fa3	movl	%esi, %eax</span><br><span class="line">0000000100000fa5	addq	$0x10, %rsp</span><br><span class="line">0000000100000fa9	popq	%rbp</span><br><span class="line">0000000100000faa	retq</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="4-4-nbsp-nbsp-实例分析"><a href="#4-4-nbsp-nbsp-实例分析" class="headerlink" title="4.4 &nbsp;&nbsp;实例分析"></a>4.4 &nbsp;&nbsp;实例分析</h3><p>我们对编译结果进行简化，以便于我们分析。在 amd64 中，C 语言中 int 是 4 位，在 Go 中 int 是 8 位。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">_AddNum:                                ## @AddNum</span><br><span class="line">	pushq	%rbp</span><br><span class="line">	movq	%rsp, %rbp</span><br><span class="line">	movl	%edi, -4(%rbp)</span><br><span class="line">	movl	%esi, -8(%rbp)</span><br><span class="line">	movl	-4(%rbp), %esi</span><br><span class="line">	addl	-8(%rbp), %esi</span><br><span class="line">	movl	%esi, %eax</span><br><span class="line">	popq	%rbp</span><br><span class="line">	retq</span><br><span class="line">## -- End function</span><br><span class="line"></span><br><span class="line">_main:                                  ## @main</span><br><span class="line">	pushq	%rbp</span><br><span class="line">	movq	%rsp, %rbp</span><br><span class="line">	subq	$16, %rsp</span><br><span class="line">	movl	$0, -4(%rbp)</span><br><span class="line">	movl	$123, %edi</span><br><span class="line">	movl	$456, %esi              ## imm = 0x1C8</span><br><span class="line">	callq	_AddNum</span><br><span class="line">	xorl	%esi, %esi</span><br><span class="line">	movl	%eax, -8(%rbp)</span><br><span class="line">	movl	%esi, %eax</span><br><span class="line">	addq	$16, %rsp</span><br><span class="line">	popq	%rbp</span><br><span class="line">	retq</span><br><span class="line">## -- End function</span><br></pre></td></tr></table></figure></p>
+<p>C语言函数规约一般开头和结尾是固定的，这样做是为了确保函数调用前后 ebp 寄存器的值不发生变化<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">_main</span><br><span class="line">	pushq	%rbp		;将 rbp 寄存器的值存入栈中</span><br><span class="line">	movq	%rsp, %rbp	;将 rsp 寄存器的值存入 rbp 寄存器</span><br><span class="line">	...			;函数操作</span><br><span class="line">	popq	%rbp		;读出栈中的数值存入 rbp 寄存器</span><br><span class="line">	retq			;结束 main 函数，返回到调用源，返回 rbp 指令处</span><br><span class="line">## -- End function</span><br></pre></td></tr></table></figure></p>
+<p>系统调用就是按规定把该系统调用的数据存放到寄存器，然后执行系统调用就会去读取依赖的寄存器进行调用。<br>注意上面函数操作处，最后一定要进行栈清理处理，即把 esp 指回 ebp 那个单元，以便下一步 pop ebp<br>比如函数操作如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">subq	$16, %rsp	;这里分配 16 个字节的内存</span><br><span class="line">...			;加法操作</span><br><span class="line">addq	$16, %rsp	;这里就是把 rsp 指回 push 数据之前（没用的数据并不会清空），也就是指向存放 rbp 的那个单元</span><br></pre></td></tr></table></figure></p>
+<p><br><br><br> </p>
+<p> <strong>参考文献</strong><br>[1] Go assembly language complementary reference. <a href="https://quasilyte.dev/blog/post/go-asm-complementary-reference/#external-resources" target="_blank" rel="noopener">https://quasilyte.dev/blog/post/go-asm-complementary-reference/#external-resources</a><br>[2] 矢泽久雄（日）. 程序是怎样跑起来的. 版次：2015年4月第1版<br>[3] J.Stanley Warford. 计算机系统 核心概念及软硬件实现. 版次：2019年1月第1版<br>[4] 南京大学 袁春风教授. 计算机系统基础(一)：程序的表示、转换与链接 <a href="https://www.icourse163.org/learn/NJU-1001625001?tid=1206622249#/learn/content?type=detail&amp;id=1211390547&amp;cid=1214042236&amp;replay=true" target="_blank" rel="noopener">https://www.icourse163.org/learn/NJU-1001625001?tid=1206622249#/learn/content?type=detail&amp;id=1211390547&amp;cid=1214042236&amp;replay=true</a><br>[5] 汇编 is so easy. <a href="https://github.com/cch123/asmshare/blob/master/layout.md" target="_blank" rel="noopener">https://github.com/cch123/asmshare/blob/master/layout.md</a><br>[6] 调用规约. <a href="https://github.com/cch123/llp-trans/blob/master/part3/translation-details/function-calling-sequence/calling-convention.md" target="_blank" rel="noopener">https://github.com/cch123/llp-trans/blob/master/part3/translation-details/function-calling-sequence/calling-convention.md</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/C/">C</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/C/">C</a>, <a href="/tags/编程/">编程</a>, <a href="/tags/Go/">Go</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:blog.jemper.cn">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/C/">C</a><small>2</small></li>
+  
+    <li><a href="/categories/DevOps/">DevOps</a><small>3</small></li>
+  
+    <li><a href="/categories/Docker/">Docker</a><small>4</small></li>
+  
+    <li><a href="/categories/Golang/">Golang</a><small>8</small></li>
+  
+    <li><a href="/categories/HTTP/">HTTP</a><small>5</small></li>
+  
+    <li><a href="/categories/云原生/">云原生</a><small>8</small></li>
+  
+    <li><a href="/categories/日记/">日记</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/C/" style="font-size: 12.5px;">C</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/Golang/" style="font-size: 20px;">Golang</a> <a href="/tags/Go包/" style="font-size: 12.5px;">Go包</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/tags/Service-Mesh/" style="font-size: 15px;">Service Mesh</a> <a href="/tags/Socket/" style="font-size: 12.5px;">Socket</a> <a href="/tags/TCP/" style="font-size: 10px;">TCP</a> <a href="/tags/TLS/" style="font-size: 15px;">TLS</a> <a href="/tags/io/" style="font-size: 12.5px;">io</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/容器/" style="font-size: 15px;">容器</a> <a href="/tags/密码学/" style="font-size: 10px;">密码学</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/并发/" style="font-size: 12.5px;">并发</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/编程/" style="font-size: 12.5px;">编程</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a> <a href="/tags/调试/" style="font-size: 10px;">调试</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Sven
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+var disqus_shortname = 'wpxun';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
