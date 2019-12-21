@@ -322,7 +322,7 @@
       <pubDate>Wed, 08 Feb 2017 15:56:13 +0800</pubDate>
       
       <guid>https://blog.jemper.cn/2017/02/blog/</guid>
-      <description>2019-12-21 更新到 Hugo，抛弃复杂的 hexo，懂 Go 的直接 go get 生成 hugo 执行文件即可，日常操作和 hexo 基本一样： hugo server -D、hugo 两个命令，如果要自动部署到 g</description>
+      <description>2019-12-21 更新到 Hugo，抛弃复杂的 hexo，hexo 依赖 node 和各种 node_module，比如集成 CNAME 这一简单的功能都是靠模块来实现。而 hugo 得益于 Go，</description>
     </item>
     
     <item>

@@ -23,7 +23,7 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <meta name="description" content="2019-12-21 更新到 Hugo，抛弃复杂的 hexo，懂 Go 的直接 go get 生成 hugo 执行文件即可，日常操作和 hexo 基本一样： hugo server -D、hugo 两个命令，如果要自动部署到 g" />
+  <meta name="description" content="2019-12-21 更新到 Hugo，抛弃复杂的 hexo，hexo 依赖 node 和各种 node_module，比如集成 CNAME 这一简单的功能都是靠模块来实现。而 hugo 得益于 Go，" />
   <meta name="generator" content="Hugo 0.61.0 with theme pure" />
   <title>博客实践 - 在路上博客</title>
   
@@ -32,22 +32,22 @@
   <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
   <meta property="og:title" content="博客实践" />
-<meta property="og:description" content="2019-12-21 更新到 Hugo，抛弃复杂的 hexo，懂 Go 的直接 go get 生成 hugo 执行文件即可，日常操作和 hexo 基本一样： hugo server -D、hugo 两个命令，如果要自动部署到 g" />
+<meta property="og:description" content="2019-12-21 更新到 Hugo，抛弃复杂的 hexo，hexo 依赖 node 和各种 node_module，比如集成 CNAME 这一简单的功能都是靠模块来实现。而 hugo 得益于 Go，" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.jemper.cn/2017/02/blog/" />
 <meta property="article:published_time" content="2017-02-08T15:56:13+08:00" />
 <meta property="article:modified_time" content="2017-02-08T15:56:13+08:00" />
 <meta itemprop="name" content="博客实践">
-<meta itemprop="description" content="2019-12-21 更新到 Hugo，抛弃复杂的 hexo，懂 Go 的直接 go get 生成 hugo 执行文件即可，日常操作和 hexo 基本一样： hugo server -D、hugo 两个命令，如果要自动部署到 g">
+<meta itemprop="description" content="2019-12-21 更新到 Hugo，抛弃复杂的 hexo，hexo 依赖 node 和各种 node_module，比如集成 CNAME 这一简单的功能都是靠模块来实现。而 hugo 得益于 Go，">
 <meta itemprop="datePublished" content="2017-02-08T15:56:13&#43;08:00" />
 <meta itemprop="dateModified" content="2017-02-08T15:56:13&#43;08:00" />
-<meta itemprop="wordCount" content="2337">
+<meta itemprop="wordCount" content="2488">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="博客实践"/>
-<meta name="twitter:description" content="2019-12-21 更新到 Hugo，抛弃复杂的 hexo，懂 Go 的直接 go get 生成 hugo 执行文件即可，日常操作和 hexo 基本一样： hugo server -D、hugo 两个命令，如果要自动部署到 g"/>
+<meta name="twitter:description" content="2019-12-21 更新到 Hugo，抛弃复杂的 hexo，hexo 依赖 node 和各种 node_module，比如集成 CNAME 这一简单的功能都是靠模块来实现。而 hugo 得益于 Go，"/>
 
   <!--[if lte IE 9]>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -294,17 +294,28 @@
       </div>
     </div>
     <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
-      <p>2019-12-21 更新到 Hugo，抛弃复杂的 hexo，懂 Go 的直接 go get 生成 hugo 执行文件即可，日常操作和 hexo 基本一样：
-hugo server -D、hugo 两个命令，如果要自动部署到 github，写一个 sh 脚本即可。另外静态文件方面在根目录下有 status，直接放在里面即可：</p>
+      <p>2019-12-21 更新到 Hugo，抛弃复杂的 hexo，hexo 依赖 node 和各种 node_module，比如集成 CNAME 这一简单的功能都是靠模块来实现。而 hugo 得益于 Go，直接 go get 生成 hugo 执行文件即可，日常操作和 hexo 基本一样：
+hugo server、hugo 两个命令，常用参数 -D 表示集成草稿。如果要自动部署到 github，写一个 sh 脚本即可。另外静态文件方面在根目录下有 static，直接放在里面即可：</p>
+<!-- raw HTML omitted -->
 <pre><code>-rw-r--r--  1 ada  staff     14 12 21 16:08 CNAME
 -rw-r--r--@ 1 ada  staff  10497 12 21 16:09 avatar.jpg
 -rw-r--r--  1 ada  staff     10 12 21 16:08 baidu_verify_MOITAeX9md.html
 -rw-r--r--@ 1 ada  staff   1150 12 21 16:09 favicon.ico
 -rw-r--r--  1 ada  staff     53 12 21 16:08 googleba39dd1bfa288749.html
-</code></pre><p>下面两个链接已经讲得非常详细了：
-<a href="https://gohugo.io">Quick Start</a>
-<a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">Host on GitHub</a></p>
-<!-- raw HTML omitted -->
+</code></pre><p>最佳实践是，hugo 工作目录和发布目录分库，而不是分支，分库后利用 .gitmodules：</p>
+<pre><code>[submodule &quot;themes/pure&quot;]
+  path = themes/pure
+  url = git@github.com:xiaoheiAh/hugo-theme-pure.git
+[submodule &quot;public&quot;]
+  path = public
+  url = git@github.com:wpxun/wpxun.github.io.git
+  branch = master
+</code></pre><p>下面两个链接已经讲得非常详细了：<br>
+<a href="https://gohugo.io">1. Quick Start</a><br>
+<a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">2. Host on GitHub</a></p>
+<hr>
+<p><strong>下面是历史 Hexo 的部署方式，食之无味，弃之可惜。</strong></p>
+<hr>
 <p><a href="http://hexo.io">Hexo</a> 是一个很不错的静态博客管理工具的，快速发布，Markdown 支持，插件支持。官网现在列出了100来个主题都很好看，第一篇文章就来写 Hexo 的部署工作吧。
 我个人比较喜欢用 Centos，所以我是基于 Centos7 环境来写 Hexo 博客的，Win10 用户可以用 Linux 子系统来部署，这样可以在 Linux 上部署，在 Win10 上写文章；网上也有很多类似的文章，我自己喜欢折腾，大家没事可以粗略看一看。</p>
 <h2 id="hexo-">Hexo 环境</h2>

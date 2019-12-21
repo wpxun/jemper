@@ -3,14 +3,14 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.jemper.cn/tags/c/</loc>
+    <loc>https://blog.jemper.cn/categories/c/</loc>
     <lastmod>2019-08-27T21:51:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://blog.jemper.cn/categories/c/</loc>
+    <loc>https://blog.jemper.cn/tags/c/</loc>
     <lastmod>2019-08-27T21:51:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -283,14 +283,14 @@
   </url>
   
   <url>
-    <loc>https://blog.jemper.cn/tags/http/</loc>
+    <loc>https://blog.jemper.cn/categories/http/</loc>
     <lastmod>2019-04-01T17:34:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://blog.jemper.cn/categories/http/</loc>
+    <loc>https://blog.jemper.cn/tags/http/</loc>
     <lastmod>2019-04-01T17:34:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
