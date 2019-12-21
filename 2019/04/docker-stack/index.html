@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Docker Stack 多服务 - 在路上博客
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="我们从简到繁看一下 Docker 的学习路线： docker run：Single Engine(者称 Single-Host，单 Docker 节点)下单服务运行 docker-comp" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  <title>Docker Stack 多服务 - 在路上博客</title>
+  
+
+  <link rel="stylesheet" href="https://blog.jemper.cn/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="Docker Stack 多服务" />
+<meta property="og:description" content="我们从简到繁看一下 Docker 的学习路线： docker run：Single Engine(者称 Single-Host，单 Docker 节点)下单服务运行 docker-comp" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.jemper.cn/2019/04/docker-stack/" />
+<meta property="article:published_time" content="2019-04-26T17:58:00+00:00" />
+<meta property="article:modified_time" content="2019-04-26T17:58:00+00:00" />
+<meta itemprop="name" content="Docker Stack 多服务">
+<meta itemprop="description" content="我们从简到繁看一下 Docker 的学习路线： docker run：Single Engine(者称 Single-Host，单 Docker 节点)下单服务运行 docker-comp">
+<meta itemprop="datePublished" content="2019-04-26T17:58:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-04-26T17:58:00&#43;00:00" />
+<meta itemprop="wordCount" content="1383">
+
+
+
+<meta itemprop="keywords" content="Docker,容器," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker Stack 多服务"/>
+<meta name="twitter:description" content="我们从简到繁看一下 Docker 的学习路线： docker run：Single Engine(者称 Single-Host，单 Docker 节点)下单服务运行 docker-comp"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/wpxun" target="_blank">
+            <img class="img-circle img-rotate" src="https://blog.jemper.cn/avatar.jpg" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">在路上</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Shenzhen, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/">
+                    <i class="icon icon-home-fill"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/posts">
+                    <i class="icon icon-archives-fill"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/about">
+                    <i class="icon icon-cup-fill"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/c/" class="category-list-link">c</a><span class="category-list-count">2</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/devops/" class="category-list-link">devops</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/docker/" class="category-list-link">docker</a><span class="category-list-count">4</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/golang/" class="category-list-link">golang</a><span class="category-list-count">8</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/http/" class="category-list-link">http</a><span class="category-list-count">5</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/" class="category-list-link">云原生</a><span class="category-list-count">8</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/%E6%97%A5%E8%AE%B0/" class="category-list-link">日记</a><span class="category-list-count">2</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/c/" class="tag-list-link">c</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">7</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/golang/" class="tag-list-link">golang</a><span
+                    class="tag-list-count">9</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/go%E5%8C%85/" class="tag-list-link">go包</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/http/" class="tag-list-link">http</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/io/" class="tag-list-link">io</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/jenkins/" class="tag-list-link">jenkins</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/kubernetes/" class="tag-list-link">kubernetes</a><span
+                    class="tag-list-count">8</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/rpc/" class="tag-list-link">rpc</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/service-mesh/" class="tag-list-link">service-mesh</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/socket/" class="tag-list-link">socket</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/tcp/" class="tag-list-link">tcp</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/tls/" class="tag-list-link">tls</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%8D%8F%E8%AE%AE/" class="tag-list-link">协议</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%AE%B9%E5%99%A8/" class="tag-list-link">容器</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" class="tag-list-link">密码学</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%B7%A5%E5%85%B7/" class="tag-list-link">工具</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%B9%B6%E5%8F%91/" class="tag-list-link">并发</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E6%9E%B6%E6%9E%84/" class="tag-list-link">架构</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E7%BC%96%E7%A8%8B/" class="tag-list-link">编程</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E7%BD%91%E7%BB%9C/" class="tag-list-link">网络</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E8%B0%83%E8%AF%95/" class="tag-list-link">调试</a><span
+                    class="tag-list-count">1</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/2019/04/docker-stack/"
+    >Docker Stack 多服务</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://blog.jemper.cn/2019/04/docker-stack/" class="article-date">
+  <time datetime="2019-04-26 17:58:00 &#43;0000 UTC" itemprop="datePublished">2019-04-26</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/categories/docker/"> Docker </a>
+</span>  
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+    <a class="article-tag-link" href="/tags/docker/"> Docker </a>
+    <a class="article-tag-link" href="/tags/%E5%AE%B9%E5%99%A8/"> 容器 </a>
+  </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/04/docker-stack/#comments"
+            class="article-comment-link">评论</a></span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <p>我们从简到繁看一下 Docker 的学习路线：</p>
+<ul>
+<li>docker run：Single Engine(者称 Single-Host，单 Docker 节点)下单服务运行</li>
+<li>docker-compose：Single Engine(或者称 Single-Host，单 Docker 节点)下多服务编排</li>
+<li>docker swarm：Multi-Host(多 Docker 节点，集群)下单服务编排</li>
+<li>docker stack：Multi-Host(多 Docker 节点，集群)下多服务编排</li>
+</ul>
+<p>可以看到 docker stack 其实就是 docker-compose 多应用和 docker swarm 规模化两者的结合。</p>
+<!-- raw HTML omitted -->
+<h2 id="1-nbspnbsp">1   节点初始化</h2>
+<p>从 swarm 我们得知环境要求并不高，那么对 stack 也一样，接下来我们用三台主机进行实战部署，跟 swarm 一样对节点进行初始化，成为 swarm 集群，但不需要创建网络，因为网络创建我们通过编排文件进行：</p>
+<pre><code>姓名        地区                        内部 IP
+binke01    asia-northeast1-a           10.146.0.2 (nic0)   
+binke01-1  asia-northeast1-a           10.146.0.3 (nic0)   
+binke01-3  asia-northeast1-a           10.146.0.5 (nic0)   
+</code></pre><pre><code>&gt; docker node ls
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+0kjqucshibpm35zhq7kizldp0     binke01             Ready               Active                                  18.09.5
+qr7i763tagufpcyn4qf37b5fs *   binke01-1           Ready               Active              Leader              18.09.5
+ogvwkwq0zxw3s05shey2ruzqa     binke01-3           Ready               Active                                  18.09.5
+</code></pre><h2 id="2-nbspnbsp">2   应用容器化</h2>
+<p>我们先来看一下容器化上下文：</p>
+<pre><code>&gt; tree multigo
+multigo
+├── config.yaml
+├── Dockerfile
+├── docker-stack.yml
+├── main.go
+└── service
+    ├── config.go
+    └── redis.go
+</code></pre><h3 id="21-nbspnbsp">2.1   业务代码</h3>
+<p>我们继续使用计数器，需要两个应用，分别是Go web 服务器和 redis 记录数据应用，我们采用的代码和我们在用 Docker Compose 部署的多应用代码几乎一样：</p>
+<pre><code>cat &lt;&lt;EOF &gt; $GOPATH/github.com/wpxun/multigo/main.go
+package main
+
+import (
+  &quot;fmt&quot;
+  &quot;github.com/wpxun/multigo/service&quot;
+  &quot;net/http&quot;
+  &quot;os&quot;
+  &quot;strconv&quot;
+)
+
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
+  redis := service.GetRedis()
+  val, err := redis.Incr(&quot;count&quot;).Result()
+  if err != nil {
+    panic(err)
+  }
+  host, _ := os.Hostname()
+  fmt.Fprintln(w, &quot;hello world &quot;+ host +&quot;, visitors = &quot; + strconv.FormatInt(val, 10) )
+}
+
+func main()  {
+  http.Handle(&quot;/pattern&quot;, http.HandlerFunc(IndexHandler))
+  http.ListenAndServe(&quot;:80&quot;, nil)
+}
+EOF
+</code></pre><pre><code>cat &lt;&lt;EOF &gt; $GOPATH/github.com/wpxun/multigo/config.yaml
+Redis:
+  DialTimeout: 2000000000 #连接超时设定(s)，默认200ms
+  Network: tcp #网络连接协议
+  Address: redis:6379 #连接地址(带端口)
+  Password:  #密码
+  Database: 0 #数据库，默认0
+EOF
+</code></pre><pre><code>cat &lt;&lt;EOF &gt; $GOPATH/github.com/wpxun/multigo/service/redis.go
+package service
+
+import (
+    &quot;github.com/go-redis/redis&quot;
+)
+
+func GetRedis() *redis.Client {
+    return redis.NewClient(&amp;redis.Options {
+        Addr:         Conf.Redis.Address,
+        Password:     Conf.Redis.Password,
+        DB:           Conf.Redis.Database,
+        Network:      Conf.Redis.Network,
+        DialTimeout:  Conf.Redis.DialTimeout,
+    })
+}
+EOF
+</code></pre><pre><code>cat &lt;&lt;EOF &gt; $GOPATH/github.com/wpxun/multigo/service/config.go
+package service
+
+import (
+    &quot;fmt&quot;
+    &quot;gopkg.in/yaml.v2&quot;
+    &quot;io/ioutil&quot;
+    &quot;time&quot;
+)
+
+type confstruct struct {
+    Redis struct {
+        Address     string          `yaml:&quot;Address&quot;`
+        Database    int             `yaml:&quot;Database&quot;`
+        DialTimeout time.Duration   `yaml:&quot;DialTimeout&quot;`
+        Network     string          `yaml:&quot;Network&quot;`
+        Password    string          `yaml:&quot;Password&quot;`
+    } `yaml:&quot;Redis&quot;`
+}
+
+var Conf confstruct
+
+func init() {
+    GetYaml(&quot;config&quot;, &amp;Conf)
+}
+
+func GetYaml(filename string, out interface{}) {
+    yamlFile, err := ioutil.ReadFile(fmt.Sprintf(&quot;%s.yaml&quot;, filename))
+    if err != nil {
+        fmt.Println(&quot;Read config file error:&quot;, err.Error())
+    }
+
+    err = yaml.Unmarshal(yamlFile, out)
+
+    if (err != nil) {
+        fmt.Println(&quot;Unmarshal config file error:&quot;, err.Error())
+    }
+}
+
+EOF
+</code></pre><h3 id="22-nbspnbsp">2.2   容器化</h3>
+<p>编写 Dockerfile，采用多阶段构建方式，使得镜像只有 12.9MB。另外 stack 要求提前构建好并推送到创建，也就是 docker-stack.yml 不能用在运行的时候才 build 镜像，原因是多节点部署中，其它节点并没有构建上下文。另外 redis 我们使用官方的 redis 镜像。</p>
+<pre><code># 多阶段构建
+# 第一阶段，391MB，编译前准备：go 和 git 工具、代码依赖库
+FROM golang:1.12.4-alpine3.9  AS front
+RUN set -xe &amp;&amp; \
+    apk add git &amp;&amp; \
+    go get -v github.com/go-redis/redis &amp;&amp; \
+    go get -v gopkg.in/yaml.v2
+
+# 分成两次 RUN 目的是可复用上面的缓存，编译 go 代码
+COPY . /go/src/github.com/wpxun/multigo
+RUN set -xe &amp;&amp; \
+    go install github.com/wpxun/multigo
+
+
+# 第二阶段，14.6MB；仅仅复制了可执行程序和程序的配置文件
+FROM alpine:3.9
+ENV GOM_VERSION   1904.1
+COPY --from=front /go/bin /go/src/github.com/wpxun/multigo/config.yaml /go/bin/
+EXPOSE 80
+WORKDIR /go/bin
+CMD [&quot;/go/bin/multigo&quot;]
+</code></pre><h2 id="3-nbspnbsp-stack-">3   分析 Stack 文件</h2>
+<p>Stack 一直是期望的 Compose——完全集成到 Docker 中，并能管理应用的整个生命周期。</p>
+<pre><code>cat &lt;&lt;EOF &gt; $GOPATH/github.com/wpxun/multigo/docker-stack.yml
+version: &quot;3.7&quot;
+services:
+  goweb:
+    image: &quot;wpxun/multigo:v1&quot;
+    ports:
+      - target: 80
+        published: 80
+    networks:
+      - counter-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      replicas: 8
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+
+  redis:
+    image: &quot;redis:5.0.4-alpine3.9&quot;
+    networks:
+      - counter-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints:
+          - 'node.role == worker'
+
+networks:
+  counter-net:
+
+volumes:
+  counter-vol:
+EOF
+</code></pre><p>在该文件整体结构中，定义了 4 种顶级关键字：</p>
+<ul>
+<li>version: 其要求的 version ≥ 3.0</li>
+<li>services: 定义了两个服务，这部分也是核心内容，接下来会讲解</li>
+<li>networks: 创建一个网络，驱动为默认。<strong>stack 编排文件的默认驱动是 overlay(swarm)，而 compose 编排文件的默认驱动是 bridge(local)。</strong></li>
+<li>volumes: 创建一个卷</li>
+</ul>
+<h2 id="4-nbspnbsp">4   部署应用</h2>
+<p><code>docker stack deploy -c docker-stack.yml multigo</code></p>
+<pre><code>&gt; docker stack ls
+NAME                SERVICES            ORCHESTRATOR
+multigo             2                   Swarm
+
+&gt; docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE                   PORTS
+8vcqoh0yry5v        multigo_goweb       replicated          8/8                 wpxun/multigo:v1        *:80-&gt;80/tcp
+cygtoce4mfkt        multigo_redis       replicated          1/1                 redis:5.0.4-alpine3.9
+</code></pre><h2 id="5-nbspnbsp">5   管理应用</h2>
+<p>部署成功之后，所有的 node 节点的 IP 都可以访问到服务，而非仅仅 Leader 节点。</p>
+<h2 id="6-nbspnbsp-stack">6   删除 Stack</h2>
+<p><code>docker stack rm</code>，一定要谨慎，删除 Stack 不会进行二次确认，服务和网络会删除，但卷不会删除，这是因为卷的设计初衷是保存持久化数据，其生命周期独立于容器、服务以及 Stack 之外。</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><strong>参考文献</strong>
+[1] Nigel Poulton. 深入浅出 Dokcer. 版次：2019年4月第1版
+[2] Docker Swarm or Kubernetes — Help me decide. <a href="https://stackshare.io/stackups/docker-swarm-vs-kubernetes">https://stackshare.io/stackups/docker-swarm-vs-kubernetes</a></p>
+
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://blog.jemper.cn/2019/04/docker-stack/" title="Docker Stack 多服务" target="_blank" rel="external">https://blog.jemper.cn/2019/04/docker-stack/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN</a>
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wpxun" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://blog.jemper.cn/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wpxun" target="_blank"><span class="text-dark">在路上</span><small class="ml-1x"></small></a></h3>
+        <div>Good Good Study, Day Day Up~</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://blog.jemper.cn/2019/04/docker-swarm-mode/" title="Docker Swarm 集群"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://blog.jemper.cn/2019/04/vagrant/"
+                    title="Vagrant 虚拟机管理"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li><a href="https://github.com/wpxun" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-github"></i></a></li>
+    <li><a href="https://blog.jemper.cn/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-rss"></i></a></li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2019
+    <div class="publishby">
+        Theme by <a href="https://github.com/xiaoheiAh" target="_blank"> xiaoheiAh </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/application.js"></script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/blog.jemper.cn\/',
+            CONTENT_URL: 'https:\/\/blog.jemper.cn\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script defer>
+    var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.jemper.cn\/2019\/04\/docker-stack\/';
+        this.page.identifier = 'wpxun';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = '//' + 'wpxun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+  </body>
+</html>

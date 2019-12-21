@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Istio 流量管理 - 在路上博客
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="流量管理是 istio 最核心的问题，涉及 v1alpha3 中的配置资源，包括Gateway、VirtualSerice、DestinationRule 等。本文主要是基" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  <title>Istio 流量管理 - 在路上博客</title>
+  
+
+  <link rel="stylesheet" href="https://blog.jemper.cn/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="Istio 流量管理" />
+<meta property="og:description" content="流量管理是 istio 最核心的问题，涉及 v1alpha3 中的配置资源，包括Gateway、VirtualSerice、DestinationRule 等。本文主要是基" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.jemper.cn/2019/06/istio-traffic-management/" />
+<meta property="article:published_time" content="2019-06-26T17:00:00+00:00" />
+<meta property="article:modified_time" content="2019-06-26T17:00:00+00:00" />
+<meta itemprop="name" content="Istio 流量管理">
+<meta itemprop="description" content="流量管理是 istio 最核心的问题，涉及 v1alpha3 中的配置资源，包括Gateway、VirtualSerice、DestinationRule 等。本文主要是基">
+<meta itemprop="datePublished" content="2019-06-26T17:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-06-26T17:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="3980">
+
+
+
+<meta itemprop="keywords" content="Kubernetes,Service Mesh," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Istio 流量管理"/>
+<meta name="twitter:description" content="流量管理是 istio 最核心的问题，涉及 v1alpha3 中的配置资源，包括Gateway、VirtualSerice、DestinationRule 等。本文主要是基"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/wpxun" target="_blank">
+            <img class="img-circle img-rotate" src="https://blog.jemper.cn/avatar.jpg" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">在路上</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Shenzhen, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/">
+                    <i class="icon icon-home-fill"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/posts">
+                    <i class="icon icon-archives-fill"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/about">
+                    <i class="icon icon-cup-fill"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/c/" class="category-list-link">c</a><span class="category-list-count">2</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/devops/" class="category-list-link">devops</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/docker/" class="category-list-link">docker</a><span class="category-list-count">4</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/golang/" class="category-list-link">golang</a><span class="category-list-count">8</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/http/" class="category-list-link">http</a><span class="category-list-count">5</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/" class="category-list-link">云原生</a><span class="category-list-count">8</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/%E6%97%A5%E8%AE%B0/" class="category-list-link">日记</a><span class="category-list-count">2</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/c/" class="tag-list-link">c</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">7</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/golang/" class="tag-list-link">golang</a><span
+                    class="tag-list-count">9</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/go%E5%8C%85/" class="tag-list-link">go包</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/http/" class="tag-list-link">http</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/io/" class="tag-list-link">io</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/jenkins/" class="tag-list-link">jenkins</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/kubernetes/" class="tag-list-link">kubernetes</a><span
+                    class="tag-list-count">8</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/rpc/" class="tag-list-link">rpc</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/service-mesh/" class="tag-list-link">service-mesh</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/socket/" class="tag-list-link">socket</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/tcp/" class="tag-list-link">tcp</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/tls/" class="tag-list-link">tls</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%8D%8F%E8%AE%AE/" class="tag-list-link">协议</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%AE%B9%E5%99%A8/" class="tag-list-link">容器</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" class="tag-list-link">密码学</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%B7%A5%E5%85%B7/" class="tag-list-link">工具</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%B9%B6%E5%8F%91/" class="tag-list-link">并发</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E6%9E%B6%E6%9E%84/" class="tag-list-link">架构</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E7%BC%96%E7%A8%8B/" class="tag-list-link">编程</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E7%BD%91%E7%BB%9C/" class="tag-list-link">网络</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E8%B0%83%E8%AF%95/" class="tag-list-link">调试</a><span
+                    class="tag-list-count">1</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/2019/06/istio-traffic-management/"
+    >Istio 流量管理</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://blog.jemper.cn/2019/06/istio-traffic-management/" class="article-date">
+  <time datetime="2019-06-26 17:00:00 &#43;0000 UTC" itemprop="datePublished">2019-06-26</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/"> 云原生 </a>
+</span>  
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+    <a class="article-tag-link" href="/tags/kubernetes/"> Kubernetes </a>
+    <a class="article-tag-link" href="/tags/service-mesh/"> Service Mesh </a>
+  </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/06/istio-traffic-management/#comments"
+            class="article-comment-link">评论</a></span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <p>流量管理是 istio 最核心的问题，涉及 v1alpha3 中的配置资源，包括Gateway、VirtualSerice、DestinationRule 等。本文主要是基于 <a href="/2019/05/30/istio/">Istio 基础</a>一文已经部署的实例来进行讲解。</p>
+<!-- raw HTML omitted -->
+<h2 id="1-nbspnbsp">1   概述</h2>
+<p>对于入口流量管理，您可能会问： 为什么不直接使用 Kubernetes Ingress API ？ 原因是 Ingress API 无法表达 Istio 的路由需求。 Ingress 试图在不同的 HTTP 代理之间取一个公共的交集，因此只能支持最基本的 HTTP 路由，最终导致需要将代理的其他高级功能放入到注解（annotation）中，而注解的方式在多个代理之间是不兼容的，无法移植。</p>
+<p>Istio Gateway 通过将 L4-L6 配置与L7配置分离的方式克服了 Ingress 的这些缺点。 Gateway 只用于配置 L4-L6 功能（例如，对外公开的端口，TLS 配置），所有主流的L7代理均以统一的方式实现了这些功能。 然后，通过在 Gateway 上绑定 VirtualService 的方式，可以使用标准的 Istio 规则来控制进入 Gateway 的 HTTP 和 TCP 流量。</p>
+<p>所谓四层负载均衡就是使用IP加端口的方式进行路由转发；七层负载均衡一般是基于请求URL地址的方式进行代理转发。同理，还有基于MAC地址信息(虚拟MAC地址到真实MAC地址)进行转发的二层负载均衡和基于IP地址(虚拟IP到真实IP)的三层负载均衡。</p>
+<p>四层负载均衡具体实现方式为：通过报文中的IP地址和端口，再加上负载均衡设备所采用的负载均衡算法，最终确定选择后端哪台下游服务器。以TCP为例，客户端向负载均衡发送SYN请求建立第一次连接，通过配置的负载均衡算法选择一台后端服务器，并且将报文中的IP地址信息修改为后台服务器的IP地址信息，因此TCP三次握手连接是与后端服务器直接建立起来的。</p>
+<p>七层服务均衡在应用层选择服务器，只能先与负载均衡设备进行TCP连接，然后负载均衡设备再与后端服务器建立另外一条TCP连接通道。因此，七层设备在网络性能损耗会更多一些。</p>
+<p>从安全视角上：
+四层负载均衡与服务器直接建立起TCP连接，很容易遭受SYN Flood攻击。SYN Flood是一种广为人知的DDoS（分布式拒绝服务攻击）的方式之一，这是一种利用TCP协议缺陷，发送大量伪造的TCP连接请求，从而使得被攻击方资源耗尽的攻击方式。从技术实现原理上可以看出，四层负载均衡很容易将垃圾流量转发至后台服务器，而七层设备则可以过滤这些恶意并清洗这些流量，但要求设备本身具备很强的抗DDOS流量的能力。</p>
+<h2 id="2-nbspnbspgateway">2   Gateway</h2>
+<p>典型的网格将具有一个或多个负载均衡器（我们称之为网关），它们从外部网络终止TLS并允许流量进入网格。逻辑上相当于网格边缘的一个负载均衡器，用于接收和处理网格边缘出站和入站的网络连接，其中包括 TCP/TLS 等相关的配置内容。有两类网关</p>
+<ol>
+<li>内部虚拟 Mesh 网关：代表网格内部的所有 Sidecar，换句话说：所有网格内部服务之间的互相通信，都是通过这个网关进行的。承载了所有 Kubernetes Service 的流量，只要是注射了 Istio 的服务均可。</li>
+<li>自定义 Gateway 网关：如果要对外提供服务，就需要定义 Gateway 对象，并在 VirtualService 的 gateways 字段中进行赋值。流经用 selector(一般直接用 istio: ingressgateway) 指定的 Pods 流量，也就是只能通过 ingressgateway 服务 IP 访问的流量（这里是最终通过该 IP 访问的，可以设置域名，只要最终通过该 IP 即可）</li>
+</ol>
+<ul>
+<li><strong>selector</strong>：Istio Gateway 告诉 k8s 的 istio-ingressgateway pods 可以打开哪些主机和端口，它这是通过使用Kubernetes创造的标签选择器( label selector)模式来实现，以指定由哪些 Gateway Pods 来负责这个 Gateway 对象的运行。该网关要应用到的指定的 pods 上，通过 <code>kubectl get po -n istio-system --show-labels</code> 可以查看到 istio-ingressgateway-前缀的 pod 具有 app=istio-ingressgateway,chart=gateways,heritage=Tiller,istio=ingressgateway,pod-template-hash=5d8d989c76,release=istio 标签。</li>
+<li><strong>servers</strong>：通过 <code>kubectl get svc -n istio-system -o wide</code>，可以看到 istio-ingressgateway 是一个 LoadBalancer 类型（默认），映射了很多服务端口在宿主机比如： 15020:31966/TCP,80:31380/TCP,443:31390/TCP，以 80:31380/TCP 为例，宿主机:31380 -&gt; 通过 kube-prox -&gt; istio-ingressgateway CLUSTER-IP:80，它选择 app=istio-ingressgateway,istio=ingressgateway,release=istio，也就是选择到了 istio-ingressgateway-前缀的 pod</li>
+<li><strong>port</strong>: 用来指定 istio-ingressgateway service 的某个端口开放给该 Gateway 资源
+<ul>
+<li><strong>number</strong>: 这个就是服务的端口号，比如选择了 443，因为 443:31390/TCP，那么就可以在宿主机用 31390 访问到此服务</li>
+<li><strong>name</strong>: http</li>
+<li><strong>protocol</strong>: HTTP</li>
+</ul>
+</li>
+<li><strong>hosts</strong>: 数组，可以包含 <code>*</code></li>
+</ul>
+<h2 id="3-nbspnbspvirtualservice">3   VirtualService</h2>
+<h3 id="31-nbspnbsp">3.1   理解</h3>
+<p>所有流量无论从哪里进来，从 Gateway 网关进来，从 Service 资源进来，都由 VirtualService 提供服务，VirtualService 通过 DestinationRule 转发到实际的 Service 里的的 Pod（Pod 标签匹配的 DestinationRule 设置的 subset 标签）。可以看出，流量进来后，不再直接把 Kubernetes service 放在前面，而是把 istio 的 VirtualService 放在前线提供服务。</p>
+<ul>
+<li>hosts: 数组，表示对哪些域名起作用，如果是 Gateway 网络进来的，需要指定 Gateway 服务端口号，不需要指定 pods 的服务端口号，如果不是 Gateway 进来的，需要指定 pods 所对应的服务端口号。</li>
+<li>gateways: 把它绑定到某些网关下，如果没有指定，默认情况会绑定到 mesh 网关；<strong>一旦在 gateways 中填写了 mesh 之外的对象名称，就要继续对内部通信进行流量控制，并必须显式地将内置的 mesh 对象名称也加入列表中</strong>，但是注意，如果使用了 wildcard host * is not allowed for virtual services bound to the mesh gateway，而自定义网关没有此限制。</li>
+<li>http: 指定7层网络，它不能指定服务的端口
+<ul>
+<li>match：http 层的匹配规则，比如 uri、headers、scheme、method、authority、端口、来源标签和 gateway 等，匹配方式有 exact、prefix 和 regex。</li>
+<li>route：
+<ul>
+<li>destination：通过服务名用于筛选服务，通过版本或者端口号进行一点缩小目标
+<ul>
+<li>host：指定的服务名</li>
+<li>port：
+<ul>
+<li>number：Endpoint Pod 端口</li>
+</ul>
+</li>
+<li>subset：指向 DestinationRule 配置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>redirect：重定向，发生在客户端</li>
+<li>rewrite：重写，rewrite 和 redirect 不能共存，它们不同之处在于，在 rewrite 方法的 match 一节必须包含对目标的定义</li>
+</ul>
+</li>
+<li>tcp: 指定4层网络，它可以指定服务的端口</li>
+</ul>
+<p>VirtualService 是基于7层流量的，对指定的 hosts 有效；当然提供服务可以是 http、tcp 等</p>
+<h3 id="32-nbspnbsp">3.2   实例</h3>
+<p>我们以下面的为例进行解释：</p>
+<pre><code>[yhdodo19@instance-1 ~]$ kubectl get svc
+NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+goapi         NodePort    10.97.35.169     &lt;none&gt;        81:30001/TCP   30h
+goapisec      NodePort    10.111.145.131   &lt;none&gt;        82:30002/TCP   30h
+
+[yhdodo19@instance-1 ~]$ kubectl get svc -n istio-system
+NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                           
+istio-ingressgateway     LoadBalancer   10.99.215.11     &lt;pending&gt;     15020:31966/TCP,80:31380/TCP,443:31390/TCP,31400:31400/TCP,15029:32293/TCP,15030:30857/TCP,15031:30499/TCP,15032:31537/TCP,15443:32082/TCP
+</code></pre><p>服务的映射关系可以直接替换访问，比如 10.99.217.250:443 等同于 10.142.0.3:31390、127.0.0.1:31390，可以直接替换</p>
+<p>Gateway example-gateway 的 hosts 配置如下：</p>
+<pre><code>    hosts:
+      - &quot;*&quot;
+</code></pre><p>以该 Gateway 配置，以两种情况的 VirtualService 的理解它们之间的关系。</p>
+<h4 id="321-nbspnbsp">3.2.1   配置一</h4>
+<p>VirtualService 的 hosts 配置如下：</p>
+<pre><code> hosts:
+  - goapi.default.svc.cluster.local
+  - goapisec.default.svc.cluster.local
+  - kube.jemper.cn
+ gateways:
+  - example-gateway
+  - mesh
+</code></pre><p>并准备以下命令语句：</p>
+<pre><code>for i in `seq 10`; do curl http://10.106.118.207:81/index; done
+for i in `seq 10`; do curl http://10.101.139.70:82/sec/index; done
+for i in `seq 10`; do curl http://goapi:81/index; done
+for i in `seq 10`; do curl http://goapisec:82/sec/index; done
+for i in `seq 10`; do curl http://10.99.217.250:443/index -H 'host: kube.jemper.cn'; done
+for i in `seq 10`; do curl http://10.99.217.250:443/sec/index -H 'host: kube.jemper.cn'; done
+</code></pre><ul>
+<li>如果在网格外执行，前两个命令可以执行但没有匹配到 VirtualService；中间两个命令返回 “Could not resolve host”，后两个可以执行并匹配到 VirtualService。</li>
+<li>如果在网格内执行，都可以执行，且都能匹配到 VirtualService，其中前两个 IP 地址访问时会经由某一控制解析为域名。</li>
+</ul>
+<p>因此可以看出，Kubernetes Service 的 IP 在网格内被导向了域名，而域名因为在 VirtualService 配置所以受到其控制，所以体现出网格内外不一致的表现；而网格外不会被导向域名，所以不受其控制。</p>
+<h4 id="321-nbspnbsp-1">3.2.1   配置二</h4>
+<p>VirtualService 的 hosts 配置如下：</p>
+<pre><code> hosts:
+  - “*”
+ gateways:
+  - example-gateway
+</code></pre><p>并准备以下命令语句：</p>
+<pre><code>for i in `seq 10`; do curl http://10.106.118.207:81/index; done
+for i in `seq 10`; do curl http://10.101.139.70:82/sec/index; done
+for i in `seq 10`; do curl http://goapi:81/index; done
+for i in `seq 10`; do curl http://goapisec:82/sec/index; done
+for i in `seq 10`; do curl http://10.99.217.250:443/index; done
+for i in `seq 10`; do curl http://10.99.217.250:443/sec/index; done
+</code></pre><ul>
+<li>因为没有 mesh 网关，没有通过 example-gateway 网关的流量都不会匹配 VirtualService。所以前面四个命令网格内外都匹配不到 VirtualService。</li>
+<li>对后两个命令，在网格内外都能匹配到 VirtualService。</li>
+</ul>
+<h2 id="4-nbspnbspdestinationrule">4   DestinationRule</h2>
+<p>DestinationRule 是为 VirtualService 服务的，可以细分 Kubernetes Service 的 pods，以便一个 VirtualService 对应 Service 的多个版本。建议为每个网格都设置明确的目标访问规则。</p>
+<ul>
+<li>host：注意这里不是数组，是字符串，只能对单个 host 起作用，这里就是 Kubernetes Service 的域名了</li>
+<li>subsets：这里是对上面 Kubernetes Service 的选择。</li>
+<li>trafficPolicy：流量策略。在 DestinationRule 和 Subsets 两级中都可以定义 trafficPolicy，在 Subset 中设置的级别更高。</li>
+</ul>
+<h2 id="5-nbspnbsp">5   总结</h2>
+<ol>
+<li>Gateway： Istio Gateway是负责打开k8s上相关Istio的pods上的端口并接收主机的流量，是接收流量与路由之间的关键链接。L4-L6层配置，比如 TLS。Gateway 指向 Pods</li>
+<li>VirtualService： Istio VirtualService是“附加”到 Gateway 上的，并负责定义 Gateway 应实现的路由。可以将多个VirtualServices连接到Gateway，但不适用于同一个域。L7层配置，比如 CorsPolicy、HTTPRewrite、HTTPRedirect、HTTPMatchRequest 等。VirtualService 指向注射了 istio 的 Kubernetes Service。</li>
+<li>DestinationRule 依赖于 Kubernetes 的 Service 和其关联的 pods，并服务于 VirtualService。由此可以，istio 对 pods 要求必须关联 Service，而无论其是否开放端口，DestinationRule 的 host 是依赖于 Kubernetes Service。</li>
+<li>Gateway 的 hosts 是决定因素，VirtualService 的 hosts 是依赖于前者的。对于 Kubernetes 服务其 host 可以简写或全写比如：goapi、goapi.default.svc.cluster.local，建议写全。但访问的方式就更多了，比如 goapi、goapi.default、goapi.default.svc.cluster.local 都可以。</li>
+</ol>
+<p>kubectl -n istio-system edit deployment istio-ingressgateway</p>
+<p>kubectl -n istio-system edit svc istio-ingressgateway</p>
+<p>kubectl apply -f <a href="https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml">https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml</a></p>
+<p>kubectl get pods &ndash;all-namespaces -l app.kubernetes.io/name=ingress-nginx &ndash;watch
+kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx -o jsonpath=&rsquo;{.items[0].metadata.name}&rsquo;</p>
+<p>kubectl exec -it nginx-ingress-controller-5694ccb578-w6wn5 -n ingress-nginx &ndash; /nginx-ingress-controller &ndash;version</p>
+<p>curl -v http://34.74.171.148 -H &lsquo;host: kube.jemper.cn&rsquo;
+curl -v http://35.227.70.245 -H &lsquo;host: kube.jemper.cn&rsquo;
+curl -v http://35.237.188.250 -H &lsquo;host: kube.jemper.cn&rsquo;</p>
+<p>for i in <code>seq 10</code>; do curl http://35.237.188.250:30001/index; done
+for i in <code>seq 10</code>; do curl http://10.109.74.93:81/index; done
+for i in <code>seq 10</code>; do curl http://10.99.215.11/index -H &lsquo;host: kube.jemper.cn&rsquo;; done</p>
+<p>curl -v http://35.237.188.250:30001/index
+curl -v http://10.109.74.93:81/index
+curl http://10.99.215.11:443/sec/index -H &lsquo;host: kube.jemper.cn&rsquo;
+curl http://10.99.215.11:443/index -H &lsquo;host: kube.jemper.cn&rsquo;
+curl http://10.142.0.2:31390/sec/index -H &lsquo;host: kube.jemper.cn&rsquo;
+curl http://10.99.215.11/index -H &lsquo;host: kube.jemper.cn&rsquo;
+for i in <code>seq 10</code>; do curl http://10.99.215.11:443/index -H &lsquo;host: kube.jemper.cn&rsquo;; done
+for i in <code>seq 10</code>; do curl http://10.99.215.11:443/sec/index -H &lsquo;host: kube.jemper.cn&rsquo;; done</p>
+<p>kubectl explain DestinationRule.spec &ndash;api-version=networking.istio.io/v1alpha3</p>
+<p>scp -r -i /home/feixin10/.ssh/dodo   /home/feixin10  <a href="mailto:yhdodo19@35.196.205.161">yhdodo19@35.196.205.161</a>:/home/yhdodo19</p>
+<p>for i in <code>seq 10</code>; do curl http://35.237.188.250:30001/index; done
+for i in <code>seq 10</code>; do curl http://35.237.188.250:30002/sec/index; done</p>
+<p>for i in <code>seq 10</code>; do curl http://10.97.35.169:81/index; done
+for i in <code>seq 10</code>; do curl http://10.111.145.131:82/sec/index; done</p>
+<p>for i in <code>seq 10</code>; do curl http://goapi:81/index; done
+for i in <code>seq 10</code>; do curl http://goapisec:82/sec/index; done</p>
+<p>sudo tcpdump port 8080 -n
+sudo tcpdump -i eth0 src host 10.2.200.11 or dst host 10.2.200.11</p>
+<p>sudo tcpdump -i eth0 -s 80 -w /tmp/tcpdump.cap</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><strong>参考文献</strong>
+[1] Istio v1aplha3 路由 API 介绍. <a href="https://istio.io/zh/blog/2018/v1alpha3-routing/">https://istio.io/zh/blog/2018/v1alpha3-routing/</a>
+[2] Traffic Management. <a href="https://istio.io/docs/reference/config/networking/">https://istio.io/docs/reference/config/networking/</a></p>
+
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://blog.jemper.cn/2019/06/istio-traffic-management/" title="Istio 流量管理" target="_blank" rel="external">https://blog.jemper.cn/2019/06/istio-traffic-management/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN</a>
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wpxun" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://blog.jemper.cn/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wpxun" target="_blank"><span class="text-dark">在路上</span><small class="ml-1x"></small></a></h3>
+        <div>Good Good Study, Day Day Up~</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://blog.jemper.cn/2019/06/kubernetes-network/" title="Kubernetes 网络"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://blog.jemper.cn/2019/08/go-log/"
+                    title="go log 包"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li><a href="https://github.com/wpxun" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-github"></i></a></li>
+    <li><a href="https://blog.jemper.cn/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-rss"></i></a></li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2019
+    <div class="publishby">
+        Theme by <a href="https://github.com/xiaoheiAh" target="_blank"> xiaoheiAh </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/application.js"></script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/blog.jemper.cn\/',
+            CONTENT_URL: 'https:\/\/blog.jemper.cn\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script defer>
+    var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.jemper.cn\/2019\/06\/istio-traffic-management\/';
+        this.page.identifier = 'wpxun';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = '//' + 'wpxun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+  </body>
+</html>

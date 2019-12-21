@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 在路上博客</title>
+    <link>https://blog.jemper.cn/posts/</link>
+    <description>Recent content in Posts on 在路上博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 27 Aug 2019 21:51:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://blog.jemper.cn/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>汇编语言</title>
+      <link>https://blog.jemper.cn/2019/08/assembly/</link>
+      <pubDate>Tue, 27 Aug 2019 21:51:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/08/assembly/</guid>
+      <description>图灵在数理逻辑方面的理论研究，间接地创造了机器指令设计的基本方法，计算机界最高奖项也因此称图灵奖；现代计算机之父冯诺依曼，于1945年提出了</description>
+    </item>
+    
+    <item>
+      <title>go command 命令</title>
+      <link>https://blog.jemper.cn/2019/08/go-command/</link>
+      <pubDate>Fri, 16 Aug 2019 16:53:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/08/go-command/</guid>
+      <description>/usr/local/go/bin 下提供了三个命令 go、gofmt、godoc。主命令 Go 下分二级和三级子命令，本文档将迭代完善，争取列出所有功能点，目前还处于更新状态。 1 go</description>
+    </item>
+    
+    <item>
+      <title>go log 包</title>
+      <link>https://blog.jemper.cn/2019/08/go-log/</link>
+      <pubDate>Tue, 06 Aug 2019 16:44:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/08/go-log/</guid>
+      <description>1 错误相关的概念 编译错误：build的时候就报错，由于考虑不周或输入错误导致程序异常（Exception），比如数组越界访问，除数为零，堆栈</description>
+    </item>
+    
+    <item>
+      <title>Istio 流量管理</title>
+      <link>https://blog.jemper.cn/2019/06/istio-traffic-management/</link>
+      <pubDate>Wed, 26 Jun 2019 17:00:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/06/istio-traffic-management/</guid>
+      <description>流量管理是 istio 最核心的问题，涉及 v1alpha3 中的配置资源，包括Gateway、VirtualSerice、DestinationRule 等。本文主要是基</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes 网络</title>
+      <link>https://blog.jemper.cn/2019/06/kubernetes-network/</link>
+      <pubDate>Fri, 21 Jun 2019 12:22:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/06/kubernetes-network/</guid>
+      <description>微服务是多进程、多服务部署，无法通过 IPC 进程内调用，必然通过网络调用，这将带来很多问题：不可靠、有带宽、协议设计。无论是 TCP、HTTP、RP</description>
+    </item>
+    
+    <item>
+      <title>Istio Prometheus</title>
+      <link>https://blog.jemper.cn/2019/05/istio-prometheus/</link>
+      <pubDate>Thu, 30 May 2019 00:33:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/05/istio-prometheus/</guid>
+      <description>我选择 Istio 而非 Service Mesh 鼻祖 Linkerd 的原因，是 Istio 有大牌厂商支持、社区生态圈优势、重点支持 Kubernetes。 1 遥测插件的远程访问 这里有很多种方法： 直接用</description>
+    </item>
+    
+    <item>
+      <title>Istio 基础</title>
+      <link>https://blog.jemper.cn/2019/05/istio/</link>
+      <pubDate>Thu, 30 May 2019 00:33:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/05/istio/</guid>
+      <description>我选择 Istio 而非 Service Mesh 鼻祖 Linkerd 的原因，是 Istio 有大牌厂商支持、社区生态圈优势、重点支持 Kubernetes。 1 为什么需要 Service Mesh 有了 Kubernetes 的 Service，为什</description>
+    </item>
+    
+    <item>
+      <title>微服务架构</title>
+      <link>https://blog.jemper.cn/2019/05/microservice-architecture-difficult/</link>
+      <pubDate>Mon, 20 May 2019 15:55:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/05/microservice-architecture-difficult/</guid>
+      <description>这是一个架构概念爆发的时代，是架构本身的复杂度已经开始超越业务逻辑本身的时代，同时也是越来越接近 DevOps 工作方式的时代。 1 互联网架构变迁 从历史观来</description>
+    </item>
+    
+    <item>
+      <title>日记——从现实世界看计算机世界（2）</title>
+      <link>https://blog.jemper.cn/2019/05/hello-world/</link>
+      <pubDate>Mon, 13 May 2019 18:16:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/05/hello-world/</guid>
+      <description>最近在思考计算机的发展方向，它们跟现实世界的关系是紧密的、有迹可循的，架构设计过程中理应从社会活动中得到启示。 组件 世界上千千万万的事件，电视</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes 资源</title>
+      <link>https://blog.jemper.cn/2019/05/kubernetes-resource/</link>
+      <pubDate>Tue, 07 May 2019 13:55:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/05/kubernetes-resource/</guid>
+      <description>本文重点理解 Kubernetes 资源的作用，并用一个简单的例子进行演示。 1 版本、组和资源 1.1 版本 版本是 Kubernetes 管理资源的一种策略，这种策略的目的是为了更好地进化与调整</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes 集群安装</title>
+      <link>https://blog.jemper.cn/2019/04/kubernetes-install/</link>
+      <pubDate>Sun, 28 Apr 2019 16:06:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/kubernetes-install/</guid>
+      <description>有了 Docker Swarm 基础，再来学习 Kubernetes 会相对容易一些，不过安装 Kubernetes 还是挺繁琐的，对官方文档中需要访问谷歌外网的部分，还需要替换成国内源。如果目的为了学习，还</description>
+    </item>
+    
+    <item>
+      <title>Jenkins 持续集成</title>
+      <link>https://blog.jemper.cn/2019/04/jenkins/</link>
+      <pubDate>Sun, 28 Apr 2019 11:59:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/jenkins/</guid>
+      <description>今天看到《Jenkins2 权威指南》出来了，马上买了一本，DevOps 相关的书籍更新太快了，这包括 Docker、Jenkins，新特性快速推</description>
+    </item>
+    
+    <item>
+      <title>Vagrant 虚拟机管理</title>
+      <link>https://blog.jemper.cn/2019/04/vagrant/</link>
+      <pubDate>Sat, 27 Apr 2019 10:04:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/vagrant/</guid>
+      <description>个人操作系统并不需要配置化，但随着开发人员的复杂化，每个开发人员都需要同样的主机系统以保证开发环境的可移植性；另外一方面，随着微服务的推广需</description>
+    </item>
+    
+    <item>
+      <title>Docker Stack 多服务</title>
+      <link>https://blog.jemper.cn/2019/04/docker-stack/</link>
+      <pubDate>Fri, 26 Apr 2019 17:58:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/docker-stack/</guid>
+      <description>我们从简到繁看一下 Docker 的学习路线： docker run：Single Engine(者称 Single-Host，单 Docker 节点)下单服务运行 docker-comp</description>
+    </item>
+    
+    <item>
+      <title>Docker Swarm 集群</title>
+      <link>https://blog.jemper.cn/2019/04/docker-swarm-mode/</link>
+      <pubDate>Tue, 16 Apr 2019 17:38:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/docker-swarm-mode/</guid>
+      <description>概括来说，Swarm 有两个核心组件： 企业级的 Docker 安全集群 微服务应用编排引擎 1 环境 Swarm 对主机（节点）的要求并不高，我在4台 f1-micro（1 个 v</description>
+    </item>
+    
+    <item>
+      <title>Dockerfile 应用容器化及 Compose 部署应用</title>
+      <link>https://blog.jemper.cn/2019/04/docker-single-engine-mode/</link>
+      <pubDate>Mon, 15 Apr 2019 17:00:14 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/docker-single-engine-mode/</guid>
+      <description>将应用整合到容器中并且运行起来的这个过程，或者把应用打包成为一个镜像的过程，称为容器化，有时也叫作“Docker 化”。容器化核心就是创建镜像</description>
+    </item>
+    
+    <item>
+      <title>Docker Engine</title>
+      <link>https://blog.jemper.cn/2019/04/docker-engine/</link>
+      <pubDate>Sat, 13 Apr 2019 17:00:14 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/docker-engine/</guid>
+      <description>目前，以容器技术为代表的应用形态和以虚拟化为代表的系统形态完美融合于 OpenStack 生态圈之上，Kubernetes 是用于自动部署，扩展和管理容器化应用程</description>
+    </item>
+    
+    <item>
+      <title>日记——几点思考（1）</title>
+      <link>https://blog.jemper.cn/2019/04/before-work/</link>
+      <pubDate>Fri, 12 Apr 2019 14:04:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/before-work/</guid>
+      <description>有感而写，以后每月计划写一篇吧。 关于多多益善的思考 看了这一篇文章 《从全栈工程师到全周期工程师》，全栈工程师是从前端到后端，从软件到硬件都懂的</description>
+    </item>
+    
+    <item>
+      <title>网络杂谈</title>
+      <link>https://blog.jemper.cn/2019/04/network/</link>
+      <pubDate>Thu, 11 Apr 2019 15:27:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/network/</guid>
+      <description>摘要：在局域网需要靠物理地址发送给对应的主机，而到广域网是用的 IP 地址进行报文转发。IP 是点到点，负责发送给对应的主机，而 TCP 是端到端，负责发送</description>
+    </item>
+    
+    <item>
+      <title>HTTPS 性能和调试</title>
+      <link>https://blog.jemper.cn/2019/04/https/</link>
+      <pubDate>Mon, 01 Apr 2019 17:34:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/04/https/</guid>
+      <description>HTTPS 整个知识体系非常庞大，我认识到的学习 HTTPS 的最佳步骤是： 基础部分：TCP/IP，可以参阅《TCP 传输原理》 安全部分：分别是学习密码学、Open</description>
+    </item>
+    
+    <item>
+      <title>HTTP/2 协议</title>
+      <link>https://blog.jemper.cn/2019/03/http2/</link>
+      <pubDate>Sun, 31 Mar 2019 14:39:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/http2/</guid>
+      <description>HTTP/1.1 与 HTTP/2 相隔了大概20年，但是从目前的研究和实验情况来看，我们不可能等上几十年才升级到下一个版本，h2 在逐渐的普及。 h2 和 h1 的最大差别在于在 http 层</description>
+    </item>
+    
+    <item>
+      <title>DevOps</title>
+      <link>https://blog.jemper.cn/2019/03/devops/</link>
+      <pubDate>Wed, 27 Mar 2019 16:03:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/devops/</guid>
+      <description>DevOps 是一套实践方法，在保证高质量的前提下缩短系统变更从提交到部署到生产环境的时间，它设想在开发组和运维组之间没有冲突。 1 什么是 DevOps DevOps 是敏捷开发的</description>
+    </item>
+    
+    <item>
+      <title>SSL/TLS 协议</title>
+      <link>https://blog.jemper.cn/2019/03/tls/</link>
+      <pubDate>Sun, 24 Mar 2019 17:55:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/tls/</guid>
+      <description>SSL/TLS 是基于 TCP 之上，HTTP 之下的协议。从技术角度上看，HTTP/2 作为新一代的协议，虽然协议文本中并未强制要求加密，但主要的浏览器（Firef</description>
+    </item>
+    
+    <item>
+      <title>密码学</title>
+      <link>https://blog.jemper.cn/2019/03/cryptology/</link>
+      <pubDate>Thu, 21 Mar 2019 17:29:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/cryptology/</guid>
+      <description>近代加密都是加密算法公开的，自行设计算法要求编程阶段就要进行协商开发，且存可能是不严格的数学模型存在安全漏洞。一般企业内部也是用流行的密码学</description>
+    </item>
+    
+    <item>
+      <title>并发的复杂性</title>
+      <link>https://blog.jemper.cn/2019/03/go-concurrency-difficult/</link>
+      <pubDate>Thu, 14 Mar 2019 11:10:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/go-concurrency-difficult/</guid>
+      <description>本文谈到的并发是指单程序、单节点并发，区别于并发系统，并发系统的一个更加流行的词是分布式系统，并发系统更有可能是并行的，因为其中的多个程序一</description>
+    </item>
+    
+    <item>
+      <title>go I/O 操作</title>
+      <link>https://blog.jemper.cn/2019/03/go-io/</link>
+      <pubDate>Wed, 13 Mar 2019 14:55:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/go-io/</guid>
+      <description>理解 I/O 的一些概念问题可以先看另一篇文章《C Socket 编程》 Go 语言把 I/O 操作抽象成为 Reader 和 Writer 接口，并在 C 语言的基础上又设置了一层缓存操作。 1 简介 先进行接口</description>
+    </item>
+    
+    <item>
+      <title>go 网络编程</title>
+      <link>https://blog.jemper.cn/2019/03/go-network/</link>
+      <pubDate>Tue, 12 Mar 2019 09:30:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/go-network/</guid>
+      <description>本篇主要内容是 Go HTTP 原理和 RPC 相关知识。 在进行原理讲解之前我觉得有必要熟悉一下 TCP 传输原理和 C Socket 编程，因为 Go 是在 C 的基础上进行封装的，这样对哪些属</description>
+    </item>
+    
+    <item>
+      <title>C Socket 编程</title>
+      <link>https://blog.jemper.cn/2019/03/c-socket/</link>
+      <pubDate>Mon, 11 Mar 2019 20:04:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/c-socket/</guid>
+      <description>一切皆文件，I/O 操作无处不在，文件、设备、管道、Socket等都是 I/O 操作。C 语言对文件 I/O 操作分两种，一种是无缓冲的（用户层无缓存区），返回</description>
+    </item>
+    
+    <item>
+      <title>TCP 传输原理</title>
+      <link>https://blog.jemper.cn/2019/03/tcp-protocol/</link>
+      <pubDate>Sun, 10 Mar 2019 18:00:59 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/tcp-protocol/</guid>
+      <description>TCP的主要目的是在一个比较不可靠的相互通信上提供可靠的，安全的逻辑回路或者连接服务。为了实现这个服务，TCP 的设计 体系非常庞大，我对其理解</description>
+    </item>
+    
+    <item>
+      <title>go context 包</title>
+      <link>https://blog.jemper.cn/2019/03/go-context/</link>
+      <pubDate>Fri, 08 Mar 2019 15:03:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/go-context/</guid>
+      <description>整个 context 包原码就有一个文件即 context.go，我估计 context 的设计就是由 http 引出来的，学习 context 其实也是学习 go 的接口设计范式。 1.1 Context 接口 type Context interface { // 取消树</description>
+    </item>
+    
+    <item>
+      <title>go time 包</title>
+      <link>https://blog.jemper.cn/2019/03/go-time/</link>
+      <pubDate>Fri, 08 Mar 2019 09:39:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2019/03/go-time/</guid>
+      <description>时间概念 时间对所有程序语言来说原理都是一样的：时间点、时间段、时区和显示格式。 时间点：时间点没有时区差异，也就是说全世界无论哪个时区都是同一</description>
+    </item>
+    
+    <item>
+      <title>go 类型转换</title>
+      <link>https://blog.jemper.cn/2018/08/go-conversions/</link>
+      <pubDate>Sat, 18 Aug 2018 17:46:00 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2018/08/go-conversions/</guid>
+      <description>Go Conversions 和 类型断言是两种类型转换方式。 1 Go Conversions *Point(p) // same as *(Point(p)) (*Point)(p) // p is converted to *Point &amp;lt;-chan int(c) // same as &amp;lt;-(chan int(c)) (&amp;lt;-chan int)(c) // c is converted to &amp;lt;-chan int func()(x) // function signature func() x (func())(x) // x is converted to func() (func() int)(x) // x is converted to func() int</description>
+    </item>
+    
+    <item>
+      <title>Joomla &#43; Magento 官网加商城</title>
+      <link>https://blog.jemper.cn/2017/03/joomla-magento/</link>
+      <pubDate>Mon, 20 Mar 2017 14:06:52 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2017/03/joomla-magento/</guid>
+      <description>今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：docker 入门与 docker-compose 编配工具</description>
+    </item>
+    
+    <item>
+      <title>git 源码安装</title>
+      <link>https://blog.jemper.cn/2017/02/git-source/</link>
+      <pubDate>Fri, 10 Feb 2017 16:06:14 +0000</pubDate>
+      
+      <guid>https://blog.jemper.cn/2017/02/git-source/</guid>
+      <description>用习惯了windows下高版本2.11.0的git，再到centos7自带的1.8.5版本觉得操作还是不方便，所以今天就把它升级到最新版。 必</description>
+    </item>
+    
+    <item>
+      <title>博客实践</title>
+      <link>https://blog.jemper.cn/2017/02/blog/</link>
+      <pubDate>Wed, 08 Feb 2017 15:56:13 +0800</pubDate>
+      
+      <guid>https://blog.jemper.cn/2017/02/blog/</guid>
+      <description>Hexo 是一个很不错的静态博客管理工具的，快速发布，Markdown 支持，插件支持。官网现在列出了100来个主题都很好看，第一篇文章就来写 Hexo 的部署</description>
+    </item>
+    
+    <item>
+      <title>关于我</title>
+      <link>https://blog.jemper.cn/about/</link>
+      <pubDate>Tue, 07 Feb 2017 14:11:49 +0800</pubDate>
+      
+      <guid>https://blog.jemper.cn/about/</guid>
+      <description>我是谁？ 毕业大学：华南师范大学 毕业时间：2012年 从事职位：目前从事 golang 和云原生相关的工作 工作地点：深圳 联系邮箱：wpxun@163.com 为</description>
+    </item>
+    
+  </channel>
+</rss>
