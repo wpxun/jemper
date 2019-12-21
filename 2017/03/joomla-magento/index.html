@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Joomla &#43; Magento 官网加商城 - 在路上博客
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：docker 入门与 docker-compose 编配工具" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  <title>Joomla &#43; Magento 官网加商城 - 在路上博客</title>
+  
+
+  <link rel="stylesheet" href="https://blog.jemper.cn/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="Joomla &#43; Magento 官网加商城" />
+<meta property="og:description" content="今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：docker 入门与 docker-compose 编配工具" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.jemper.cn/2017/03/joomla-magento/" />
+<meta property="article:published_time" content="2017-03-20T14:06:52+00:00" />
+<meta property="article:modified_time" content="2017-03-20T14:06:52+00:00" />
+<meta itemprop="name" content="Joomla &#43; Magento 官网加商城">
+<meta itemprop="description" content="今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：docker 入门与 docker-compose 编配工具">
+<meta itemprop="datePublished" content="2017-03-20T14:06:52&#43;00:00" />
+<meta itemprop="dateModified" content="2017-03-20T14:06:52&#43;00:00" />
+<meta itemprop="wordCount" content="999">
+
+
+
+<meta itemprop="keywords" content="工具," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Joomla &#43; Magento 官网加商城"/>
+<meta name="twitter:description" content="今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：docker 入门与 docker-compose 编配工具"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/wpxun" target="_blank">
+            <img class="img-circle img-rotate" src="https://blog.jemper.cn/avatar.jpg" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">在路上</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Shenzhen, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/">
+                    <i class="icon icon-home-fill"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/posts">
+                    <i class="icon icon-archives-fill"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/about">
+                    <i class="icon icon-cup-fill"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/c/" class="category-list-link">c</a><span class="category-list-count">2</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/devops/" class="category-list-link">devops</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/docker/" class="category-list-link">docker</a><span class="category-list-count">4</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/golang/" class="category-list-link">golang</a><span class="category-list-count">8</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/http/" class="category-list-link">http</a><span class="category-list-count">5</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/" class="category-list-link">云原生</a><span class="category-list-count">8</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/%E6%97%A5%E8%AE%B0/" class="category-list-link">日记</a><span class="category-list-count">2</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/c/" class="tag-list-link">c</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">7</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/golang/" class="tag-list-link">golang</a><span
+                    class="tag-list-count">9</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/go%E5%8C%85/" class="tag-list-link">go包</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/http/" class="tag-list-link">http</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/io/" class="tag-list-link">io</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/jenkins/" class="tag-list-link">jenkins</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/kubernetes/" class="tag-list-link">kubernetes</a><span
+                    class="tag-list-count">8</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/rpc/" class="tag-list-link">rpc</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/service-mesh/" class="tag-list-link">service-mesh</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/socket/" class="tag-list-link">socket</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/tcp/" class="tag-list-link">tcp</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/tls/" class="tag-list-link">tls</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%8D%8F%E8%AE%AE/" class="tag-list-link">协议</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%AE%B9%E5%99%A8/" class="tag-list-link">容器</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" class="tag-list-link">密码学</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%B7%A5%E5%85%B7/" class="tag-list-link">工具</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%B9%B6%E5%8F%91/" class="tag-list-link">并发</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E6%9E%B6%E6%9E%84/" class="tag-list-link">架构</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E7%BC%96%E7%A8%8B/" class="tag-list-link">编程</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E7%BD%91%E7%BB%9C/" class="tag-list-link">网络</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E8%B0%83%E8%AF%95/" class="tag-list-link">调试</a><span
+                    class="tag-list-count">1</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/2017/03/joomla-magento/"
+    >Joomla &#43; Magento 官网加商城</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://blog.jemper.cn/2017/03/joomla-magento/" class="article-date">
+  <time datetime="2017-03-20 14:06:52 &#43;0000 UTC" itemprop="datePublished">2017-03-20</time>
+</a>
+</span>  
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+    <a class="article-tag-link" href="/tags/%E5%B7%A5%E5%85%B7/"> 工具 </a>
+  </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2017/03/joomla-magento/#comments"
+            class="article-comment-link">评论</a></span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <p>今天利用 docker 服务器来搭建 Joomla 公司官网和 Magento 商城。它们都是采用了 php 语言写的应用，所以直接用我相关的文章来配置服务器即可：<a href="http://blog.jemper.cn/2017/02/08/docker-and-dockerfile/">docker 入门与 docker-compose 编配工具</a>。
+说点题外话，如果现在还有小公司在开发什么商城或者官网类型的应用，赶紧放弃，投入到 Joomla 和 Magento 的怀抱吧。这两个已经很成熟，也是开源的，要开发也可以参考这两者或者基于它们去开发，省时省力，也利于成功。</p>
+<!-- raw HTML omitted -->
+<h3 id="joomla">Joomla</h3>
+<p>先来看看 Joomla!3x (Joomla! versions 3.5 and later) 推荐的硬件要求：</p>
+<ul>
+<li>PHP (Magic Quotes GPC off)  5.6 + or 7 +</li>
+<li>MySQL (InnoDB support required) 5.5.3 +</li>
+<li>Nginx 1.8 +</li>
+</ul>
+<p>解压 Joomla 压缩包到 /var/www/joomla，配置目录权限；创建 joomla 数据库。
+nginx 配置文件：</p>
+<pre><code>server {
+        listen 80;
+        server_name kl.jemper.cn;
+        server_name_in_redirect off;
+
+        access_log /var/log/nginx/joomla.access_log;
+        error_log /var/log/nginx/joomla.error_log info;
+
+        root /var/www/joomla;
+        index index.php index.html index.htm default.html default.htm;
+        # Support Clean (aka Search Engine Friendly) URLs
+        location / {
+                try_files $uri $uri/ /index.php?$args;
+        }
+
+        # deny running scripts inside writable directories
+        location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|jsp|asp|sh|cgi)$ {
+                return 403;
+                error_page 403 /403_error.html;
+        }
+
+        location ~ \.php$ {
+            fastcgi_pass  alpine;
+            fastcgi_index index.php;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+
+        # caching of files
+        location ~* \.(ico|pdf|flv)$ {
+                expires 1y;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|swf|xml|txt)$ {
+                expires 14d;
+        }
+
+}
+</code></pre><p>其安装很简单，直接打开域名就可以了，点击下一步就基本可以安装成功。</p>
+<h4 id="joomla-">Joomla 的思想</h4>
+<h5 id="heading">网站结构：</h5>
+<ul>
+<li>一个网站由各个菜单组成，一个菜单即是一个页面，比如首页页面，业务页面，集团页面，集团下的子页面等等；</li>
+<li>一个菜单由各个模块组成，一个模块即是一块内容，比如首页从上到下由“苦干实干提质量 建设一流能源公司”、四栏信息栏、轮播图、码头|供油船|储油库、头版文章列表、产品与服务和辐射区域等模块组成；</li>
+<li>一个模块由各种图片，文章，文字组成，比如轮播图由多张图片组成，头版文章列表由文章组成；
+**所以，管理菜单即是管理网站结构。**后台导航处有菜单下拉列表，分为菜单（这里的菜单即是菜单的分类）和各菜单分类下包含的菜单项。</li>
+</ul>
+<h5 id="heading-1">网站内容：</h5>
+<ul>
+<li>有了网站结构，相当于建好了一座楼的框架，接下来就是填充内容，内容分为两种：文章和图片。</li>
+<li>**所以，管理内容即是管理网站显示的信息。**后台导航处有内容下拉列表，分为分类管理（即文章的分类）、各文章分类下包含的文章（即文章管理）和媒体管理（即是图片管理），其中各篇文章可以标星，就变成了头版文章。</li>
+</ul>
+<h5 id="heading-2">相关的认识</h5>
+<ul>
+<li>存在一个菜单其菜单项类型是文章列表相关的排版，则该文章分类下的所以有文章都会在该菜单页面中打开。</li>
+<li>一套模板，选择某一 layout 或所有，每个 layout 有固定好的 position。</li>
+</ul>
+<h3 id="magento">Magento</h3>
+<p>先来看看 Magento 推荐的硬件要求：
+Magento 需要一些额外的扩展，在安装的时候进行检测，可以根据提示安装扩展。</p>
+<pre><code>rm -rf /var/www/magento/*
+tar -xzf Magento-CE-2.1.5_sample_data-2017-02-20-05-42-11.tar.gz -C /var/www/magento/
+cp source_zh_CN.csv /var/www/magento/
+chmod -R 777 /var/www/magento
+</code></pre><p><a href="http://107.170.242.99/download.php">语言文件下载</a>
+执行</p>
+<pre><code>bin/magento i18n:pack -m replace -d source_zh_CN.csv  zh_Hans_CN
+</code></pre><p>然后更新缓存却可，要注意区别 zh_Hans_CN、zh_Hant_HK、zh_Hant_TW</p>
+<h3 id="heading-3">相关连接</h3>
+<p><a href="http://docs.magento.com/m2/ce/user_guide/getting-started.html">官方文档</a>
+<a href="http://devdocs.magento.com/guides/v2.0/install-gde/trouble/php/tshoot_70pct.html">Installation stops at about 70%</a></p>
+
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://blog.jemper.cn/2017/03/joomla-magento/" title="Joomla &#43; Magento 官网加商城" target="_blank" rel="external">https://blog.jemper.cn/2017/03/joomla-magento/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN</a>
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wpxun" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://blog.jemper.cn/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wpxun" target="_blank"><span class="text-dark">在路上</span><small class="ml-1x"></small></a></h3>
+        <div>Good Good Study, Day Day Up~</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://blog.jemper.cn/2017/02/git-source/" title="git 源码安装"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://blog.jemper.cn/2018/08/go-conversions/"
+                    title="go 类型转换"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li><a href="https://github.com/wpxun" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-github"></i></a></li>
+    <li><a href="https://blog.jemper.cn/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-rss"></i></a></li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2019
+    <div class="publishby">
+        Theme by <a href="https://github.com/xiaoheiAh" target="_blank"> xiaoheiAh </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/application.js"></script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/blog.jemper.cn\/',
+            CONTENT_URL: 'https:\/\/blog.jemper.cn\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script defer>
+    var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.jemper.cn\/2017\/03\/joomla-magento\/';
+        this.page.identifier = 'wpxun';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = '//' + 'wpxun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+  </body>
+</html>

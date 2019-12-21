@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Istio Prometheus - 在路上博客
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="我选择 Istio 而非 Service Mesh 鼻祖 Linkerd 的原因，是 Istio 有大牌厂商支持、社区生态圈优势、重点支持 Kubernetes。 1 遥测插件的远程访问 这里有很多种方法： 直接用" />
+  <meta name="generator" content="Hugo 0.61.0 with theme pure" />
+  <title>Istio Prometheus - 在路上博客</title>
+  
+
+  <link rel="stylesheet" href="https://blog.jemper.cn/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <meta property="og:title" content="Istio Prometheus" />
+<meta property="og:description" content="我选择 Istio 而非 Service Mesh 鼻祖 Linkerd 的原因，是 Istio 有大牌厂商支持、社区生态圈优势、重点支持 Kubernetes。 1 遥测插件的远程访问 这里有很多种方法： 直接用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.jemper.cn/2019/05/istio-prometheus/" />
+<meta property="article:published_time" content="2019-05-30T00:33:00+00:00" />
+<meta property="article:modified_time" content="2019-05-30T00:33:00+00:00" />
+<meta itemprop="name" content="Istio Prometheus">
+<meta itemprop="description" content="我选择 Istio 而非 Service Mesh 鼻祖 Linkerd 的原因，是 Istio 有大牌厂商支持、社区生态圈优势、重点支持 Kubernetes。 1 遥测插件的远程访问 这里有很多种方法： 直接用">
+<meta itemprop="datePublished" content="2019-05-30T00:33:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-05-30T00:33:00&#43;00:00" />
+<meta itemprop="wordCount" content="628">
+
+
+
+<meta itemprop="keywords" content="Kubernetes,Service Mesh," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Istio Prometheus"/>
+<meta name="twitter:description" content="我选择 Istio 而非 Service Mesh 鼻祖 Linkerd 的原因，是 Istio 有大牌厂商支持、社区生态圈优势、重点支持 Kubernetes。 1 遥测插件的远程访问 这里有很多种方法： 直接用"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  
+
+  <body class="main-center" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/wpxun" target="_blank">
+            <img class="img-circle img-rotate" src="https://blog.jemper.cn/avatar.jpg" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">在路上</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Shenzhen, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="想要查找什么..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/">
+                    <i class="icon icon-home-fill"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/posts">
+                    <i class="icon icon-archives-fill"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/about">
+                    <i class="icon icon-cup-fill"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title"> 分类</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/c/" class="category-list-link">c</a><span class="category-list-count">2</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/devops/" class="category-list-link">devops</a><span class="category-list-count">3</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/docker/" class="category-list-link">docker</a><span class="category-list-count">4</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/golang/" class="category-list-link">golang</a><span class="category-list-count">8</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/http/" class="category-list-link">http</a><span class="category-list-count">5</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/" class="category-list-link">云原生</a><span class="category-list-count">8</span></li>
+            <li class="category-list-item"><a href="https://blog.jemper.cn/categories/%E6%97%A5%E8%AE%B0/" class="category-list-link">日记</a><span class="category-list-count">2</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> 标签</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/c/" class="tag-list-link">c</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">7</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/golang/" class="tag-list-link">golang</a><span
+                    class="tag-list-count">9</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/go%E5%8C%85/" class="tag-list-link">go包</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/http/" class="tag-list-link">http</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/io/" class="tag-list-link">io</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/jenkins/" class="tag-list-link">jenkins</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/kubernetes/" class="tag-list-link">kubernetes</a><span
+                    class="tag-list-count">8</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/rpc/" class="tag-list-link">rpc</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/service-mesh/" class="tag-list-link">service-mesh</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/socket/" class="tag-list-link">socket</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/tcp/" class="tag-list-link">tcp</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/tls/" class="tag-list-link">tls</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%8D%8F%E8%AE%AE/" class="tag-list-link">协议</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%AE%B9%E5%99%A8/" class="tag-list-link">容器</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" class="tag-list-link">密码学</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%B7%A5%E5%85%B7/" class="tag-list-link">工具</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E5%B9%B6%E5%8F%91/" class="tag-list-link">并发</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E6%9E%B6%E6%9E%84/" class="tag-list-link">架构</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E7%BC%96%E7%A8%8B/" class="tag-list-link">编程</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E7%BD%91%E7%BB%9C/" class="tag-list-link">网络</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://blog.jemper.cn/tags/%E8%B0%83%E8%AF%95/" class="tag-list-link">调试</a><span
+                    class="tag-list-count">1</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+  </div>
+</aside>
+
+    
+    
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <h4 class="toc-title">文章目录</h4>
+    <nav id="toc" class="js-toc toc">
+
+    </nav>
+  </div>
+</aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/2019/05/istio-prometheus/"
+    >Istio Prometheus</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://blog.jemper.cn/2019/05/istio-prometheus/" class="article-date">
+  <time datetime="2019-05-30 00:33:00 &#43;0000 UTC" itemprop="datePublished">2019-05-30</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/"> 云原生 </a>
+</span>  
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+    <a class="article-tag-link" href="/tags/kubernetes/"> Kubernetes </a>
+    <a class="article-tag-link" href="/tags/service-mesh/"> Service Mesh </a>
+  </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/05/istio-prometheus/#comments"
+            class="article-comment-link">评论</a></span>
+      </div>
+    </div>
+    <div class="article-entry marked-body js-toc-content" itemprop="articleBody">
+      <p>我选择 Istio 而非 Service Mesh 鼻祖 Linkerd 的原因，是 Istio 有大牌厂商支持、社区生态圈优势、重点支持 Kubernetes。</p>
+<!-- raw HTML omitted -->
+<h2 id="1-nbspnbsp">1   遥测插件的远程访问</h2>
+<p>这里有很多种方法：</p>
+<ul>
+<li>直接用 pod ip + pod port 去访问，</li>
+<li>把 pod ip + pod port 映射到 istio 的 virtualservice</li>
+<li>把 pod ip + pod port 映射到宿主机的端口</li>
+</ul>
+<p>比如这些 Pod 内部开放的端口：Prometheus：9090、Grafana：3000、Kiali：20001、Tracing：80，后两者我们演示一下。</p>
+<h3 id="11-nbspnbsp-istio">1.1    istio</h3>
+<p>istio-ingressgateway 服务开放了 15020:31966/TCP,80:31380/TCP,443:31390/TCP,31400:31400/TCP,15029:32293/TCP,15030:30857/TCP,15031:30499/TCP,15032:31537/TCP,15443:32082/TCP 这些端口到宿主机，可以新建 istio 资源进行访问，官方有文档“<a href="https://istio.io/zh/docs/tasks/telemetry/gateways/">遥测插件的远程访问</a>”</p>
+<h3 id="12-nbspnbsp-port-forward-">1.2    port-forward 命令转发</h3>
+<p>比如 Prometheus：
+<code>kubectl -n istio-system port-forward  prometheus-d8d46c5b5-vb87x 9090:9090 &amp;</code>
+<code>ssh -N -f -L 0.0.0.0:9091:127.0.0.1:9090 yhdodo19@0.0.0.0 -i ~/.ssh/googledodo</code>
+http://35.237.188.250:9091</p>
+<p>Grafana：
+<code>kubectl -n istio-system port-forward  grafana-67c69bb567-qfzm5 3000:3000 &amp;</code>
+<code>ssh -N -f -L 0.0.0.0:9092:127.0.0.1:3000 yhdodo19@0.0.0.0 -i ~/.ssh/googledodo</code>
+http://35.237.188.250:9092</p>
+<p>kubectl -n istio-system port-forward istio-ingressgateway-5d8d989c76-cctpl 15000:15000 &amp;
+<code>ssh -N -f -L 0.0.0.0:9093:127.0.0.1:15000 yhdodo19@0.0.0.0 -i ~/.ssh/googledodo</code>
+http://35.237.188.250:9093/listeners
+查看该pod的监听器，默认只有 0.0.0.0:15090，比如我添加了 0.0.0.0:443，就可以接受 istio-ingressgateway svc 的 443 接口
+http://35.237.188.250:9093/config_dump</p>
+<p><code>ssh -N -f -L 0.0.0.0:80:127.0.0.1:31390 yhdodo19@0.0.0.0 -i ~/.ssh/googledodo</code></p>
+<pre><code>{
+    &quot;configs&quot;:[
+        {
+            &quot;@type&quot;:&quot;type.googleapis.com/envoy.admin.v2alpha.BootstrapConfigDump&quot;,
+            &quot;bootstrap&quot;:Object{...},
+            &quot;last_updated&quot;:&quot;2019-06-25T10:15:56.689Z&quot;
+        },
+        {
+            &quot;@type&quot;:&quot;type.googleapis.com/envoy.admin.v2alpha.ClustersConfigDump&quot;,
+            &quot;version_info&quot;:&quot;2019-06-28T03:17:42Z/49&quot;,
+            &quot;static_clusters&quot;:Array[3],
+            &quot;dynamic_active_clusters&quot;:Array[100]
+        },
+        {
+            &quot;@type&quot;:&quot;type.googleapis.com/envoy.admin.v2alpha.ListenersConfigDump&quot;,
+            &quot;version_info&quot;:&quot;2019-06-28T03:17:42Z/49&quot;,
+            &quot;static_listeners&quot;:Array[1],
+            &quot;dynamic_active_listeners&quot;:Array[1]
+        },
+        {
+            &quot;@type&quot;:&quot;type.googleapis.com/envoy.admin.v2alpha.RoutesConfigDump&quot;,
+            &quot;static_route_configs&quot;:Array[1],
+            &quot;dynamic_route_configs&quot;:[
+                {
+                    &quot;version_info&quot;:&quot;2019-06-28T03:17:42Z/49&quot;,
+                    &quot;route_config&quot;:{
+                        &quot;name&quot;:&quot;http.443&quot;,
+                        &quot;virtual_hosts&quot;:[
+                            {
+                                &quot;name&quot;:&quot;kube.jemper.cn:443&quot;,
+                                &quot;domains&quot;:[
+                                    &quot;kube.jemper.cn&quot;,
+                                    &quot;kube.jemper.cn:443&quot;
+                                ],
+                                &quot;routes&quot;:[
+                                    {
+                                        &quot;match&quot;:{
+                                            &quot;prefix&quot;:&quot;/sec&quot;
+                                        },
+                                        &quot;route&quot;:{
+                                            &quot;cluster&quot;:&quot;outbound|82|v3|goapisec.default.svc.cluster.local&quot;,
+                                            &quot;timeout&quot;:&quot;0s&quot;,
+                                            &quot;retry_policy&quot;:{
+                                                &quot;retry_on&quot;:&quot;connect-failure,refused-stream,unavailable,cancelled,resource-exhausted,retriable-status-codes&quot;,
+                                                &quot;num_retries&quot;:2,
+                                                &quot;retry_host_predicate&quot;:[
+                                                    {
+                                                        &quot;name&quot;:&quot;envoy.retry_host_predicates.previous_hosts&quot;
+                                                    }
+                                                ],
+                                                &quot;host_selection_retry_max_attempts&quot;:&quot;5&quot;,
+                                                &quot;retriable_status_codes&quot;:[
+                                                    503
+                                                ]
+                                            },
+                                            &quot;max_grpc_timeout&quot;:&quot;0s&quot;
+                                        },
+                                        &quot;metadata&quot;:{
+                                            &quot;filter_metadata&quot;:{
+                                                &quot;istio&quot;:{
+                                                    &quot;config&quot;:&quot;/apis/networking/v1alpha3/namespaces/default/virtual-service/goapi-default-xixi&quot;
+                                                }
+                                            }
+                                        },
+                                        &quot;decorator&quot;:{
+                                            &quot;operation&quot;:&quot;goapisec.default.svc.cluster.local:82/sec*&quot;
+                                        },
+                                        &quot;per_filter_config&quot;:{
+                                            &quot;mixer&quot;:{
+                                                &quot;disable_check_calls&quot;:true,
+                                                &quot;forward_attributes&quot;:{
+                                                    &quot;attributes&quot;:{
+                                                        &quot;destination.service.host&quot;:{
+                                                            &quot;string_value&quot;:&quot;goapisec.default.svc.cluster.local&quot;
+                                                        },
+                                                        &quot;destination.service.uid&quot;:{
+                                                            &quot;string_value&quot;:&quot;istio://default/services/goapisec&quot;
+                                                        },
+                                                        &quot;destination.service.name&quot;:{
+                                                            &quot;string_value&quot;:&quot;goapisec&quot;
+                                                        },
+                                                        &quot;destination.service.namespace&quot;:{
+                                                            &quot;string_value&quot;:&quot;default&quot;
+                                                        }
+                                                    }
+                                                },
+                                                &quot;mixer_attributes&quot;:{
+                                                    &quot;attributes&quot;:{
+                                                        &quot;destination.service.host&quot;:{
+                                                            &quot;string_value&quot;:&quot;goapisec.default.svc.cluster.local&quot;
+                                                        },
+                                                        &quot;destination.service.uid&quot;:{
+                                                            &quot;string_value&quot;:&quot;istio://default/services/goapisec&quot;
+                                                        },
+                                                        &quot;destination.service.namespace&quot;:{
+                                                            &quot;string_value&quot;:&quot;default&quot;
+                                                        },
+                                                        &quot;destination.service.name&quot;:{
+                                                            &quot;string_value&quot;:&quot;goapisec&quot;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        &quot;match&quot;:{
+                                            &quot;prefix&quot;:&quot;/&quot;
+                                        },
+                                        &quot;route&quot;:{
+                                            &quot;cluster&quot;:&quot;outbound|81|v1|goapi.default.svc.cluster.local&quot;,
+                                            &quot;timeout&quot;:&quot;0s&quot;,
+                                            &quot;retry_policy&quot;:{
+                                                &quot;retry_on&quot;:&quot;connect-failure,refused-stream,unavailable,cancelled,resource-exhausted,retriable-status-codes&quot;,
+                                                &quot;num_retries&quot;:2,
+                                                &quot;retry_host_predicate&quot;:[
+                                                    {
+                                                        &quot;name&quot;:&quot;envoy.retry_host_predicates.previous_hosts&quot;
+                                                    }
+                                                ],
+                                                &quot;host_selection_retry_max_attempts&quot;:&quot;5&quot;,
+                                                &quot;retriable_status_codes&quot;:[
+                                                    503
+                                                ]
+                                            },
+                                            &quot;max_grpc_timeout&quot;:&quot;0s&quot;
+                                        },
+                                        &quot;metadata&quot;:{
+                                            &quot;filter_metadata&quot;:{
+                                                &quot;istio&quot;:{
+                                                    &quot;config&quot;:&quot;/apis/networking/v1alpha3/namespaces/default/virtual-service/goapi-default-xixi&quot;
+                                                }
+                                            }
+                                        },
+                                        &quot;decorator&quot;:{
+                                            &quot;operation&quot;:&quot;goapi.default.svc.cluster.local:81/*&quot;
+                                        },
+                                        &quot;per_filter_config&quot;:{
+                                            &quot;mixer&quot;:{
+                                                &quot;disable_check_calls&quot;:true,
+                                                &quot;forward_attributes&quot;:{
+                                                    &quot;attributes&quot;:{
+                                                        &quot;destination.service.uid&quot;:{
+                                                            &quot;string_value&quot;:&quot;istio://default/services/goapi&quot;
+                                                        },
+                                                        &quot;destination.service.host&quot;:{
+                                                            &quot;string_value&quot;:&quot;goapi.default.svc.cluster.local&quot;
+                                                        },
+                                                        &quot;destination.service.namespace&quot;:{
+                                                            &quot;string_value&quot;:&quot;default&quot;
+                                                        },
+                                                        &quot;destination.service.name&quot;:{
+                                                            &quot;string_value&quot;:&quot;goapi&quot;
+                                                        }
+                                                    }
+                                                },
+                                                &quot;mixer_attributes&quot;:{
+                                                    &quot;attributes&quot;:{
+                                                        &quot;destination.service.namespace&quot;:{
+                                                            &quot;string_value&quot;:&quot;default&quot;
+                                                        },
+                                                        &quot;destination.service.name&quot;:{
+                                                            &quot;string_value&quot;:&quot;goapi&quot;
+                                                        },
+                                                        &quot;destination.service.host&quot;:{
+                                                            &quot;string_value&quot;:&quot;goapi.default.svc.cluster.local&quot;
+                                                        },
+                                                        &quot;destination.service.uid&quot;:{
+                                                            &quot;string_value&quot;:&quot;istio://default/services/goapi&quot;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        &quot;validate_clusters&quot;:false
+                    },
+                    &quot;last_updated&quot;:&quot;2019-06-28T03:17:42.772Z&quot;
+                }
+            ]
+        }
+    ]
+}
+</code></pre><p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><strong>参考文献</strong>
+[1] 崔秀龙. 深入浅出 Istio | Service Mesh 快速入门与实践. 版次：2019年3月第1版
+[2] 杨章显. Service Mesh 实战 | 基于 Linkerd 和 Kubernetes 的微服务实践. 版次：2019年1月第1版</p>
+
+    </div>
+    <div class="article-footer">
+<blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接: </strong>
+      <a href="https://blog.jemper.cn/2019/05/istio-prometheus/" title="Istio Prometheus" target="_blank" rel="external">https://blog.jemper.cn/2019/05/istio-prometheus/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>License：</strong><a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN</a>
+    </li>
+  </ul>
+</blockquote>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wpxun" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://blog.jemper.cn/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wpxun" target="_blank"><span class="text-dark">在路上</span><small class="ml-1x"></small></a></h3>
+        <div>Good Good Study, Day Day Up~</div>
+      </div>
+    </figure>
+  </div>
+</div>
+    </div>
+  </article>
+<section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://blog.jemper.cn/2019/05/istio/" title="Istio 基础"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;下一篇</span></a>
+            </li>
+            <li class="next">
+                <a href="https://blog.jemper.cn/2019/06/kubernetes-network/"
+                    title="Kubernetes 网络"><span>上一篇&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="文章目录" role="button">
+                    <span>[&nbsp;</span><span>文章目录</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq"></div>
+        </div>
+    </div>
+</nav>
+
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li><a href="https://github.com/wpxun" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-github"></i></a></li>
+    <li><a href="https://blog.jemper.cn/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-rss"></i></a></li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2019
+    <div class="publishby">
+        Theme by <a href="https://github.com/xiaoheiAh" target="_blank"> xiaoheiAh </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script>
+    hljs.configure({
+        tabReplace: '    ', 
+        classPrefix: ''     
+        
+    })
+    hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/application.js"></script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/plugin.js"></script>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(未命名)',
+            },
+            ROOT_URL: 'https:\/\/blog.jemper.cn\/',
+            CONTENT_URL: 'https:\/\/blog.jemper.cn\/\/searchindex.json ',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script type="text/javascript" src="https://blog.jemper.cn/js/insight.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<script>
+    tocbot.init({
+        
+        tocSelector: '.js-toc',
+        
+        contentSelector: '.js-toc-content',
+        
+        headingSelector: 'h1, h2, h3',
+        
+        hasInnerContainers: true,
+    });
+</script>
+
+<script defer>
+    var disqus_config = function () {
+        this.page.url = 'https:\/\/blog.jemper.cn\/2019\/05\/istio-prometheus\/';
+        this.page.identifier = 'wpxun';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = '//' + 'wpxun' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+  </body>
+</html>
